@@ -23,9 +23,7 @@ namespace SWRCVA.Models
         [StringLength(15)]
         public string Nombre { get; set; }
 
-        [Required]
-        [StringLength(3)]
-        public string IdCatMat { get; set; }
+        public int IdCatMat { get; set; }
 
         [Required]
         [StringLength(15)]

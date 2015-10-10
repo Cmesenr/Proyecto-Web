@@ -16,8 +16,8 @@ namespace SWRCVA.Models
         }
 
         [Key]
-        [StringLength(3)]
-        public string IdColor { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int IdColor { get; set; }
 
         [Required]
         [StringLength(15)]

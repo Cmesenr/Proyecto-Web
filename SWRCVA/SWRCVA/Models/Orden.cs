@@ -18,13 +18,11 @@ namespace SWRCVA.Models
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int IdOrden { get; set; }
+        public int IdProducto { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int IdProducto { get; set; }
-
         public int IdCotizacion { get; set; }
 
         public int IdCliente { get; set; }

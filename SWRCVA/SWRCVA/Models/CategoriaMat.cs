@@ -17,8 +17,7 @@ namespace SWRCVA.Models
         }
 
         [Key]
-        [StringLength(3)]
-        public string IdCategoria { get; set; }
+        public int IdCategoria { get; set; }
 
         [Required]
         [StringLength(15)]

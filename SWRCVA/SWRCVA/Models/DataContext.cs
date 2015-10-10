@@ -113,9 +113,8 @@ namespace SWRCVA.Models
                 .HasPrecision(12, 2);
 
             modelBuilder.Entity<Factura>()
-                .HasMany(e => e.DetalleFactura)
-                .WithRequired(e => e.Factura)
-                .WillCascadeOnDelete(false);
+                .HasOptional(e => e.DetalleFactura)
+                .WithRequired(e => e.Factura);
 
             modelBuilder.Entity<ListaMatProducto>()
                 .Property(e => e.Usuario)
@@ -146,7 +145,7 @@ namespace SWRCVA.Models
             modelBuilder.Entity<Orden>()
                 .HasMany(e => e.DetalleFactura)
                 .WithRequired(e => e.Orden)
-                .HasForeignKey(e => new { e.IdOrden, e.IdProducto })
+                .HasForeignKey(e => new { e.IdProducto, e.IdCotizacion })
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Producto>()
