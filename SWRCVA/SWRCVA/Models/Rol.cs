@@ -21,7 +21,7 @@ namespace SWRCVA.Models
 
         [Required]
         [StringLength(15)]
-        public string Descripcion { get; set; }
+        public string Nombre { get; set; }
 
         [Required]
         [StringLength(15)]

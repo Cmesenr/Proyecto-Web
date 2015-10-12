@@ -132,6 +132,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
+    <Compile Include="Controllers\ParametroController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -145,6 +146,7 @@
     <Compile Include="Models\ListaMatProducto.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Orden.cs" />
+    <Compile Include="Models\Parametro.cs" />
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\ProductoCotizacion.cs" />
     <Compile Include="Models\Proveedor.cs" />
@@ -191,6 +193,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
+    <Content Include="Views\Parametro\Registrar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
