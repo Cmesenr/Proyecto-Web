@@ -217,6 +217,10 @@ namespace SWRCVA.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Valor>()
+                .Property(e => e.Porcentaje)
+                .HasPrecision(12, 2);
+
+            modelBuilder.Entity<Valor>()
                 .Property(e => e.Usuario)
                 .IsUnicode(false);
         }

@@ -10,9 +10,11 @@ namespace SWRCVA.Controllers
     public class ParametroController : Controller
     {
         DataContext db = new DataContext();
+
         // GET: Parametro
         public ActionResult Registrar()
         {
+            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             return View();
         }
 
@@ -34,7 +36,8 @@ namespace SWRCVA.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+                if (!ModelState.IsValidField("CategoriaId")&& parametrop.parametro!=5|| !ModelState.IsValidField("Porcentaje") && parametrop.parametro != 6 || ModelState.IsValid)
                 {
                     switch (parametrop.parametro) {
                         case 1:
@@ -69,6 +72,24 @@ namespace SWRCVA.Controllers
                             db.Rol.Add(rolp);
                             db.SaveChanges();
                             break;
+                        case 5:
+                            SubCategoria sub = new SubCategoria();
+                            sub.Nombre = parametrop.Nombre;
+                            sub.IdCatMat = parametrop.CategoriaId;
+                            sub.Usuario = parametrop.Usuario;
+                            sub.Estado = parametrop.Estado;
+                            db.SubCategoria.Add(sub);
+                            db.SaveChanges();
+                            break;
+                        case 6:
+                            Valor val = new Valor();
+                            val.Nombre = parametrop.Nombre;
+                            val.Porcentaje = (parametrop.Porcentaje)/100;
+                            val.Usuario = parametrop.Usuario;
+                            val.Estado = parametrop.Estado;
+                            db.Valor.Add(val);
+                            db.SaveChanges();
+                            break;
                     }
 
                 }
@@ -79,7 +100,6 @@ namespace SWRCVA.Controllers
                 return View();
             }
         }
-
         // GET: Parametro/Edit/5
         public ActionResult Edit(int id)
         {

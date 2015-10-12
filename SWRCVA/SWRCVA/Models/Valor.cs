@@ -10,16 +10,13 @@ namespace SWRCVA.Models
     public partial class Valor
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdValor { get; set; }
 
         [Required]
         [StringLength(15)]
         public string Nombre { get; set; }
 
-        [Required]
-        [StringLength(3)]
-        public string Tipo { get; set; }
+        public decimal Porcentaje { get; set; }
 
         public int Estado { get; set; }
 
