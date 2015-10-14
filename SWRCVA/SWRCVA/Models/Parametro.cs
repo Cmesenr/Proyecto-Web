@@ -10,18 +10,20 @@
     {
         public class Parametro
         {
+            [Index]
+            public int Id { get; set; }
             [Required]
             public int parametro { get; set; }
             [Required]
             [StringLength(15)]
             public string Nombre { get; set; }
-            public decimal Porcentaje { get; set; }
-            public int CategoriaId { get; set; }
-
             [Required]
             [StringLength(15)]
             public string Usuario { get; set; }
             [Required]
-            public int Estado { get; set; }          
-            }
+            public string Estado { get; set; }
+            public decimal Porcentaje { get; set; }
+            public int CategoriaId { get; set; }
+
     }
+}

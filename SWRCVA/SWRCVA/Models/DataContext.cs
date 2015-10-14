@@ -224,5 +224,7 @@ namespace SWRCVA.Models
                 .Property(e => e.Usuario)
                 .IsUnicode(false);
         }
+
+        public System.Data.Entity.DbSet<SWRCVA.Models.Parametro> Parametroes { get; set; }
     }
 }
