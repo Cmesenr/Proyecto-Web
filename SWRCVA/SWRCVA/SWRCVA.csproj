@@ -207,7 +207,6 @@
     <Content Include="Views\Parametro\Registrar.cshtml" />
     <Content Include="Views\Parametro\Listar.cshtml" />
     <Content Include="Views\Parametro\Editar.cshtml" />
-    <Content Include="Views\Parametro\Eliminar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
