@@ -122,22 +122,15 @@ namespace SWRCVA.Controllers
                     }
                     break;
             }
-            resultado="<tr><th>Nombre</th><th>Estado</th><th></th></tr>";
+            resultado= "<tr><th>Identificador</th><th>Nombre</th><th>Estado</th><th></th></tr>";
         foreach(var item in para)
             {
-                resultado += "<tr><td>" + item.Nombre + "</td><td>" + item.Estado +
-                    "</td><td><a href='/Parametro/Editar/?id="+ item.Id+"&parametro="+id+"'>Editar  </a>&nbsp&nbsp<a href='/Parametro/Details/" + item.Id +
-                    "'>Detalles  </a>&nbsp&nbsp<a href='/Parametro/Eliminar/" + item.Id + 
-                    "'>Eliminar</a></td></tr> ";
+                resultado += "<tr><td>" + item.Id + "</td><td>" + item.Nombre + "</td><td>" + item.Estado +
+                    "</td><td><a href='/Parametro/Editar/?id="+ item.Id+"&parametro="+id+ "'>Editar  </a>&nbsp&nbsp<a  onclick='EliminarParametro("+ item.Id+","+id+");'>Eliminar</a></td></tr> ";
             }
             return resultado;
         }
 
-        // GET: Parametro/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
         // GET: Parametro/Registrar
         public ActionResult Registrar()
         {
@@ -353,26 +346,49 @@ namespace SWRCVA.Controllers
             }
         }
 
-        // GET: Parametro/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Parametro/Delete/5  
+        public void Eliminar(int id, int tabla)
         {
-            return View();
+            switch (tabla)
+            {
+                case 1:
+                    CategoriaMat cat = new CategoriaMat();
+                    cat = db.CategoriaMat.Find(id);
+                    db.Entry(cat).Entity.Estado =0;
+                    db.SaveChanges();
+                    break;
+                case 2:
+                    ColorMat color = new ColorMat();
+                    color=db.ColorMat.Find(id);
+                    db.Entry(color).Entity.Estado=0;
+                    db.SaveChanges();
+                    break;
+                case 3:
+                    TipoProducto tipo = new TipoProducto();
+                    tipo = db.TipoProducto.Find(id);
+                    db.Entry(tipo).Entity.Estado = 0;
+                    db.SaveChanges();
+                    break;
+                case 4:
+                    Rol rolp = new Rol();
+                    rolp = db.Rol.Find(id);
+                    db.Entry(rolp).Entity.Estado = 0;
+                    db.SaveChanges();
+                    break;
+                case 5:
+                    SubCategoria sub = new SubCategoria();
+                    sub = db.SubCategoria.Find(id);
+                    db.Entry(sub).Entity.Estado = 0;
+                    db.SaveChanges();
+                    break;
+                case 6:
+                    Valor val = new Valor();
+                    val = db.Valor.Find(id);
+                    db.Entry(val).Entity.Estado = 0;
+                    db.SaveChanges();
+                    break;
+            }
         }
 
-        // POST: Parametro/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
