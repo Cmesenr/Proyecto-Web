@@ -1,0 +1,187 @@
+﻿using SWRCVA.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using PagedList;
+using System.Data.Entity.Infrastructure;
+using System.Net;
+
+namespace SWRCVA.Controllers
+{
+    public class ProveedorController : Controller
+    {
+        DataContext db = new DataContext();
+
+        // GET: Proveedor
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var proveedores = from s in db.Proveedor
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                proveedores = proveedores.Where(s => s.Nombre.Contains(searchString)
+                                                || s.Correo.Contains(searchString)
+                                                || s.Direccion.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "Nombre":
+                    proveedores = proveedores.OrderByDescending(s => s.Nombre);
+                    break;
+                default:  // Name ascending 
+                    proveedores = proveedores.OrderBy(s => s.Nombre);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(proveedores.ToPagedList(pageNumber, pageSize));
+        }
+
+        // GET: Proveedor/Detalles/5
+        public ActionResult Detalles(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Proveedor proveedor = db.Proveedor.Find(id);
+            if (proveedor == null)
+            {
+                return HttpNotFound();
+            }
+            return View(proveedor);
+        }
+
+        // GET: Proveedor/Registrar
+        public ActionResult Registrar()
+        {
+            return View();
+        }
+
+        // POST: Proveedor/Registrar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Registrar([Bind(Include = "IdProveedor, Nombre, Correo, Direccion, Telefono, Estado, Usuario")]Proveedor proveedor)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Proveedor.Add(proveedor);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (RetryLimitExceededException /* dex */)
+            {
+                ModelState.AddModelError("", "Imposible guardar cambios. Intentelo de nuevo, y si el problema persiste contacte el administrador del sistema.");
+            }
+            return View(proveedor);
+        }
+
+        // GET: Proveedor/Editar/5
+        public ActionResult Editar(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Proveedor proveedor = db.Proveedor.Find(id);
+            if (proveedor == null)
+            {
+                return HttpNotFound();
+            }
+            return View(proveedor);
+        }
+
+        // POST: Proveedor/Editar/5
+        [HttpPost, ActionName("Editar")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarPost(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Proveedor proveedorToUpdate = db.Proveedor.Find(id);
+            if (TryUpdateModel(proveedorToUpdate, "",
+               new string[] { "Nombre", "Correo", "Direccion","Telefono","Estado","Usuario" }))
+            {
+                try
+                {
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    ModelState.AddModelError("", "Imposible guardar los cambios. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
+                }
+            }
+            return View(proveedorToUpdate);
+        }
+
+        // GET: Proveedor/Borrar/5
+        public ActionResult Borrar(int? id, bool? saveChangesError = false)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Borrado fallido. Intente de nuevo, y si el problema persiste contacte el administrador del sistema.";
+            }
+            Proveedor proveedor = db.Proveedor.Find(id);
+            if (proveedor == null)
+            {
+                return HttpNotFound();
+            }
+            return View(proveedor);
+        }
+
+        // POST: Proveedor/Borrar/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Borrar(int id)
+        {
+            try
+            {
+                Proveedor proveedor = db.Proveedor.Find(id);
+                db.Proveedor.Remove(proveedor);
+                db.SaveChanges();
+            }
+            catch (RetryLimitExceededException/* dex */)
+            {
+                return RedirectToAction("Borrar", new { id = id, saveChangesError = true });
+            }
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}
