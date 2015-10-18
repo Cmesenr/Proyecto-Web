@@ -1,17 +1,17 @@
 ﻿@using PagedList.Mvc;
-@model PagedList.IPagedList<SWRCVA.Models.Proveedor>
+@model PagedList.IPagedList<SWRCVA.Models.Cliente>
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Proveedores";
+    ViewBag.Title = "Clientes";
 }
 
-<h2>Proveedores</h2>
+<h2>Clientes</h2>
 
 <p>
     @Html.ActionLink("Registrar nuevo", "Registrar")
 </p>
-@using (Html.BeginForm("Index", "Proveedor", FormMethod.Get))
+@using (Html.BeginForm("Index", "Cliente", FormMethod.Get))
 {
     <p>
         Buscar por nombre: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
@@ -55,19 +55,19 @@
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
             <td>
-            @if(item.Estado == 1)
-            {
-                @("Activo");
-            }
-            else
-            {
-                @("Inactivo");
-            }
+                @if (item.Estado == 1)
+                {
+                    @("Activo");
+                }
+                else
+                {
+                    @("Inactivo");
+                }
             </td>
             <td>
-                @Html.ActionLink("Editar", "Editar", new { id = item.IdProveedor }) |
-                @Html.ActionLink("Detalles", "Detalles", new { id = item.IdProveedor }) |
-                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdProveedor })
+                @Html.ActionLink("Editar", "Editar", new { id = item.IdCliente }) |
+                @Html.ActionLink("Detalles", "Detalles", new { id = item.IdCliente }) |
+                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdCliente })
             </td>
         </tr>
     }
