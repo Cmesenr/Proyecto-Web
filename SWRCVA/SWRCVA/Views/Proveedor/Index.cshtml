@@ -1,0 +1,74 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<SWRCVA.Models.Proveedor>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Proveedores";
+}
+
+<h2>Proveedores</h2>
+
+<p>
+    @Html.ActionLink("Registrar nuevo", "Registrar")
+</p>
+@using (Html.BeginForm("Index", "Proveedor", FormMethod.Get))
+{
+    <p>
+        Buscar por nombre: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Correo
+        </th>
+        <th>
+            Telefono
+        </th>
+        <th>
+            Estado
+        </th>
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+            @if(item.Estado == 1)
+            {
+                @("Activo");
+            }
+            else
+            {
+                @("Inactivo");
+            }
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Editar", new { id = item.IdProveedor }) |
+                @Html.ActionLink("Detalles", "Detalles", new { id = item.IdProveedor }) |
+                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdProveedor })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

@@ -13,8 +13,6 @@ namespace SWRCVA.Controllers
         // GET: Material
         public ActionResult Index()
         {
-
-
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             ViewBag.ColorMaterial = new SelectList(db.ColorMat,"IdColor","Nombre");
             ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
