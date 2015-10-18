@@ -48,7 +48,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Estado)
+            @if (Model.Estado == 1)
+            {
+                @("Activo");
+            }
+            else
+            {
+                @("Inactivo");
+            }
         </dd>
 
         <dt>

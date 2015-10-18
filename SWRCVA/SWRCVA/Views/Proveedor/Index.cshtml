@@ -49,7 +49,14 @@
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Estado)
+            @if(item.Estado == 1)
+            {
+                @("Activo");
+            }
+            else
+            {
+                @("Inactivo");
+            }
             </td>
             <td>
                 @Html.ActionLink("Editar", "Editar", new { id = item.IdProveedor }) |
