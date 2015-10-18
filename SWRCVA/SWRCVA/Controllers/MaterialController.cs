@@ -15,7 +15,10 @@ namespace SWRCVA.Controllers
         {
 
 
-            
+            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+            ViewBag.ColorMaterial = new SelectList(db.ColorMat,"IdColor","Nombre");
+            ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
+            ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
             return View();
         }
 
@@ -26,12 +29,8 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Material/Create
-        public ActionResult Registrar()
+        public ActionResult Create()
         {
-            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-            ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
-            ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
-            ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
             return View();
         }
 
