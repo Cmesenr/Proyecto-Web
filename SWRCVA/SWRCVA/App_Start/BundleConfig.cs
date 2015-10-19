@@ -34,6 +34,10 @@ namespace SWRCVA
                 "~/Scripts/FuncionesListarPara.js"));
             bundles.Add(new ScriptBundle("~/bundles/FuncionesEditarPara").Include(
                 "~/Scripts/FuncionesEditarPara.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesProveedor").Include(
+                "~/Scripts/FuncionesProveedor.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesCliente").Include(
+                "~/Scripts/FuncionesCliente.js"));
         }
     }
 }

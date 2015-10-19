@@ -54,7 +54,7 @@ namespace SWRCVA.Controllers
             return View(proveedores.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Proveedor/Detalles/5
+        // GET: Proveedor/Detalles
         public ActionResult Detalles(int? id)
         {
             if (id == null)
@@ -78,7 +78,7 @@ namespace SWRCVA.Controllers
         // POST: Proveedor/Registrar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar([Bind(Include = "IdProveedor, Nombre, Correo, Direccion, Telefono, Estado, Usuario")]Proveedor proveedor)
+        public ActionResult Registrar([Bind(Include = " IdProveedor,Nombre, Correo, Direccion, Telefono, Estado, Usuario")]Proveedor proveedor)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace SWRCVA.Controllers
             return View(proveedor);
         }
 
-        // GET: Proveedor/Editar/5
+        // GET: Proveedor/Editar
         public ActionResult Editar(int? id)
         {
             if (id == null)
@@ -111,7 +111,7 @@ namespace SWRCVA.Controllers
             return View(proveedor);
         }
 
-        // POST: Proveedor/Editar/5
+        // POST: Proveedor/Editar
         [HttpPost, ActionName("Editar")]
         [ValidateAntiForgeryToken]
         public ActionResult EditarPost(int? id)
@@ -138,40 +138,22 @@ namespace SWRCVA.Controllers
             return View(proveedorToUpdate);
         }
 
-        // GET: Proveedor/Borrar/5
-        public ActionResult Borrar(int? id, bool? saveChangesError = false)
+        // GET: Proveedor/Borrar
+        public ActionResult Borrar(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            if (saveChangesError.GetValueOrDefault())
-            {
-                ViewBag.ErrorMessage = "Borrado fallido. Intente de nuevo, y si el problema persiste contacte el administrador del sistema.";
-            }
-            Proveedor proveedor = db.Proveedor.Find(id);
-            if (proveedor == null)
-            {
-                return HttpNotFound();
-            }
-            return View(proveedor);
-        }
-
-        // POST: Proveedor/Borrar/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Borrar(int id)
-        {
+            Proveedor proveedorToUpdate = db.Proveedor.Find(id);
             try
             {
-                Proveedor proveedor = db.Proveedor.Find(id);
-                db.Proveedor.Remove(proveedor);
+                proveedorToUpdate.Estado = 0;
                 db.SaveChanges();
+
+                return RedirectToAction("Index");
             }
-            catch (RetryLimitExceededException/* dex */)
+            catch (RetryLimitExceededException /* dex */)
             {
-                return RedirectToAction("Borrar", new { id = id, saveChangesError = true });
+                ModelState.AddModelError("", "Imposible eliminar el registro. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
             }
+
             return RedirectToAction("Index");
         }
 

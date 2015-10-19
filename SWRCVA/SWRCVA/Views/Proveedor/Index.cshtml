@@ -1,5 +1,8 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<SWRCVA.Models.Proveedor>
+@section Scripts {
+    @Scripts.Render("~/bundles/FuncionesProveedor")
+}
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -55,19 +58,19 @@
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
             <td>
-            @if(item.Estado == 1)
-            {
-                @("Activo");
-            }
-            else
-            {
-                @("Inactivo");
-            }
+                @if (item.Estado == 1)
+                {
+                    @("Activo");
+                }
+                else
+                {
+                    @("Inactivo");
+                }
             </td>
             <td>
                 @Html.ActionLink("Editar", "Editar", new { id = item.IdProveedor }) |
-                @Html.ActionLink("Detalles", "Detalles", new { id = item.IdProveedor }) |
-                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdProveedor })
+                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdProveedor },
+                 new { onclick = "return EliminarProveedor(" + item.IdProveedor + ");" })
             </td>
         </tr>
     }

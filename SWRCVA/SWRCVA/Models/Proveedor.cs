@@ -16,7 +16,7 @@ namespace SWRCVA.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdProveedor { get; set; }
 
         [Required]
