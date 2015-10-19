@@ -1,5 +1,8 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<SWRCVA.Models.Cliente>
+@section Scripts {
+    @Scripts.Render("~/bundles/FuncionesCliente")
+}
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -66,8 +69,8 @@
             </td>
             <td>
                 @Html.ActionLink("Editar", "Editar", new { id = item.IdCliente }) |
-                @Html.ActionLink("Detalles", "Detalles", new { id = item.IdCliente }) |
-                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdCliente })
+                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdCliente },
+                 new { onclick = "return EliminarCliente(" + item.IdCliente + ");" })
             </td>
         </tr>
     }

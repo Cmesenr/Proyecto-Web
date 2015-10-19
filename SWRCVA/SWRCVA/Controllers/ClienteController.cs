@@ -139,39 +139,21 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Cliente/Borrar/5
-        public ActionResult Borrar(int? id, bool? saveChangesError = false)
+        public ActionResult Borrar(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            if (saveChangesError.GetValueOrDefault())
-            {
-                ViewBag.ErrorMessage = "Borrado fallido. Intente de nuevo, y si el problema persiste contacte el administrador del sistema.";
-            }
-            Cliente cliente = db.Cliente.Find(id);
-            if (cliente == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cliente);
-        }
-
-        // POST: Cliente/Borrar/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Borrar(int id)
-        {
+            Cliente clienteToUpdate = db.Cliente.Find(id);
             try
             {
-                Cliente cliente = db.Cliente.Find(id);
-                db.Cliente.Remove(cliente);
+                clienteToUpdate.Estado = 0;
                 db.SaveChanges();
+
+                return RedirectToAction("Index");
             }
-            catch (RetryLimitExceededException/* dex */)
+            catch (RetryLimitExceededException /* dex */)
             {
-                return RedirectToAction("Borrar", new { id = id, saveChangesError = true });
+                ModelState.AddModelError("", "Imposible eliminar el registro. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
             }
+
             return RedirectToAction("Index");
         }
 

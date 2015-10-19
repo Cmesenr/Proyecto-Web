@@ -183,9 +183,11 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\FuncionesCliente.js" />
     <Content Include="Scripts\FuncionesEditarPara.js" />
     <Content Include="Scripts\FuncionesListarPara.js" />
     <Content Include="Scripts\Funciones.js" />
+    <Content Include="Scripts\FuncionesProveedor.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -214,11 +216,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Material\Registrar.cshtml" />
+    <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Parametro\Registrar.cshtml" />
     <Content Include="Views\Parametro\Listar.cshtml" />
     <Content Include="Views\Parametro\Editar.cshtml" />
-    <Content Include="Views\Proveedor\Detalles.cshtml" />
     <Content Include="Views\Proveedor\Index.cshtml" />
     <Content Include="Views\Proveedor\Registrar.cshtml" />
     <Content Include="Views\Proveedor\Editar.cshtml" />
@@ -227,9 +228,6 @@
     <Content Include="Views\Cliente\Borrar.cshtml" />
     <Content Include="Views\Cliente\Editar.cshtml" />
     <Content Include="Views\Cliente\Registrar.cshtml" />
-    <Content Include="Views\Cliente\Detalles.cshtml" />
-    <Content Include="Views\Material\Listar.cshtml" />
-    <Content Include="Views\Material\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
