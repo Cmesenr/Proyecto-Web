@@ -18,7 +18,6 @@
             $('#Listacategoria').slideUp();
         }
     });
-
 EditarPara();
      
 });
