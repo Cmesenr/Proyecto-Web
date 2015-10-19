@@ -259,7 +259,7 @@ namespace SWRCVA.Controllers
                     Valor val = new Valor();
                     val = db.Valor.Find(id);
                     para.Id = val.IdValor;
-                    para.Porcentaje = val.Porcentaje;
+                    para.Porcentaje = (val.Porcentaje*100);
                     para.Nombre = val.Nombre;
                     para.Usuario = val.Usuario;
                     para.Estado = val.Estado.ToString();

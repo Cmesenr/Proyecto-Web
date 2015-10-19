@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SWRCVA.Models.Material>
+
+@{
+    ViewBag.Title = "Listar";
+}
+
+<h2>Listar</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoriaMat.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ColorMat.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Proveedor.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubCategoria.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Costo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoriaMat.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ColorMat.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Proveedor.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubCategoria.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Costo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdMaterial }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdMaterial }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdMaterial })
+        </td>
+    </tr>
+}
+
+</table>

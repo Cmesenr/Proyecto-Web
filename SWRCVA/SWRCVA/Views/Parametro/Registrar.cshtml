@@ -30,7 +30,7 @@
                 },
                   "value",
                   "text"
-                  )), "Seleccione", new { @class = "form-control", id = "ListaParametro" })
+                  )), "Seleccione", new { @class = "form-control", id = "ListaParametroRegis" })
 
                 @Html.ValidationMessageFor(model => model.parametro, "", new { @class = "text-danger" })
             </div>
@@ -96,6 +96,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/Funciones")
+    @Scripts.Render("~/bundles/FuncionesListarPara")
 
 }

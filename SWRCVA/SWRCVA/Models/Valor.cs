@@ -15,7 +15,7 @@ namespace SWRCVA.Models
         [Required]
         [StringLength(15)]
         public string Nombre { get; set; }
-
+        
         public decimal Porcentaje { get; set; }
 
         public int Estado { get; set; }
