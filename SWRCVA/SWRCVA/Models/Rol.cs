@@ -23,7 +23,7 @@ namespace SWRCVA.Models
         public string Nombre { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(100)]
         public string Usuario { get; set; }
 
         public int Estado { get; set; }

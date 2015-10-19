@@ -126,7 +126,7 @@ namespace SWRCVA.Controllers
         foreach(var item in para)
             {
                 resultado += "<tr><td>" + item.Id + "</td><td>" + item.Nombre + "</td><td>" + item.Estado +
-                    "</td><td><a href='/Parametro/Editar/?id="+ item.Id+"&parametro="+id+ "'>Editar  </a>&nbsp&nbsp<a  onclick='EliminarParametro("+ item.Id+","+id+");'>Eliminar</a></td></tr> ";
+                    "</td><td><a href='/Parametro/Editar/?id="+ item.Id+"&parametro="+id+ "'>Editar  </a>| &nbsp<a  onclick='EliminarParametro("+ item.Id+","+id+");'>Borrar</a></td></tr> ";
             }
             return resultado;
         }

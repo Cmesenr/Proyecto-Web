@@ -22,7 +22,7 @@ namespace SWRCVA.Models
         public int IdProducto { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(100)]
         public string Nombre { get; set; }
 
         public int IdTipoProducto { get; set; }

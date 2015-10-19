@@ -20,7 +20,7 @@ namespace SWRCVA.Models
         public int IdProveedor { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(100)]
         public string Nombre { get; set; }
 
         [Required]
@@ -33,7 +33,8 @@ namespace SWRCVA.Models
         public string Direccion { get; set; }
 
         [Column(TypeName = "numeric")]
-        [DisplayFormat(ApplyFormatInEditMode=true,DataFormatString ="{0}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0}")]
+
         public decimal Telefono { get; set; }
 
         public int Estado { get; set; }

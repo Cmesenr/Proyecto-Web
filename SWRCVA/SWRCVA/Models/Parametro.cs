@@ -15,7 +15,7 @@
             [Required]
             public int parametro { get; set; }
             [Required]
-            [StringLength(15)]
+            [StringLength(100)]
             public string Nombre { get; set; }
             [Required]
             [StringLength(15)]

@@ -52,8 +52,9 @@ function listar(parametro) {
     })
 }
 function EliminarParametro(valor, parametro) {
-    var params = { id: valor, Tabla:parametro };
-    confirm("Esta seguro de eliminar el parametro!");
+    var params = { id: valor, Tabla: parametro };
+    var respuesta=confirm("Esta seguro de eliminar el parametro!");
+    if (respuesta) {
     $.ajax({
         cache: false,
         url: "/Parametro/Eliminar",
@@ -65,4 +66,8 @@ function EliminarParametro(valor, parametro) {
             listar(parametro);
         }
     })
+   } else
+   {
+       return false;
+   }
 }

@@ -1,39 +1,38 @@
-﻿@model IEnumerable<SWRCVA.Models.Material>
-
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<SWRCVA.Models.Material>
+@section Scripts {
+    @Scripts.Render("~/bundles/FuncionesMaterial")
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Listar";
 }
 
-<h2>Listar</h2>
+<h2>Materiales</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Registrar Nuevo", "Registrar")
 </p>
+@using (Html.BeginForm("Listar", "Material", FormMethod.Get))
+{
+    <p>
+        Buscar por nombre: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CategoriaMat.Nombre)
+            @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ColorMat.Nombre)
+            Categoria
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Proveedor.Nombre)
+            Proveedor
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubCategoria.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Costo)
+            Estado
         </th>
         <th></th>
     </tr>
@@ -41,35 +40,34 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CategoriaMat.Nombre)
+            @Html.DisplayFor(modelItem => item.Nombre)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ColorMat.Nombre)
+            @Html.DisplayFor(modelItem => item.CategoriaMat.Nombre)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Proveedor.Nombre)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SubCategoria.Nombre)
+            @if (item.Estado == 1)
+                {
+                @("Activo");
+                }
+                else
+                {
+                @("Inactivo");
+                }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Costo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdMaterial }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdMaterial }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdMaterial })
+            @Html.ActionLink("Editar", "Editar", new { id=item.IdMaterial }) |
+            @Html.ActionLink("Borrar", "Borrar", new { id=item.IdMaterial })
         </td>
     </tr>
 }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
