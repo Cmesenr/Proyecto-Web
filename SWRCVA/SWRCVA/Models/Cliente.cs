@@ -19,15 +19,13 @@ namespace SWRCVA.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdCliente { get; set; }
 
-        [StringLength(15)]
+        [StringLength(100)]
         public string Nombre { get; set; }
 
         [Column(TypeName = "numeric")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0}")]
-        public decimal Telefono { get; set; }
+        public decimal? Telefono { get; set; }
 
         [StringLength(30)]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Correo no válido")]
         public string Correo { get; set; }
 
         [StringLength(30)]

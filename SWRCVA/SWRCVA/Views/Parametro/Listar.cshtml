@@ -2,13 +2,13 @@
 @model IEnumerable<SWRCVA.Models.Parametro>
 
 @{
-    ViewBag.Title = "Listar";
+    ViewBag.Title = "Parametros";
 }
 
-<h2>Listar</h2>
+<h2>Parametros</h2>
 
 <p>
-    @Html.ActionLink("Crear Nuevo", "Registrar")
+    @Html.ActionLink("Registrar nuevo", "Registrar")
 </p>
 <div class="form-group">
     @Html.Label("Parametro", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -37,5 +37,5 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/FuncionesListarPara")
+    @Scripts.Render("~/bundles/FuncionesParametros")
 }

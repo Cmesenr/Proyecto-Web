@@ -21,7 +21,6 @@
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.parametro, (new SelectList(
        new List<Object>{
-                    new { value = 1 , text = "Categoria Material"},
                     new { value = 2 , text = "Color Material" },
                     new { value = 3, text = "Tipo Producto" },
                     new { value = 4 , text = "Rol" },
@@ -96,6 +95,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/FuncionesListarPara")
+    @Scripts.Render("~/bundles/FuncionesParametros")
 
 }

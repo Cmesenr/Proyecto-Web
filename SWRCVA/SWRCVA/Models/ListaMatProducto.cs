@@ -16,8 +16,8 @@ namespace SWRCVA.Models
 
         [Key]
         [Column(Order = 1)]
-        [StringLength(10)]
-        public string IdMaterial { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int IdMaterial { get; set; }
 
         [Required]
         [StringLength(15)]

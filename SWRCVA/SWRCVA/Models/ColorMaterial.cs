@@ -6,30 +6,23 @@ namespace SWRCVA.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("ProductoCotizacion")]
-    public partial class ProductoCotizacion
+    [Table("ColorMaterial")]
+    public partial class ColorMaterial
     {
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int IdCotizacion { get; set; }
+        public int IdMaterial { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int IdProducto { get; set; }
+        public int IdColorMat { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int IdMaterial { get; set; }
+        public decimal Costo { get; set; }
 
-        public decimal CantMaterial { get; set; }
-
-        public virtual Cotizacion Cotizacion { get; set; }
+        public virtual ColorMat ColorMat { get; set; }
 
         public virtual Material Material { get; set; }
-
-        public virtual Producto Producto { get; set; }
     }
 }

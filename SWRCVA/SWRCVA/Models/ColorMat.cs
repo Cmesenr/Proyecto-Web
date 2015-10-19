@@ -12,14 +12,14 @@ namespace SWRCVA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ColorMat()
         {
-            Material = new HashSet<Material>();
+            ColorMaterial = new HashSet<ColorMaterial>();
         }
 
         [Key]
         public int IdColor { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(100)]
         public string Nombre { get; set; }
 
         [Required]
@@ -29,6 +29,6 @@ namespace SWRCVA.Models
         public int Estado { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Material> Material { get; set; }
+        public virtual ICollection<ColorMaterial> ColorMaterial { get; set; }
     }
 }

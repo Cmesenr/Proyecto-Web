@@ -15,6 +15,7 @@ namespace SWRCVA.Models
         public virtual DbSet<CategoriaMat> CategoriaMat { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<ColorMat> ColorMat { get; set; }
+        public virtual DbSet<ColorMaterial> ColorMaterial { get; set; }
         public virtual DbSet<Cotizacion> Cotizacion { get; set; }
         public virtual DbSet<DetalleFactura> DetalleFactura { get; set; }
         public virtual DbSet<Factura> Factura { get; set; }
@@ -74,9 +75,14 @@ namespace SWRCVA.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<ColorMat>()
-                .HasMany(e => e.Material)
-                .WithOptional(e => e.ColorMat)
-                .HasForeignKey(e => e.IdColorMat);
+                .HasMany(e => e.ColorMaterial)
+                .WithRequired(e => e.ColorMat)
+                .HasForeignKey(e => e.IdColorMat)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ColorMaterial>()
+                .Property(e => e.Costo)
+                .HasPrecision(12, 2);
 
             modelBuilder.Entity<Cotizacion>()
                 .Property(e => e.Estado)
@@ -127,6 +133,11 @@ namespace SWRCVA.Models
             modelBuilder.Entity<Material>()
                 .Property(e => e.Costo)
                 .HasPrecision(12, 2);
+
+            modelBuilder.Entity<Material>()
+                .HasMany(e => e.ColorMaterial)
+                .WithRequired(e => e.Material)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Material>()
                 .HasMany(e => e.ListaMatProducto)
@@ -224,7 +235,5 @@ namespace SWRCVA.Models
                 .Property(e => e.Usuario)
                 .IsUnicode(false);
         }
-
-        public System.Data.Entity.DbSet<SWRCVA.Models.Parametro> Parametroes { get; set; }
     }
 }

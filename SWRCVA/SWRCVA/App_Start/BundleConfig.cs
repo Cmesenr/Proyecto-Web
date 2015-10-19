@@ -28,10 +28,12 @@ namespace SWRCVA
                       "~/Content/site.css"));
             bundles.Add(new ScriptBundle("~/bundles/bonnet").Include(
                       "~/Scripts/jquery.bonnet*"));
-            bundles.Add(new ScriptBundle("~/bundles/FuncionesListarPara").Include(
-                "~/Scripts/FuncionesListarPara.js"));
-            bundles.Add(new ScriptBundle("~/bundles/FuncionesEditarPara").Include(
-                "~/Scripts/FuncionesEditarPara.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesParametros").Include(
+                "~/Scripts/FuncionesParametros.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesProveedor").Include(
+    "~/Scripts/FuncionesProveedor.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesCliente").Include(
+                "~/Scripts/FuncionesCliente.js"));
         }
     }
 }

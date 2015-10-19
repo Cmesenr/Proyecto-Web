@@ -153,6 +153,7 @@
     <Compile Include="Models\CategoriaMat.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\ColorMat.cs" />
+    <Compile Include="Models\ColorMaterial.cs" />
     <Compile Include="Models\Cotizacion.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
@@ -184,6 +185,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\FuncionesCliente.js" />
+    <Content Include="Scripts\FuncionesMaterial.js" />
+    <Content Include="Scripts\FuncionesParametros.js" />
     <Content Include="Scripts\FuncionesProveedor.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -226,6 +229,7 @@
     <Content Include="Views\Cliente\Editar.cshtml" />
     <Content Include="Views\Cliente\Registrar.cshtml" />
     <Content Include="Views\Cliente\Detalles.cshtml" />
+    <Content Include="Views\Material\Listar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
