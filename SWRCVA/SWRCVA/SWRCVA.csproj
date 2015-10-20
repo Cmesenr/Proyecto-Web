@@ -191,6 +191,7 @@
     <Content Include="Content\Imagenes\puerta corrediza corrediza.jpg" />
     <Content Include="Content\Imagenes\SOBRE DE MESA TICAL.jpg" />
     <Content Include="Content\Imagenes\TICAL PUERTA.FIJO.jpg" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -206,8 +207,11 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.bonnet.ajax-dropdownlist.js" />
     <Content Include="Scripts\jquery.bonnet.ajax-dropdownlist.min.js" />
+    <Content Include="Scripts\jquery.magnific-popup.js" />
+    <Content Include="Scripts\jquery.magnific-popup.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -231,7 +235,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Material\Registrar.cshtml" />
     <Content Include="Views\Parametro\Registrar.cshtml" />
     <Content Include="Views\Parametro\Index.cshtml" />
     <Content Include="Views\Parametro\Editar.cshtml" />
@@ -245,6 +248,7 @@
     <Content Include="Views\Cliente\Registrar.cshtml" />
     <Content Include="Views\Cliente\Detalles.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
+    <Content Include="Views\Material\Registrar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

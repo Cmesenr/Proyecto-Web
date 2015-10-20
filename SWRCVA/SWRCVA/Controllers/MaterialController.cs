@@ -13,6 +13,7 @@ namespace SWRCVA.Controllers
     {
         DataContext db = new DataContext();
         // GET: Material
+
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             
@@ -65,7 +66,8 @@ namespace SWRCVA.Controllers
             ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
             ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
-            return View();
+            Material objMat = new Material();
+            return PartialView();
         }
 
         // POST: Material/Create
@@ -74,6 +76,10 @@ namespace SWRCVA.Controllers
         {
             try
             {
+                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+                ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
+                ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
+                ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
                 if (ModelState.IsValid)
                 {
                     db.Material.Add(material);
