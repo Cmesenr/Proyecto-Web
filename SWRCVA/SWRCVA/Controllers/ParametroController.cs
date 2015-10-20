@@ -13,7 +13,7 @@ namespace SWRCVA.Controllers
         DataContext db = new DataContext();
 
       
-        public ActionResult Listar()
+        public ActionResult Index()
         {
             return View();
         }

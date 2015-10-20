@@ -13,7 +13,7 @@ namespace SWRCVA.Controllers
     {
         DataContext db = new DataContext();
         // GET: Material
-        public ActionResult Listar(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             
             ViewBag.CurrentSort = sortOrder;
