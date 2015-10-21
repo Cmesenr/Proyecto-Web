@@ -54,21 +54,6 @@ namespace SWRCVA.Controllers
             return View(proveedores.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Proveedor/Detalles
-        public ActionResult Detalles(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Proveedor proveedor = db.Proveedor.Find(id);
-            if (proveedor == null)
-            {
-                return HttpNotFound();
-            }
-            return View(proveedor);
-        }
-
         // GET: Proveedor/Registrar
         public ActionResult Registrar()
         {

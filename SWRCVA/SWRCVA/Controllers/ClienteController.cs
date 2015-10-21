@@ -54,21 +54,6 @@ namespace SWRCVA.Controllers
             return View(clientes.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Cliente/Detalles/5
-        public ActionResult Detalles(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Cliente cliente = db.Cliente.Find(id);
-            if (cliente == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cliente);
-        }
-
         // GET: Cliente/Registrar
         public ActionResult Registrar()
         {

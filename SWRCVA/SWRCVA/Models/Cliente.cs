@@ -23,9 +23,11 @@ namespace SWRCVA.Models
         public string Nombre { get; set; }
 
         [Column(TypeName = "numeric")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0}")]
         public decimal? Telefono { get; set; }
 
         [StringLength(30)]
+        [DataType(DataType.EmailAddress)]
         public string Correo { get; set; }
 
         [StringLength(30)]
