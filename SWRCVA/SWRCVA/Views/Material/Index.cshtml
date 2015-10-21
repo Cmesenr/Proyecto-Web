@@ -2,6 +2,7 @@
 @model PagedList.IPagedList<SWRCVA.Models.Material>
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Listar";
 }
 
@@ -9,7 +10,7 @@
 
 <p>
 
-    <button id="Registrarbt" onclick="popup();" type="button" class="btn-info btn-sm">Registrar Nuevo</button>
+    <button id="Registrarbt"  type="button" class="btn-info btn-sm">Registrar Nuevo</button>
     
 </p>
 @using (Html.BeginForm("Listar", "Material", FormMethod.Get))
@@ -68,8 +69,8 @@
                 }
             </td>
             <td>
-                @Html.ActionLink("Editar", "Editar", new { id = item.IdMaterial }) |
-                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdMaterial })
+                <button id="btnEditarMaterial" data-id="@item.IdMaterial" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+                <button id="btnBorrarMaterial" data-id="@item.IdMaterial" type="button" class="btn btn-danger delete">Borrar</button>
             </td>
         </tr>
     }

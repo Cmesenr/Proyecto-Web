@@ -97,7 +97,11 @@ namespace SWRCVA.Controllers
         // GET: Material/Edit/5
         public ActionResult Editar(int id)
         {
-            return View();
+            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+            ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
+            ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
+            ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
+            return PartialView();
         }
 
         // POST: Material/Edit/5
@@ -106,6 +110,10 @@ namespace SWRCVA.Controllers
         {
             try
             {
+                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+                ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
+                ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
+                ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
                 // TODO: Add update logic here
 
                 return RedirectToAction("Index");
