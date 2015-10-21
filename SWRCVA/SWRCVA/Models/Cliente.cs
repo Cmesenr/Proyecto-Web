@@ -27,7 +27,7 @@ namespace SWRCVA.Models
         public decimal? Telefono { get; set; }
 
         [StringLength(30)]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Correo no válido")]
+        [DataType(DataType.EmailAddress)]
         public string Correo { get; set; }
 
         [StringLength(30)]

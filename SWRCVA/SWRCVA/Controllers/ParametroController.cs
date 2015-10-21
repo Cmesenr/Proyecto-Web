@@ -338,7 +338,7 @@ namespace SWRCVA.Controllers
                     }
 
                 }
-                return RedirectToAction("Listar");
+                return RedirectToAction("Index");
             }
             catch
             {
