@@ -2,23 +2,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PagedList;
 using System.Web;
+using PagedList;
 using System.Web.Mvc;
 using System.Net;
 using System.Data.Entity.Infrastructure;
 
 namespace SWRCVA.Controllers
 {
-    public class ClienteController : Controller
+    public class UsuarioController : Controller
     {
         DataContext db = new DataContext();
 
-        // GET: Cliente
+        // GET: Usuario
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
+            ViewBag.IdUsuarioSortParm = String.IsNullOrEmpty(sortOrder) ? "IdUsuario" : "";
 
             if (searchString != null)
             {
@@ -31,45 +31,46 @@ namespace SWRCVA.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var clientes = from s in db.Cliente
+            var usuarios = from s in db.Usuario
                               select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                clientes = clientes.Where(s => s.Nombre.Contains(searchString)
-                                                || s.Correo.Contains(searchString)
-                                                || s.Direccion.Contains(searchString));
+                usuarios = usuarios.Where(s => s.IdUsuario.Contains(searchString));
             }
             switch (sortOrder)
             {
-                case "Nombre":
-                    clientes = clientes.OrderByDescending(s => s.Nombre);
+                case "IdUsuario":
+                    usuarios = usuarios.OrderByDescending(s => s.IdUsuario);
                     break;
-                default:  // Name ascending 
-                    clientes = clientes.OrderBy(s => s.Nombre);
+                default:  // IdUsuario ascending 
+                    usuarios = usuarios.OrderBy(s => s.IdUsuario);
                     break;
             }
 
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            return View(clientes.ToPagedList(pageNumber, pageSize));
+            return View(usuarios.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Cliente/Registrar
+        // GET: Usuario/Registrar
         public ActionResult Registrar()
         {
+            ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
+
             return View();
         }
 
-        // POST: Cliente/Registrar
+        // POST: Usuario/Registrar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar([Bind(Include = "IdCliente, Nombre, Telefono, Correo, Direccion, Estado, Usuario")]Cliente cliente)
+        public ActionResult Registrar([Bind(Include = " IdUsuario, Contraseña, IdRol, Estado, Usuario1")]Usuario usuario)
         {
+            ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Cliente.Add(cliente);
+                    db.Usuario.Add(usuario);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -78,25 +79,25 @@ namespace SWRCVA.Controllers
             {
                 ModelState.AddModelError("", "Imposible guardar cambios. Intentelo de nuevo, y si el problema persiste contacte el administrador del sistema.");
             }
-            return View(cliente);
+            return View(usuario);
         }
 
-        // GET: Cliente/Editar/5
+        // GET: Usuario/Editar
         public ActionResult Editar(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cliente cliente = db.Cliente.Find(id);
-            if (cliente == null)
+            Usuario usuario = db.Usuario.Find(id);
+            if (usuario == null)
             {
                 return HttpNotFound();
             }
-            return View(cliente);
+            return View(usuario);
         }
 
-        // POST: Cliente/Editar/5
+        // POST: Usuario/Editar
         [HttpPost, ActionName("Editar")]
         [ValidateAntiForgeryToken]
         public ActionResult EditarPost(int? id)
@@ -105,9 +106,9 @@ namespace SWRCVA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cliente clienteToUpdate = db.Cliente.Find(id);
-            if (TryUpdateModel(clienteToUpdate, "",
-               new string[] { "Nombre", "Telefono", "Correo", "Direccion", "Estado", "Usuario" }))
+            Usuario usuarioToUpdate = db.Usuario.Find(id);
+            if (TryUpdateModel(usuarioToUpdate, "",
+               new string[] { "Contraseña, IdRol, Estado, Usuario" }))
             {
                 try
                 {
@@ -120,16 +121,16 @@ namespace SWRCVA.Controllers
                     ModelState.AddModelError("", "Imposible guardar los cambios. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
                 }
             }
-            return View(clienteToUpdate);
+            return View(usuarioToUpdate);
         }
 
-        // GET: Cliente/Borrar/5
+        // GET: Usuario/Borrar
         public ActionResult Borrar(int? id)
         {
-            Cliente clienteToUpdate = db.Cliente.Find(id);
+            Usuario usuarioToUpdate = db.Usuario.Find(id);
             try
             {
-                clienteToUpdate.Estado = 0;
+                usuarioToUpdate.Estado = 0;
                 db.SaveChanges();
 
                 return RedirectToAction("Index");

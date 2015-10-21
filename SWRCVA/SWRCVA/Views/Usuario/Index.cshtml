@@ -1,0 +1,77 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<SWRCVA.Models.Usuario>
+@section Scripts {
+    @Scripts.Render("~/bundles/FuncionesUsuario")
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Usuarios";
+}
+
+<h2>Usuarios</h2>
+
+<p>
+    @Html.ActionLink("Registrar nuevo", "Registrar")
+</p>
+@using (Html.BeginForm("Index", "Usuario", FormMethod.Get))
+{
+    <p>
+        Buscar por Id Usuario: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Id Usuario", "Index", new { sortOrder = ViewBag.IdUsuarioSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Contraseña
+        </th>
+        <th>
+            Rol
+        </th>
+        <th>
+            Estado
+        </th>
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contraseña)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdRol)
+            </td>
+            <td>
+                @if (item.Estado == 1)
+                {
+                    @("Activo");
+                }
+                else
+                {
+                    @("Inactivo");
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Editar", new { id = item.IdUsuario }) |
+                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdUsuario },
+                 new { onclick = "return EliminarProveedor(" + item.IdUsuario + ");" })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
