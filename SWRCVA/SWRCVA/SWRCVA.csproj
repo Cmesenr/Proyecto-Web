@@ -203,6 +203,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\FuncionesCliente.js" />
     <Content Include="Scripts\FuncionesMaterial.js" />
+    <Content Include="Scripts\FuncionesModalMaterial.js" />
     <Content Include="Scripts\FuncionesParametros.js" />
     <Content Include="Scripts\FuncionesProveedor.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -248,6 +249,7 @@
     <Content Include="Views\Cliente\Editar.cshtml" />
     <Content Include="Views\Cliente\Registrar.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
+    <Content Include="Views\Material\Editar.cshtml" />
     <Content Include="Views\Material\Registrar.cshtml" />
   </ItemGroup>
   <ItemGroup>

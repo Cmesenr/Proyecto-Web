@@ -2,8 +2,10 @@
 using SWRCVA.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -95,33 +97,53 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Material/Edit/5
-        public ActionResult Editar(int id)
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult Editar(int? id)
         {
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
             ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
-            return PartialView();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Material material = db.Material.Find(id);
+            if (material == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(material);
         }
 
         // POST: Material/Edit/5
         [HttpPost]
-        public ActionResult Editar(int id, FormCollection collection)
+        public ActionResult Editar(int? id, Material material)
         {
-            try
-            {
-                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+                  ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
                 ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
                 ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
                 ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                if (id ==null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                    try
+                    {
+                if (ModelState.IsValid)
+                {
+                    material.IdMaterial = id.Value;
+                    db.Entry(material).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                       
+                    }
+                    catch (RetryLimitExceededException /* dex */)
+                    {
+                        ModelState.AddModelError("", "Imposible guardar los cambios. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
             }
-            catch
-            {
-                return View();
-            }
+            return PartialView(material);
         }
 
         // GET: Material/Delete/5

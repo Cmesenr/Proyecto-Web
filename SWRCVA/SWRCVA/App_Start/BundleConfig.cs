@@ -38,6 +38,9 @@ namespace SWRCVA
                 "~/Scripts/FuncionesCliente.js")); 
                 bundles.Add(new ScriptBundle("~/bundles/FuncionesMaterial").Include(
                 "~/Scripts/FuncionesMaterial.js"));
+            
+                bundles.Add(new ScriptBundle("~/bundles/FuncionesModalMaterial").Include(
+                "~/Scripts/FuncionesModalMaterial.js"));
         }
     }
 }

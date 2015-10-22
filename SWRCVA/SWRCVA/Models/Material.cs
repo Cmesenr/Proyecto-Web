@@ -35,7 +35,7 @@ namespace SWRCVA.Models
         [Required]
         [StringLength(15)]
         public string Usuario { get; set; }
-
+        [Required]
         public decimal? Costo { get; set; }
 
         public virtual CategoriaMat CategoriaMat { get; set; }

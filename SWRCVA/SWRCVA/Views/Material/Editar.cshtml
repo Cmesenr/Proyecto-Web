@@ -1,5 +1,6 @@
 ﻿@model SWRCVA.Models.Material
 @{
+    Layout = null;
     ViewBag.Title = "Editar";
 }
 @Styles.Render("~/Content/css")
@@ -11,7 +12,7 @@
             {
                 @Html.AntiForgeryToken()
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close"data-toggle="modal"  data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                     <h2 class="modal-title">Registro Material</h2>
                 </div>
                 <form role="form" data-toggle="validator">
@@ -54,7 +55,7 @@
                                     <tr></tr></table>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div id="subCat" class="form-group">
                                 @Html.LabelFor(model => model.IdSubCatMat, "Sub Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.DropDownListFor(model => model.IdSubCatMat, (IEnumerable<SelectListItem>)ViewBag.SubCatMaterial, "Selecione", new { @class = "form-control", @required = "required" })
@@ -92,10 +93,10 @@
                                     @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div id="CostoMatterial" class="form-group">
                                 @Html.LabelFor(model => model.Costo, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Costo, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                    @Html.EditorFor(model => model.Costo, new { htmlAttributes = new { @class = "form-control",} })
                                     @Html.ValidationMessageFor(model => model.Costo, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -103,7 +104,7 @@
                     </div>
                     <div class="modal-footer">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Registrar" class="btn btn-default" />
+                            <input type="submit" value="Guardar" class="btn btn-default" />
                             <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" />
                         </div>
                     </div>

@@ -2,7 +2,6 @@
 @model PagedList.IPagedList<SWRCVA.Models.Material>
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Listar";
 }
 
@@ -10,7 +9,7 @@
 
 <p>
 
-    <button id="Registrarbt"  type="button" class="btn-info btn-sm">Registrar Nuevo</button>
+    <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Material")'" class="btn btn-info">Registrar Nuevo</button>
     
 </p>
 @using (Html.BeginForm("Listar", "Material", FormMethod.Get))
@@ -82,7 +81,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 @section Scripts {
-    @Scripts.Render("~/bundles/FuncionesMaterial")
+    @Scripts.Render("~/bundles/FuncionesModalMaterial")
 }
 
  <div class="modal" id="modal">
