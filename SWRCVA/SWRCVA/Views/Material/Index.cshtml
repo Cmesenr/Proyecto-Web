@@ -69,7 +69,7 @@
             </td>
             <td>
                 <button id="btnEditarMaterial" data-id="@item.IdMaterial" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-                <button id="btnBorrarMaterial" data-id="@item.IdMaterial" type="button" class="btn btn-danger delete">Borrar</button>
+                <button id="btnBorrarMaterial" data-id="@item.IdMaterial" onclick="return EliminarMaterial(@item.IdMaterial)" type="button" class="btn btn-danger delete">Borrar</button>
             </td>
         </tr>
     }
@@ -86,3 +86,4 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 
  <div class="modal" id="modal">
                     </div>
+<div style="display:none" id="modal-confirmation" title="Borrar?">Esta seguro de eliminar el material?</div>

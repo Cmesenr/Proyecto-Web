@@ -15,7 +15,7 @@ namespace SWRCVA.Controllers
     {
         DataContext db = new DataContext();
         // GET: Material
-
+        private List<ColorMaterial> col = new List<ColorMaterial>();
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             
@@ -166,6 +166,29 @@ namespace SWRCVA.Controllers
             {
                 return View();
             }
+        }
+ 
+        public JsonResult AgregarCosto(int IdCat, decimal Costo)
+        {
+            if (TempData["Col"] != null) { 
+            col= (List<ColorMaterial>)TempData["Col"];
+            }
+            try
+            {
+                ColorMaterial colormaterial = new ColorMaterial();
+                colormaterial.IdColorMat = IdCat;
+                colormaterial.Costo = Costo;
+                colormaterial.NombreMaterial = db.ColorMat.Find(IdCat).Nombre;
+                col.Add(colormaterial);
+                
+            }
+            catch{
+                ModelState.AddModelError("", "No se pudo agregar la linea, y si el problema persiste contacte el administrador del sistema.");
+            }
+            TempData["Col"] = col;
+            return Json(col.ToList(),
+                JsonRequestBehavior.AllowGet);
+
         }
     }
 }

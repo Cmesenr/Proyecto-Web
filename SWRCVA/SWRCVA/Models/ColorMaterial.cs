@@ -21,6 +21,8 @@ namespace SWRCVA.Models
 
         public decimal Costo { get; set; }
 
+        public string NombreMaterial { get; set; }
+
         public virtual ColorMat ColorMat { get; set; }
 
         public virtual Material Material { get; set; }
