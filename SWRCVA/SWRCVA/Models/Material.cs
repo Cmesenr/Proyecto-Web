@@ -18,24 +18,25 @@ namespace SWRCVA.Models
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdMaterial { get; set; }
 
         [Required]
         [StringLength(15)]
         public string Nombre { get; set; }
-
+        [Required]
         public int IdCatMat { get; set; }
 
         public int? IdSubCatMat { get; set; }
-
+        [Required]
         public int IdProveedor { get; set; }
-
+        [Required]
         public int Estado { get; set; }
 
         [Required]
         [StringLength(15)]
         public string Usuario { get; set; }
-        [Required]
+
         public decimal? Costo { get; set; }
 
         public virtual CategoriaMat CategoriaMat { get; set; }

@@ -23,12 +23,13 @@ textarea {
     max-width: 280px;
 }
 
-.site-logo  {     
-width:200px;
-height:100px;          
-  } 
+.site-logo {
+    width: 200px;
+    height: 100px;
+}
+
 #modal {
-max-width:700px;
+    max-width: 700px;
     height: 100%;
     position: absolute;
     top: 10%;
@@ -36,5 +37,23 @@ max-width:700px;
     margin-top: -25px;
     margin-left: -200px;
     padding: 20px;
-    overflow:auto;
+    overflow: auto;
 }
+/*Tabla de colores en registro material*/
+#ListaColor {
+    max-width:300px;
+    border: solid #808080;
+}
+    #ListaColor td {
+        border-top:solid 1px #808080;
+        padding-left:8px;
+
+    }
+    .Listacol2{
+        text-align: center;
+    }
+    #ListaColor th {
+        text-align: center;
+        background: #eee;
+
+    }

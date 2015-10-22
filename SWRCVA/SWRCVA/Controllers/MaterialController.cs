@@ -15,7 +15,7 @@ namespace SWRCVA.Controllers
     {
         DataContext db = new DataContext();
         // GET: Material
-        private List<ColorMaterial> col = new List<ColorMaterial>();
+        private List<ColorMaterial> Listacolores = new List<ColorMaterial>();
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             
@@ -84,8 +84,34 @@ namespace SWRCVA.Controllers
                 ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
                 if (ModelState.IsValid)
                 {
-                    db.Material.Add(material);
-                    db.SaveChanges();
+
+                    if (material.IdCatMat != 1)
+                    {
+                        if (TempData["ListaColores"] != null)
+                        {
+                            db.Material.Add(material);
+                            db.SaveChanges();
+                            foreach (ColorMaterial item in (List<ColorMaterial>)TempData["ListaColores"])
+                            {
+                                item.IdMaterial = material.IdMaterial;
+                                db.ColorMaterial.Add(item);
+                            }
+                            db.SaveChanges();
+                            TempData["ListaColores"] = null;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("ColorMaterial", "Debe registrar al menos un Color.");
+                            return View(material);
+                        }
+
+                    }
+                    else
+                    {
+                        db.Material.Add(material);
+                        db.SaveChanges();
+                    }
+
                     return RedirectToAction("Index");
                 }
             }
@@ -109,6 +135,19 @@ namespace SWRCVA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Material material = db.Material.Find(id);
+            if (material.IdCatMat!=1)
+            {
+                ColorMaterial color = new ColorMaterial();
+                foreach (var item in (List<ColorMaterial>)material.ColorMaterial.ToList())
+                {
+                    color.IdMaterial = item.IdMaterial;
+                    color.IdColorMat = item.IdColorMat;
+                    color.Costo = item.Costo;
+                    color.NombreMaterial = item.ColorMat.Nombre;
+                    Listacolores.Add(color);
+                }
+                TempData["ListaColores"] = Listacolores;
+            }
             if (material == null)
             {
                 return HttpNotFound();
@@ -135,6 +174,26 @@ namespace SWRCVA.Controllers
                     material.IdMaterial = id.Value;
                     db.Entry(material).State = EntityState.Modified;
                     db.SaveChanges();
+                    if (material.IdCatMat != 1)
+                    {
+                        if (TempData["ListaColores"] != null)
+                        {
+                            foreach (ColorMaterial item in (List<ColorMaterial>)TempData["ListaColores"])
+                            {
+                                item.IdMaterial = material.IdMaterial;
+                                db.Entry(item).State = EntityState.Modified;
+                            }
+                            db.SaveChanges();
+                            TempData["ListaColores"] = null;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("ColorMaterial", "Debe registrar al menos un Color.");
+                            return View(material);
+                        }
+                    }
+                   
+
                     return RedirectToAction("Index");
                 }
                        
@@ -168,25 +227,68 @@ namespace SWRCVA.Controllers
             }
         }
  
-        public JsonResult AgregarCosto(int IdCat, decimal Costo)
+        public JsonResult AgregarColor(int IdColor, decimal Costo)
         {
-            if (TempData["Col"] != null) { 
-            col= (List<ColorMaterial>)TempData["Col"];
+            var resultado = "No se pudo agregar el color";
+            if (TempData["ListaColores"] != null) {
+                Listacolores = (List<ColorMaterial>)TempData["ListaColores"];
+                
             }
             try
             {
                 ColorMaterial colormaterial = new ColorMaterial();
-                colormaterial.IdColorMat = IdCat;
+                colormaterial.IdColorMat = IdColor;
                 colormaterial.Costo = Costo;
-                colormaterial.NombreMaterial = db.ColorMat.Find(IdCat).Nombre;
-                col.Add(colormaterial);
-                
+                colormaterial.NombreMaterial = db.ColorMat.Find(IdColor).Nombre;
+                if (Listacolores.Count()==0) { Listacolores.Add(colormaterial); }
+                else
+                {
+
+                    foreach (ColorMaterial color in Listacolores)
+                    {
+                        if (color.IdColorMat == IdColor)
+                        {
+                            TempData["ListaColores"] = Listacolores;
+                            resultado = "No se puede duplicar el color!";
+                            return Json(resultado,
+                            JsonRequestBehavior.AllowGet);
+                        }
+
+                    }
+                    Listacolores.Add(colormaterial);
+                }
             }
             catch{
-                ModelState.AddModelError("", "No se pudo agregar la linea, y si el problema persiste contacte el administrador del sistema.");
+                  return Json(resultado,
+                JsonRequestBehavior.AllowGet);
             }
-            TempData["Col"] = col;
-            return Json(col.ToList(),
+            TempData["ListaColores"] = Listacolores;
+            return Json(Listacolores.ToList(),
+                JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult EliminarColor(int id)
+        {
+            if (TempData["ListaColores"] != null)
+            {
+                Listacolores = (List<ColorMaterial>)TempData["ListaColores"];
+            }
+            try
+            {
+                foreach(ColorMaterial color in Listacolores)
+                {
+                    if (color.IdColorMat == id) { 
+                        Listacolores.Remove(color);
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError("", "No se pudo borrar la linea, y si el problema persiste contacte el administrador del sistema.");
+            }
+            TempData["ListaColores"] = Listacolores;
+            return Json(Listacolores.ToList(),
                 JsonRequestBehavior.AllowGet);
 
         }

@@ -11,16 +11,14 @@ namespace SWRCVA.Models
     {
         [Key]
         [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdMaterial { get; set; }
 
         [Key]
         [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdColorMat { get; set; }
 
         public decimal Costo { get; set; }
-
+        [NotMapped]
         public string NombreMaterial { get; set; }
 
         public virtual ColorMat ColorMat { get; set; }
