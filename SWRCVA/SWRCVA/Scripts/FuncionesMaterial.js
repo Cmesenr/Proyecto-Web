@@ -2,8 +2,9 @@
 $(document).ready(function () {
     CambiarCat();
     $('#modal').on('hidden.bs.modal', function (e) {
-        $("#modal").removeData('bs.modal');
+        $("#modal").removeData('bs.modal');     
         parent.document.location = parent.document.location;
+       RefrescarLista();
     });
     
 
@@ -104,6 +105,20 @@ function CambiarCat() {
 
     }
 };
+function RefrescarLista() {
+    $.ajax({
+        cache: false,
+        url: "/Material/RefrescarLista",
+        type: "GET",
+        data: {},
+        contentType: "application/json; charset=utf-8",
+        success: function (result) {
+
+        }
+    });
+
+}
+
 
     
 

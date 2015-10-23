@@ -137,9 +137,10 @@ namespace SWRCVA.Controllers
             Material material = db.Material.Find(id);
             if (material.IdCatMat!=1)
             {
-                ColorMaterial color = new ColorMaterial();
+                
                 foreach (var item in (List<ColorMaterial>)material.ColorMaterial.ToList())
                 {
+                    ColorMaterial color = new ColorMaterial();
                     color.IdMaterial = item.IdMaterial;
                     color.IdColorMat = item.IdColorMat;
                     color.Costo = item.Costo;
@@ -176,12 +177,18 @@ namespace SWRCVA.Controllers
                     db.SaveChanges();
                     if (material.IdCatMat != 1)
                     {
+                        foreach (ColorMaterial item in db.ColorMaterial.ToList())
+                        {   
+                            db.ColorMaterial.Attach(item);
+                            db.ColorMaterial.Remove(item);
+                            db.SaveChanges();
+                        }
                         if (TempData["ListaColores"] != null)
                         {
                             foreach (ColorMaterial item in (List<ColorMaterial>)TempData["ListaColores"])
                             {
                                 item.IdMaterial = material.IdMaterial;
-                                db.Entry(item).State = EntityState.Modified;
+                                db.ColorMaterial.Add(item);
                             }
                             db.SaveChanges();
                             TempData["ListaColores"] = null;
@@ -206,9 +213,21 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Material/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Borrar(int id)
         {
-            return View();
+            Material materialToUpdate = db.Material.Find(id);
+            try
+            {
+                materialToUpdate.Estado = 0;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (RetryLimitExceededException /* dex */)
+            {
+                ModelState.AddModelError("", "Imposible eliminar el registro. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
+            }
+
+            return RedirectToAction("Index");
         }
 
         // POST: Material/Delete/5
@@ -291,6 +310,11 @@ namespace SWRCVA.Controllers
             return Json(Listacolores.ToList(),
                 JsonRequestBehavior.AllowGet);
 
+        }
+
+        public void RefrescarLista()
+        {
+            TempData["ListaColores"] = null;
         }
     }
 }

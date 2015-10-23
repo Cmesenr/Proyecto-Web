@@ -1,5 +1,4 @@
 ﻿@model SWRCVA.Models.Material
-    using System.Data.Entity;
 @{
     Layout = null;
     ViewBag.Title = "Editar";
@@ -52,7 +51,7 @@
                                         </tr>
                                         @Html.ValidationMessageFor(model => model.ColorMaterial, "", new { @class = "text-danger" })
                                     </table>
-                                    <table width="250" class="table-hover" id="ListaColor">
+                                    <table class="table-hover" id="ListaColor">
                                         <tr><th>Color</th><th>Costo</th><th></th></tr>
                                         <tbody>
                                         @foreach (var valor in Model.ColorMaterial.ToList())
@@ -117,8 +116,8 @@
                     </div>
                     <div class="modal-footer">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Guardar" class="btn btn-default" />
-                            <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" />
+                            <input type="submit" value="Guardar" class="btn btn-primary edit" />
+                            <input type="button" value="Cancelar" class="btn btn-danger delete" data-dismiss="modal" />
                         </div>
                     </div>
                     </form>

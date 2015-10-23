@@ -1,8 +1,5 @@
 ﻿$(document).ready(function () {
-    $('body').on('hidden.bs.modal', '.modal', function () {
-        alert("aqui");
-        $(this).removeData('bs.modal');
-    });
+
 });
 
 $(".edit").click(function () {
@@ -15,15 +12,15 @@ $(".edit").click(function () {
 function EliminarMaterial(valor) {
 
     var params = { id: valor };
-    if (confirm("Esta seguro de eliminar el proveedor!")==true) {
-   $.ajax({
+    var resultado=confirm("Esta seguro de eliminar el proveedor!"); 
+    if (resultado){$.ajax({
                     cache: false,
                     url: "/Material/Borrar",
                     type: "GET",
                     data: params,
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
-
+                        parent.document.location = parent.document.location;
                     }
    });
     } else {
@@ -31,3 +28,4 @@ function EliminarMaterial(valor) {
     }
 
 }
+

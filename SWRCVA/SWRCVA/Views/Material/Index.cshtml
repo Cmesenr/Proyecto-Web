@@ -12,7 +12,7 @@
     <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Material")'" class="btn btn-info">Registrar Nuevo</button>
     
 </p>
-@using (Html.BeginForm("Listar", "Material", FormMethod.Get))
+@using (Html.BeginForm("Index", "Material", FormMethod.Get))
 {
     <p>
         <table>
@@ -23,7 +23,7 @@
                 <td>
                     @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
                 </td>
-                <td><input class="form-control" type="submit" value="Search" /></td>
+                <td><input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
             </tr>
         </table>
     </p>

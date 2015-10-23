@@ -41,7 +41,7 @@ textarea {
 }
 /*Tabla de colores en registro material*/
 #ListaColor {
-    max-width:300px;
+    width:280px;
     border: solid #808080;
 }
     #ListaColor td {
