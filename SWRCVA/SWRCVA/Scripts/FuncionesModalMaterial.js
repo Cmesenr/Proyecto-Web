@@ -1,5 +1,8 @@
-﻿$(document).ready(function () {
-
+﻿$(document).ready(function (e) {
+    $('#ModalConfirm').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data().id;
+        $(e.currentTarget).find('#btnModalborrar').val(id);
+    });
 });
 
 $(".edit").click(function () {
@@ -7,13 +10,11 @@ $(".edit").click(function () {
    $("#modal").load("/Material/Editar/" + id, function () {
         $('#modal').modal("show");
     })
-   /*window.showModalDialog("/Material/Editar/" + id, "", "dialogWidth:600px;dialogHeight:900px");*/
 });
 function EliminarMaterial(valor) {
 
-    var params = { id: valor };
-    var resultado=confirm("Esta seguro de eliminar el proveedor!"); 
-    if (resultado){$.ajax({
+ var params = { id: valor };
+  $.ajax({
                     cache: false,
                     url: "/Material/Borrar",
                     type: "GET",
@@ -23,9 +24,6 @@ function EliminarMaterial(valor) {
                         parent.document.location = parent.document.location;
                     }
    });
-    } else {
-        return false;
-    }
 
 }
 
