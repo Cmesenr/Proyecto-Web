@@ -7,86 +7,87 @@
 @Scripts.Render("~/bundles/modernizr")
 
 
-        <div class="modal-content">
-            @using (Html.BeginForm())
+        <div class="modal-dialog">
+            <div class="modal-content">
+                @using (Html.BeginForm())
             {
-                @Html.AntiForgeryToken()
-                <div class="modal-header">
-                    <button type="button" class="close"data-toggle="modal"  data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                    <h2 class="modal-title">Registro Material</h2>
-                </div>
-                <form role="form" data-toggle="validator">
-                    <div class="modal-body">
-                        <div class="form-horizontal">
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2", })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @required = "required", title = "El campo Nombre es necesario" } })
-                                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header">
+                        <button type="button" class="close" data-toggle="modal" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h2 class="modal-title">Registro Material</h2>
+                    </div>
+                    <form role="form" data-toggle="validator">
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2", })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @required = "required", title = "El campo Nombre es necesario" } })
+                                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.IdCatMat, "Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.IdCatMat, (IEnumerable<SelectListItem>)ViewBag.CatMaterial, "Selecione", new { @class = "form-control", onchange="CambiarCat();", id = "DropDownCat", @required = "required", title = "El campo Categoria es necesario" })
-                                    @Html.ValidationMessageFor(model => model.IdCatMat, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IdCatMat, "Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.IdCatMat, (IEnumerable<SelectListItem>)ViewBag.CatMaterial, "Selecione", new { @class = "form-control", onchange = "CambiarCat();", id = "DropDownCat", @required = "required", title = "El campo Categoria es necesario" })
+                                        @Html.ValidationMessageFor(model => model.IdCatMat, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group" id="ColorMaterial">
-                                @Html.Label("Color", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColorMaterial, "Selecione", new { @class = "form-control", id = "DropDownColor" })
-                                            </td>
-                                            <td>   ₡</td>
-                                            <td>
-                                                @Html.TextBox("Costo_Material", "", new { @class = "form-control", id = "txtCostoMat", placeholder = "Costo", style = "width:100px" })
-                                            </td>
-                                            <td>&nbsp;&nbsp;<input type="button" id="btnAgregarColor" class="btn-success" value="+" /></td>
-                                        </tr>
-                                        @Html.ValidationMessageFor(model => model.ColorMaterial, "", new { @class = "text-danger" })
-                                    </table>
-                                    <table class="table-hover" id="ListaColor">
-                                        <tr><th>Color</th><th>Costo</th><th></th></tr>
-                                        <tbody>
-                                        @foreach (var valor in Model.ColorMaterial.ToList())
-                                        {
+                                <div class="form-group" id="ColorMaterial">
+                                    @Html.Label("Color", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <table>
                                             <tr>
-                                                <td> @valor.ColorMat.Nombre </td>
-                                                <td class="Listacol2">@valor.Costo</td>
-                                                <td><input type="button" id="eliminarcolormat" data-id=@valor.IdColorMat class="btn-danger btn-xs" value="X" /></td>
+                                                <td>
+                                                    @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColorMaterial, "Selecione", new { @class = "form-control", id = "DropDownColor" })
+                                                </td>
+                                                <td>   ₡</td>
+                                                <td>
+                                                    @Html.TextBox("Costo_Material", "", new { @class = "form-control", id = "txtCostoMat", placeholder = "Costo", style = "width:100px" })
+                                                </td>
+                                                <td>&nbsp;&nbsp;<input type="button" id="btnAgregarColor" class="btn-success" value="+" /></td>
                                             </tr>
-                                        }
-                                        </tbody>
-                                        
-                                    </table>
-                                </div>
-                            </div>
-                            <div id="subCat" class="form-group">
-                                @Html.LabelFor(model => model.IdSubCatMat, "Sub Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.IdSubCatMat, (IEnumerable<SelectListItem>)ViewBag.SubCatMaterial, "Selecione", new { @class = "form-control", id = "dropSubCat", @required = "required", title= "El campo Sub Categoria es necesario" })
-                                    @Html.ValidationMessageFor(model => model.IdSubCatMat, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                                            @Html.ValidationMessageFor(model => model.ColorMaterial, "", new { @class = "text-danger" })
+                                        </table>
+                                        <table class="table-hover" id="ListaColor">
+                                            <tr><th>Color</th><th>Costo</th><th></th></tr>
+                                            <tbody>
+                                                @foreach (var valor in Model.ColorMaterial.ToList())
+                                                {
+                                                    <tr>
+                                                        <td> @valor.ColorMat.Nombre </td>
+                                                        <td class="Listacol2">@valor.Costo</td>
+                                                        <td><input type="button" id="eliminarcolormat" data-id=@valor.IdColorMat class="btn-danger btn-xs" value="X" /></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.IdProveedor, "Proveedor", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.IdProveedor, (IEnumerable<SelectListItem>)ViewBag.Proveedor, "Selecione", new { @class = "form-control", @required = "required", title = "El campo Proveedor es necesario" })
-                                    @Html.ValidationMessageFor(model => model.IdProveedor, "", new { @class = "text-danger" })
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
+                                <div id="subCat" class="form-group">
+                                    @Html.LabelFor(model => model.IdSubCatMat, "Sub Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.IdSubCatMat, (IEnumerable<SelectListItem>)ViewBag.SubCatMaterial, "Selecione", new { @class = "form-control", id = "dropSubCat", @required = "required", title = "El campo Sub Categoria es necesario" })
+                                        @Html.ValidationMessageFor(model => model.IdSubCatMat, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.Estado, (new SelectList(
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IdProveedor, "Proveedor", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.IdProveedor, (IEnumerable<SelectListItem>)ViewBag.Proveedor, "Selecione", new { @class = "form-control", @required = "required", title = "El campo Proveedor es necesario" })
+                                        @Html.ValidationMessageFor(model => model.IdProveedor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.Estado, (new SelectList(
                   new List<Object>{
                       new { value = "" , text = "Seleccione"  },
                        new { value = 1 , text = "Activo"  },
@@ -95,37 +96,41 @@
                   "value",
                   "text",
                    2)), new { @class = "form-control", @required = "required", title = "El campo Estado es necesario" })
-                                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control", @required = "required", title = "El campo Usuario es necesario" } })
-                                    @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control", @required = "required", title = "El campo Usuario es necesario" } })
+                                        @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="CostoMatterial" class="form-group">
-                                @Html.LabelFor(model => model.Costo, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Costo, new { htmlAttributes = new { @class = "form-control", id = "txtCosto", @required = "required", title = "El campo Costo es necesario" } })
-                                    @Html.ValidationMessageFor(model => model.Costo, "", new { @class = "text-danger" })
+                                <div id="CostoMatterial" class="form-group">
+                                    @Html.LabelFor(model => model.Costo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Costo, new { htmlAttributes = new { @class = "form-control", id = "txtCosto", @required = "required", title = "El campo Costo es necesario" } })
+                                        @Html.ValidationMessageFor(model => model.Costo, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Guardar" class="btn btn-primary edit" />
-                            <input type="button" value="Cancelar" class="btn btn-danger delete" data-dismiss="modal" />
+                        <div class="modal-footer">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Guardar" class="btn btn-primary edit" />
+                                <input type="button" value="Cancelar" class="btn btn-danger delete" data-dismiss="modal" />
+                            </div>
                         </div>
-                    </div>
+
                     </form>
-                    }
-</div>
+                }
+                </div>
+            </div>
+
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jquery-iu")
 @Scripts.Render("~/bundles/bonnet")
 @Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/bundles/FuncionesMaterial")
+
 

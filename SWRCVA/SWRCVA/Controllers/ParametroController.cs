@@ -1,4 +1,5 @@
-﻿using SWRCVA.Models;
+﻿using PagedList;
+using SWRCVA.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,18 +12,244 @@ namespace SWRCVA.Controllers
     public class ParametroController : Controller
     {
         DataContext db = new DataContext();
-
-      
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? tabla)
         {
-            return View();
+
+            if (tabla != null)
+            {
+                TempData["Currenrtable"] = tabla;
+            }
+           
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+            var Parametros = new List<Parametro>();        
+            var ParametroResult = Parametros.AsQueryable();
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            if (tabla == null&& TempData["Currenrtable"]!=null)
+            {
+                tabla =(int)TempData["Currenrtable"];
+            }
+            switch (tabla)
+            {
+                case 1:
+                    ViewBag.CurrentFilter = searchString;
+                    var Categorias = from s in db.CategoriaMat
+                                     select s;
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        Categorias = Categorias.Where(s => s.Nombre.Contains(searchString)
+                                                       );
+                    }
+                    foreach (var item in Categorias)
+                    {
+
+                        Parametro p1 = new Parametro();
+                        p1.Id = item.IdCategoria;
+                        p1.Nombre = item.Nombre;
+                        p1.Estado = item.Estado.ToString();
+                        Parametros.Add(p1);
+                    }
+                    ParametroResult = Parametros.AsQueryable();
+                   
+                    switch (sortOrder)
+                    {
+                        case "Nombre":
+                            ParametroResult = ParametroResult.OrderByDescending(s => s.Nombre);
+                            break;
+                        default:  // Name ascending 
+                            ParametroResult = ParametroResult.OrderBy(s => s.Nombre);
+                            break;
+                    }
+
+                     pageSize = 5;
+                     pageNumber = (page ?? 1);
+                    return View(ParametroResult.ToPagedList(pageNumber, pageSize));
+                case 2:
+                    ViewBag.CurrentFilter = searchString;
+                    var colorMaterial = from s in db.ColorMat
+                                     select s;
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        colorMaterial = colorMaterial.Where(s => s.Nombre.Contains(searchString)
+                                                       );
+                    }
+                    foreach (var item in colorMaterial)
+                    {
+
+                        Parametro p1 = new Parametro();
+                        p1.Id = item.IdColor;
+                        p1.Nombre = item.Nombre;
+                        p1.Estado = item.Estado.ToString();
+                        Parametros.Add(p1);
+                    }
+                    ParametroResult = Parametros.AsQueryable();                   
+                    switch (sortOrder)
+                    {
+                        case "Nombre":
+                            ParametroResult = ParametroResult.OrderByDescending(s => s.Nombre);
+                            break;
+                        default:  // Name ascending 
+                            ParametroResult = ParametroResult.OrderBy(s => s.Nombre);
+                            break;
+                    }
+
+                    pageSize = 5;
+                    pageNumber = (page ?? 1);
+                    return View(ParametroResult.ToPagedList(pageNumber, pageSize));
+                case 3:
+                    ViewBag.CurrentFilter = searchString;
+                    var tipoProducto = from s in db.TipoProducto
+                                        select s;
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        tipoProducto = tipoProducto.Where(s => s.Nombre.Contains(searchString)
+                                                       );
+                    }
+                    foreach (var item in tipoProducto)
+                    {
+
+                        Parametro p1 = new Parametro();
+                        p1.Id = item.IdTipoProducto;
+                        p1.Nombre = item.Nombre;
+                        p1.Estado = item.Estado.ToString();
+                        Parametros.Add(p1);
+                    }
+                    ParametroResult = Parametros.AsQueryable();
+                    
+                    switch (sortOrder)
+                    {
+                        case "Nombre":
+                            ParametroResult = ParametroResult.OrderByDescending(s => s.Nombre);
+                            break;
+                        default:  // Name ascending 
+                            ParametroResult = ParametroResult.OrderBy(s => s.Nombre);
+                            break;
+                    }
+
+                    pageSize = 5;
+                    pageNumber = (page ?? 1);
+                    return View(ParametroResult.ToPagedList(pageNumber, pageSize));
+                case 4:
+                    ViewBag.CurrentFilter = searchString;
+                    var rol = from s in db.Rol
+                                       select s;
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        rol = rol.Where(s => s.Nombre.Contains(searchString)
+                                                       );
+                    }
+                    foreach (var item in rol)
+                    {
+
+                        Parametro p1 = new Parametro();
+                        p1.Id = item.IdRol;
+                        p1.Nombre = item.Nombre;
+                        p1.Estado = item.Estado.ToString();
+                        Parametros.Add(p1);
+                    }
+                    ParametroResult = Parametros.AsQueryable();
+                    
+                    switch (sortOrder)
+                    {
+                        case "Nombre":
+                            ParametroResult = ParametroResult.OrderByDescending(s => s.Nombre);
+                            break;
+                        default:  // Name ascending 
+                            ParametroResult = ParametroResult.OrderBy(s => s.Nombre);
+                            break;
+                    }
+
+                    pageSize = 5;
+                    pageNumber = (page ?? 1);
+                    return View(ParametroResult.ToPagedList(pageNumber, pageSize));
+                case 5:
+                    ViewBag.CurrentFilter = searchString;
+                    var subCategoria = from s in db.SubCategoria
+                              select s;
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        subCategoria = subCategoria.Where(s => s.Nombre.Contains(searchString)
+                                                       );
+                    }
+                    foreach (var item in subCategoria)
+                    {
+
+                        Parametro p1 = new Parametro();
+                        p1.Id = item.IdSubCatMat;
+                        p1.Nombre = item.Nombre;
+                        p1.Estado = item.Estado.ToString();
+                        Parametros.Add(p1);
+                    }
+                    ParametroResult = Parametros.AsQueryable();
+                    
+                    switch (sortOrder)
+                    {
+                        case "Nombre":
+                            ParametroResult = ParametroResult.OrderByDescending(s => s.Nombre);
+                            break;
+                        default:  // Name ascending 
+                            ParametroResult = ParametroResult.OrderBy(s => s.Nombre);
+                            break;
+                    }
+
+                    pageSize = 5;
+                    pageNumber = (page ?? 1);
+                    return View(ParametroResult.ToPagedList(pageNumber, pageSize));
+                case 6:
+                    ViewBag.CurrentFilter = searchString;
+                    var valor = from s in db.Valor
+                                       select s;
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        valor = valor.Where(s => s.Nombre.Contains(searchString)
+                                                       );
+                    }
+                    foreach (var item in valor)
+                    {
+
+                        Parametro p1 = new Parametro();
+                        p1.Id = item.IdValor;
+                        p1.Nombre = item.Nombre;
+                        p1.Estado = item.Estado.ToString();
+                        Parametros.Add(p1);
+                    }
+                    ParametroResult = Parametros.AsQueryable();
+                   
+                    switch (sortOrder)
+                    {
+                        case "Nombre":
+                            ParametroResult = ParametroResult.OrderByDescending(s => s.Nombre);
+                            break;
+                        default:  // Name ascending 
+                            ParametroResult = ParametroResult.OrderBy(s => s.Nombre);
+                            break;
+                    }
+
+                    pageSize = 5;
+                    pageNumber = (page ?? 1);
+                    return View(ParametroResult.ToPagedList(pageNumber, pageSize));
+            }
+           
+            return View(ParametroResult.ToPagedList(pageNumber, pageSize));
+            
         }
-        [HttpGet]
-        public string ListarParametros(int id)
+    /*    [HttpGet]
+        public string ListarParametros(int tabla)
         {
             List<Parametro> para = new List<Parametro>();
             string resultado = "";
-            switch (id)
+            switch (tabla)
             {
                 case 1:
                     List<CategoriaMat> cat = new List<CategoriaMat>();
@@ -129,7 +356,7 @@ namespace SWRCVA.Controllers
                     "</td><td><a href='/Parametro/Editar/?id="+ item.Id+"&parametro="+id+ "'>Editar  </a>| &nbsp<a  onclick='EliminarParametro("+ item.Id+","+id+");'>Borrar</a></td></tr> ";
             }
             return resultado;
-        }
+        }*/
 
         // GET: Parametro/Registrar
         public ActionResult Registrar()
@@ -208,14 +435,16 @@ namespace SWRCVA.Controllers
             }
         }
         // GET: Parametro/Editar/5
-        public ActionResult Editar(int id,int parametro)
+        public ActionResult Editar(int id)
         {
+            int tabla = (int)TempData["Currenrtable"];
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             Parametro para = new Parametro();
-            switch (parametro) { 
+            switch (tabla) { 
                 case 1:
                     CategoriaMat cat = new CategoriaMat();
                     cat = db.CategoriaMat.Find(id);
+                    para.parametro = 1;
                     para.Id = cat.IdCategoria;
                     para.Nombre = cat.Nombre;
                     para.Usuario = cat.Usuario;
@@ -225,6 +454,7 @@ namespace SWRCVA.Controllers
                 case 2:
                     ColorMat color = new ColorMat();
                     color = db.ColorMat.Find(id);
+                    para.parametro = 2;
                     para.Id = color.IdColor;
                     para.Nombre = color.Nombre;
                     para.Usuario = color.Usuario;
@@ -233,6 +463,7 @@ namespace SWRCVA.Controllers
                 case 3:
                     TipoProducto tipo = new TipoProducto();
                     tipo = db.TipoProducto.Find(id);
+                    para.parametro = 3;
                     para.Id = tipo.IdTipoProducto;
                     para.Nombre = tipo.Nombre;
                     para.Usuario = tipo.Usuario;
@@ -241,6 +472,7 @@ namespace SWRCVA.Controllers
                 case 4:
                     Rol rolp = new Rol();
                     rolp = db.Rol.Find(id);
+                    para.parametro = 4;
                     para.Id = rolp.IdRol;
                     para.Nombre = rolp.Nombre;
                     para.Usuario = rolp.Usuario;
@@ -249,6 +481,7 @@ namespace SWRCVA.Controllers
                 case 5:
                     SubCategoria sub = new SubCategoria();
                     sub = db.SubCategoria.Find(id);
+                    para.parametro = 5;
                     para.Id = sub.IdSubCatMat;
                     para.CategoriaId = sub.IdCatMat;
                     para.Nombre = sub.Nombre;
@@ -258,6 +491,7 @@ namespace SWRCVA.Controllers
                 case 6:
                     Valor val = new Valor();
                     val = db.Valor.Find(id);
+                    para.parametro = 6;
                     para.Id = val.IdValor;
                     para.Porcentaje = (val.Porcentaje*100);
                     para.Nombre = val.Nombre;
@@ -265,7 +499,7 @@ namespace SWRCVA.Controllers
                     para.Estado = val.Estado.ToString();
                     break;
             }
-            return View(para);
+            return PartialView(para);
         }
 
         // POST: Parametro/Editar/5
@@ -347,8 +581,9 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Parametro/Delete/5  
-        public void Eliminar(int id, int tabla)
+        public void Eliminar(int id)
         {
+            int tabla = (int)TempData["Currenrtable"];
             switch (tabla)
             {
                 case 1:

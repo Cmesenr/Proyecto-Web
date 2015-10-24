@@ -1,19 +1,28 @@
-﻿
-@model IEnumerable<SWRCVA.Models.Parametro>
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<SWRCVA.Models.Parametro>
 
 @{
     ViewBag.Title = "Parametros";
 }
 
-<h2>Parametros</h2>
 
+
+<h2>Parametros</h2>
 <p>
-    @Html.ActionLink("Registrar nuevo", "Registrar",new{@class="btn btn-info btn-lg" })
+    <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Parametro")'" class="btn btn-info">Registrar Nuevo</button>
+
 </p>
-<div class="form-group">
-    @Html.Label("Parametro", htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.DropDownList("Parametro", (new SelectList(
+<div class="row">
+    
+
+    <div class="col-md-3">
+        <table>
+            <tr>
+                <td>
+                 @Html.Label("Parametro", htmlAttributes: new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    @Html.DropDownList("Parametro", (new SelectList(
        new List<Object>{
                     new { value = 1 , text = "Categoria Material"},
                     new { value = 2 , text = "Color Material" },
@@ -24,18 +33,105 @@
                 },
                   "value",
                   "text"
-                  )), "Seleccione", new { @class = "form-control", id = "ListaParametroList" }
+                  )), "Seleccione", new { @class = "form-control", @onchange = "location.href='/Parametro/Index?tabla='+ this.value;", id = "ListaParametroList" }
            )
-
-        @Html.ValidationMessage("Parametro", "", new { @class = "text-danger" })
-    </div>
-    </div>
-    <table class="table table-hover" id="TableLista">
+                    @Html.ValidationMessage("Parametro", "", new { @class = "text-danger" })
+                </td>
+            </tr>
+        </table>
         
+       
+       
+       
+       
+    </div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("Index", "Parametro", FormMethod.Get))
+        {
+            <table>
+                <tr>
+                    <td>
+                        Buscar por nombre:
+                    </td>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                    </td>
+                    <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+                </tr>
+            </table>
 
-    </table>
+        }
+        </div>
+
+    </div>
+<br/>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Estado
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @if (item.Estado == "1")
+                {
+                    @("Activo");
+                }
+                else
+                {
+                    @("Inactivo");
+                }
+            </td>
+            <td>
+                <button id="btnEditarMaterial" data-id="@item.Id" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+                <button id="btnBorrarMaterial" data-toggle="modal" data-target="#ModalConfirm" data-id="@item.Id" type="button" class="btn btn-danger delete">Borrar</button>
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/FuncionesParametros")
 }
+
+<div class="modal fade" id="modal" role="dialog">
+</div>
+
+<div class="modal fade" id="ModalConfirm" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Borrar</h4>
+            </div>
+            <div class="modal-body">
+                <p>Esta seguro que desea borrar el Parametro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return EliminarParametro(this.value)" class="btn btn-primary">Continuar</button>
+            </div>
+        </div>
+
+    </div>
+</div>

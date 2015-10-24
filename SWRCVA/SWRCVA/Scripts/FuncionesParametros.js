@@ -1,4 +1,11 @@
-﻿$(document).ready(function ()
+﻿$(document).ready(function (e) {
+    $('#ModalConfirm').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data().id;
+        $(e.currentTarget).find('#btnModalborrar').val(id);
+    });
+});
+
+$(document).ready(function ()
 {  //Listar Parametros
     $('#ListaParametroList').on("change", function () {
         listar($(this).val());
@@ -20,6 +27,12 @@
     });
 EditarPara();
      
+});
+$(".edit").click(function () {
+    var id = $(this).attr("data-id");
+    $("#modal").load("/Parametro/Editar/" + id, function () {
+        $('#modal').modal("show");
+    })
 });
 
 function EditarPara() {
@@ -51,10 +64,8 @@ function listar(parametro) {
         }
     })
 }
-function EliminarParametro(valor, parametro) {
-    var params = { id: valor, Tabla: parametro };
-    var respuesta=confirm("Esta seguro de eliminar el parametro!");
-    if (respuesta) {
+function EliminarParametro(valor) {
+    var params = { id: valor };
     $.ajax({
         cache: false,
         url: "/Parametro/Eliminar",
@@ -62,12 +73,7 @@ function EliminarParametro(valor, parametro) {
         data: params,
         contentType: "application/json; charset=utf-8",
         success: function (result) {
-            
-            listar(parametro);
+            parent.document.location = parent.document.location;
         }
     })
-   } else
-   {
-       return false;
-   }
 }
