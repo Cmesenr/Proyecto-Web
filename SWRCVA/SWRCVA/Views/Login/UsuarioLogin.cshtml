@@ -1,0 +1,43 @@
+﻿@model SWRCVA.Models.UsuarioLogin
+@{
+    ViewBag.Title = "Login";
+}
+<h2>
+    Ingreso al sistema
+</h2>
+
+@using (@Html.BeginForm("Index", "UserLogin"))
+{
+    <table width="25%" style="border: 1 solid back; border-collapse: collapse;" border="1" cellpadding="5" cellspacing="5">
+        <tr>
+            <td colspan="2" style="background-color: Gray;">
+                LOGIN
+            </td>
+        </tr>
+        <tr>
+            <td align="right"> Usuario:</td>
+            <td align="left">@Html.TextBoxFor(m => m.IdUsuario, new { @id = "txtIdUsuario", @style = "width:200px;" })</td>
+        </tr>
+        <tr>
+            <td align="right">Contraseña:</td>
+            <td align="left">@Html.PasswordFor(m => m.Contraseña, new { @id = "txtContraseña", @style = "width:200px;" }) </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <input type="submit" value="Login" />
+            </td>
+        </tr>
+    </table>
+    if (ViewBag.Message == 1)
+    {
+        <script language="javascript">
+        alert("Successfull login.");
+        </script>
+    }
+    if (ViewBag.Message == 0)
+    {
+        <script language="javascript">
+        alert("Please provide correct userid or password.");
+        </script>
+    }
+}

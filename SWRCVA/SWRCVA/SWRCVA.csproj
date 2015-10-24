@@ -148,6 +148,7 @@
     <Compile Include="Controllers\ParametroController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\UsuarioLoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,6 +171,7 @@
     <Compile Include="Models\SubCategoria.cs" />
     <Compile Include="Models\TipoProducto.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\UsuarioLogin.cs" />
     <Compile Include="Models\Valor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -259,6 +261,7 @@
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Material\Editar.cshtml" />
     <Content Include="Views\Material\Registrar.cshtml" />
+    <Content Include="Views\Login\UsuarioLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
