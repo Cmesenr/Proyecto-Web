@@ -1,15 +1,18 @@
-﻿$(document).ready(function (e) {
+﻿
+$(document).ready(function (e) {
     $('#ModalConfirm').on('show.bs.modal', function (e) {
         var id = $(e.relatedTarget).data().id;
         $(e.currentTarget).find('#btnModalborrar').val(id);
     });
+    $('#modal').on('hidden.bs.modal', function (e) {
+        $("#modal").removeData('bs.modal');
+        parent.document.location = parent.document.location;
+    });
 });
 
 $(document).ready(function ()
-{  //Listar Parametros
-    $('#ListaParametroList').on("change", function () {
-        listar($(this).val());
-    });
+{
+    $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
     //Registrar Parametros
     $('#ListaParametroRegis').on("change", function () {
         if ($('#ListaParametroRegis').val() == 5) {
