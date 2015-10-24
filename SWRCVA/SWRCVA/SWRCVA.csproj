@@ -262,6 +262,8 @@
     <Content Include="Views\Material\Editar.cshtml" />
     <Content Include="Views\Material\Registrar.cshtml" />
     <Content Include="Views\Login\UsuarioLogin.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\Registrar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

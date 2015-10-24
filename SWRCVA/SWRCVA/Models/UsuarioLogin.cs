@@ -12,8 +12,8 @@ namespace SWRCVA.Models
 
         }
 
-        public string UserId { get; set; }
+        public string IdUsuario { get; set; }
 
-        public string Password { get; set; }
+        public string Contraseña { get; set; }
     }
 }

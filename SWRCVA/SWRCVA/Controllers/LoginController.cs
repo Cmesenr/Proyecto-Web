@@ -15,18 +15,16 @@ namespace SWRCVA.Controllers
         // GET: /UserLogin/
         public ActionResult UsuarioLogin()
         {
-            //UsuarioLogin usuarioLogin = new UsuarioLogin();
-            return View(/*usuarioLogin*/);
+            return View();
         }
 
         [HttpPost]
         public ActionResult UsuarioLogin(UsuarioLogin usuarioLogin)
         {
             /*Getting data from database for user validation*/
-            var usuarioActual = (from usuario in db.Usuario
-                                  where usuario.IdUsuario == usuarioLogin.UserId
-                                  && usuario.Contraseña == usuario.Contraseña
-                                  select usuario);
+            var usuarioActual = from s in db.Usuario.Where(s => (s.IdUsuario == usuarioLogin.IdUsuario) && (s.Contraseña == usuarioLogin.Contraseña))
+                                select s.IdUsuario;
+
             if (usuarioActual.Count() > 0)
             {
                 /*Redirect user to success apge after successfull login*/
@@ -36,7 +34,8 @@ namespace SWRCVA.Controllers
             {
                 ViewBag.Message = 0;
             }
-            return View(usuarioActual);
+
+            return View();
         }
     }
 }
