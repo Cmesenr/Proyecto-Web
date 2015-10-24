@@ -1,4 +1,8 @@
-﻿
+﻿$(function () {
+    $("#EditarMaterialform").on('submit', function (e) {
+        $("#DropDownCat").removeAttr("disabled");
+    });
+});
 $(document).ready(function (e) {
     CambiarCat();
     $('#modal').on('hidden.bs.modal', function (e) {
@@ -6,10 +10,8 @@ $(document).ready(function (e) {
         parent.document.location = parent.document.location;
        RefrescarLista();
     });
-    
-
-    
 });
+
 $("#ColorMaterial").on("click", "#btnAgregarColor", function () {
     if ($("#DropDownColor").val() != "" && $("#txtCostoMat").val() != "") {
         var params = { IdColor: $("#DropDownColor").val(), Costo: $("#txtCostoMat").val() };
@@ -118,6 +120,7 @@ function RefrescarLista() {
     });
 
 }
+
 
 
     

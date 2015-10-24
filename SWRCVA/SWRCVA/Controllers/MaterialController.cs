@@ -196,7 +196,7 @@ namespace SWRCVA.Controllers
                         else
                         {
                             ModelState.AddModelError("ColorMaterial", "Debe registrar al menos un Color.");
-                            return View(material);
+                            return PartialView(material);
                         }
                     }
                    
