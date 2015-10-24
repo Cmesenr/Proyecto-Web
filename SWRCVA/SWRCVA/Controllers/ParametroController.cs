@@ -17,7 +17,7 @@ namespace SWRCVA.Controllers
 
             if (tabla != null)
             {
-                TempData["Currenrtable"] = tabla;
+                Session["Currentabla"] = tabla;
             }
            
             ViewBag.CurrentSort = sortOrder;
@@ -36,9 +36,9 @@ namespace SWRCVA.Controllers
             var ParametroResult = Parametros.AsQueryable();
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            if (tabla == null&& TempData["Currenrtable"]!=null)
+            if (tabla == null&& Session["Currentabla"] != null)
             {
-                tabla =(int)TempData["Currenrtable"];
+                tabla =(int)Session["Currentabla"];
             }
             switch (tabla)
             {
@@ -240,7 +240,7 @@ namespace SWRCVA.Controllers
                     pageNumber = (page ?? 1);
                     return View(ParametroResult.ToPagedList(pageNumber, pageSize));
             }
-           
+
             return View(ParametroResult.ToPagedList(pageNumber, pageSize));
             
         }
@@ -435,9 +435,10 @@ namespace SWRCVA.Controllers
             }
         }
         // GET: Parametro/Editar/5
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int id)
         {
-            int tabla = (int)TempData["Currenrtable"];
+            int tabla = (int)Session["Currentabla"];
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             Parametro para = new Parametro();
             switch (tabla) { 
@@ -508,6 +509,7 @@ namespace SWRCVA.Controllers
         {
             try
             {
+                parametrop.parametro= (int)Session["Currentabla"];
                 ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
                 if (!ModelState.IsValidField("CategoriaId") && parametrop.parametro != 5 || !ModelState.IsValidField("Porcentaje") && parametrop.parametro != 6 || ModelState.IsValid)
                 {
@@ -583,7 +585,7 @@ namespace SWRCVA.Controllers
         // GET: Parametro/Delete/5  
         public void Eliminar(int id)
         {
-            int tabla = (int)TempData["Currenrtable"];
+            int tabla = (int)Session["Currentabla"];
             switch (tabla)
             {
                 case 1:

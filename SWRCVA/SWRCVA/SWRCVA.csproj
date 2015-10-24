@@ -216,6 +216,7 @@
     <Content Include="Scripts\FuncionesModalMaterial.js" />
     <Content Include="Scripts\FuncionesParametros.js" />
     <Content Include="Scripts\FuncionesProveedor.js" />
+    <Content Include="Scripts\jqBootstrapValidation.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

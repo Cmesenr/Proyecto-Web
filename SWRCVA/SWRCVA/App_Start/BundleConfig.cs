@@ -41,6 +41,9 @@ namespace SWRCVA
             
                 bundles.Add(new ScriptBundle("~/bundles/FuncionesModalMaterial").Include(
                 "~/Scripts/FuncionesModalMaterial.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jqBootstrapValidation").Include(
+              "~/Scripts/jqBootstrapValidation.js"));
+            
         }
     }
 }

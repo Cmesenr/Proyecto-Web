@@ -1,5 +1,5 @@
 ﻿
-$(document).ready(function () {
+$(document).ready(function (e) {
     CambiarCat();
     $('#modal').on('hidden.bs.modal', function (e) {
         $("#modal").removeData('bs.modal');     
