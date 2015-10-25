@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Listar";
 }
-<h2>Material</h2>
+<h2>Materiales</h2>
 <p>
     <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Material")'" class="btn btn-info">Registrar Nuevo</button>
     
@@ -20,7 +20,7 @@
                 <td>
                     @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
                 </td>
-                <td><input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+                <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
             </tr>
         </table>
     </p>
@@ -66,7 +66,7 @@
             </td>
             <td>
                 <button id="btnEditarMaterial" data-id="@item.IdMaterial" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-                <button id="btnBorrarMaterial"data-toggle="modal" data-target="#ModalConfirm" data-id="@item.IdMaterial"  type="button" class="btn btn-danger delete">Borrar</button>
+                <button id="btnBorrarMaterial"data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.IdMaterial"  type="button" class="btn btn-danger delete">Borrar</button>
             </td>
         </tr>
     }
@@ -93,7 +93,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                 <h4 class="modal-title">Borrar</h4>
             </div>
             <div class="modal-body">
-                <p>Esta seguro que desea borrar el material?</p>
+                <center><p id="TextModal"></p></center>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn">Cancel</button>

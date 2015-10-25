@@ -254,9 +254,7 @@
     <Content Include="Views\Proveedor\Index.cshtml" />
     <Content Include="Views\Proveedor\Registrar.cshtml" />
     <Content Include="Views\Proveedor\Editar.cshtml" />
-    <Content Include="Views\Proveedor\Borrar.cshtml" />
     <Content Include="Views\Cliente\Index.cshtml" />
-    <Content Include="Views\Cliente\Borrar.cshtml" />
     <Content Include="Views\Cliente\Editar.cshtml" />
     <Content Include="Views\Cliente\Registrar.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />

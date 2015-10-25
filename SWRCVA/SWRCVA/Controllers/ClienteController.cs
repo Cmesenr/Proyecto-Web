@@ -49,7 +49,7 @@ namespace SWRCVA.Controllers
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 5;
             int pageNumber = (page ?? 1);
             return View(clientes.ToPagedList(pageNumber, pageSize));
         }
@@ -82,6 +82,7 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Cliente/Editar/5
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
             if (id == null)
@@ -93,7 +94,7 @@ namespace SWRCVA.Controllers
             {
                 return HttpNotFound();
             }
-            return View(cliente);
+            return PartialView(cliente);
         }
 
         // POST: Cliente/Editar/5

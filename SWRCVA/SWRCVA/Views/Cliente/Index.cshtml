@@ -1,8 +1,6 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<SWRCVA.Models.Cliente>
-@section Scripts {
-    @Scripts.Render("~/bundles/FuncionesCliente")
-}
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -12,13 +10,22 @@
 <h2>Clientes</h2>
 
 <p>
-    @Html.ActionLink("Registrar nuevo", "Registrar")
+    <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Cliente")'" class="btn btn-info">Registrar Nuevo</button>
 </p>
-@using (Html.BeginForm("Index", "Cliente", FormMethod.Get))
+@using (Html.BeginForm("Index", "Proveedor", FormMethod.Get))
 {
     <p>
-        Buscar por nombre: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
+        <table>
+            <tr>
+                <td>
+                    Buscar por nombre:
+                </td>
+                <td>
+                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                </td>
+                <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+            </tr>
+        </table>
     </p>
 }
 <table class="table">
@@ -68,9 +75,8 @@
                 }
             </td>
             <td>
-                @Html.ActionLink("Editar", "Editar", new { id = item.IdCliente }) |
-                @Html.ActionLink("Borrar", "Borrar", new { id = item.IdCliente },
-                 new { onclick = "return EliminarCliente(" + item.IdCliente + ");" })
+                <button id="btnEditarMaterial" data-id="@item.IdCliente" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+                <button id="btnBorrarMaterial" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.Nombre" data-id="@item.IdCliente" type="button" class="btn btn-danger delete">Borrar</button>
             </td>
         </tr>
     }
@@ -81,3 +87,29 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@section Scripts {
+    @Scripts.Render("~/bundles/FuncionesCliente")
+}
+
+<div class="modal fade" id="modal" role="dialog">
+</div>
+<div class="modal fade" id="ModalConfirm" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Borrar</h4>
+            </div>
+            <div class="modal-body">
+                <center><p id="TextModal"></p></center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return EliminarCliente(this.value)" class="btn btn-primary">Continuar</button>
+            </div>
+        </div>
+
+    </div>
+</div>

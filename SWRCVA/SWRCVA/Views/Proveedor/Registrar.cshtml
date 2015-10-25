@@ -48,15 +48,17 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Estado", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Estado, (new SelectList(new List<Object>{
-                    new { value = 1 , text = "Activo", selected=true, },
-                    new { value = 0 , text = "Inactivo" }
-                        },
+                @Html.DropDownListFor(model => model.Estado, (new SelectList(
+                  new List<Object>{
+                      new { value = "" , text = "Seleccione"  },
+                       new { value = 1 , text = "Activo"  },
+                       new { value = 0 , text = "Inactivo" }
+                    },
                   "value",
-                  "text"
-                  )), new { @class = "form-control", id = "ListaActivo" })
+                  "text",
+                   2)), new { @class = "form-control", @required = "required", title = "El campo Estado es necesario" })
                 @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,16 +73,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Registrar" class="btn btn-default" />
+                <input type="submit" value="Registrar" class="btn btn-primary edit" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <button onclick="location.href='@Url.Action("Index")'" class="btn btn-info">Regresar a la Lista</button>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
