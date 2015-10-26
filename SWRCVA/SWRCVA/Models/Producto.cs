@@ -18,13 +18,13 @@ namespace SWRCVA.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdProducto { get; set; }
 
         [Required]
         [StringLength(100)]
         public string Nombre { get; set; }
-
+        [Required]
         public int IdTipoProducto { get; set; }
 
         [Required]

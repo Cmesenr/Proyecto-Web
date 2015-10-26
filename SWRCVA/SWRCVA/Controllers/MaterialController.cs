@@ -55,11 +55,6 @@ namespace SWRCVA.Controllers
             return View(Materiales.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Material/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
         // GET: Material/Create
         public ActionResult Registrar()
@@ -68,12 +63,12 @@ namespace SWRCVA.Controllers
             ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
             ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
-            Material objMat = new Material();
-            return PartialView();
+            return View();
         }
 
-        // POST: Material/Create
+        // POST: Material/Registrar
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Registrar(Material material)
         {
             try
@@ -135,6 +130,10 @@ namespace SWRCVA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Material material = db.Material.Find(id);
+            if (material == null)
+            {
+                return HttpNotFound();
+            }
             if (material.IdCatMat!=1)
             {
                 
@@ -149,10 +148,6 @@ namespace SWRCVA.Controllers
                 }
                 TempData["ListaColores"] = Listacolores;
             }
-            if (material == null)
-            {
-                return HttpNotFound();
-            }
             return PartialView(material);
         }
 
@@ -164,10 +159,6 @@ namespace SWRCVA.Controllers
                 ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
                 ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
                 ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
-                if (id ==null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
                     try
                     {
                 if (ModelState.IsValid)
@@ -177,7 +168,7 @@ namespace SWRCVA.Controllers
                     db.SaveChanges();
                     if (material.IdCatMat != 1)
                     {
-                        foreach (ColorMaterial item in db.ColorMaterial.ToList())
+                        foreach (ColorMaterial item in material.ColorMaterial.ToList())
                         {   
                             db.ColorMaterial.Attach(item);
                             db.ColorMaterial.Remove(item);
@@ -228,22 +219,6 @@ namespace SWRCVA.Controllers
             }
 
             return RedirectToAction("Index");
-        }
-
-        // POST: Material/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
  
         public JsonResult AgregarColor(int IdColor, decimal Costo)
@@ -315,6 +290,14 @@ namespace SWRCVA.Controllers
         public void RefrescarLista()
         {
             TempData["ListaColores"] = null;
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

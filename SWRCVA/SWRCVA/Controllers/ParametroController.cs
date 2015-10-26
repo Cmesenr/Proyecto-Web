@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -244,119 +245,7 @@ namespace SWRCVA.Controllers
             return View(ParametroResult.ToPagedList(pageNumber, pageSize));
             
         }
-    /*    [HttpGet]
-        public string ListarParametros(int tabla)
-        {
-            List<Parametro> para = new List<Parametro>();
-            string resultado = "";
-            switch (tabla)
-            {
-                case 1:
-                    List<CategoriaMat> cat = new List<CategoriaMat>();
-                    cat = db.CategoriaMat.ToList();
-                   
-                    foreach(var item in cat)
-                    {
-                        Parametro p1 = new Parametro();
-                        p1.Id = item.IdCategoria;
-                        p1.Nombre = item.Nombre;
-                        if(item.Estado==1)
-                            p1.Estado = "Activo";
-                        else
-                            p1.Estado = "Inactivo";
-                        para.Add(p1);
-                    }
-                    
-                    break;
-                case 2:
-                    List<ColorMat> color = new List<ColorMat>();
-                    color = db.ColorMat.ToList();
-                    
-                    foreach (var item in color)
-                    {
-                        Parametro p1 = new Parametro();
-                        p1.Id = item.IdColor;
-                        p1.Nombre = item.Nombre;
-                        if (item.Estado == 1)
-                            p1.Estado = "Activo";
-                        else
-                            p1.Estado = "Inactivo";
-                        para.Add(p1);
-                    }
-                    break;
-                case 3:
-                    List<TipoProducto> tipo = new List<TipoProducto>();
-                    tipo = db.TipoProducto.ToList();
-                    
-                    foreach (var item in tipo)
-                    {
-                        Parametro p3 = new Parametro();
-                        p3.Id = item.IdTipoProducto;
-                        p3.Nombre = item.Nombre;
-                        if (item.Estado == 1)
-                            p3.Estado = "Activo";
-                        else
-                            p3.Estado = "Inactivo";
-                        para.Add(p3);
-                    }
-                    break;
-                case 4:
-                    List<Rol> rol = new List<Rol>();
-                    rol = db.Rol.ToList();
-                    
-                    foreach (var item in rol)
-                    {
-                        Parametro p4 = new Parametro();
-                        p4.Id = item.IdRol;
-                        p4.Nombre = item.Nombre;
-                        if (item.Estado == 1)
-                            p4.Estado = "Activo";
-                        else
-                            p4.Estado = "Inactivo";
-                        para.Add(p4);
-                    }
-                    break;
-                case 5:
-                    List<SubCategoria> sub = new List<SubCategoria>();
-                    sub = db.SubCategoria.ToList();
-                  
-                    foreach (var item in sub)
-                    {
-                        Parametro p5 = new Parametro();
-                        p5.Id = item.IdSubCatMat;
-                        p5.Nombre = item.Nombre;
-                        if (item.Estado == 1)
-                            p5.Estado = "Activo";
-                        else
-                            p5.Estado = "Inactivo";
-                        para.Add(p5);
-                    }
-                    break;
-                case 6:
-                    List<Valor> valor = new List<Valor>();
-                    valor = db.Valor.ToList();
-                    
-                    foreach (var item in valor)
-                    {
-                        Parametro p6 = new Parametro();
-                        p6.Id = item.IdValor;
-                        p6.Nombre = item.Nombre;
-                        if (item.Estado == 1)
-                            p6.Estado = "Activo";
-                        else
-                            p6.Estado = "Inactivo";
-                        para.Add(p6);
-                    }
-                    break;
-            }
-            resultado= "<tr><th>Identificador</th><th>Nombre</th><th>Estado</th><th></th></tr>";
-        foreach(var item in para)
-            {
-                resultado += "<tr><td>" + item.Id + "</td><td>" + item.Nombre + "</td><td>" + item.Estado +
-                    "</td><td><a href='/Parametro/Editar/?id="+ item.Id+"&parametro="+id+ "'>Editar  </a>| &nbsp<a  onclick='EliminarParametro("+ item.Id+","+id+");'>Borrar</a></td></tr> ";
-            }
-            return resultado;
-        }*/
+   
 
         // GET: Parametro/Registrar
         public ActionResult Registrar()
@@ -436,8 +325,13 @@ namespace SWRCVA.Controllers
         }
         // GET: Parametro/Editar/5
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Editar(int id)
+        public ActionResult Editar(int? id)
         {
+            if (id == null|| Session["Currentabla"] == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
             int tabla = (int)Session["Currentabla"];
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             Parametro para = new Parametro();
@@ -445,6 +339,10 @@ namespace SWRCVA.Controllers
                 case 1:
                     CategoriaMat cat = new CategoriaMat();
                     cat = db.CategoriaMat.Find(id);
+                    if (cat == null)
+                    {
+                        return HttpNotFound();
+                    }
                     para.parametro = 1;
                     para.Id = cat.IdCategoria;
                     para.Nombre = cat.Nombre;
@@ -455,6 +353,10 @@ namespace SWRCVA.Controllers
                 case 2:
                     ColorMat color = new ColorMat();
                     color = db.ColorMat.Find(id);
+                    if (color == null)
+                    {
+                        return HttpNotFound();
+                    }
                     para.parametro = 2;
                     para.Id = color.IdColor;
                     para.Nombre = color.Nombre;
@@ -464,6 +366,10 @@ namespace SWRCVA.Controllers
                 case 3:
                     TipoProducto tipo = new TipoProducto();
                     tipo = db.TipoProducto.Find(id);
+                    if (tipo == null)
+                    {
+                        return HttpNotFound();
+                    }
                     para.parametro = 3;
                     para.Id = tipo.IdTipoProducto;
                     para.Nombre = tipo.Nombre;
@@ -473,6 +379,10 @@ namespace SWRCVA.Controllers
                 case 4:
                     Rol rolp = new Rol();
                     rolp = db.Rol.Find(id);
+                    if (rolp == null)
+                    {
+                        return HttpNotFound();
+                    }
                     para.parametro = 4;
                     para.Id = rolp.IdRol;
                     para.Nombre = rolp.Nombre;
@@ -482,6 +392,10 @@ namespace SWRCVA.Controllers
                 case 5:
                     SubCategoria sub = new SubCategoria();
                     sub = db.SubCategoria.Find(id);
+                    if (sub == null)
+                    {
+                        return HttpNotFound();
+                    }
                     para.parametro = 5;
                     para.Id = sub.IdSubCatMat;
                     para.CategoriaId = sub.IdCatMat;
@@ -492,6 +406,10 @@ namespace SWRCVA.Controllers
                 case 6:
                     Valor val = new Valor();
                     val = db.Valor.Find(id);
+                    if (val == null)
+                    {
+                        return HttpNotFound();
+                    }
                     para.parametro = 6;
                     para.Id = val.IdValor;
                     para.Porcentaje = (val.Porcentaje*100);
@@ -582,49 +500,87 @@ namespace SWRCVA.Controllers
             }
         }
 
-        // GET: Parametro/Delete/5  
-        public void Eliminar(int id)
+        [HttpPost]
+        public ActionResult Eliminar(int? id)
         {
             int tabla = (int)Session["Currentabla"];
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             switch (tabla)
             {
                 case 1:
                     CategoriaMat cat = new CategoriaMat();
                     cat = db.CategoriaMat.Find(id);
+                    if (cat == null)
+                    {
+                        return HttpNotFound();
+                    }
                     db.Entry(cat).Entity.Estado =0;
                     db.SaveChanges();
                     break;
                 case 2:
                     ColorMat color = new ColorMat();
                     color=db.ColorMat.Find(id);
+                    if (color == null)
+                    {
+                        return HttpNotFound();
+                    }
                     db.Entry(color).Entity.Estado=0;
                     db.SaveChanges();
                     break;
                 case 3:
                     TipoProducto tipo = new TipoProducto();
                     tipo = db.TipoProducto.Find(id);
+                    if (tipo == null)
+                    {
+                        return HttpNotFound();
+                    }
                     db.Entry(tipo).Entity.Estado = 0;
                     db.SaveChanges();
                     break;
                 case 4:
                     Rol rolp = new Rol();
                     rolp = db.Rol.Find(id);
+                    if (rolp == null)
+                    {
+                        return HttpNotFound();
+                    }
                     db.Entry(rolp).Entity.Estado = 0;
                     db.SaveChanges();
                     break;
                 case 5:
                     SubCategoria sub = new SubCategoria();
                     sub = db.SubCategoria.Find(id);
+                    if (sub == null)
+                    {
+                        return HttpNotFound();
+                    }
                     db.Entry(sub).Entity.Estado = 0;
                     db.SaveChanges();
                     break;
                 case 6:
                     Valor val = new Valor();
                     val = db.Valor.Find(id);
+                    if (val == null)
+                    {
+                        return HttpNotFound();
+                    }
                     db.Entry(val).Entity.Estado = 0;
                     db.SaveChanges();
                     break;
             }
+
+           return RedirectToAction("Index");
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
     }

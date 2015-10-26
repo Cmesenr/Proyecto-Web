@@ -72,11 +72,11 @@ function EliminarParametro(valor) {
     $.ajax({
         cache: false,
         url: "/Parametro/Eliminar",
-        type: "GET",
+        type: "Post",
         data: params,
         contentType: "application/json; charset=utf-8",
         success: function (result) {
-            parent.document.location = parent.document.location;
+
         }
     })
 }

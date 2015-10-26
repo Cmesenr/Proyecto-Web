@@ -15,7 +15,7 @@
 
             <h4>Materiales</h4>
             <hr />
-                <form role="form" data-toggle="validator">
+              
                     <div class="form-horizontal">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
@@ -106,7 +106,6 @@
                             </div>
                         </div>
                     </div>
-                </form>
     }
 <div>
     <button onclick="location.href='@Url.Action("Index")',RefrescarLista()" class="btn btn-info">Regresar a la Lista</button>

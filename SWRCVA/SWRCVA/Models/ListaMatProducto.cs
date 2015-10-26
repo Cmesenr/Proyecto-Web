@@ -23,6 +23,9 @@ namespace SWRCVA.Models
         [StringLength(15)]
         public string Usuario { get; set; }
 
+        [NotMapped]
+        public string NombreMaterial { get; set; }
+
         public virtual Material Material { get; set; }
 
         public virtual Producto Producto { get; set; }
