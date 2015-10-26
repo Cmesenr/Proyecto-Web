@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿
+
+$(function () {
     $("#EditarMaterialform").on('submit', function (e) {
         $("#DropDownCat").removeAttr("disabled");
     });
@@ -10,6 +12,11 @@ $(document).ready(function (e) {
         parent.document.location = parent.document.location;
        RefrescarLista();
     });
+
+    $(window).unload(function () {
+        RefrescarLista();
+    });
+
 });
 
 $("#ColorMaterial").on("click", "#btnAgregarColor", function () {

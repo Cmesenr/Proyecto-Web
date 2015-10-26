@@ -28,4 +28,16 @@ function EliminarMaterial(valor) {
    });
 
 }
+function RefrescarLista() {
+    $.ajax({
+        cache: false,
+        url: "/Material/RefrescarLista",
+        type: "GET",
+        data: {},
+        contentType: "application/json; charset=utf-8",
+        success: function (result) {
 
+        }
+    });
+
+}

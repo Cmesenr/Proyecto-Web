@@ -34,23 +34,29 @@
     $("#SubCatSelect").hide();
     $("#ProductMaterial").on("change", "#DropDownCategoria", function () {
         var id = $("#DropDownCategoria").val();
-
+        
         $.ajax({
             cache:false,
-            url:"Producto/CargarSubcategoria",
+            url:"/Producto/CargarSubcategoria",
             type:"get",
+            data: { id: id },
+            dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data:{id: id},
-            success: function(resultado){
-                var  items = "<option value=''>Seleccione SubCategoria</option>";
-
-                for (var i = 0; i < resultado.length; i++) {
-                    items += "<option value='" + resultado.IdSubCatMat + "'>" + resultado.Nombre + "</option>";
+             success: function (data) {
+                if (typeof (data) == "string") {
+                    alert(data);
+                }
+                var  items = "<option value=''>SubCategoria..</option>";
+                for (var i = 0; i < data.length; i++) {
+                   
+                    items += "<option value='" + data[i].IdSubCatMat + "'>" + data[i].Nombre + "</option>";
                 }
                 $("#SubCatSelect").html(items);
                 $("#SubCatSelect").show();
-            }
-            
+            },
+            error: function (result) {
+            alert('ERROR ' + result.status + ' ' + result.statusText);
+        }
             
         });
     })

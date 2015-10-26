@@ -168,7 +168,12 @@ namespace SWRCVA.Controllers
                     db.SaveChanges();
                     if (material.IdCatMat != 1)
                     {
-                        foreach (ColorMaterial item in material.ColorMaterial.ToList())
+                        var colores = from s in db.ColorMaterial
+                                           select s;
+                        colores = colores.Where(s => s.IdMaterial == id
+                                                            );
+                        Listacolores = colores.ToList();
+                        foreach (ColorMaterial item in Listacolores)
                         {   
                             db.ColorMaterial.Attach(item);
                             db.ColorMaterial.Remove(item);

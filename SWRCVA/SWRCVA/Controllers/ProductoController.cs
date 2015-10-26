@@ -252,9 +252,17 @@ namespace SWRCVA.Controllers
         {
            var SubCategoria = from s in db.SubCategoria
                        select s;
-            SubCategoria = SubCategoria.Where(s => s.IdCatMat==id                                         
-                                                );
-            return Json(SubCategoria.ToList(),
+            SubCategoria = SubCategoria.Where(s => s.IdCatMat == id);
+            List<SubCategoria> listSubCat = new List<SubCategoria>();
+            foreach (var item in SubCategoria.ToList())
+            {
+                SubCategoria s = new Models.SubCategoria();
+                s.IdSubCatMat = item.IdSubCatMat;
+                s.Nombre = item.Nombre;
+                listSubCat.Add(s);
+            }
+            
+            return Json(listSubCat.ToList(),
                JsonRequestBehavior.AllowGet);
         }
 
