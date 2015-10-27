@@ -21,14 +21,20 @@ namespace SWRCVA.Controllers
         [HttpPost]
         public ActionResult Login(Login login)
         {
-            //var usuarioActual = from s in db.Usuario.Where(s => (s.IdUsuario == login.IdUsuario) && (s.Contraseña == login.Contraseña))
-            //                    select s.IdUsuario;
-
             Usuario usuarioActual = db.Usuario.Find(login.IdUsuario);
 
-            Session["UsuarioActual"] = usuarioActual.IdUsuario.ToString();
+            if (usuarioActual != null && usuarioActual.Contraseña == login.Contraseña)
+            {
+                Session["UsuarioActual"] = usuarioActual.IdUsuario.ToString();
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ViewBag.Message = "¡Lo sentimos datos no válidos, por favor intentelo de nuevo!";
+
+                return View();
+            }
         }
 
         //
