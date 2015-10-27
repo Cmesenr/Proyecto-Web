@@ -9,33 +9,36 @@ namespace SWRCVA.Controllers
 {
     public class LoginController : Controller
     {
-        /*Create instance of entity model*/
         DataContext db = new DataContext();
 
-        // GET: /UserLogin/
+        // GET: /Login/
         public ActionResult Login()
         {
             return View();
         }
 
+        // POST: /Login/
         [HttpPost]
         public ActionResult Login(Login login)
         {
-            /*Getting data from database for user validation*/
-            var usuarioActual = from s in db.Usuario.Where(s => (s.IdUsuario == login.IdUsuario) && (s.Contraseña == login.Contraseña))
-                                select s.IdUsuario;
+            //var usuarioActual = from s in db.Usuario.Where(s => (s.IdUsuario == login.IdUsuario) && (s.Contraseña == login.Contraseña))
+            //                    select s.IdUsuario;
 
-            if (usuarioActual.Count() > 0)
-            {
-                /*Redirect user to success apge after successfull login*/
-                ViewBag.Message = 1;
-            }
-            else
-            {
-                ViewBag.Message = 0;
-            }
+            Usuario usuarioActual = db.Usuario.Find(login.IdUsuario);
 
-            return View();
+            Session["UsuarioActual"] = usuarioActual.IdUsuario.ToString();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        //
+        // POST: /Login/CerrarSession
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CerrarSession()
+        {
+            Session["UsuarioActual"] = null;
+            return RedirectToAction("Index", "Home");
         }
     }
 }
