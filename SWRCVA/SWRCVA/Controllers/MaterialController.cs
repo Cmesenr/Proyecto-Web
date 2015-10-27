@@ -73,8 +73,8 @@ namespace SWRCVA.Controllers
         {
             try
             {
-                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-                ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
+                //ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+               // ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
                 ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
                 ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
                 if (ModelState.IsValid)
@@ -143,7 +143,7 @@ namespace SWRCVA.Controllers
                     color.IdMaterial = item.IdMaterial;
                     color.IdColorMat = item.IdColorMat;
                     color.Costo = item.Costo;
-                    color.NombreMaterial = item.ColorMat.Nombre;
+                    color.NombreMaterial = item.ColorMat.Nombre.Trim();
                     Listacolores.Add(color);
                 }
                 TempData["ListaColores"] = Listacolores;
@@ -238,7 +238,7 @@ namespace SWRCVA.Controllers
                 ColorMaterial colormaterial = new ColorMaterial();
                 colormaterial.IdColorMat = IdColor;
                 colormaterial.Costo = Costo;
-                colormaterial.NombreMaterial = db.ColorMat.Find(IdColor).Nombre;
+                colormaterial.NombreMaterial = db.ColorMat.Find(IdColor).Nombre.Trim();
                 if (Listacolores.Count()==0) { Listacolores.Add(colormaterial); }
                 else
                 {
@@ -291,7 +291,40 @@ namespace SWRCVA.Controllers
                 JsonRequestBehavior.AllowGet);
 
         }
+        public JsonResult CargarSubcategoria(int id)
+        {
+            var SubCategoria = from s in db.SubCategoria
+                               select s;
+            SubCategoria = SubCategoria.Where(s => s.IdCatMat == id);
+            List<SubCategoria> listSubCat = new List<SubCategoria>();
+            foreach (var item in SubCategoria.ToList())
+            {
+                SubCategoria s = new Models.SubCategoria();
+                s.IdSubCatMat = item.IdSubCatMat;
+                s.Nombre = item.Nombre;
+                listSubCat.Add(s);
+            }
 
+            return Json(listSubCat.ToList(),
+               JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CargarColores(int id)
+        {
+            var Colores = from s in db.ColorMat
+                          select s;
+            Colores = Colores.Where(s => s.IdCatMaterial == id);
+            List<ColorMat> listcolor = new List<ColorMat>();
+            foreach (var item in Colores.ToList())
+            {
+                ColorMat s = new Models.ColorMat();
+                s.IdColor = item.IdColor;
+                s.Nombre = item.Nombre;
+                listcolor.Add(s);
+            }
+
+            return Json(listcolor.ToList(),
+               JsonRequestBehavior.AllowGet);
+        }
         public void RefrescarLista()
         {
             TempData["ListaColores"] = null;

@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @required = "required", title = "El campo Nombre es necesario" } })
+                                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @required = "required", title = "El campo Nombre es necesario", maxlength = "100" } })
                                         @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -43,11 +43,11 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColorMaterial, "Selecione", new { @class = "form-control", id = "DropDownColor" })
+                                                    <select id="ColorMatselect" class="form-control" name="SubCat"></select>
                                                 </td>
                                                 <td>   ₡</td>
                                                 <td>
-                                                    @Html.TextBox("Costo_Material", "", new { @class = "form-control", id = "txtCostoMat", placeholder = "Costo", style = "width:100px" })
+                                                    @Html.TextBox("Costo_Material", "", new { @class = "form-control", id = "txtCostoMat", type="number", placeholder = "Costo", style = "width:100px" })
                                                 </td>
                                                 <td>&nbsp;&nbsp;<input type="button" id="btnAgregarColor" class="btn-success" value="+" /></td>
                                             </tr>

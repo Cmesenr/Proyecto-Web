@@ -57,7 +57,7 @@ namespace SWRCVA.Controllers
 
                         Parametro p1 = new Parametro();
                         p1.Id = item.IdCategoria;
-                        p1.Nombre = item.Nombre;
+                        p1.Nombre = item.Nombre.Trim();
                         p1.Estado = item.Estado.ToString();
                         Parametros.Add(p1);
                     }
@@ -77,6 +77,7 @@ namespace SWRCVA.Controllers
                      pageNumber = (page ?? 1);
                     return View(ParametroResult.ToPagedList(pageNumber, pageSize));
                 case 2:
+                    ViewBag.CatVisible = 1;
                     ViewBag.CurrentFilter = searchString;
                     var colorMaterial = from s in db.ColorMat
                                      select s;
@@ -90,7 +91,8 @@ namespace SWRCVA.Controllers
 
                         Parametro p1 = new Parametro();
                         p1.Id = item.IdColor;
-                        p1.Nombre = item.Nombre;
+                        p1.NombreCat = item.CategoriaMat.Nombre.Trim();
+                        p1.Nombre = item.Nombre.Trim();
                         p1.Estado = item.Estado.ToString();
                         Parametros.Add(p1);
                     }
@@ -122,7 +124,7 @@ namespace SWRCVA.Controllers
 
                         Parametro p1 = new Parametro();
                         p1.Id = item.IdTipoProducto;
-                        p1.Nombre = item.Nombre;
+                        p1.Nombre = item.Nombre.Trim();
                         p1.Estado = item.Estado.ToString();
                         Parametros.Add(p1);
                     }
@@ -155,7 +157,7 @@ namespace SWRCVA.Controllers
 
                         Parametro p1 = new Parametro();
                         p1.Id = item.IdRol;
-                        p1.Nombre = item.Nombre;
+                        p1.Nombre = item.Nombre.Trim();
                         p1.Estado = item.Estado.ToString();
                         Parametros.Add(p1);
                     }
@@ -176,6 +178,7 @@ namespace SWRCVA.Controllers
                     return View(ParametroResult.ToPagedList(pageNumber, pageSize));
                 case 5:
                     ViewBag.CurrentFilter = searchString;
+                    ViewBag.CatVisible = 1;
                     var subCategoria = from s in db.SubCategoria
                               select s;
                     if (!String.IsNullOrEmpty(searchString))
@@ -188,7 +191,8 @@ namespace SWRCVA.Controllers
 
                         Parametro p1 = new Parametro();
                         p1.Id = item.IdSubCatMat;
-                        p1.Nombre = item.Nombre;
+                        p1.NombreCat = item.CategoriaMat.Nombre.Trim();
+                        p1.Nombre = item.Nombre.Trim();
                         p1.Estado = item.Estado.ToString();
                         Parametros.Add(p1);
                     }
@@ -208,6 +212,7 @@ namespace SWRCVA.Controllers
                     pageNumber = (page ?? 1);
                     return View(ParametroResult.ToPagedList(pageNumber, pageSize));
                 case 6:
+                    ViewBag.PorcentVisible = 1;
                     ViewBag.CurrentFilter = searchString;
                     var valor = from s in db.Valor
                                        select s;
@@ -221,7 +226,8 @@ namespace SWRCVA.Controllers
 
                         Parametro p1 = new Parametro();
                         p1.Id = item.IdValor;
-                        p1.Nombre = item.Nombre;
+                        p1.Nombre = item.Nombre.Trim();
+                        p1.Porcentaje = item.Porcentaje;
                         p1.Estado = item.Estado.ToString();
                         Parametros.Add(p1);
                     }
@@ -260,55 +266,70 @@ namespace SWRCVA.Controllers
             try
             {
                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-                if (!ModelState.IsValidField("CategoriaId")&& parametrop.parametro!=5|| !ModelState.IsValidField("Porcentaje") && parametrop.parametro != 6 || ModelState.IsValid)
+                if(parametrop.parametro==5||parametrop.parametro==2)
+                {
+                    ModelState.Remove("Porcentaje");
+                }
+                if (parametrop.parametro == 6)
+                {
+                    ModelState.Remove("CategoriaId");            
+                }
+                if (parametrop.parametro != 6&& parametrop.parametro != 5 && parametrop.parametro != 2)
+                {
+                    ModelState.Remove("CategoriaId");
+                    ModelState.Remove("Porcentaje");
+                }
+
+                if (ModelState.IsValid)
                 {
                     switch (parametrop.parametro) {
                         case 1:
                             CategoriaMat cat = new CategoriaMat();
-                            cat.Nombre = parametrop.Nombre;
-                            cat.Usuario = parametrop.Usuario;
+                            cat.Nombre = parametrop.Nombre.Trim();
+                            cat.Usuario = parametrop.Usuario.Trim();
                             cat.Estado = Convert.ToInt32(parametrop.Estado);
                             db.CategoriaMat.Add(cat);
                             db.SaveChanges();
                             break;
                         case 2:
                             ColorMat color = new ColorMat();
-                            color.Nombre = parametrop.Nombre;
-                            color.Usuario = parametrop.Usuario;
+                            color.Nombre = parametrop.Nombre.Trim();
+                            color.IdCatMaterial = parametrop.CategoriaId;
+                            color.Usuario = parametrop.Usuario.Trim();
                             color.Estado = Convert.ToInt32(parametrop.Estado);
                             db.ColorMat.Add(color);
                             db.SaveChanges();
                             break;
                         case 3:
                             TipoProducto tipo = new TipoProducto();
-                            tipo.Nombre = parametrop.Nombre;
-                            tipo.Usuario = parametrop.Usuario;
+                            tipo.Nombre = parametrop.Nombre.Trim();
+                            tipo.Usuario = parametrop.Usuario.Trim();
                             tipo.Estado = Convert.ToInt32(parametrop.Estado);
                             db.TipoProducto.Add(tipo);
                             db.SaveChanges();
                             break;
                         case 4:
                             Rol rolp = new Rol();
-                            rolp.Nombre = parametrop.Nombre;
-                            rolp.Usuario = parametrop.Usuario;
+                            rolp.Nombre = parametrop.Nombre.Trim();
+                            rolp.Usuario = parametrop.Usuario.Trim();
                             rolp.Estado = Convert.ToInt32(parametrop.Estado);
                             db.Rol.Add(rolp);
                             db.SaveChanges();
                             break;
                         case 5:
                             SubCategoria sub = new SubCategoria();
-                            sub.Nombre = parametrop.Nombre;
+                            sub.Nombre = parametrop.Nombre.Trim();
                             sub.IdCatMat = parametrop.CategoriaId;
-                            sub.Usuario = parametrop.Usuario;
+                            sub.Usuario = parametrop.Usuario.Trim();
                             sub.Estado = Convert.ToInt32(parametrop.Estado);
                             db.SubCategoria.Add(sub);
                             db.SaveChanges();
                             break;
                         case 6:
                             Valor val = new Valor();
-                            val.Nombre = parametrop.Nombre;
+                            val.Nombre = parametrop.Nombre.Trim();
                             val.Porcentaje = (parametrop.Porcentaje)/100;
-                            val.Usuario = parametrop.Usuario;
+                            val.Usuario = parametrop.Usuario.Trim();
                             val.Estado = Convert.ToInt32(parametrop.Estado);
                             db.Valor.Add(val);
                             db.SaveChanges();
@@ -345,8 +366,8 @@ namespace SWRCVA.Controllers
                     }
                     para.parametro = 1;
                     para.Id = cat.IdCategoria;
-                    para.Nombre = cat.Nombre;
-                    para.Usuario = cat.Usuario;
+                    para.Nombre = cat.Nombre.Trim();
+                    para.Usuario = cat.Usuario.Trim();
                     para.Estado = cat.Estado.ToString();
 
                     break;
@@ -359,8 +380,9 @@ namespace SWRCVA.Controllers
                     }
                     para.parametro = 2;
                     para.Id = color.IdColor;
-                    para.Nombre = color.Nombre;
-                    para.Usuario = color.Usuario;
+                    para.Nombre = color.Nombre.Trim();
+                    para.CategoriaId = color.IdCatMaterial;
+                    para.Usuario = color.Usuario.Trim();
                     para.Estado = color.Estado.ToString();      
                     break;
                 case 3:
@@ -372,8 +394,8 @@ namespace SWRCVA.Controllers
                     }
                     para.parametro = 3;
                     para.Id = tipo.IdTipoProducto;
-                    para.Nombre = tipo.Nombre;
-                    para.Usuario = tipo.Usuario;
+                    para.Nombre = tipo.Nombre.Trim();
+                    para.Usuario = tipo.Usuario.Trim();
                     para.Estado = tipo.Estado.ToString();
                     break;
                 case 4:
@@ -385,8 +407,8 @@ namespace SWRCVA.Controllers
                     }
                     para.parametro = 4;
                     para.Id = rolp.IdRol;
-                    para.Nombre = rolp.Nombre;
-                    para.Usuario = rolp.Usuario;
+                    para.Nombre = rolp.Nombre.Trim();
+                    para.Usuario = rolp.Usuario.Trim();
                     para.Estado = rolp.Estado.ToString();
                     break;
                 case 5:
@@ -399,8 +421,8 @@ namespace SWRCVA.Controllers
                     para.parametro = 5;
                     para.Id = sub.IdSubCatMat;
                     para.CategoriaId = sub.IdCatMat;
-                    para.Nombre = sub.Nombre;
-                    para.Usuario = sub.Usuario;
+                    para.Nombre = sub.Nombre.Trim();
+                    para.Usuario = sub.Usuario.Trim();
                     para.Estado = sub.Estado.ToString();
                     break;
                 case 6:
@@ -413,8 +435,8 @@ namespace SWRCVA.Controllers
                     para.parametro = 6;
                     para.Id = val.IdValor;
                     para.Porcentaje = (val.Porcentaje*100);
-                    para.Nombre = val.Nombre;
-                    para.Usuario = val.Usuario;
+                    para.Nombre = val.Nombre.Trim();
+                    para.Usuario = val.Usuario.Trim();
                     para.Estado = val.Estado.ToString();
                     break;
             }
@@ -436,8 +458,8 @@ namespace SWRCVA.Controllers
                         case 1:
                             CategoriaMat cat = new CategoriaMat();
                             cat.IdCategoria = id;
-                            cat.Nombre = parametrop.Nombre;
-                            cat.Usuario = parametrop.Usuario;
+                            cat.Nombre = parametrop.Nombre.Trim();
+                            cat.Usuario = parametrop.Usuario.Trim();
                             cat.Estado = Convert.ToInt32(parametrop.Estado);
                             db.Entry(cat).State = EntityState.Modified;
                             db.SaveChanges();
@@ -445,8 +467,9 @@ namespace SWRCVA.Controllers
                         case 2:
                             ColorMat color = new ColorMat();
                             color.IdColor = id;
-                            color.Nombre = parametrop.Nombre;
-                            color.Usuario = parametrop.Usuario;
+                            color.Nombre = parametrop.Nombre.Trim();
+                            color.IdCatMaterial = parametrop.CategoriaId;
+                            color.Usuario = parametrop.Usuario.Trim();
                             color.Estado = Convert.ToInt32(parametrop.Estado);
                             db.Entry(color).State = EntityState.Modified;
                             db.SaveChanges();
@@ -454,8 +477,8 @@ namespace SWRCVA.Controllers
                         case 3:
                             TipoProducto tipo = new TipoProducto();
                             tipo.IdTipoProducto = id;
-                            tipo.Nombre = parametrop.Nombre;
-                            tipo.Usuario = parametrop.Usuario;
+                            tipo.Nombre = parametrop.Nombre.Trim();
+                            tipo.Usuario = parametrop.Usuario.Trim();
                             tipo.Estado = Convert.ToInt32(parametrop.Estado);
                             db.Entry(tipo).State = EntityState.Modified;
                             db.SaveChanges();
@@ -463,8 +486,8 @@ namespace SWRCVA.Controllers
                         case 4:
                             Rol rolp = new Rol();
                             rolp.IdRol = id;
-                            rolp.Nombre = parametrop.Nombre;
-                            rolp.Usuario = parametrop.Usuario;
+                            rolp.Nombre = parametrop.Nombre.Trim();
+                            rolp.Usuario = parametrop.Usuario.Trim();
                             rolp.Estado = Convert.ToInt32(parametrop.Estado);
                             db.Entry(rolp).State = EntityState.Modified;
                             db.SaveChanges();
@@ -472,9 +495,9 @@ namespace SWRCVA.Controllers
                         case 5:
                             SubCategoria sub = new SubCategoria();
                             sub.IdSubCatMat = id;
-                            sub.Nombre = parametrop.Nombre;
+                            sub.Nombre = parametrop.Nombre.Trim();
                             sub.IdCatMat = parametrop.CategoriaId;
-                            sub.Usuario = parametrop.Usuario;
+                            sub.Usuario = parametrop.Usuario.Trim();
                             sub.Estado = Convert.ToInt32(parametrop.Estado);
                             db.Entry(sub).State = EntityState.Modified;
                             db.SaveChanges();
@@ -482,9 +505,9 @@ namespace SWRCVA.Controllers
                         case 6:
                             Valor val = new Valor();
                             val.IdValor = id;
-                            val.Nombre = parametrop.Nombre;
+                            val.Nombre = parametrop.Nombre.Trim();
                             val.Porcentaje = (parametrop.Porcentaje) / 100;
-                            val.Usuario = parametrop.Usuario;
+                            val.Usuario = parametrop.Usuario.Trim();
                             val.Estado = Convert.ToInt32(parametrop.Estado);
                             db.Entry(val).State = EntityState.Modified;
                             db.SaveChanges();

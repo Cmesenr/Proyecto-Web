@@ -18,10 +18,67 @@ $(document).ready(function (e) {
     });
 
 });
+$("#FormRegistrarMat").on("change", "#DropDownCat", function () {
+    var id = $("#DropDownCat").val();
+    if (id != 1&& id!="") {
+        $.ajax({
+            cache: false,
+            url: "/Material/CargarSubcategoria",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var items = "<option value=''>SubCategoria...</option>";
+                for (var i = 0; i < data.length; i++) {
 
+                    items += "<option value='" + data[i].IdSubCatMat + "'>" + data[i].Nombre + "</option>";
+                }
+                $('#dropSubCat').removeAttr("disabled");
+                $("#dropSubCat").html(items);
+
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+
+        });
+
+        $.ajax({
+            cache: false,
+            url: "/Material/CargarColores",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var items = "<option value=''>Colores...</option>";
+                for (var i = 0; i < data.length; i++) {
+
+                    items += "<option value='" + data[i].IdColor + "'>" + data[i].Nombre + "</option>";
+                }
+                $('#ColorMatselect').removeAttr("disabled");
+                $('#txtCostoMat').removeAttr("disabled");
+                $('#btnAgregarColor').removeAttr("disabled");
+                $("#ColorMatselect").html(items);
+
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+
+        });
+    }
+    else {
+        $('#ColorMatselect').attr("disabled","disabled");
+        $('#txtCostoMat').attr("disabled", "disabled");
+        $('#btnAgregarColor').attr("disabled", "disabled");
+        $('#dropSubCat').attr("disabled", "disabled");
+    }
+})
 $("#ColorMaterial").on("click", "#btnAgregarColor", function () {
-    if ($("#DropDownColor").val() != "" && $("#txtCostoMat").val() != "") {
-        var params = { IdColor: $("#DropDownColor").val(), Costo: $("#txtCostoMat").val() };
+    if ($("#ColorMatselect").val() != "" && $("#txtCostoMat").val() != "") {
+        var params = { IdColor: $("#ColorMatselect").val(), Costo: $("#txtCostoMat").val() };
         var respuesta = true;
     }
     else {
@@ -40,7 +97,7 @@ $("#ColorMaterial").on("click", "#btnAgregarColor", function () {
                
                 if (typeof (data) == "string") {
                     alert(data);
-                    $("#DropDownColor").val("");
+                    $("#ColorMatselect").val("");
                     $("#txtCostoMat").val("");
                 }
                 else {
@@ -55,7 +112,7 @@ $("#ColorMaterial").on("click", "#btnAgregarColor", function () {
                                             '</tr>');
                     }
                     
-                    $("#DropDownColor").val("");
+                    $("#ColorMatselect").val("");
                     $("#txtCostoMat").val("");
                 }
             },

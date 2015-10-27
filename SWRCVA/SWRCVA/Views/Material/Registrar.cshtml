@@ -16,7 +16,7 @@
             <h4>Materiales</h4>
             <hr />
               
-                    <div class="form-horizontal">
+                    <div id="FormRegistrarMat" class="form-horizontal">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
                             @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2", })
@@ -40,13 +40,13 @@
                                 <table>
                                     <tr>
                                         <td>
-                                            @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColorMaterial, "Selecione", new { @class = "form-control", id = "DropDownColor" })
+                                            <select id="ColorMatselect" class="form-control" name="SubCat" disabled="disabled"></select>
                                         </td>
                                         <td>   ₡</td>
                                         <td>
-                                            @Html.TextBox("Costo_Material", "", new { @class = "form-control", id = "txtCostoMat", placeholder = "Costo", style = "width:100px" })
+                                            @Html.TextBox("Costo_Material", "", new { @class = "form-control", id = "txtCostoMat", placeholder = "Costo",type="number", style = "width:100px", disabled="disabled" })
                                         </td>
-                                        <td>&nbsp;&nbsp;<input type="button" id="btnAgregarColor" class="btn-success btn-xs" value="+" /></td>
+                                        <td>&nbsp;&nbsp;<input type="button" id="btnAgregarColor" class="btn-success btn-xs" disabled="disabled" value="+" /></td>
                                     </tr>
                                     @Html.ValidationMessageFor(model => model.ColorMaterial, "", new { @class = "text-danger" })
                                 </table>
@@ -58,7 +58,9 @@
                         <div id="subCat" class="form-group">
                             @Html.LabelFor(model => model.IdSubCatMat, "Sub Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.IdSubCatMat, (IEnumerable<SelectListItem>)ViewBag.SubCatMaterial, "Selecione", new { @class = "form-control",id="dropSubCat", @required = "required", title = "El campo Sub Categoria es necesario" })
+                                @Html.DropDownListFor(model => model.IdSubCatMat, (new SelectList(
+                  new List<Object>{
+                  })), new { @class = "form-control",id="dropSubCat", @required = "required", title = "El campo Sub Categoria es necesario", disabled = "disabled" })
                                 @Html.ValidationMessageFor(model => model.IdSubCatMat, "", new { @class = "text-danger" })
                             </div>
                         </div>

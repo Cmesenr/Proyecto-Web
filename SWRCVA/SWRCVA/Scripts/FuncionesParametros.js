@@ -13,21 +13,7 @@ $(document).ready(function (e) {
 $(document).ready(function ()
 {
     $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
-    //Registrar Parametros
-    $('#ListaParametroRegis').on("change", function () {
-        if ($('#ListaParametroRegis').val() == 5) {
-            $('#Listacategoria').slideDown();
-            $('#Porcentaje').slideUp();
-        }
-        if ($('#ListaParametroRegis').val() == 6) {
-            $('#Porcentaje').slideDown();
-            $('#Listacategoria').slideUp();
-        }
-        if ($('#ListaParametroRegis').val() != 5 && $('#ListaParametroRegis').val() != 6) {
-            $('#Porcentaje').slideUp();
-            $('#Listacategoria').slideUp();
-        }
-    });
+
 EditarPara();
      
 });
@@ -39,19 +25,24 @@ $(".edit").click(function () {
 });
 
 function EditarPara() {
-    //Editar Parametros
-    if ($('#ListaParametro').val() == 5) {
-        $('#Listacategoria').slideDown();
-        $('#Porcentaje').slideUp();
-    }
-    if ($('#ListaParametro').val() == 6) {
-        $('#Porcentaje').slideDown();
-        $('#Listacategoria').slideUp();
-    }
-    if ($('#ListaParametro').val() != 5 && $('#ListaParametro').val() != 6) {
-        $('#Porcentaje').slideUp();
-        $('#Listacategoria').slideUp();
-    }
+  
+        if ($('#ListaParametro').val() == 5) {
+            $('#Listacategoria').slideDown();
+            $('#Porcentaje').slideUp();
+        }
+        if ($('#ListaParametro').val() == 2) {
+            $('#Listacategoria').slideDown();
+            $('#Porcentaje').slideUp();
+        }
+        if ($('#ListaParametro').val() == 6) {
+            $('#Porcentaje').slideDown();
+            $('#Listacategoria').slideUp();
+        }
+        if ($('#ListaParametro').val() != 5 && $('#ListaParametro').val() != 6 && $('#ListaParametro').val() != 2) {
+            $('#Porcentaje').slideUp();
+            $('#Listacategoria').slideUp();
+        }
+
 }
 function listar(parametro) {
     var params = { id: parametro };

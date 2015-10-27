@@ -40,7 +40,11 @@ namespace SWRCVA.Models
             modelBuilder.Entity<CategoriaMat>()
                 .Property(e => e.Usuario)
                 .IsUnicode(false);
-
+            modelBuilder.Entity<CategoriaMat>()
+                            .HasMany(e => e.ColorMat)
+                            .WithRequired(e => e.CategoriaMat)
+                            .HasForeignKey(e => e.IdCatMaterial)
+                            .WillCascadeOnDelete(false);
             modelBuilder.Entity<CategoriaMat>()
                 .HasMany(e => e.Material)
                 .WithRequired(e => e.CategoriaMat)
@@ -52,6 +56,7 @@ namespace SWRCVA.Models
                 .WithRequired(e => e.CategoriaMat)
                 .HasForeignKey(e => e.IdCatMat)
                 .WillCascadeOnDelete(false);
+            
 
             modelBuilder.Entity<Cliente>()
                 .Property(e => e.Telefono)

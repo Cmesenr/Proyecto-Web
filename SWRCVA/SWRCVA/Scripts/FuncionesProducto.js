@@ -31,10 +31,20 @@
 
         });
     });
-    $("#SubCatSelect").hide();
+    $("#ProductMaterial").on("change", "#SubCatSelect", function () {
+        CargarMateriales($("#DropDownCategoria").val(), $("#SubCatSelect").val(),$("#ColorMatselect").val());
+
+    })
+    $("#ProductMaterial").on("change", "#ColorMatselect", function () {
+        CargarMateriales($("#DropDownCategoria").val(), $("#SubCatSelect").val(),$("#ColorMatselect").val());
+
+    })
     $("#ProductMaterial").on("change", "#DropDownCategoria", function () {
         var id = $("#DropDownCategoria").val();
-        
+        $('#MaterialSelect').attr("disabled","disabled");
+        if (id != 1&& id!=0) {
+            $('#SubCatSelect').show();
+            $('#ColorMatselect').show();
         $.ajax({
             cache:false,
             url:"/Producto/CargarSubcategoria",
@@ -43,24 +53,86 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8",
              success: function (data) {
-                if (typeof (data) == "string") {
-                    alert(data);
-                }
-                var  items = "<option value=''>SubCategoria..</option>";
+                var  items = "<option value=''>SubCategoria...</option>";
                 for (var i = 0; i < data.length; i++) {
                    
                     items += "<option value='" + data[i].IdSubCatMat + "'>" + data[i].Nombre + "</option>";
                 }
+                $('#SubCatSelect').removeAttr("disabled");
                 $("#SubCatSelect").html(items);
-                $("#SubCatSelect").show();
+               
             },
             error: function (result) {
             alert('ERROR ' + result.status + ' ' + result.statusText);
         }
             
         });
+
+        $.ajax({
+            cache: false,
+            url: "/Producto/CargarColores",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var items = "<option value=''>Colores...</option>";
+                for (var i = 0; i < data.length; i++) {
+
+                    items += "<option value='" + data[i].IdColor + "'>" + data[i].Nombre + "</option>";
+                }
+                $('#ColorMatselect').removeAttr("disabled");
+                $("#ColorMatselect").html(items);
+
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+
+        });
+        }
+        else {
+            if (id == 1) {
+                $('#MaterialSelect').removeAttr("disabled");
+            }
+            $('#SubCatSelect').hide();
+            $('#ColorMatselect').hide();
+            CargarMateriales($("#DropDownCategoria").val());
+        }
     })
 })
+
+function CargarMateriales(IdCat, IdSubcat, IdColor)
+{
+    if ($("#DropDownCategoria").val() != "" && $("#SubCatSelect").val() != "" && $("#ColorMatselect").val() != "") {
+        var params = { IdCat: IdCat, IdSubcat: IdSubcat, IdColor: IdColor };
+ 
+    $.ajax({
+        cache: false,
+        url: "/Producto/CargarMateriales",
+        type: "get",
+        data: params,
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            var items = "<option value=''>Materiales...</option>";
+            for (var i = 0; i < data.length; i++) {
+
+                items += "<option value='" + data[i].IdMaterial + "'>" + data[i].Nombre + "</option>";
+            }
+            $('#MaterialSelect').show();
+            $('#MaterialSelect').removeAttr("disabled");
+
+            $("#MaterialSelect").html(items);
+
+        },
+        error: function (result) {
+            alert('ERROR ' + result.status + ' ' + result.statusText);
+        }
+
+    });
+    }
+}
 
 function RefrescarLista() {
     $.ajax({

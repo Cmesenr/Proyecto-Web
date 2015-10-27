@@ -68,9 +68,21 @@
 
 <table class="table">
     <tr>
+        
         <th>
             @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
+        @if (ViewBag.CatVisible == 1)
+        {
+            <th>
+                Categoria
+            </th>}
+        @if (ViewBag.PorcentVisible == 1)
+        {
+            <th>
+                Porcentaje
+            </th>
+        }
         <th>
             Estado
         </th>
@@ -80,9 +92,21 @@
     @foreach (var item in Model)
     {
         <tr>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
+            @if (ViewBag.CatVisible == 1)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCat)
+                </td>}
+            @if (ViewBag.PorcentVisible == 1)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Porcentaje)
+                </td>
+            }
             <td>
                 @if (item.Estado == "1")
                 {

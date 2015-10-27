@@ -18,6 +18,8 @@ namespace SWRCVA.Models
         [Key]
         public int IdColor { get; set; }
 
+        public int IdCatMaterial { get; set; }
+
         [Required]
         [StringLength(100)]
         public string Nombre { get; set; }
@@ -27,6 +29,8 @@ namespace SWRCVA.Models
         public string Usuario { get; set; }
 
         public int Estado { get; set; }
+
+        public virtual CategoriaMat CategoriaMat { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ColorMaterial> ColorMaterial { get; set; }

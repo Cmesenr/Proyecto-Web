@@ -34,16 +34,29 @@
                 <div class="form-group" id="ProductMaterial">
                     @Html.Label("Materiales", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <table>
+                        <table class="table-condensed">
                             <tr>
                                 <td>
                                     @Html.DropDownList("IdCategoria", (IEnumerable<SelectListItem>)ViewBag.Categorias, "Selecione", new { @class = "form-control", id = "DropDownCategoria" })
-                                </td>                 
-                                  <td>
-                                      <select id="SubCatSelect" class="form-control" name="SubCat"></select>
-                                  </td>          
-                                <td>&nbsp;&nbsp;<input type="button" id="btnAgregarMatrial" class="btn-success btn-xs" value="+" /></td>
-                            </tr>
+                                </td>
+                                <td>
+                                    <select id="MaterialSelect" class="form-control" name="MaterialProducto" disabled="disabled"></select>
+                                    
+                                </td>
+                                <td colspan="2">&nbsp;&nbsp;<input type="button" id="btnAgregarMatrial" class="btn-success btn-xs" value="+" /></td>
+                                </tr>
+                                <tr>
+                                <td>
+                                    
+                                    <select id="SubCatSelect" class="form-control" name="SubCat" disabled="disabled"></select>                       
+                                </td>
+                                <td>
+                                    <select id="ColorMatselect" class="form-control" name="SubCat" disabled="disabled"></select>
+                                </td>
+                               
+                           
+                                </tr>
+
                             @Html.ValidationMessageFor(model => model.ListaMatProducto, "", new { @class = "text-danger" })
                         </table>
                         <table class="table-hover" id="ListaMaterial"></table>

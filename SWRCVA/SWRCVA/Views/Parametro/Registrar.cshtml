@@ -29,7 +29,7 @@
                 },
                   "value",
                   "text"
-                  )), "Seleccione", new { @class = "form-control", id = "ListaParametroRegis" })
+                  )), "Seleccione", new { @class = "form-control", onchange= "EditarPara();", id = "ListaParametro" })
 
                 @Html.ValidationMessageFor(model => model.parametro, "", new { @class = "text-danger" })
             </div>

@@ -12,6 +12,7 @@ namespace SWRCVA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CategoriaMat()
         {
+            ColorMat = new HashSet<ColorMat>();
             Material = new HashSet<Material>();
             SubCategoria = new HashSet<SubCategoria>();
         }
@@ -29,6 +30,9 @@ namespace SWRCVA.Models
         public string Usuario { get; set; }
 
         public int Estado { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ColorMat> ColorMat { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Material> Material { get; set; }

@@ -62,6 +62,7 @@ namespace SWRCVA.Controllers
         {
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+            ViewBag.Colores = new SelectList(db.ColorMat, "IdColor", "Nombre");
             return View();
         }
 
@@ -250,20 +251,63 @@ namespace SWRCVA.Controllers
         }
         public JsonResult CargarSubcategoria(int id)
         {
-           var SubCategoria = from s in db.SubCategoria
-                       select s;
-            SubCategoria = SubCategoria.Where(s => s.IdCatMat == id);
-            List<SubCategoria> listSubCat = new List<SubCategoria>();
-            foreach (var item in SubCategoria.ToList())
-            {
-                SubCategoria s = new Models.SubCategoria();
-                s.IdSubCatMat = item.IdSubCatMat;
-                s.Nombre = item.Nombre;
-                listSubCat.Add(s);
-            }
+           var SubCategoria = (from s in db.SubCategoria
+                              where s.IdCatMat==id
+                       select new
+                       {
+                           IdCatMat=s.IdCatMat,
+                           Nombre=s.Nombre
+                       }).ToList();
+           
             
-            return Json(listSubCat.ToList(),
+            return Json(SubCategoria,
                JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CargarColores(int id)
+        {
+            var Colores = (from s in db.ColorMat
+                           where s.IdCatMaterial == id
+                           select new {
+                              IdColor= s.IdColor,
+                              Nombre=s.Nombre
+                           }).ToList();
+           
+            return Json(Colores,
+               JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CargarMateriales(int IdCat, int? IdSubcat, int? IdColor)
+        {
+            if (IdCat == 1)
+            {
+                var Materiales = (from s in db.Material
+                                  where s.IdCatMat== IdCat
+                                  select new
+                                  {
+                                      IdMaterial = s.IdMaterial,
+                                      Nombre=s.Nombre
+                                  
+                                  });
+                
+
+                return Json(Materiales,
+                   JsonRequestBehavior.AllowGet);
+
+            }
+            else
+            {
+                var Materiales = (from s in db.Material
+                                  join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
+                                  where s.IdCatMat == IdCat && s.IdSubCatMat == IdSubcat && c.IdColorMat == IdColor
+                                  select new
+                                  {
+                                      IdMaterial = s.IdMaterial,
+                                      Nombre = s.Nombre
+                                  }).ToList();
+
+                return Json(Materiales,
+                   JsonRequestBehavior.AllowGet);
+            }
+           
         }
 
         public void RefrescarLista()

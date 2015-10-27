@@ -22,6 +22,7 @@
             public string Usuario { get; set; }
             [Required]
             public string Estado { get; set; }
+            public string NombreCat { get; set; }
             public decimal Porcentaje { get; set; }
             public int CategoriaId { get; set; }
 
