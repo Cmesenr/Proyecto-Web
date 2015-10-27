@@ -13,16 +13,16 @@ namespace SWRCVA.Controllers
         DataContext db = new DataContext();
 
         // GET: /UserLogin/
-        public ActionResult UsuarioLogin()
+        public ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult UsuarioLogin(UsuarioLogin usuarioLogin)
+        public ActionResult Login(Login login)
         {
             /*Getting data from database for user validation*/
-            var usuarioActual = from s in db.Usuario.Where(s => (s.IdUsuario == usuarioLogin.IdUsuario) && (s.Contraseña == usuarioLogin.Contraseña))
+            var usuarioActual = from s in db.Usuario.Where(s => (s.IdUsuario == login.IdUsuario) && (s.Contraseña == login.Contraseña))
                                 select s.IdUsuario;
 
             if (usuarioActual.Count() > 0)

@@ -172,7 +172,7 @@
     <Compile Include="Models\SubCategoria.cs" />
     <Compile Include="Models\TipoProducto.cs" />
     <Compile Include="Models\Usuario.cs" />
-    <Compile Include="Models\UsuarioLogin.cs" />
+    <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Valor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -263,13 +263,14 @@
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Material\Editar.cshtml" />
     <Content Include="Views\Material\Registrar.cshtml" />
-    <Content Include="Views\Login\UsuarioLogin.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Registrar.cshtml" />
     <Content Include="Views\Producto\Registrar.cshtml" />
     <Content Include="Views\Producto\Editar.cshtml" />
     <Content Include="Views\Producto\Index.cshtml" />
     <Content Include="Views\Usuario\Editar.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

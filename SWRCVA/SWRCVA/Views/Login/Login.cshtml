@@ -1,4 +1,4 @@
-﻿@model SWRCVA.Models.UsuarioLogin
+﻿@model SWRCVA.Models.Login
 
 @{
     ViewBag.Title = "Ingreso al sistema";
@@ -7,7 +7,7 @@
 
 <h2>Ingreso al sistema</h2>
 
-@using (Html.BeginForm("UsuarioLogin", "Login"))
+@using (Html.BeginForm("Login", "Login"))
 {
     @Html.AntiForgeryToken()
 
@@ -42,16 +42,4 @@
     @Html.ActionLink("Back to Main", "Index", "Home")
 </div>
 
-if (ViewBag.Message == 1)
-    {
-<script language="javascript">
-        alert("Successfull login.");
-</script>
-    }
-    if (ViewBag.Message == 0)
-    {
-<script language="javascript">
-        alert("Please provide correct userid or password.");
-</script>
-    }
   

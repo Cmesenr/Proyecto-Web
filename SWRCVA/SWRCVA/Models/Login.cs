@@ -5,9 +5,9 @@ using System.Web;
 
 namespace SWRCVA.Models
 {
-    public partial class UsuarioLogin
+    public partial class Login
     {
-        public UsuarioLogin()
+        public Login()
         {
 
         }
