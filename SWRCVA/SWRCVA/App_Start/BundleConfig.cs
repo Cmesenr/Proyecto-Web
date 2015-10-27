@@ -38,11 +38,12 @@ namespace SWRCVA
                 "~/Scripts/FuncionesCliente.js")); 
                 bundles.Add(new ScriptBundle("~/bundles/FuncionesMaterial").Include(
                 "~/Scripts/FuncionesMaterial.js"));
-            
-                bundles.Add(new ScriptBundle("~/bundles/FuncionesModalMaterial").Include(
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesModalMaterial").Include(
                 "~/Scripts/FuncionesModalMaterial.js"));
             bundles.Add(new ScriptBundle("~/bundles/FuncionesProducto").Include(
                "~/Scripts/FuncionesProducto.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesUsuario").Include(
+               "~/Scripts/FuncionesUsuario.js"));
             bundles.Add(new ScriptBundle("~/bundles/jqBootstrapValidation").Include(
               "~/Scripts/jqBootstrapValidation.js"));
             

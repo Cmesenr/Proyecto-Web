@@ -217,6 +217,7 @@
     <Content Include="Scripts\FuncionesModalMaterial.js" />
     <Content Include="Scripts\FuncionesParametros.js" />
     <Content Include="Scripts\FuncionesProducto.js" />
+    <Content Include="Scripts\FuncionesUsuario.js" />
     <Content Include="Scripts\FuncionesProveedor.js" />
     <Content Include="Scripts\jqBootstrapValidation.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -268,6 +269,7 @@
     <Content Include="Views\Producto\Registrar.cshtml" />
     <Content Include="Views\Producto\Editar.cshtml" />
     <Content Include="Views\Producto\Index.cshtml" />
+    <Content Include="Views\Usuario\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

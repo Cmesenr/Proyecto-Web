@@ -83,7 +83,8 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Usuario/Editar
-        public ActionResult Editar(int? id)
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
+        public ActionResult Editar(string id)
         {
             if (id == null)
             {
@@ -94,13 +95,13 @@ namespace SWRCVA.Controllers
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return PartialView(usuario);
         }
 
         // POST: Usuario/Editar
         [HttpPost, ActionName("Editar")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarPost(int? id)
+        public ActionResult EditarPost(string id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Usuario/Borrar
-        public ActionResult Borrar(int? id)
+        public ActionResult Borrar(string id)
         {
             Usuario usuarioToUpdate = db.Usuario.Find(id);
             try
