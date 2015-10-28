@@ -122,8 +122,8 @@ namespace SWRCVA.Controllers
         public ActionResult Editar(int? id)
         {
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-            ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
-            ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
+            
+           
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
             if (id == null)
             {
@@ -148,6 +148,20 @@ namespace SWRCVA.Controllers
                 }
                 TempData["ListaColores"] = Listacolores;
             }
+            ViewBag.ColorMaterial = new SelectList((from s in db.ColorMat
+                                                    where s.IdCatMaterial == material.IdCatMat
+                                                    select new
+                                                    {
+                                                        IdColor = s.IdColor,
+                                                        Nombre = s.Nombre
+                                                    }), "IdColor", "Nombre");
+            ViewBag.SubCatMaterial = new SelectList((from s in db.SubCategoria
+                                                    where s.IdCatMat == material.IdCatMat
+                                                    select new
+                                                    {
+                                                        IdSubCatMat = s.IdSubCatMat,
+                                                        Nombre = s.Nombre
+                                                    }), "IdSubCatMat", "Nombre");
             return PartialView(material);
         }
 
@@ -155,10 +169,22 @@ namespace SWRCVA.Controllers
         [HttpPost]
         public ActionResult Editar(int? id, Material material)
         {
-                  ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-                ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
-                ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
-                ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
+            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+            ViewBag.ColorMaterial = new SelectList((from s in db.ColorMat
+                                                    where s.IdCatMaterial == material.IdCatMat
+                                                    select new
+                                                    {
+                                                        IdColor = s.IdColor,
+                                                        Nombre = s.Nombre
+                                                    }), "IdColor", "Nombre");
+            ViewBag.SubCatMaterial = new SelectList((from s in db.SubCategoria
+                                                     where s.IdCatMat == material.IdCatMat
+                                                     select new
+                                                     {
+                                                         IdSubCatMat = s.IdSubCatMat,
+                                                         Nombre = s.Nombre
+                                                     }), "IdSubCatMat", "Nombre");
+            ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
                     try
                     {
                 if (ModelState.IsValid)

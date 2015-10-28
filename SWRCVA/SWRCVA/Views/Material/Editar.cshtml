@@ -43,7 +43,9 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <select id="ColorMatselect" class="form-control" name="SubCat"></select>
+                                                  
+                                                        @Html.DropDownList("DropDownMaterial", (IEnumerable<SelectListItem>)ViewBag.ColorMaterial, "Selecione", new { @class = "form-control", id = "ColorMatselect", title = "El campo Sub Categoria es necesario" })                                                      
+
                                                 </td>
                                                 <td>   ₡</td>
                                                 <td>

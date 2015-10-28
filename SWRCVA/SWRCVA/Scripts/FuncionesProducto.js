@@ -44,7 +44,6 @@
         $('#MaterialSelect').attr("disabled","disabled");
         if (id != 1&& id!=0) {
             $('#SubCatSelect').show();
-            $('#ColorMatselect').show();
         $.ajax({
             cache:false,
             url:"/Producto/CargarSubcategoria",
@@ -67,29 +66,6 @@
         }
             
         });
-
-        $.ajax({
-            cache: false,
-            url: "/Producto/CargarColores",
-            type: "get",
-            data: { id: id },
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                var items = "<option value=''>Colores...</option>";
-                for (var i = 0; i < data.length; i++) {
-
-                    items += "<option value='" + data[i].IdColor + "'>" + data[i].Nombre + "</option>";
-                }
-                $('#ColorMatselect').removeAttr("disabled");
-                $("#ColorMatselect").html(items);
-
-            },
-            error: function (result) {
-                alert('ERROR ' + result.status + ' ' + result.statusText);
-            }
-
-        });
         }
         else {
             if (id == 1) {
@@ -100,12 +76,125 @@
             CargarMateriales($("#DropDownCategoria").val());
         }
     })
-})
 
+    $(window).unload(function () {
+        RefrescarLista();
+    });
+})
+$(document).ready(function (e) {
+    $('#ModalConfirm').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data().id;
+        var data = $(e.relatedTarget).data().info;
+        $(e.currentTarget).find('#btnModalborrar').val(id);
+        $(e.currentTarget).find('#TextModal').html("Esta seguro que desea borrar el Producto " + data + " ?");
+    });
+});
+$(function()
+{
+    $("#FormProductos").on("click", "#btnAgregarMaterial", function () {
+        if ($("#MaterialSelect").val() != "") {
+            var params = { IdMat: $("#MaterialSelect").val() };
+            var respuesta = true;
+        }
+        else {
+            alert("Debe selecionar el material!!");
+
+        }
+
+        if (respuesta) {
+            $.ajax({
+                cache: false,
+                url: "/Producto/AgregarMaterial",
+                type: "get",
+                data: params,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (typeof (data) == "string") {
+                        alert(data);
+                        $("#MaterialSelect").val("");
+                    }
+                    else {
+                        $("#ListaMateriales").empty();
+                        var divisor = 4;
+                        var string = "";
+                        for (var i = 0; i < data.length; i++) {
+                            if (i == 0 || divisor == i) {
+                                string += '<tr>';
+
+                            }
+                            string += '<td><h5><span class="label label-default">' + data[i].NombreMaterial + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></h5></td>';
+                            if (i == (divisor - 1)) {
+                                string += '</tr>';
+                                divisor += 4;
+                            }
+
+                        }
+
+                        $("#ListaMateriales").html(string);
+                        $("#MaterialSelect").val("");
+
+                    }
+                },
+                error: function (result) {
+                    alert('ERROR ' + result.status + ' ' + result.statusText);
+                }
+
+            })
+        } else {
+            return false;
+        }
+
+    })
+
+    $("#FormProductos").on("click", "#eliminarmat", function () {
+        var id = $(this).attr("data-id");
+        $.ajax({
+            cache: false,
+            url: "/Producto/EliminarMaterial",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (typeof (data) == "string") {
+                    alert(data);
+                    $("#MaterialSelect").val("");
+                }
+                else {
+                    $("#ListaMateriales").empty();
+                    var divisor = 4;
+                    var string = "";
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == 0 || divisor == i) {
+                            string += '<tr>';
+
+                        }
+                        string += '<td><h5><span class="label label-default">' + data[i].NombreMaterial + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></h5></td>';
+                        if (i == (divisor - 1)) {
+                            string += '</tr>';
+                            divisor += 4;
+                        }
+
+                    }
+
+                    $("#ListaMateriales").html(string);
+                    $("#MaterialSelect").val("");
+
+                }
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+        })
+
+    })
+})
 function CargarMateriales(IdCat, IdSubcat, IdColor)
 {
-    if ($("#DropDownCategoria").val() != "" && $("#SubCatSelect").val() != "" && $("#ColorMatselect").val() != "") {
-        var params = { IdCat: IdCat, IdSubcat: IdSubcat, IdColor: IdColor };
+    if ($("#DropDownCategoria").val() != "" && $("#SubCatSelect").val() != "") {
+        var params = { IdCat: IdCat, IdSubcat: IdSubcat };
  
     $.ajax({
         cache: false,
@@ -143,6 +232,21 @@ function RefrescarLista() {
         contentType: "application/json; charset=utf-8",
         success: function (result) {
 
+        }
+    });
+
+}
+function EliminarProducto(valor) {
+
+    var params = { id: valor };
+    $.ajax({
+        cache: false,
+        url: "/Producto/Borrar",
+        type: "GET",
+        data: params,
+        contentType: "application/json; charset=utf-8",
+        success: function (result) {
+            parent.document.location = parent.document.location;
         }
     });
 
