@@ -67,8 +67,10 @@ namespace SWRCVA.Controllers
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             try
             {
+                ModelState.Remove("Usuario");
                 if (ModelState.IsValid)
                 {
+                    usuario.Usuario1= Session["UsuarioActual"].ToString();
                     db.Usuario.Add(usuario);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -101,7 +103,7 @@ namespace SWRCVA.Controllers
         // POST: Usuario/Editar
         [HttpPost, ActionName("Editar")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarPost(string id)
+        public ActionResult EditarPost(string id, Usuario usuario)
         {
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             if (id == null)
@@ -109,8 +111,11 @@ namespace SWRCVA.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Usuario usuarioToUpdate = db.Usuario.Find(id);
+            usuario.Usuario1 = Session["UsuarioActual"].ToString();
+            ModelState.Remove("Usuario1");
+            if (ModelState.IsValid) {
             if (TryUpdateModel(usuarioToUpdate, "",
-               new string[] { "Contraseña, IdRol, Estado, Usuario" }))
+               new string[] { "Contraseña", "IdRol", "Estado", "Usuario1" }))
             {
                 try
                 {
@@ -122,6 +127,7 @@ namespace SWRCVA.Controllers
                 {
                     ModelState.AddModelError("", "Imposible guardar los cambios. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
                 }
+            }
             }
             return View(usuarioToUpdate);
         }
