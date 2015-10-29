@@ -38,9 +38,7 @@ namespace SWRCVA.Controllers
                              select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                producto = producto.Where(s => s.Nombre.Contains(searchString)
-                                                || s.TipoProducto.Nombre.Contains(searchString)
-                                                );
+                producto = producto.Where(s => s.Nombre.Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -74,6 +72,10 @@ namespace SWRCVA.Controllers
             {
                 ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
                 ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+
+                ModelState.Remove("Usuario");
+                producto.Usuario = Session["UsuarioActual"].ToString();
+
                 if (ModelState.IsValid)
                 {     
                         if (ImageFile != null)
@@ -152,30 +154,34 @@ namespace SWRCVA.Controllers
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
 
+            ModelState.Remove("Usuario");
+
             if (ModelState.IsValid)
             {
                 Producto productoToUpdate = db.Producto.Find(producto.IdProducto);
                 if (TryUpdateModel(productoToUpdate, "",
                    new string[] { "Nombre", "IdTipoProducto", "Imagen", "Estado", "Usuario" }))
                 {
+                    productoToUpdate.Usuario = Session["UsuarioActual"].ToString();
+
                     if (ImageFile != null)
-                {
-                    using (MemoryStream ms = new MemoryStream())
                     {
-                        ImageFile.InputStream.CopyTo(ms);
-                        byte[] array = ms.GetBuffer();
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            ImageFile.InputStream.CopyTo(ms);
+                            byte[] array = ms.GetBuffer();
                             productoToUpdate.Imagen = array;
+                        }
                     }
-                }
-                db.Entry(productoToUpdate).State = EntityState.Modified;
-                db.SaveChanges();
+                    db.Entry(productoToUpdate).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
                 if (TempData["ListaMateriales"] != null)
                 {
                     var materiales = (from s in db.ListaMatProducto
                                       where s.IdProducto == producto.IdProducto
                                       select s).ToList();
-                    
+
                     foreach (ListaMatProducto item in materiales)
                     {
                         db.ListaMatProducto.Attach(item);
@@ -203,6 +209,7 @@ namespace SWRCVA.Controllers
             Producto productotoUpdate = db.Producto.Find(id);
             try
             {
+                productotoUpdate.Usuario = Session["UsuarioActual"].ToString();
                 productotoUpdate.Estado = 0;
                 db.SaveChanges();
                 return RedirectToAction("Index");

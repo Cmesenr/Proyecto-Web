@@ -35,9 +35,7 @@ namespace SWRCVA.Controllers
                            select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                proveedores = proveedores.Where(s => s.Nombre.Contains(searchString)
-                                                || s.Correo.Contains(searchString)
-                                                || s.Direccion.Contains(searchString));
+                proveedores = proveedores.Where(s => s.Nombre.Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -67,6 +65,9 @@ namespace SWRCVA.Controllers
         {
             try
             {
+                ModelState.Remove("Usuario");
+                proveedor.Usuario = Session["UsuarioActual"].ToString();
+
                 if (ModelState.IsValid)
                 {
                     db.Proveedor.Add(proveedor);
@@ -108,8 +109,9 @@ namespace SWRCVA.Controllers
             }
             Proveedor proveedorToUpdate = db.Proveedor.Find(id);
             if (TryUpdateModel(proveedorToUpdate, "",
-               new string[] { "Nombre", "Correo", "Direccion","Telefono","Estado","Usuario" }))
+               new string[] { "Nombre", "Correo", "Direccion","Telefono","Estado" }))
             {
+                proveedorToUpdate.Usuario = Session["UsuarioActual"].ToString();
                 try
                 {
                     db.SaveChanges();
@@ -130,6 +132,7 @@ namespace SWRCVA.Controllers
             Proveedor proveedorToUpdate = db.Proveedor.Find(id);
             try
             {
+                proveedorToUpdate.Usuario= Session["UsuarioActual"].ToString();
                 proveedorToUpdate.Estado = 0;
                 db.SaveChanges();
 

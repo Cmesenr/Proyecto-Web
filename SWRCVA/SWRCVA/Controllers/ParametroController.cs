@@ -280,6 +280,9 @@ namespace SWRCVA.Controllers
                     ModelState.Remove("Porcentaje");
                 }
 
+                ModelState.Remove("Usuario");
+                parametrop.Usuario = Session["UsuarioActual"].ToString();
+
                 if (ModelState.IsValid)
                 {
                     switch (parametrop.parametro) {
@@ -451,6 +454,10 @@ namespace SWRCVA.Controllers
             {
                 parametrop.parametro= (int)Session["Currentabla"];
                 ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+
+                ModelState.Remove("Usuario");
+                parametrop.Usuario = Session["UsuarioActual"].ToString();
+
                 if (!ModelState.IsValidField("CategoriaId") && parametrop.parametro != 5 || !ModelState.IsValidField("Porcentaje") && parametrop.parametro != 6 || ModelState.IsValid)
                 {
                     switch (parametrop.parametro)
@@ -535,6 +542,7 @@ namespace SWRCVA.Controllers
                 case 1:
                     CategoriaMat cat = new CategoriaMat();
                     cat = db.CategoriaMat.Find(id);
+                    cat.Usuario = Session["UsuarioActual"].ToString();
                     if (cat == null)
                     {
                         return HttpNotFound();
@@ -545,6 +553,7 @@ namespace SWRCVA.Controllers
                 case 2:
                     ColorMat color = new ColorMat();
                     color=db.ColorMat.Find(id);
+                    color.Usuario = Session["UsuarioActual"].ToString();
                     if (color == null)
                     {
                         return HttpNotFound();
@@ -555,6 +564,7 @@ namespace SWRCVA.Controllers
                 case 3:
                     TipoProducto tipo = new TipoProducto();
                     tipo = db.TipoProducto.Find(id);
+                    tipo.Usuario = Session["UsuarioActual"].ToString();
                     if (tipo == null)
                     {
                         return HttpNotFound();
@@ -565,6 +575,7 @@ namespace SWRCVA.Controllers
                 case 4:
                     Rol rolp = new Rol();
                     rolp = db.Rol.Find(id);
+                    rolp.Usuario = Session["UsuarioActual"].ToString();
                     if (rolp == null)
                     {
                         return HttpNotFound();
@@ -575,6 +586,7 @@ namespace SWRCVA.Controllers
                 case 5:
                     SubCategoria sub = new SubCategoria();
                     sub = db.SubCategoria.Find(id);
+                    sub.Usuario = Session["UsuarioActual"].ToString();
                     if (sub == null)
                     {
                         return HttpNotFound();
@@ -585,6 +597,7 @@ namespace SWRCVA.Controllers
                 case 6:
                     Valor val = new Valor();
                     val = db.Valor.Find(id);
+                    val.Usuario = Session["UsuarioActual"].ToString();
                     if (val == null)
                     {
                         return HttpNotFound();

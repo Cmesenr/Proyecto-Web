@@ -35,9 +35,7 @@ namespace SWRCVA.Controllers
                               select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                clientes = clientes.Where(s => s.Nombre.Contains(searchString)
-                                                || s.Correo.Contains(searchString)
-                                                || s.Direccion.Contains(searchString));
+                clientes = clientes.Where(s => s.Nombre.Contains(searchString));
             }
             switch (sortOrder)
             {

@@ -37,10 +37,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("IdUsuario", "Index", new { sortOrder = ViewBag.IdUsuarioSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            Contraseña
+            @Html.ActionLink("Usuario", "Index", new { sortOrder = ViewBag.IdUsuarioSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Rol
@@ -56,9 +53,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.IdUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contraseña)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Rol.Nombre)

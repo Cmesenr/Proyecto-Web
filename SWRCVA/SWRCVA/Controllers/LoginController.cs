@@ -22,7 +22,6 @@ namespace SWRCVA.Controllers
         public ActionResult Login(Login login)
         {
             Usuario usuarioActual = db.Usuario.Find(login.IdUsuario);
-            Rol rolUsuarioActual = db.Rol.Find(usuarioActual.IdRol);
 
             if (usuarioActual == null)
             {
@@ -37,6 +36,8 @@ namespace SWRCVA.Controllers
             if (usuarioActual != null && usuarioActual.Contraseña == login.Contraseña)
             {
                 Session["UsuarioActual"] = usuarioActual.IdUsuario.ToString();
+
+                Rol rolUsuarioActual = db.Rol.Find(usuarioActual.IdRol);
                 Session["RolUsuarioActual"] = rolUsuarioActual.Nombre.ToString();
 
                 return RedirectToAction("Index", "Home");
