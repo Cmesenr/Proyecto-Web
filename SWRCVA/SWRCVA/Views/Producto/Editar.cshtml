@@ -6,21 +6,23 @@
 }
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Productos";
 }
 
-<h2>Edit</h2>
+<h2>Productos</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Editar", "Producto", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4>Producto</h4>
+    <div id="FormProductos" class="form-horizontal">
+        <h4>Editar</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.IdProducto)
-
+        <div class="row">
+            <div class="col-md-6">
         <div class="form-group">
             @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -30,25 +32,62 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdTipoProducto, "IdTipoProducto", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.IdTipoProducto, "Tipo de Producto", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("IdTipoProducto", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.IdTipoProducto, null, "Seleccione", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.IdTipoProducto, "", new { @class = "text-danger" })
             </div>
         </div>
+                <div class="form-group" id="ProductMaterial">
+                    @Html.Label("Materiales", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <table class="table-condensed">
+                            <tr>
+                                <td>
+                                    @Html.DropDownList("IdCategoria", (IEnumerable<SelectListItem>)ViewBag.Categorias, "Selecione", new { @class = "form-control", id = "DropDownCategoria" })
+                                </td>
+                                <td>
+                                    <select id="MaterialSelect" class="form-control" name="MaterialProducto" disabled="disabled"></select>
 
+                                </td>
+                                <td colspan="2">&nbsp;&nbsp;<input type="button" id="btnAgregarMaterial" class="btn-success btn-xs" value="+" /></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">
+
+                                    <select id="SubCatSelect" class="form-control" name="SubCat" disabled="disabled"></select>
+                                </td>
+
+
+                            </tr>
+
+                            @Html.ValidationMessageFor(model => model.ListaMatProducto, "", new { @class = "text-danger" })
+                        </table>
+                        <table class="table-hover" id="ListaMaterial"></table>
+                    </div>
+                </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Imagen, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Imagen, new { htmlAttributes = new { @class = "form-control" } })
+                        <input id="ImageFile" type="file" name="ImageFile" class="form-control" />
                 @Html.ValidationMessageFor(model => model.Imagen, "", new { @class = "text-danger" })
+
+
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownListFor(model => model.Estado, (new SelectList(
+new List<Object>{
+                      new { value = "" , text = "Seleccione"  },
+                       new { value = 1 , text = "Activo"  },
+                       new { value = 0 , text = "Inactivo" }
+                    },
+"value",
+"text",
+2)), new { @class = "form-control", @required = "required", title = "El campo Estado es necesario" })
                 @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -63,12 +102,68 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                        <input type="submit" value="Registrar" class="btn btn-primary edit" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <div class="text-info"><h4>Lista Materiales:</h4></div>
+                    <div class="col-md-10">
+                        <table class="table-condensed" id="ListaMateriales">
+                            @{var divisor = 3;
+                                int i = 0;
+                                string resultado = "";
+                                foreach (var item in Model.ListaMatProducto.ToList())
+                                {
+                                    if (i == 0 || divisor == i)
+                                    {
+                                        resultado += "<tr>";
+
+                                    }
+                                    resultado += "<td><span class='label label-default'>" + item.Material.Nombre + "&nbsp;&nbsp;<input type='button' id='eliminarmat' data-id='" + item.IdMaterial + "'class='btn-danger btn-xs' value='X' /></span></td>";
+                                    if (i == (divisor - 1))
+                                    {
+                                        resultado += "</tr>";
+                                        divisor += 3;
+                                    }
+
+                                    i++;
+                                }
+                            }
+                                @Html.Raw(resultado)
+
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="text-info"><h4>Imagen:</h4></div>
+                    <div class="col-md-10">
+                        @if (Model.Imagen!= null)
+                        {
+                            <img id="MostrarImagen" class="img-thumbnail" src="data:image/png;base64,@Convert.ToBase64String(Model.Imagen)" alt="" />
+                        }
+                        else
+                        {
+                            <img id="MostrarImagen" class="img-thumbnail" src="" alt="" />
+                        }
+                        
+                        <div id="ImageDiv" class="text-center"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <button onclick="location.href='@Url.Action("Index")',RefrescarLista()" class="btn btn-info">Regresar a la Lista</button>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/FuncionesProducto")
+<script type="text/javascript">
+    window.onbeforeunload = RefrescarLista;
+</script>
+}

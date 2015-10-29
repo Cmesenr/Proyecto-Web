@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using SWRCVA.Models;
 using PagedList;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 
 namespace SWRCVA.Controllers
 {
@@ -62,27 +63,38 @@ namespace SWRCVA.Controllers
         {
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-            ViewBag.Colores = new SelectList(db.ColorMat, "IdColor", "Nombre");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto)
+        public ActionResult Registrar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
             try
             {
                 ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
+                ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
                 if (ModelState.IsValid)
-                {
+                {     
+                        if (ImageFile != null)
+                        {
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                ImageFile.InputStream.CopyTo(ms);
+                                byte[] array = ms.GetBuffer();
+                                producto.Imagen = array;
+                            }
+                        }
+                        
+             
 
-                      if (TempData["ListaMateriales"] != null)
+                        if (TempData["ListaMateriales"] != null)
                         {
                             db.Producto.Add(producto);
                             db.SaveChanges();
                             foreach (ListaMatProducto item in (List<ListaMatProducto>)TempData["ListaMateriales"])
                             {
-                                item.IdMaterial = producto.IdProducto;
+                                item.IdProducto = producto.IdProducto;
                                 db.ListaMatProducto.Add(item);
                             }
                             db.SaveChanges();
@@ -104,9 +116,10 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Productoes/Edit/5
-        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
-        public ActionResult Edit(int? id)
+        public ActionResult Editar(int? id)
         {
+            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
+            ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -127,23 +140,43 @@ namespace SWRCVA.Controllers
             }
             TempData["ListaMateriales"] = Listamateriales;
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre", producto.IdTipoProducto);
-            return PartialView(producto);
+            return View(producto);
         }
 
         // POST: Productoes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto)
+        public ActionResult Editar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
+            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
+            ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+
             if (ModelState.IsValid)
             {
-                db.Entry(producto).State = EntityState.Modified;
+                Producto productoToUpdate = db.Producto.Find(producto.IdProducto);
+                if (TryUpdateModel(productoToUpdate, "",
+                   new string[] { "Nombre", "IdTipoProducto", "Imagen", "Estado", "Usuario" }))
+                {
+                    if (ImageFile != null)
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        ImageFile.InputStream.CopyTo(ms);
+                        byte[] array = ms.GetBuffer();
+                            productoToUpdate.Imagen = array;
+                    }
+                }
+                db.Entry(productoToUpdate).State = EntityState.Modified;
                 db.SaveChanges();
+                }
                 if (TempData["ListaMateriales"] != null)
                 {
-                   
-                    foreach (ListaMatProducto item in producto.ListaMatProducto.ToList())
+                    var materiales = (from s in db.ListaMatProducto
+                                      where s.IdProducto == producto.IdProducto
+                                      select s).ToList();
+                    
+                    foreach (ListaMatProducto item in materiales)
                     {
                         db.ListaMatProducto.Attach(item);
                         db.ListaMatProducto.Remove(item);
@@ -181,7 +214,7 @@ namespace SWRCVA.Controllers
 
             return RedirectToAction("Index");
         }
-        public JsonResult AgregarMaterial(int IdMaterial)
+        public JsonResult AgregarMaterial(int IdMat)
         {
             var resultado = "No se pudo agregar el color";
             if (TempData["ListaMateriales"] != null)
@@ -192,16 +225,16 @@ namespace SWRCVA.Controllers
             try
             {
                 ListaMatProducto ListMat = new ListaMatProducto();
-                ListMat.IdMaterial = IdMaterial;
+                ListMat.IdMaterial = IdMat;
                 ListMat.Usuario = "Charlie";
-                ListMat.NombreMaterial = db.Material.Find(IdMaterial).Nombre;
+                ListMat.NombreMaterial = db.Material.Find(IdMat).Nombre;
                 if (Listamateriales.Count() == 0) { Listamateriales.Add(ListMat); }
                 else
                 {
 
                     foreach (ListaMatProducto listMatProduct in Listamateriales)
                     {
-                        if (listMatProduct.IdMaterial == IdMaterial)
+                        if (listMatProduct.IdMaterial == IdMat)
                         {
                             TempData["ListaMateriales"] = Listamateriales;
                             resultado = "No se puede duplicar el Material!";
@@ -255,7 +288,7 @@ namespace SWRCVA.Controllers
                               where s.IdCatMat==id
                        select new
                        {
-                           IdCatMat=s.IdCatMat,
+                           IdSubCatMat = s.IdSubCatMat,
                            Nombre=s.Nombre
                        }).ToList();
            
@@ -263,19 +296,7 @@ namespace SWRCVA.Controllers
             return Json(SubCategoria,
                JsonRequestBehavior.AllowGet);
         }
-        public JsonResult CargarColores(int id)
-        {
-            var Colores = (from s in db.ColorMat
-                           where s.IdCatMaterial == id
-                           select new {
-                              IdColor= s.IdColor,
-                              Nombre=s.Nombre
-                           }).ToList();
-           
-            return Json(Colores,
-               JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult CargarMateriales(int IdCat, int? IdSubcat, int? IdColor)
+        public JsonResult CargarMateriales(int IdCat, int? IdSubcat)
         {
             if (IdCat == 1)
             {
@@ -296,8 +317,7 @@ namespace SWRCVA.Controllers
             else
             {
                 var Materiales = (from s in db.Material
-                                  join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
-                                  where s.IdCatMat == IdCat && s.IdSubCatMat == IdSubcat && c.IdColorMat == IdColor
+                                  where s.IdCatMat == IdCat && s.IdSubCatMat == IdSubcat
                                   select new
                                   {
                                       IdMaterial = s.IdMaterial,
@@ -313,15 +333,10 @@ namespace SWRCVA.Controllers
         public void RefrescarLista()
         {
             TempData["ListaMateriales"] = null;
+            Session["Image"] = null;
         }
 
-        public void CargarImagen()
-        {
-            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
-            {
-                TempData["Image"] = System.Web.HttpContext.Current.Request.Files["HelpSectionImages"];
-            }
-        }
+       
         protected override void Dispose(bool disposing)
         {
             if (disposing)
