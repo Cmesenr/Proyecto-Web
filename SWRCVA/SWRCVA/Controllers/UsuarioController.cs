@@ -72,7 +72,6 @@ namespace SWRCVA.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    usuario.Usuario1= Session["UsuarioActual"].ToString();
                     db.Usuario.Add(usuario);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -112,15 +111,15 @@ namespace SWRCVA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuarioToUpdate = db.Usuario.Find(id);
-            usuario.Usuario1 = Session["UsuarioActual"].ToString();
+            usuario.Usuario1= Session["UsuarioActual"].ToString();
             ModelState.Remove("Usuario1");
+            Usuario usuarioToUpdate = db.Usuario.Find(id);
+
             if (ModelState.IsValid) {
             if (TryUpdateModel(usuarioToUpdate, "",
-               new string[] { "Contraseña, IdRol, Estado, Usuario" }))
+               new string[] { "Contraseña", "IdRol", "Estado", "Usuario1" }))
             {
-                ModelState.Remove("Usuario1");
-                usuarioToUpdate.Usuario1 = Session["UsuarioActual"].ToString();
+
                 try
                 {
                     db.SaveChanges();

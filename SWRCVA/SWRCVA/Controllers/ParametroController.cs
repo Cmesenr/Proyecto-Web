@@ -15,7 +15,11 @@ namespace SWRCVA.Controllers
         DataContext db = new DataContext();
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? tabla)
         {
+            if(Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+               return RedirectToAction("Login","Login");
 
+            }
             if (tabla != null)
             {
                 Session["Currentabla"] = tabla;
@@ -46,7 +50,7 @@ namespace SWRCVA.Controllers
                 case 1:
                     ViewBag.CurrentFilter = searchString;
                     var Categorias = from s in db.CategoriaMat
-                                     select s;
+                                    select s;
                     if (!String.IsNullOrEmpty(searchString))
                     {
                         Categorias = Categorias.Where(s => s.Nombre.Contains(searchString)
