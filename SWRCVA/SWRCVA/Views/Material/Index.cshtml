@@ -34,6 +34,9 @@
             Categoria
         </th>
         <th>
+            Sub Categoria
+        </th>
+        <th>
             Proveedor
         </th>
         <th>
@@ -50,6 +53,16 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CategoriaMat.Nombre)
+            </td>
+            <td>@if (item.SubCategoria != null)
+            {
+                @Html.DisplayFor(modelItem => item.SubCategoria.Nombre)
+            }
+            else
+            {
+                @Html.Raw("N/A");
+                }
+                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Proveedor.Nombre)

@@ -523,7 +523,6 @@ namespace SWRCVA.Controllers
             }
         }
 
-        [HttpPost]
         public ActionResult Eliminar(int? id)
         {
             int tabla = (int)Session["Currentabla"];

@@ -119,7 +119,7 @@
             </td>
             <td>
                 <button id="btnEditarMaterial" data-id="@item.Id" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-                <button id="btnBorrarMaterial" data-toggle="modal" data-target="#ModalConfirm" data-id="@item.Id" type="button" class="btn btn-danger delete">Borrar</button>
+                <button id="btnBorrarMaterial" data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.Id" type="button" class="btn btn-danger delete">Borrar</button>
             </td>
         </tr>
     }
@@ -149,7 +149,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
                 <h4 class="modal-title">Borrar</h4>
             </div>
             <div class="modal-body">
-                <p>Esta seguro que desea borrar el Parametro?</p>
+                <center><p id="TextModal"></p></center>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn">Cancel</button>

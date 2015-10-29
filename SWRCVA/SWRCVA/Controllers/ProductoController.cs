@@ -68,25 +68,25 @@ namespace SWRCVA.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto)
+        public ActionResult Registrar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
             try
             {
                 ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
+                ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
                 if (ModelState.IsValid)
-                {
-                    if (Session["Image"] != null)
-                    {
-
-                        var File = (HttpPostedFile)Session["Image"];
-                        using (MemoryStream ms = new MemoryStream())
+                {     
+                        if (ImageFile != null)
                         {
-                            File.InputStream.CopyTo(ms);
-                            byte[] array = ms.GetBuffer();
-                            producto.Imagen = array;
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                ImageFile.InputStream.CopyTo(ms);
+                                byte[] array = ms.GetBuffer();
+                                producto.Imagen = array;
+                            }
                         }
                         
-                    }
+             
 
                         if (TempData["ListaMateriales"] != null)
                         {
@@ -147,30 +147,36 @@ namespace SWRCVA.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto)
+        public ActionResult Editar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+
             if (ModelState.IsValid)
             {
-                if (Session["Image"] != null)
+                Producto productoToUpdate = db.Producto.Find(producto.IdProducto);
+                if (TryUpdateModel(productoToUpdate, "",
+                   new string[] { "Nombre", "IdTipoProducto", "Imagen", "Estado", "Usuario" }))
                 {
-
-                    var File = (HttpPostedFile)Session["Image"];
+                    if (ImageFile != null)
+                {
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        File.InputStream.CopyTo(ms);
+                        ImageFile.InputStream.CopyTo(ms);
                         byte[] array = ms.GetBuffer();
-                        producto.Imagen = array;
+                            productoToUpdate.Imagen = array;
                     }
-
                 }
-                db.Entry(producto).State = EntityState.Modified;
+                db.Entry(productoToUpdate).State = EntityState.Modified;
                 db.SaveChanges();
+                }
                 if (TempData["ListaMateriales"] != null)
                 {
-                   
-                    foreach (ListaMatProducto item in producto.ListaMatProducto.ToList())
+                    var materiales = (from s in db.ListaMatProducto
+                                      where s.IdProducto == producto.IdProducto
+                                      select s).ToList();
+                    
+                    foreach (ListaMatProducto item in materiales)
                     {
                         db.ListaMatProducto.Attach(item);
                         db.ListaMatProducto.Remove(item);
@@ -330,14 +336,7 @@ namespace SWRCVA.Controllers
             Session["Image"] = null;
         }
 
-        public void CargarImagen()
-        {
-            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
-            {
-
-                Session["Image"] = System.Web.HttpContext.Current.Request.Files["HelpSectionImages"];
-            }
-        }
+       
         protected override void Dispose(bool disposing)
         {
             if (disposing)

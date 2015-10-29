@@ -29,7 +29,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.IdCatMat, "Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.IdCatMat, (IEnumerable<SelectListItem>)ViewBag.CatMaterial, "Selecione", new { @class = "form-control", onchange = "CambiarCat();", id = "DropDownCat", @required = "required", title = "El campo Categoria es necesario" })
+                                @Html.DropDownListFor(model => model.IdCatMat, (IEnumerable<SelectListItem>)ViewBag.CatMaterial, "Selecione", new { @class = "form-control", Type="number", onchange = "CambiarCat();", id = "DropDownCat", @required = "required", title = "El campo Categoria es necesario" })
                                 @Html.ValidationMessageFor(model => model.IdCatMat, "", new { @class = "text-danger" })
                             </div>
                         </div>
