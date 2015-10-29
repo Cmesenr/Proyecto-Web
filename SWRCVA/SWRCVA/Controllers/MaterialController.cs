@@ -78,8 +78,9 @@ namespace SWRCVA.Controllers
                 ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
                 ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
 
-                //ModelState.Remove("Usuario");
+                ModelState.Remove("Usuario");
                 material.Usuario = Session["UsuarioActual"].ToString();
+
                 if (ModelState.IsValid)
                 {
 
@@ -188,8 +189,11 @@ namespace SWRCVA.Controllers
                                                          Nombre = s.Nombre
                                                      }), "IdSubCatMat", "Nombre");
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
-                    try
-                    {
+            try
+            {
+                ModelState.Remove("Usuario");
+                material.Usuario = Session["UsuarioActual"].ToString();
+
                 if (ModelState.IsValid)
                 {
                     material.IdMaterial = id.Value;
@@ -198,12 +202,12 @@ namespace SWRCVA.Controllers
                     if (material.IdCatMat != 1)
                     {
                         var colores = from s in db.ColorMaterial
-                                           select s;
+                                      select s;
                         colores = colores.Where(s => s.IdMaterial == id
                                                             );
                         Listacolores = colores.ToList();
                         foreach (ColorMaterial item in Listacolores)
-                        {   
+                        {
                             db.ColorMaterial.Attach(item);
                             db.ColorMaterial.Remove(item);
                             db.SaveChanges();
@@ -224,15 +228,15 @@ namespace SWRCVA.Controllers
                             return PartialView(material);
                         }
                     }
-                   
+
 
                     return RedirectToAction("Index");
                 }
-                       
-                    }
-                    catch (RetryLimitExceededException /* dex */)
-                    {
-                        ModelState.AddModelError("", "Imposible guardar los cambios. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
+
+            }
+            catch (RetryLimitExceededException /* dex */)
+            {
+                ModelState.AddModelError("", "Imposible guardar los cambios. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
             }
             return PartialView(material);
         }
@@ -243,6 +247,7 @@ namespace SWRCVA.Controllers
             Material materialToUpdate = db.Material.Find(id);
             try
             {
+                materialToUpdate.Usuario = Session["UsuarioActual"].ToString();
                 materialToUpdate.Estado = 0;
                 db.SaveChanges();
                 return RedirectToAction("Index");
