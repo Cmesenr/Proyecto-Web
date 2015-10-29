@@ -62,11 +62,14 @@ namespace SWRCVA.Controllers
         // POST: Usuario/Registrar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar([Bind(Include = " IdUsuario, Contraseña, IdRol, Estado, Usuario1")]Usuario usuario)
+        public ActionResult Registrar(Usuario usuario)
         {
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             try
             {
+                ModelState.Remove("Usuario1");
+                usuario.Usuario1 = Session["UsuarioActual"].ToString();
+
                 if (ModelState.IsValid)
                 {
                     db.Usuario.Add(usuario);
@@ -110,8 +113,9 @@ namespace SWRCVA.Controllers
             }
             Usuario usuarioToUpdate = db.Usuario.Find(id);
             if (TryUpdateModel(usuarioToUpdate, "",
-               new string[] { "Contraseña, IdRol, Estado, Usuario" }))
+               new string[] { "Contraseña, IdRol, Estado" }))
             {
+                usuarioToUpdate.Usuario1 = Session["UsuarioActual"].ToString();
                 try
                 {
                     db.SaveChanges();
@@ -132,6 +136,7 @@ namespace SWRCVA.Controllers
             Usuario usuarioToUpdate = db.Usuario.Find(id);
             try
             {
+                usuarioToUpdate.Usuario1 = Session["UsuarioActual"].ToString();
                 usuarioToUpdate.Estado = 0;
                 db.SaveChanges();
 
