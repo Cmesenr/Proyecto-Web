@@ -1,6 +1,11 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<SWRCVA.Models.Cliente>
 
+ @if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+ {
+     Response.Redirect("../Login/Login");
+ }
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -14,6 +19,7 @@
 </p>
 @using (Html.BeginForm("Index", "Proveedor", FormMethod.Get))
 {
+    @Html.AntiForgeryToken()
     <p>
         <table>
             <tr>
@@ -83,10 +89,10 @@
 
 </table>
 <br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 @section Scripts {
     @Scripts.Render("~/bundles/FuncionesCliente")
 }
@@ -112,4 +118,4 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
         </div>
 
     </div>
-</div>
+</div>    

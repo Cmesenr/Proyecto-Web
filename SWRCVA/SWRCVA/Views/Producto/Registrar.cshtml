@@ -1,5 +1,10 @@
 ﻿@model SWRCVA.Models.Producto
 
+@if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+{
+    Response.Redirect("../Login/Login");
+}
+
 @{
     ViewBag.Title = "Registrar";
 }

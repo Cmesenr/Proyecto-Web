@@ -22,19 +22,27 @@ namespace SWRCVA.Controllers
         public ActionResult Login(Login login)
         {
             Usuario usuarioActual = db.Usuario.Find(login.IdUsuario);
+            Rol rolUsuarioActual = db.Rol.Find(usuarioActual.IdRol);
+
+            if (usuarioActual == null)
+            {
+                ViewBag.Message = "¡Lo sentimos usuario no existe!";
+            }
+
+            if (usuarioActual != null && usuarioActual.Contraseña != login.Contraseña)
+            {
+                ViewBag.Message = "¡Lo sentimos contraseña inválida!";
+            }
 
             if (usuarioActual != null && usuarioActual.Contraseña == login.Contraseña)
             {
                 Session["UsuarioActual"] = usuarioActual.IdUsuario.ToString();
+                Session["RolUsuarioActual"] = rolUsuarioActual.Nombre.ToString();
 
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                ViewBag.Message = "¡Lo sentimos datos no válidos, por favor intentelo de nuevo!";
 
-                return View();
-            }
+            return View();
         }
 
         //
@@ -44,6 +52,8 @@ namespace SWRCVA.Controllers
         public ActionResult CerrarSession()
         {
             Session["UsuarioActual"] = null;
+            Session["RolUsuarioActual"] = null;
+
             return RedirectToAction("Index", "Home");
         }
     }

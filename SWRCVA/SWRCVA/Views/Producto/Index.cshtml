@@ -1,5 +1,11 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<SWRCVA.Models.Producto>
+
+@if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+{
+    Response.Redirect("../Login/Login");
+}
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Index";
@@ -13,6 +19,7 @@
 </p>
 @using (Html.BeginForm("Index", "Producto", FormMethod.Get))
 {
+    @Html.AntiForgeryToken()
     <p>
         <table>
             <tr>

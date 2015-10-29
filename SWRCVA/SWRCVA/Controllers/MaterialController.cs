@@ -77,6 +77,9 @@ namespace SWRCVA.Controllers
                // ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
                 ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
                 ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
+
+                //ModelState.Remove("Usuario");
+                material.Usuario = Session["UsuarioActual"].ToString();
                 if (ModelState.IsValid)
                 {
 

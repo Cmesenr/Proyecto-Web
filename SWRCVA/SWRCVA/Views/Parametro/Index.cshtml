@@ -1,6 +1,11 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<SWRCVA.Models.Parametro>
 
+@if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+{
+    Response.Redirect("../Login/Login");
+}
+
 @{
     ViewBag.Title = "Parametros";
 }
@@ -48,6 +53,7 @@
     <div class="col-md-6">
         @using (Html.BeginForm("Index", "Parametro", FormMethod.Get))
         {
+            @Html.AntiForgeryToken()
             <table>
                 <tr>
                     <td>

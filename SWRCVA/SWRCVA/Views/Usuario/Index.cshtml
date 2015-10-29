@@ -1,5 +1,11 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<SWRCVA.Models.Usuario>
+
+@if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+{
+    Response.Redirect("../Login/Login");
+}
+
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -13,6 +19,7 @@
 </p>
 @using (Html.BeginForm("Index", "Usuario", FormMethod.Get))
 {
+    @Html.AntiForgeryToken()
     <p>
         <table>
             <tr>
@@ -54,7 +61,7 @@
                 @Html.DisplayFor(modelItem => item.Contraseña)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdRol)
+                @Html.DisplayFor(modelItem => item.Rol.Nombre)
             </td>
             <td>
                 @if (item.Estado == 1)

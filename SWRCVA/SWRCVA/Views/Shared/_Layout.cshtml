@@ -22,8 +22,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+
 @if (Session["UsuarioActual"] != null)
 {
+    if (Session["RolUsuarioActual"].ToString() == "Administrador")
+    {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantenimientos<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -35,6 +38,13 @@
                             <li>@Html.ActionLink("Usuarios", "Index", "Usuario")</li>
                         </ul>
                     </li>
+    }
+}
+@if (Session["UsuarioActual"] != null)
+{
+    if (Session["RolUsuarioActual"].ToString() == "Administrador" || Session["RolUsuarioActual"].ToString() == "Usuario")
+    {
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Procesos<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -43,6 +53,13 @@
                             <li>@Html.ActionLink("Control de Productos", "Index", "Producto")</li>
                         </ul>
                     </li>
+    }
+}
+@if (Session["UsuarioActual"] != null)
+{
+    if (Session["RolUsuarioActual"].ToString() == "Administrador" || Session["RolUsuarioActual"].ToString() == "Usuario")
+    {
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Consultas<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -51,6 +68,7 @@
                             <li>@Html.ActionLink("Reporte de Cotizaciones", "Index", "Producto")</li>
                         </ul>
                     </li>
+    }
 }
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>

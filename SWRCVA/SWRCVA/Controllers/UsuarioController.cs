@@ -56,7 +56,6 @@ namespace SWRCVA.Controllers
         public ActionResult Registrar()
         {
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
-
             return View();
         }
 
@@ -86,6 +85,7 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(string id)
         {
+            ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -103,6 +103,7 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarPost(string id)
         {
+            ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
