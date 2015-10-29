@@ -21,6 +21,7 @@ namespace SWRCVA.Models
 
         [Required]
         [StringLength(8)]
+        [DataType(DataType.Password)]
         public string Contraseña { get; set; }
 
         public int IdRol { get; set; }

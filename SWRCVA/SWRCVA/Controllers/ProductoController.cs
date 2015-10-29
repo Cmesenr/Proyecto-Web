@@ -38,9 +38,7 @@ namespace SWRCVA.Controllers
                              select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                producto = producto.Where(s => s.Nombre.Contains(searchString)
-                                                || s.TipoProducto.Nombre.Contains(searchString)
-                                                );
+                producto = producto.Where(s => s.Nombre.Contains(searchString));
             }
             switch (sortOrder)
             {

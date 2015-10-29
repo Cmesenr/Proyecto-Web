@@ -36,9 +36,7 @@ namespace SWRCVA.Controllers
                               select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                Materiales = Materiales.Where(s => s.Nombre.Contains(searchString)
-                                                || s.CategoriaMat.Nombre.Contains(searchString)
-                                                || s.SubCategoria.Nombre.Contains(searchString));
+                Materiales = Materiales.Where(s => s.Nombre.Contains(searchString));
             }
             switch (sortOrder)
             {

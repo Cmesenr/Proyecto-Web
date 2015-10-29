@@ -113,8 +113,9 @@ namespace SWRCVA.Controllers
             }
             Usuario usuarioToUpdate = db.Usuario.Find(id);
             if (TryUpdateModel(usuarioToUpdate, "",
-               new string[] { "Contraseña, IdRol, Estado" }))
+               new string[] { "Contraseña, IdRol, Estado,Usuario" }))
             {
+                ModelState.Remove("Usuario1");
                 usuarioToUpdate.Usuario1 = Session["UsuarioActual"].ToString();
                 try
                 {
