@@ -156,6 +156,8 @@ namespace SWRCVA.Controllers
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
 
+            ModelState.Remove("Usuario");
+
             if (ModelState.IsValid)
             {
                 Producto productoToUpdate = db.Producto.Find(producto.IdProducto);
