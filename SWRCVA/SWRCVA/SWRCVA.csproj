@@ -161,6 +161,7 @@
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\Factura.cs" />
+    <Compile Include="Models\HttpPostedFileBaseExtensions.cs" />
     <Compile Include="Models\ListaMatProducto.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Orden.cs" />

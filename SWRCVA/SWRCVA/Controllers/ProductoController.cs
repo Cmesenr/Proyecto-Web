@@ -10,6 +10,7 @@ using SWRCVA.Models;
 using PagedList;
 using System.Data.Entity.Infrastructure;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace SWRCVA.Controllers
 {
@@ -80,13 +81,22 @@ namespace SWRCVA.Controllers
                 {     
                         if (ImageFile != null)
                         {
-                            using (MemoryStream ms = new MemoryStream())
-                            {
-                                ImageFile.InputStream.CopyTo(ms);
-                                byte[] array = ms.GetBuffer();
-                                producto.Imagen = array;
-                            }
+                        byte[] array;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            ImageFile.InputStream.CopyTo(ms);
+                            array = ms.GetBuffer();
                         }
+                        if (HttpPostedFileBaseExtensions.GetImageFormat(array) != HttpPostedFileBaseExtensions.ImageFormat.Desconocido)
+                        {
+                            producto.Imagen = array;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Imagen", "La imagen debe de ser de un formato correcto(jpg,png,gif,jpeg,tiff,bmp).");
+                            return View();
+                        }
+                    }
                         
              
 
@@ -118,6 +128,7 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Productoes/Edit/5
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
@@ -163,14 +174,23 @@ namespace SWRCVA.Controllers
                    new string[] { "Nombre", "IdTipoProducto", "Imagen", "Estado", "Usuario" }))
                 {
                     productoToUpdate.Usuario = Session["UsuarioActual"].ToString();
-
-                    if (ImageFile != null)
+                    
+                        if (ImageFile != null)
                     {
+                        byte[] array;
                         using (MemoryStream ms = new MemoryStream())
                         {
                             ImageFile.InputStream.CopyTo(ms);
-                            byte[] array = ms.GetBuffer();
-                            productoToUpdate.Imagen = array;
+                            array = ms.GetBuffer();
+                        }
+                        if (HttpPostedFileBaseExtensions.GetImageFormat(array)!= HttpPostedFileBaseExtensions.ImageFormat.Desconocido)
+                        {                         
+                                productoToUpdate.Imagen = array;                         
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Imagen", "La imagen debe de ser de un formato correcto(jpg,png,gif,jpeg,tiff,bmp).");
+                            return View(productoToUpdate);
                         }
                     }
                     db.Entry(productoToUpdate).State = EntityState.Modified;
@@ -352,5 +372,6 @@ namespace SWRCVA.Controllers
             }
             base.Dispose(disposing);
         }
+        
     }
 }
