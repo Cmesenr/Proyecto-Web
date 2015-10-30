@@ -150,6 +150,21 @@
     <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="DataSets\DataSetReporteCotizaciones.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetReporteCotizaciones.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\DataSetReporteFacturas.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetReporteFacturas.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\DataSetReporteOrdenesTrabajo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetReporteOrdenesTrabajo.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,6 +227,39 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="DataSets\DataSetReporteCotizaciones.xsc">
+      <DependentUpon>DataSetReporteCotizaciones.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSets\DataSetReporteCotizaciones.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetReporteCotizaciones.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataSets\DataSetReporteCotizaciones.xss">
+      <DependentUpon>DataSetReporteCotizaciones.xsd</DependentUpon>
+    </Content>
+    <Content Include="DataSets\DataSetReporteOrdenesTrabajo.xsc">
+      <DependentUpon>DataSetReporteOrdenesTrabajo.xsd</DependentUpon>
+    </Content>
+    <Content Include="DataSets\DataSetReporteFacturas.xsc">
+      <DependentUpon>DataSetReporteFacturas.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSets\DataSetReporteFacturas.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetReporteFacturas.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataSets\DataSetReporteFacturas.xss">
+      <DependentUpon>DataSetReporteFacturas.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSets\DataSetReporteOrdenesTrabajo.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetReporteOrdenesTrabajo.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataSets\DataSetReporteOrdenesTrabajo.xss">
+      <DependentUpon>DataSetReporteOrdenesTrabajo.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\FuncionesLogin.js" />
     <Content Include="Scripts\FuncionesCliente.js" />
@@ -273,6 +321,7 @@
     <Content Include="Views\Producto\Index.cshtml" />
     <Content Include="Views\Usuario\Editar.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Login\CambiarClave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
