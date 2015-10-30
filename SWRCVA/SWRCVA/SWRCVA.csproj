@@ -213,6 +213,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\FuncionesLogin.js" />
     <Content Include="Scripts\FuncionesCliente.js" />
     <Content Include="Scripts\FuncionesMaterial.js" />
     <Content Include="Scripts\FuncionesModalMaterial.js" />

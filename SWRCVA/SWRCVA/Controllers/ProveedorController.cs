@@ -15,7 +15,7 @@ namespace SWRCVA.Controllers
         DataContext db = new DataContext();
 
         // GET: Proveedor
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
             {
