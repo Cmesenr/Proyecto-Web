@@ -21,6 +21,11 @@ namespace SWRCVA.Controllers
         // GET: Productoes
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             var producto = db.Producto.Include(p => p.TipoProducto);
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -60,6 +65,11 @@ namespace SWRCVA.Controllers
         // GET: Productoes/Create
         public ActionResult Registrar()
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             return View();
@@ -131,6 +141,11 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             if (id == null)

@@ -17,6 +17,11 @@ namespace SWRCVA.Controllers
         // GET: Proveedor
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
 
@@ -55,6 +60,11 @@ namespace SWRCVA.Controllers
         // GET: Proveedor/Registrar
         public ActionResult Registrar()
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             return View();
         }
 
@@ -86,6 +96,11 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

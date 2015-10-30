@@ -1,11 +1,6 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<SWRCVA.Models.Usuario>
 
-@if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-{
-    Response.Redirect("../Login/Login");
-}
-
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{

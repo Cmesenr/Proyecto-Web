@@ -18,7 +18,12 @@ namespace SWRCVA.Controllers
         private List<ColorMaterial> Listacolores = new List<ColorMaterial>();
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            
+
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
 
@@ -57,6 +62,11 @@ namespace SWRCVA.Controllers
         // GET: Material/Create
         public ActionResult Registrar()
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
             ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
@@ -123,6 +133,11 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             
            

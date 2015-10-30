@@ -18,8 +18,8 @@ namespace SWRCVA.Controllers
             if(Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
             {
                return RedirectToAction("Login","Login");
-
             }
+
             if (tabla != null)
             {
                 Session["Currentabla"] = tabla;
@@ -260,6 +260,11 @@ namespace SWRCVA.Controllers
         // GET: Parametro/Registrar
         public ActionResult Registrar()
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             return View();
         }
@@ -355,6 +360,11 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (id == null|| Session["Currentabla"] == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
