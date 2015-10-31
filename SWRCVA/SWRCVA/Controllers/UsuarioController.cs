@@ -127,8 +127,9 @@ namespace SWRCVA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            usuario.Usuario1= Session["UsuarioActual"].ToString();
+
             ModelState.Remove("Usuario1");
+            usuario.Usuario1= Session["UsuarioActual"].ToString();
             Usuario usuarioToUpdate = db.Usuario.Find(id);
 
             if (ModelState.IsValid) {

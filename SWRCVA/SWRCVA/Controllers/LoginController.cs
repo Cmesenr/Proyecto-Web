@@ -1,6 +1,7 @@
 ﻿using SWRCVA.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -59,10 +60,47 @@ namespace SWRCVA.Controllers
         }
 
         // GET: /CambiarClave/
-        public ActionResult CambiarClave()
+        public ActionResult CambiarContraseña()
         {
             return View();
         }
 
+        // POST: /CambiarContraseña/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CambiarContraseña(Login login)
+        {
+            if(login.IdUsuario != null && login.Contraseña != null)
+            {
+                Usuario usuarioToUpdate = db.Usuario.Find(login.IdUsuario);
+
+                if (usuarioToUpdate != null)
+                {
+                    ModelState.Remove("Contraseña");
+                    ModelState.Remove("Usuario1");
+                    usuarioToUpdate.Contraseña = login.Contraseña;
+                    usuarioToUpdate.Usuario1 = login.IdUsuario;
+
+                    if (ModelState.IsValid)
+                    {
+                        if (TryUpdateModel(usuarioToUpdate, "",
+                           new string[] { "Contraseña", "IdRol", "Estado", "Usuario1" }))
+                        {
+                            try
+                            {
+                                db.SaveChanges();
+
+                                return RedirectToAction("Login");
+                            }
+                            catch (RetryLimitExceededException /* dex */)
+                            {
+                                ModelState.AddModelError("", "Imposible guardar los cambios. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
+                            }
+                        }
+                    }
+                }
+            }
+            return View();
+        }
     }
 }

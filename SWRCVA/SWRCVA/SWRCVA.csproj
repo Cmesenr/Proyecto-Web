@@ -321,7 +321,7 @@
     <Content Include="Views\Producto\Index.cshtml" />
     <Content Include="Views\Usuario\Editar.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Login\CambiarClave.cshtml" />
+    <Content Include="Views\Login\CambiarContraseña.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

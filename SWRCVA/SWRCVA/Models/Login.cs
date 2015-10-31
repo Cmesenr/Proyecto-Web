@@ -19,5 +19,10 @@ namespace SWRCVA.Models
         [Required]
         [DataType(DataType.Password)]
         public string Contraseña { get; set; }
+
+        [DataType(DataType.Password)]
+        [Compare("Contraseña", ErrorMessage = "Las contraseñas deben coincidir.")]
+        public string ConfirmacionContraseña { get; set; }
+
     }
 }
