@@ -59,3 +59,28 @@ textarea {
     .label-default{
         font-size:small;
     }
+
+
+    /*Propuesta 1*/
+/*.navbar {
+    background-color:#000000;
+}
+.navbar .nav li a {
+    font-size:large;
+     color:#eee;
+}
+.navbar .nav ul li  a{
+    color:#000000;
+    font-size:medium;
+}*/
+
+ /*Propuesta 2*/
+.navbar .nav li a {
+           color:#000000;
+       font-size:large;
+}
+.navbar .nav ul li  a {
+
+     color:#000000;
+    font-size:medium; 
+}
