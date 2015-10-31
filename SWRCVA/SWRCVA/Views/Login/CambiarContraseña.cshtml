@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "CambiarContraseña";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Cambiar Contraseña</h2>
@@ -13,21 +14,24 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.IdUsuario, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.IdUsuario,"Usuario", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.IdUsuario, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Contraseña, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.Contraseña,"Nueva contraseña", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.Contraseña, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmacionContraseña, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.ConfirmacionContraseña,"Vuelva a escribir la contraseña", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.ConfirmacionContraseña, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ConfirmacionContraseña, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
@@ -39,4 +43,6 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/FuncionesLogin")
 }

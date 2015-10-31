@@ -65,3 +65,9 @@
 <div>
     <button onclick="location.href='@Url.Action("Index")'" class="btn btn-info">Regresar a la Lista</button>
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/FuncionesUsuario")
+
+}
