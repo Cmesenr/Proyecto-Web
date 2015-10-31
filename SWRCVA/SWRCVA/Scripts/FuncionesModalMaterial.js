@@ -11,7 +11,8 @@ $(".edit").click(function () {
        var id = $(this).attr("data-id");
    $("#modal").load("/Material/Editar/" + id, function () {
         $('#modal').modal("show");
-    })
+   })
+ 
 });
 function EliminarMaterial(valor) {
 
