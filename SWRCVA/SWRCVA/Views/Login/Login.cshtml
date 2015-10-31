@@ -36,6 +36,8 @@
             </div>
         </div>
 
+        @Html.ActionLink("¿Cambiar su clave?", "CambiarClave", "Login", routeValues: null, htmlAttributes: new { id = "registerLink" })
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <h5 class="text-danger">@ViewBag.Message</h5>

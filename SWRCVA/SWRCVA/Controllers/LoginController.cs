@@ -57,5 +57,12 @@ namespace SWRCVA.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        // GET: /CambiarClave/
+        public ActionResult CambiarClave()
+        {
+            return View();
+        }
+
     }
 }
