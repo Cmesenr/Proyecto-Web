@@ -242,8 +242,12 @@
     <Content Include="Content\Imagenes\images\slides\thumbs\road.jpg" />
     <Content Include="Content\Imagenes\images\slides\thumbs\sea.jpg" />
     <Content Include="Content\Imagenes\images\slides\thumbs\shelter.jpg" />
+    <Content Include="Content\Imagenes\images\slides\thumbs\Trabajo1.jpg" />
+    <Content Include="Content\Imagenes\images\slides\thumbs\Trabajo2.jpg" />
     <Content Include="Content\Imagenes\images\slides\thumbs\tree.jpg" />
     <Content Include="Content\Imagenes\images\slides\thumbs\_notes\dwsync.xml" />
+    <Content Include="Content\Imagenes\images\slides\Trabajo1.jpg" />
+    <Content Include="Content\Imagenes\images\slides\Trabajo2.jpg" />
     <Content Include="Content\Imagenes\images\slides\tree.jpg" />
     <Content Include="Content\Imagenes\images\slides\_notes\dwsync.xml" />
     <Content Include="Content\Imagenes\images\_notes\dwsync.xml" />
