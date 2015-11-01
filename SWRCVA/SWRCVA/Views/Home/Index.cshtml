@@ -1,53 +1,53 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<div ></div><br />
-<br />
-<div class="container">
-    <div class="row">
-        <div class="col-xs-3">
-            <a href="#" class="thumbnail">
-                <img src=" ~/Content/Imagenes/Fijo y Puerta.png" />"
-            </a>
-        </div>
-        <div class="col-xs-3">
-            <a href="#" class="thumbnail">
-                <img src="~/Content/Imagenes/FACHADA.jpg" />
-            </a>
-        </div>
-        <div class="col-xs-3">
-            <a href="#" class="thumbnail">
-                <img src="~/Content/Imagenes/puerta corrediza corrediza.jpg" />
-            </a>
-        </div>
-        <div class="col-xs-3">
-            <a href="#" class="thumbnail">
-                <img src="~/Content/Imagenes/TICAL PUERTA.FIJO.jpg" />
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-3">
-            <a href="#" class="thumbnail">
-                <img src="~/Content/Imagenes/fijoss.jpg" />
+<link href="~/Content/camera.css" rel="stylesheet" />
 
-            </a>
-        </div>
-        <div class="col-xs-3">
-            <a href="#" class="thumbnail">
-                <img src="~/Content/Imagenes/corredizo dos paños.jpg" />
-            </a>
-        </div>
-        <div class="col-xs-3">
-            <a href="#" class="thumbnail">
-                <img src="~/Content/Imagenes/SOBRE DE MESA TICAL.jpg" />
-            </a>
-        </div>
-        <div class="col-xs-3">
-            <a href="#" class="thumbnail">
-                
-                <img src="~/Content/Imagenes/forma P.B.jpg" />
-            </a>
-        </div>
-    </div>
-</div>
+    <div id="back_to_camera">
+        <a href="http://www.pixedelic.com/plugins/camera/">&larr; Back to the Camera project</a>
+    </div><!-- #back_to_camera -->
+
+    <div class="fluid_container">
+        <div class="camera_wrap camera_emboss pattern_5 camera_ash_skin" id="camera_wrap_4">
+            <div data-thumb="../Content/Imagenes/images/slides/thumbs/Trabajo1.jpg" data-src="../Content/Imagenes/images/slides/Trabajo1.jpg">
+            </div>
+            <div data-thumb="../Content/Imagenes/images/slides/thumbs/Trabajo2.jpg" data-src="../Content/Imagenes/images/slides/Trabajo2.jpg">
+            </div>
+            <div data-thumb="../Content/Imagenes/images/slides/thumbs/bridge.jpg" data-src="../Content/Imagenes/images/slides/bridge.jpg">
+            </div>
+            <div data-thumb="../Content/Imagenes/images/slides/thumbs/leaf.jpg" data-src="../Content/Imagenes/images/slides/leaf.jpg">
+            </div>
+            <div data-thumb="../Content/Imagenes/images/slides/thumbs/road.jpg" data-src="../Content/Imagenes/images/slides/road.jpg">
+            </div>
+            <div data-thumb="../Content/Imagenes/images/slides/thumbs/sea.jpg" data-src="../Content/Imagenes/images/slides/sea.jpg">
+            </div>
+            <div data-thumb="../Content/Imagenes//images/slides/thumbs/shelter.jpg" data-src="../Content/Imagenes/images/slides/shelter.jpg">
+            </div>
+            <div data-thumb="../Content/Imagenes/images/slides/thumbs/tree.jpg" data-src="../Content/Imagenes/images/slides/tree.jpg">
+            </div>
+        </div><!-- #camera_wrap_3 -->
+    </div><!-- .fluid_container -->
+
+
+@section Scripts {
+<script type="text/javascript" src="~/Scripts/Slider/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/Slider/jquery.mobile.customized.min.js"></script>
+<script type="text/javascript" src="~/Scripts/Slider/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="~/Scripts/Slider/camera.min.js"></script>
+<script>
+		jQuery(function(){
+
+			jQuery('#camera_wrap_4').camera({
+				height: 'auto',
+				loader: 'bar',
+				pagination: false,
+				thumbnails: true,
+				hover: false,
+				opacityOnGrid: false,
+				imagePath: '../Content/Imagenes/images/'
+			});
+
+		});
+</script>
+}
+
