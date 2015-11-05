@@ -375,7 +375,6 @@ namespace SWRCVA.Controllers
         public void RefrescarLista()
         {
             TempData["ListaMateriales"] = null;
-            Session["Image"] = null;
         }
 
        
