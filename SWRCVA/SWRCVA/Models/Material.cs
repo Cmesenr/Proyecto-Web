@@ -28,6 +28,7 @@ namespace SWRCVA.Models
         public int IdCatMat { get; set; }
 
         public int? IdSubCatMat { get; set; }
+        public int? IdTipoMaterial { get; set; }
         [Required]
         public int IdProveedor { get; set; }
         [Required]
@@ -50,6 +51,7 @@ namespace SWRCVA.Models
         public virtual Proveedor Proveedor { get; set; }
 
         public virtual SubCategoria SubCategoria { get; set; }
+        public virtual TipoMaterial TipoMaterial { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductoCotizacion> ProductoCotizacion { get; set; }

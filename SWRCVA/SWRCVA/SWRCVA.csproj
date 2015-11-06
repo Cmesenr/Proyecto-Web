@@ -186,6 +186,7 @@
     <Compile Include="Models\Proveedor.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\SubCategoria.cs" />
+    <Compile Include="Models\TipoMaterial.cs" />
     <Compile Include="Models\TipoProducto.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Login.cs" />

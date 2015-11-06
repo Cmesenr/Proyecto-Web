@@ -9,6 +9,12 @@ namespace SWRCVA.Models
     [Table("Factura")]
     public partial class Factura
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Factura()
+        {
+            DetalleFactura = new HashSet<DetalleFactura>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdFactura { get; set; }
@@ -29,7 +35,8 @@ namespace SWRCVA.Models
 
         public virtual Cliente Cliente { get; set; }
 
-        public virtual DetalleFactura DetalleFactura { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetalleFactura> DetalleFactura { get; set; }
 
         public virtual Usuario Usuario1 { get; set; }
     }

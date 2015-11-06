@@ -15,6 +15,7 @@ namespace SWRCVA.Models
             ColorMat = new HashSet<ColorMat>();
             Material = new HashSet<Material>();
             SubCategoria = new HashSet<SubCategoria>();
+            TipoMaterial = new HashSet<TipoMaterial>();
         }
 
         [Key]
@@ -39,5 +40,8 @@ namespace SWRCVA.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubCategoria> SubCategoria { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TipoMaterial> TipoMaterial { get; set; }
     }
 }

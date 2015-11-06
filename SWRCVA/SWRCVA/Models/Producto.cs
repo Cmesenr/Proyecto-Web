@@ -23,8 +23,11 @@ namespace SWRCVA.Models
         [Required]
         [StringLength(100)]
         public string Nombre { get; set; }
-        [Required]
+
         public int IdTipoProducto { get; set; }
+
+        [StringLength(50)]
+        public string Forma { get; set; }
 
         [Column(TypeName = "image")]
         public byte[] Imagen { get; set; }
