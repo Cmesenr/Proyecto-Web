@@ -1,10 +1,12 @@
 ﻿
-
+//Remover propiedad de categoria para guardar
 $(function () {
     $("#EditarMaterialform").on('submit', function (e) {
         $("#DropDownCat").removeAttr("disabled");
+
     });
 });
+//Refrescar Pagina al cerrar el modal
 $(document).ready(function (e) {
     CambiarCat();
     $('#modal').on('hidden.bs.modal', function (e) {
@@ -18,9 +20,11 @@ $(document).ready(function (e) {
     });
 
 });
+//Evento para Cargar combo color y subCategoria
 $("#FormRegistrarMat").on("change", "#DropDownCat", function () {
     CargarColorAndSub();
 })
+//Agregar color a la lista
 $("#ColorMaterial").on("click", "#btnAgregarColor", function () {
     if ($("#ColorMatselect").val() != "" && $("#txtCostoMat").val() != "") {
         var params = { IdColor: $("#ColorMatselect").val(), Costo: $("#txtCostoMat").val() };
@@ -73,7 +77,7 @@ $("#ColorMaterial").on("click", "#btnAgregarColor", function () {
     }
 
 })
-
+//Eliminar color de la lista
 $("#ColorMaterial").on("click", "#eliminarcolormat", function () {
     var id = $(this).attr("data-id");
     $.ajax({
@@ -101,6 +105,7 @@ $("#ColorMaterial").on("click", "#eliminarcolormat", function () {
     })
 
 })
+//Ocultar y Mostrar Campos
 function CambiarCat() {
     if ($('#DropDownCat').val() == "1") {
         $('#ColorMaterial').slideUp();
@@ -118,6 +123,7 @@ function CambiarCat() {
 
     }
 };
+//Limpiar la lista de colores
 function RefrescarLista() {
     $.ajax({
         cache: false,
@@ -131,6 +137,7 @@ function RefrescarLista() {
     });
 
 }
+//Cargar combo color, tipo Material y subCategoria
 function CargarColorAndSub() {
     var id = $("#DropDownCat").val();
     if (id != 1 && id != "") {
@@ -156,7 +163,28 @@ function CargarColorAndSub() {
             }
 
         });
+        $.ajax({
+            cache: false,
+            url: "/Material/CargarTipoMaterial",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var items = "<option value=''>Tipos...</option>";
+                for (var i = 0; i < data.length; i++) {
 
+                    items += "<option value=" + parseInt(data[i].IdTipoMaterial) + ">" + data[i].Nombre + "</option>";
+                }
+                $('#DropDownTipoMat').removeAttr("disabled");
+                $("#DropDownTipoMat").html(items);
+
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+
+        });
         $.ajax({
             cache: false,
             url: "/Material/CargarColores",
@@ -187,6 +215,28 @@ function CargarColorAndSub() {
         $('#txtCostoMat').attr("disabled", "disabled");
         $('#btnAgregarColor').attr("disabled", "disabled");
         $('#dropSubCat').attr("disabled", "disabled");
+        $.ajax({
+            cache: false,
+            url: "/Material/CargarTipoMaterial",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var items = "<option value=''>Tipos...</option>";
+                for (var i = 0; i < data.length; i++) {
+
+                    items += '<option value=' + parseInt(data[i].IdTipoMaterial) +'>' + data[i].Nombre + '</option>';
+                }
+                $('#DropDownTipoMat').removeAttr("disabled");
+                $("#DropDownTipoMat").html(items);
+
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+
+        });
     }
 }
 

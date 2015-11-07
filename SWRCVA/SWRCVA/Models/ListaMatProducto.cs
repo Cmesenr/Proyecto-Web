@@ -19,12 +19,10 @@ namespace SWRCVA.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdMaterial { get; set; }
 
-        [Required]
-        [StringLength(15)]
-        public string Usuario { get; set; }
-
         [NotMapped]
         public string NombreMaterial { get; set; }
+        [NotMapped]
+        public int? TipoMate { get; set; }
 
         public virtual Material Material { get; set; }
 

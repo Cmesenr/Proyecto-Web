@@ -17,7 +17,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.IdProducto)
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6" id="formProductotipo">
         <div class="form-group">
             @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -26,13 +26,46 @@
             </div>
         </div>
 
-        <div class="form-group">
+                <div class="form-group">
                     @Html.LabelFor(model => model.IdTipoProducto, "Tipo de Producto", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.IdTipoProducto, null, "Seleccione", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IdTipoProducto, "", new { @class = "text-danger" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.IdTipoProducto, null, "Seleccione", htmlAttributes: new { @class = "form-control", id = "DropDownTipoProducto" })
+                        @Html.ValidationMessageFor(model => model.IdTipoProducto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Forma, "Atributos", htmlAttributes: new { @class = "control-label col-md-2", @hidden = "hidden", id = "lblAtributos" })
+                <div id="Group_Ventana" class="col-md-10" hidden="hidden">
+
+                    @Html.RadioButtonFor(model => model.Forma, "F") &nbsp;<span class="text-muted">Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "CE") &nbsp;<span class="text-muted">Celocia</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "CU") &nbsp;<span class="text-muted">Curva</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "F-C") &nbsp;<span class="text-muted">Fijo-Celocia</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "C-F") &nbsp;<span class="text-muted">Celocia-Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "C-o-F") &nbsp;<span class="text-muted">Celocia sobre Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "F-C-F") &nbsp;<span class="text-muted">Fijo-Celocia-Fijo</span>
+                    @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
+                </div>
+                <div id="Group_Ventana5020" class="col-md-10" hidden="hidden">
+                    @Html.RadioButtonFor(model => model.Forma, "F-M") &nbsp;<span class="text-muted">Fijo-Movil</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "M-M") &nbsp;<span class="text-muted">Movil-Movil</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "F-M-F") &nbsp;<span class="text-muted">Fijo-Movil-Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "M-F-M") &nbsp;<span class="text-muted">Movil-Fijo-Movil</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "F-M-M-F") &nbsp;<span class="text-muted">Fijo-Movil-Movil-Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "M-F-F-M") &nbsp;<span class="text-muted">Movil-Fijo-Fijo-Movil</span>
+                    @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
+                </div>
+                <div id="Group_Portones" class="col-md-10" hidden="hidden">
+                    @Html.RadioButtonFor(model => model.Forma, "F-M") &nbsp;<span class="text-muted">Fijo-Movil</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "M-M") &nbsp;<span class="text-muted">Movil-Movil</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "F-M-F") &nbsp;<span class="text-muted">Fijo-Movil-Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "M-F-M") &nbsp;<span class="text-muted">Movil-Fijo-Movil</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "F-M-M-F") &nbsp;<span class="text-muted">Fijo-Movil-Movil-Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "M-F-F-M") &nbsp;<span class="text-muted">Movil-Fijo-Fijo-Movil</span>
+                    @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
+        
                 <div class="form-group" id="ProductMaterial">
                     @Html.Label("Materiales", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -45,7 +78,7 @@
                                     <select id="MaterialSelect" class="form-control" name="MaterialProducto" disabled="disabled"></select>
 
                                 </td>
-                                <td colspan="2">&nbsp;&nbsp;<input type="button" id="btnAgregarMaterial" class="btn-success btn-xs" value="+" /></td>
+                                <td colspan="2">&nbsp;&nbsp;<input type="button" id="btnAgregarMaterial" class="btn-success btn-xs" value="+" disabled="disabled" /></td>
                             </tr>
                             <tr>
                                 <td rowspan="2">
@@ -99,7 +132,7 @@ new List<Object>{
                     <div class="text-info"><h4>Lista Materiales:</h4></div>
                     <div class="col-md-10">
                         <table class="table-condensed" id="ListaMateriales">
-                            @{var divisor = 3;
+                            @{var divisor = 2;
                                 int i = 0;
                                 string resultado = "";
                                 foreach (var item in Model.ListaMatProducto.ToList())
@@ -113,7 +146,7 @@ new List<Object>{
                                     if (i == (divisor - 1))
                                     {
                                         resultado += "</tr>";
-                                        divisor += 3;
+                                        divisor += 2;
                                     }
 
                                     i++;
@@ -147,10 +180,31 @@ new List<Object>{
 <div>
     <button onclick="location.href='@Url.Action("Index")',RefrescarLista()" class="btn btn-info">Regresar a la Lista</button>
 </div>
+<div class="modal fade" id="ModalError" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Error</h4>
+            </div>
+            <div class="modal-body">
+                <center><p id="TextModal"></p></center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/FuncionesProducto")
-<script type="text/javascript">
-    window.onbeforeunload = RefrescarLista;
-</script>
+    <script type="text/javascript">
+        $(window).unload(function () {
+            RefrescarLista();
+        });
+    </script>
 }

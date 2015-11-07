@@ -5,6 +5,7 @@
         $(e.currentTarget).find('#btnModalborrar').val(id);
         $(e.currentTarget).find('#TextModal').html("Esta seguro que desea borrar el Material " + data + " ?");
     });
+
 });
 
 $(".edit").click(function () {

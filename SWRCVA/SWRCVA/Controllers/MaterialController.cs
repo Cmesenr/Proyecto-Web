@@ -81,9 +81,7 @@ namespace SWRCVA.Controllers
         {
             try
             {
-                //ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-               // ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
-                ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
+                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
                 ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
 
                 ModelState.Remove("Usuario");
@@ -138,9 +136,7 @@ namespace SWRCVA.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
-            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-            
-           
+            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre"); 
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
             if (id == null)
             {
@@ -179,6 +175,13 @@ namespace SWRCVA.Controllers
                                                         IdSubCatMat = s.IdSubCatMat,
                                                         Nombre = s.Nombre
                                                     }), "IdSubCatMat", "Nombre");
+            ViewBag.TipoMateriales = new SelectList((from s in db.TipoMaterial
+                                                     where s.IdCatMat==material.IdCatMat
+                                                     select new {
+                                                         s.IdTipoMaterial,
+                                                         s.Nombre
+                                                     }
+                                                     ), "IdTipoMaterial", "Nombre");
             return PartialView(material);
         }
 
@@ -201,6 +204,14 @@ namespace SWRCVA.Controllers
                                                          IdSubCatMat = s.IdSubCatMat,
                                                          Nombre = s.Nombre
                                                      }), "IdSubCatMat", "Nombre");
+            ViewBag.TipoMateriales = new SelectList((from s in db.TipoMaterial
+                                                     where s.IdCatMat == material.IdCatMat
+                                                     select new
+                                                     {
+                                                         s.IdTipoMaterial,
+                                                         s.Nombre
+                                                     }
+                                                    ), "IdTipoMaterial", "Nombre");
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
             try
             {
@@ -354,6 +365,19 @@ namespace SWRCVA.Controllers
 
             return Json(listSubCat.ToList(),
                JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CargarTipoMaterial(int id)
+        {
+            var TipoMaterial = (from s in db.TipoMaterial
+                               where s.IdCatMat== id
+                               select new
+                               {
+                                   s.IdTipoMaterial,
+                                   s.Nombre
+                               }).ToList();
+            return Json(TipoMaterial,
+              JsonRequestBehavior.AllowGet);
+
         }
         public JsonResult CargarColores(int id)
         {

@@ -1,4 +1,25 @@
 ﻿$(document).ready(function () {
+    switch ($("#DropDownTipoProducto").val()) {
+        case '0': {
+            $("#Group_Ventana").show();
+            $("#lblAtributos").show();
+            break;
+        }
+        case '1': {
+            $("#Group_Ventana5020").show();
+            $("#lblAtributos").show();
+            break;
+        }
+        case '6': {
+            $("#Group_Portones").show();
+            $("#lblAtributos").show();
+            break;
+        }
+
+    }
+})
+
+$(document).ready(function () {
     $("#ImageFile").change(function () {
         var data = new FormData();
         $('#ImageDiv').html('<img src="/Content/Imagenes/loading.gif"/>');
@@ -26,8 +47,12 @@
         CargarMateriales($("#DropDownCategoria").val(), $("#SubCatSelect").val(),$("#ColorMatselect").val());
 
     })
+    $("#ProductMaterial").on("change", "#MaterialSelect", function () {
+        $("#btnAgregarMaterial").removeAttr("disabled");
+    })
     $("#ProductMaterial").on("change", "#DropDownCategoria", function () {
         var id = $("#DropDownCategoria").val();
+                    
         $('#MaterialSelect').attr("disabled","disabled");
         if (id != 1&& id!=0) {
             $('#SubCatSelect').show();
@@ -63,6 +88,34 @@
             CargarMateriales($("#DropDownCategoria").val());
         }
     })
+
+    $("#formProductotipo").on("change", "#DropDownTipoProducto", function () {
+        var id = $("#DropDownTipoProducto").val();
+        $("#Group_Ventana").hide();
+        $("#Group_Ventana5020").hide();
+        $("#Group_Portones").hide();
+        $("#lblAtributos").hide();
+        switch (id) {
+            case '0' : {           
+                $("#Group_Ventana").show();
+                $("#lblAtributos").show();
+                break;
+            }
+            case '1': {
+                $("#Group_Ventana5020").show();
+                $("#lblAtributos").show();
+                break;
+            }
+            case '6': {
+                $("#Group_Portones").show();
+                $("#lblAtributos").show();
+                break;
+            }
+     
+        }
+
+    })
+
 })
 $(document).ready(function (e) {
     $('#ModalConfirm').on('show.bs.modal', function (e) {
@@ -75,13 +128,14 @@ $(document).ready(function (e) {
 $(function()
 {
     $("#FormProductos").on("click", "#btnAgregarMaterial", function () {
+
         if ($("#MaterialSelect").val() != "") {
             var params = { IdMat: $("#MaterialSelect").val() };
             var respuesta = true;
         }
         else {
-            alert("Debe selecionar el material!!");
-
+            $("#TextModal").html("Debe selecionar el material!!");
+            $('#ModalError').modal("show");
         }
 
         if (respuesta) {
@@ -95,12 +149,13 @@ $(function()
                 success: function (data) {
 
                     if (typeof (data) == "string") {
-                        alert(data);
+                        $("#TextModal").html(data);
+                        $('#ModalError').modal("show");
                         $("#MaterialSelect").val("");
                     }
                     else {
                         $("#ListaMateriales").empty();
-                        var divisor = 3;
+                        var divisor = 2;
                         var string = "";
                         for (var i = 0; i < data.length; i++) {
                             if (i == 0 || divisor == i) {
@@ -110,7 +165,7 @@ $(function()
                             string += '<td><span class="label label-default">' + data[i].NombreMaterial + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td>';
                             if (i == (divisor - 1)) {
                                 string += '</tr>';
-                                divisor += 3;
+                                divisor += 2;
                             }
 
                         }
@@ -147,7 +202,7 @@ $(function()
                 }
                 else {
                     $("#ListaMateriales").empty();
-                    var divisor = 3;
+                    var divisor = 2;
                     var string = "";
                     for (var i = 0; i < data.length; i++) {
                         if (i == 0 || divisor == i) {
@@ -157,7 +212,7 @@ $(function()
                         string += '<td><span class="label label-default">' + data[i].NombreMaterial + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td>';
                         if (i == (divisor - 1)) {
                             string += '</tr>';
-                            divisor += 3;
+                            divisor += 2;
                         }
 
                     }

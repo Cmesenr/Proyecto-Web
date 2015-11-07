@@ -133,10 +133,6 @@ namespace SWRCVA.Models
                 .WithRequired(e => e.Factura)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<ListaMatProducto>()
-                .Property(e => e.Usuario)
-                .IsUnicode(false);
-
             modelBuilder.Entity<Material>()
                 .Property(e => e.Usuario)
                 .IsUnicode(false);

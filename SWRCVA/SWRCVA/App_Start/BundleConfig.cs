@@ -28,6 +28,7 @@ namespace SWRCVA
           "~/Scripts/jquery.bonnet*"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/animate.css",
                       "~/Content/site.css"));
             bundles.Add(new ScriptBundle("~/bundles/FuncionesParametros").Include(
                 "~/Scripts/FuncionesParametros.js"));

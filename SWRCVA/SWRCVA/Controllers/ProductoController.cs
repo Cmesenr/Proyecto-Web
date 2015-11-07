@@ -77,7 +77,7 @@ namespace SWRCVA.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registrar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
+        public ActionResult Registrar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Forma,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
             try
             {
@@ -162,7 +162,6 @@ namespace SWRCVA.Controllers
                 ListaMatProducto MatProduct = new ListaMatProducto();
                 MatProduct.IdProducto = item.IdProducto;
                 MatProduct.IdMaterial = item.IdMaterial;
-                MatProduct.Usuario = item.Usuario;
                 MatProduct.NombreMaterial = item.Material.Nombre;
                 Listamateriales.Add(MatProduct);
             }
@@ -175,7 +174,7 @@ namespace SWRCVA.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
+        public ActionResult Editar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Forma,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
@@ -186,7 +185,7 @@ namespace SWRCVA.Controllers
             {
                 Producto productoToUpdate = db.Producto.Find(producto.IdProducto);
                 if (TryUpdateModel(productoToUpdate, "",
-                   new string[] { "Nombre", "IdTipoProducto", "Imagen", "Estado", "Usuario" }))
+                   new string[] { "Nombre", "IdTipoProducto","Forma", "Imagen", "Estado", "Usuario" }))
                 {
                     productoToUpdate.Usuario = Session["UsuarioActual"].ToString();
                     
@@ -266,20 +265,28 @@ namespace SWRCVA.Controllers
             }
             try
             {
+                
                 ListaMatProducto ListMat = new ListaMatProducto();
+                Material mat = db.Material.Find(IdMat);
                 ListMat.IdMaterial = IdMat;
-                ListMat.Usuario = "Charlie";
-                ListMat.NombreMaterial = db.Material.Find(IdMat).Nombre;
+                ListMat.NombreMaterial = mat.Nombre;
+                ListMat.TipoMate= mat.IdTipoMaterial;
                 if (Listamateriales.Count() == 0) { Listamateriales.Add(ListMat); }
                 else
                 {
-
                     foreach (ListaMatProducto listMatProduct in Listamateriales)
                     {
                         if (listMatProduct.IdMaterial == IdMat)
                         {
                             TempData["ListaMateriales"] = Listamateriales;
                             resultado = "No se puede duplicar el Material!";
+                            return Json(resultado,
+                            JsonRequestBehavior.AllowGet);
+                        }
+                        if (listMatProduct.TipoMate == ListMat.TipoMate)
+                        {
+                            TempData["ListaMateriales"] = Listamateriales;
+                            resultado = "No se puede insertar materiales de un mismo tipo en un Producto!";
                             return Json(resultado,
                             JsonRequestBehavior.AllowGet);
                         }
