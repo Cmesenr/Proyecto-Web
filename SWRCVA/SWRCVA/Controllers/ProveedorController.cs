@@ -12,7 +12,7 @@ namespace SWRCVA.Controllers
 {
     public class ProveedorController : Controller
     {
-        DataContext db = new DataContext();
+        private DataContext db = new DataContext();
 
         // GET: Proveedor
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)

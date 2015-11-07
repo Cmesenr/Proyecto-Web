@@ -72,6 +72,11 @@ namespace SWRCVA.Models
                 .HasPrecision(8, 0);
 
             modelBuilder.Entity<Cliente>()
+                .HasMany(e => e.Cotizacion)
+                .WithRequired(e => e.Cliente)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Cliente>()
                 .Property(e => e.Usuario)
                 .IsUnicode(false);
 

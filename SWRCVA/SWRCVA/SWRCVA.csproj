@@ -143,6 +143,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
+    <Compile Include="Controllers\CotizacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ParametroController.cs" />
@@ -369,6 +370,9 @@
     <Content Include="Views\Usuario\Editar.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Login\CambiarContraseña.cshtml" />
+    <Content Include="Views\Cotizacion\Cotizar.cshtml" />
+    <Content Include="Views\Cotizacion\Editar.cshtml" />
+    <Content Include="Views\Cotizacion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

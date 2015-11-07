@@ -1,0 +1,80 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<SWRCVA.Models.Cotizacion>
+
+
+@{
+    ViewBag.Title = "Cotizaciones";
+}
+
+<h2>Cotizaciones</h2>
+
+<div class="text-right">
+    <button id="Registrar" onclick="location.href='@Url.Action("Cotizar", "Cotizacion")'" class="btn btn-info"><h4>Cotizar</h4></button>
+</div>
+@using (Html.BeginForm("Index", "Cotizacion", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+    <p>
+        <table>
+            <tr>
+                <td>
+                    Buscar por nombre:
+                </td>
+                <td>
+                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                </td>
+                <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+            </tr>
+        </table>
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            Cliente
+        </th>
+        <th>
+            Cantidad
+        </th>
+        <th>
+            Estado
+        </th>
+        <th>
+            Fecha
+        </th>
+        <th>
+           Monto
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CantProducto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MontoParcial)
+        </td>
+        <td>
+            <button id="btnEditarMaterial" data-id="@item.IdCotizacion" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+            <button id="btnBorrarMaterial" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdCotizacion" data-id="@item.IdCotizacion" type="button" class="btn btn-danger delete">Borrar</button>
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

@@ -36,6 +36,8 @@ namespace SWRCVA.Models
 
         public decimal MontoParcial { get; set; }
 
+        public virtual Cliente Cliente { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orden> Orden { get; set; }
 
