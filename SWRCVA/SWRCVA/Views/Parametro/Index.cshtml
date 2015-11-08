@@ -79,9 +79,13 @@
         @if (ViewBag.PorcentVisible == 1)
         {
             <th>
+                Tipo
+            </th>
+            <th>
                 Porcentaje
             </th>
         }
+  
         <th>
             Estado
         </th>
@@ -102,6 +106,9 @@
                 </td>}
             @if (ViewBag.PorcentVisible == 1)
             {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Porcentaje)
                 </td>

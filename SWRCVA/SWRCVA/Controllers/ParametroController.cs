@@ -232,6 +232,7 @@ namespace SWRCVA.Controllers
                         p1.Id = item.IdValor;
                         p1.Nombre = item.Nombre.Trim();
                         p1.Porcentaje = item.Porcentaje;
+                        p1.Tipo = item.Tipo;
                         p1.Estado = item.Estado.ToString();
                         Parametros.Add(p1);
                     }
@@ -278,6 +279,7 @@ namespace SWRCVA.Controllers
                 if(parametrop.parametro==5||parametrop.parametro==2)
                 {
                     ModelState.Remove("Porcentaje");
+                    ModelState.Remove("Tipo");
                 }
                 if (parametrop.parametro == 6)
                 {
@@ -287,6 +289,7 @@ namespace SWRCVA.Controllers
                 {
                     ModelState.Remove("CategoriaId");
                     ModelState.Remove("Porcentaje");
+                    ModelState.Remove("Tipo");
                 }
 
                 ModelState.Remove("Usuario");
@@ -340,6 +343,7 @@ namespace SWRCVA.Controllers
                         case 6:
                             Valor val = new Valor();
                             val.Nombre = parametrop.Nombre.Trim();
+                            val.Tipo = parametrop.Tipo;
                             val.Porcentaje = (parametrop.Porcentaje)/100;
                             val.Usuario = parametrop.Usuario.Trim();
                             val.Estado = Convert.ToInt32(parametrop.Estado);
@@ -453,6 +457,7 @@ namespace SWRCVA.Controllers
                     para.Id = val.IdValor;
                     para.Porcentaje = (val.Porcentaje*100);
                     para.Nombre = val.Nombre.Trim();
+                    para.Tipo = val.Tipo;
                     para.Usuario = val.Usuario.Trim();
                     para.Estado = val.Estado.ToString();
                     break;
@@ -527,6 +532,7 @@ namespace SWRCVA.Controllers
                             Valor val = new Valor();
                             val.IdValor = id;
                             val.Nombre = parametrop.Nombre.Trim();
+                            val.Tipo = parametrop.Tipo;
                             val.Porcentaje = (parametrop.Porcentaje) / 100;
                             val.Usuario = parametrop.Usuario.Trim();
                             val.Estado = Convert.ToInt32(parametrop.Estado);

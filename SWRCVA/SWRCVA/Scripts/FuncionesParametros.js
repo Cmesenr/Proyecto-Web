@@ -31,18 +31,22 @@ function EditarPara() {
         if ($('#ListaParametro').val() == 5) {
             $('#Listacategoria').slideDown();
             $('#Porcentaje').slideUp();
+            $('#Tipo').slideUp();
         }
         if ($('#ListaParametro').val() == 2) {
             $('#Listacategoria').slideDown();
             $('#Porcentaje').slideUp();
+            $('#Tipo').slideUp();
         }
         if ($('#ListaParametro').val() == 6) {
             $('#Porcentaje').slideDown();
+            $('#Tipo').slideDown();
             $('#Listacategoria').slideUp();
         }
         if ($('#ListaParametro').val() != 5 && $('#ListaParametro').val() != 6 && $('#ListaParametro').val() != 2) {
             $('#Porcentaje').slideUp();
             $('#Listacategoria').slideUp();
+            $('#Tipo').slideUp();
         }
 
 }

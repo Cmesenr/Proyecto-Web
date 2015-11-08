@@ -48,6 +48,21 @@
                     @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                 </div>
             </div>
+        <div id="Tipo" class="form-group">
+            @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Tipo, (new SelectList(
+                  new List<Object>{
+                      new { value = "" , text = "Seleccione"  },
+                       new { value = "V" , text = "Ventas"  },
+                       new { value = "I" , text = "Instalacion" }
+                    },
+                  "value",
+                  "text",
+                   2)), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div id="Porcentaje" class="form-group">
             @Html.LabelFor(model => model.Porcentaje, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
