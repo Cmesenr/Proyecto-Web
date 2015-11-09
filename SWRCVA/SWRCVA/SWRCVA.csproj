@@ -146,6 +146,7 @@
     <Compile Include="Controllers\CotizacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
+    <Compile Include="Controllers\OrdenController.cs" />
     <Compile Include="Controllers\ParametroController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
@@ -375,6 +376,7 @@
     <Content Include="Views\Cotizacion\Cotizar.cshtml" />
     <Content Include="Views\Cotizacion\Editar.cshtml" />
     <Content Include="Views\Cotizacion\Index.cshtml" />
+    <Content Include="Views\Orden\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
