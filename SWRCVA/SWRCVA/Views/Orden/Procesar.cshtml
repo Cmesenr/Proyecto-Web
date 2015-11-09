@@ -45,8 +45,7 @@
                       new { value = 0 , text = "Procesada" }
                   },
                   "value",
-                  "text",
-                   2)), new { @class = "form-control", @required = "required", title = "El campo Estado es necesario" })
+                  "text")), new { @class = "form-control", @required = "required", title = "El campo Estado es necesario" })
                 @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
             </div>
         </div>

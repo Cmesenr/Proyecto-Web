@@ -2,7 +2,9 @@
 using SWRCVA.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -55,11 +57,36 @@ namespace SWRCVA.Controllers
             return View(ordenes.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Orden/Procesar
-        public ActionResult Procesar()
+        // GET: Cotizacion/Edit/5
+        public ActionResult Editar(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Orden orden = db.Orden.Find(id);
+
+            if (orden == null)
+            {
+                return HttpNotFound();
+            }
+            return View(orden);
         }
 
+        // POST: Cotizacion/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Editar([Bind(Include = "IdCotizacion,IdCliente,CantProducto,Estado,Fecha,Usuario,MontoParcial")] Orden orden)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(orden).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(orden);
+        }
     }
 }
