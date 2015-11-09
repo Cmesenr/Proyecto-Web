@@ -162,7 +162,7 @@ $(function()
                                 string += '<tr>';
 
                             }
-                            string += '<td><span class="label label-default">' + data[i].NombreMaterial + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td>';
+                            string += '<td><span class="label label-default">' + data[i].Nombre + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td>';
                             if (i == (divisor - 1)) {
                                 string += '</tr>';
                                 divisor += 2;
@@ -209,7 +209,7 @@ $(function()
                             string += '<tr>';
 
                         }
-                        string += '<td><span class="label label-default">' + data[i].NombreMaterial + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td>';
+                        string += '<td><span class="label label-default">' + data[i].Nombre + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td>';
                         if (i == (divisor - 1)) {
                             string += '</tr>';
                             divisor += 2;

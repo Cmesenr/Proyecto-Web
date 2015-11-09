@@ -21,9 +21,7 @@ namespace SWRCVA.Models
 
         [NotMapped]
         public string NombreMaterial { get; set; }
-        [NotMapped]
-        public int? TipoMate { get; set; }
-
+  
         public virtual Material Material { get; set; }
 
         public virtual Producto Producto { get; set; }
