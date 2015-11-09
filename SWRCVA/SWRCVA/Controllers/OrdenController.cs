@@ -54,5 +54,12 @@ namespace SWRCVA.Controllers
             int pageNumber = (page ?? 1);
             return View(ordenes.ToPagedList(pageNumber, pageSize));
         }
+
+        // GET: Orden/Procesar
+        public ActionResult Procesar()
+        {
+            return View();
+        }
+
     }
 }
