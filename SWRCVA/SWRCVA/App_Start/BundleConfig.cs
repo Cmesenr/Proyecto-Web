@@ -46,6 +46,9 @@ namespace SWRCVA
                "~/Scripts/FuncionesUsuario.js"));
             bundles.Add(new ScriptBundle("~/bundles/FuncionesLogin").Include(
                "~/Scripts/FuncionesLogin.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesCotizacion").Include(
+              "~/Scripts/FuncionesCotizacion.js"));
+            
             bundles.Add(new ScriptBundle("~/bundles/jqBootstrapValidation").Include(
               "~/Scripts/jqBootstrapValidation.js"));
             
