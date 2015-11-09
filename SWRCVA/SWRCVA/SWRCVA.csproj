@@ -169,6 +169,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Calculos.cs" />
     <Compile Include="Models\CategoriaMat.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\ColorMat.cs" />
@@ -305,6 +306,7 @@
       <DependentUpon>DataSetReporteOrdenesTrabajo.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\FuncionesCotizacion.js" />
     <Content Include="Scripts\FuncionesLogin.js" />
     <Content Include="Scripts\FuncionesCliente.js" />
     <Content Include="Scripts\FuncionesMaterial.js" />

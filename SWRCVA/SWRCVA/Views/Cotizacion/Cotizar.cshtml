@@ -10,7 +10,7 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
+    <div class="form-horizontal" id="formCotizar">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
@@ -19,42 +19,41 @@
                    
                     @Html.Label("Producto", htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-8">
-                        @Html.DropDownList("IdProducto", (IEnumerable<SelectListItem>)ViewBag.Productos, "Selecione", new { @class = "form-control", id = "DropDownProductos" })
+                        @Html.DropDownList("IdProducto", (IEnumerable<SelectListItem>)ViewBag.Productos, "Selecione", new { @class = "form-control", id = "DropDownProductos",required="required", title="Selecione un Producto!" })
                         @Html.ValidationMessageFor(model => model.ProductoCotizacion, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.Label("Color Vidrio", htmlAttributes: new { @class = "control-label col-md-6" })
-                    <div class="col-md-6">
-                        @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColoresVidrio, "Selecione", new { @class = "form-control", id = "DropDownProductos" })
-                        @Html.ValidationMessage("ColoresVidrio", "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    @Html.Label("Color Aluminio", htmlAttributes: new { @class = "control-label col-md-6" })
-                    <div class="col-md-6">
-                        @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColoresAluminio, "Selecione", new { @class = "form-control", id = "DropDownProductos" })
-                        @Html.ValidationMessage("ColoresAluminio", "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    @Html.Label("Instalación", htmlAttributes: new { @class = "control-label col-md-7" })
-                    <div class="col-md-5">
-                        @Html.Editor("txtinsta", new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="col-md-12">
+                        @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColoresVidrio, "Color Vidrio..", new { @class = "form-control", id = "DropDownCVidrio", required = "required", title = "Selecione el color del Vidrio!" })
+                        @Html.ValidationMessage("ColoresVidrio", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColoresAluminio, "Color Aluminio..", new { @class = "form-control", id = "DropDownCAluminio", required = "required", title = "Selecione el color del Aluminio!" })
+                        @Html.ValidationMessage("ColoresAluminio", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.Label("Instalación", htmlAttributes: new { @class = "control-label col-md-5" })
+                    <div class="col-md-7">
+                        @Html.DropDownList("IdValor", (IEnumerable<SelectListItem>)ViewBag.Instalacion,"..", new { @class = "form-control", id = "DropDownInstalacion", required = "required", title = "Selecione el porcentaje de Instalacion!" })
                         @Html.ValidationMessage("Instalación", "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.EditorFor(model => model.CantProducto, new { htmlAttributes = new { @class = "form-control",placeholder="Cantidad" } })
+                    @Html.Label("Cantidad", htmlAttributes: new { @class = "control-label col-md-5" })
+                    <div class="col-md-7">
+                        @Html.EditorFor(model => model.CantProducto, new { htmlAttributes = new { @class = "form-control", id="txtCantidad", required = "required", title = "Cantidad requerida!" } })
                         @Html.ValidationMessageFor(model => model.CantProducto, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -63,27 +62,23 @@
         <hr />
         <div class="row">
             <div class="col-md-7">
-                <div class="form-group">
-                   
-                    <div class="col-md-12">
-                        <img id="MostrarImagen" class="img-thumbnail" src="" alt="" />
-                        @Html.ValidationMessage("Imagen", "", new { @class = "text-danger" })
 
-                    </div>
-                </div> 
-                <hr />
-                
                 <div class="row">
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    <table class="table-hover" id="ListaProductos"></table>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            <img id="MostrarImagen" class="img-thumbnail" src="" alt="" />
+                            @Html.ValidationMessage("Imagen", "", new { @class = "text-danger" })
+
+                        </div>
                     </div>
+                    </div>
+                    <hr />
+
+
                 </div>
             <div class="col-md-5">
              
@@ -92,7 +87,7 @@
                         <div class="form-group">
 
                             <div class="col-md-12">
-                                @Html.CheckBox("CkbCedazo", new { htmlAttributes = new { @class = "form-control" } }) &nbsp;&nbsp;<span><strong>Con Cedaso</strong></span>
+                                @Html.CheckBox("CkbCedazo", new { htmlAttributes = new { @class = "form-control",id= "CkbCedazo" }  }) &nbsp;&nbsp;<span><strong>Con Cedaso</strong></span>
                                 @Html.ValidationMessage("Cedazo", "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -100,7 +95,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="col-md-12">
-                                @Html.Editor("txtAncho", new { htmlAttributes = new { @class = "form-control", placeholder = "Ancho" } })
+                                @Html.Editor("txtAncho", new { htmlAttributes = new { @class = "form-control", placeholder = "Ancho", type="number", id= "txtAncho", required = "required", title = "Ancho Requerido!" } })
                                 @Html.ValidationMessage("Ancho", "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -108,7 +103,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="col-md-12">
-                                @Html.Editor("txtAlto", new { htmlAttributes = new { @class = "form-control", placeholder = "Alto" } })
+                                @Html.Editor("txtAlto", new { htmlAttributes = new { @class = "form-control", placeholder = "Alto", type = "number", id ="txtAlto", required = "required", title = "Alto requerido!" } })
                                 @Html.ValidationMessage("Alto", "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -121,7 +116,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <button id="Cotizar" onclick="" class="btn btn-primary edit"><h4>Cotizar</h4></button>
+                                    <button type="button" id="btnCotizar" onclick="" class="btn btn-primary edit"><h4>Agregar</h4></button>
 
                                 </div>
                             </div>
@@ -148,3 +143,7 @@
 <div>
     @Html.ActionLink("Regresar a la Lista", "Index")
 </div>
+@section Scripts {
+
+    @Scripts.Render("~/bundles/FuncionesCotizacion")
+}

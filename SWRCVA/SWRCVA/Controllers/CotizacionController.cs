@@ -14,7 +14,7 @@ namespace SWRCVA.Controllers
     public class CotizacionController : Controller
     {
         private DataContext db = new DataContext();
-
+        List<Producto> ListaProductos = new List<Producto>();
         // GET: Cotizacion
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -76,6 +76,13 @@ namespace SWRCVA.Controllers
                                                         IdColor = s.IdColor,
                                                         Nombre = s.Nombre
                                                     }), "IdColor", "Nombre");
+            ViewBag.Instalacion = new SelectList((from s in db.Valor
+                                                  where s.Tipo == "I"
+                                                  select new
+                                                  {
+                                                      IdValor = s.IdValor,
+                                                      Nombre = s.Nombre
+                                                  }), "IdValor", "Nombre");
             return View();
         }
 
@@ -92,7 +99,28 @@ namespace SWRCVA.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.Productos = new SelectList(db.Producto, "IdProducto", "Nombre");
+            ViewBag.ColoresVidrio = new SelectList((from s in db.ColorMat
+                                                    where s.IdCatMaterial == 3
+                                                    select new
+                                                    {
+                                                        IdColor = s.IdColor,
+                                                        Nombre = s.Nombre
+                                                    }), "IdColor", "Nombre");
+            ViewBag.ColoresAluminio = new SelectList((from s in db.ColorMat
+                                                      where s.IdCatMaterial == 2
+                                                      select new
+                                                      {
+                                                          IdColor = s.IdColor,
+                                                          Nombre = s.Nombre
+                                                      }), "IdColor", "Nombre");
+            ViewBag.Instalacion = new SelectList((from s in db.Valor
+                                                  where s.Tipo == "V"
+                                                  select new
+                                                  {
+                                                      IdValor = s.IdValor,
+                                                      Nombre = s.Nombre
+                                                  }), "IdValor", "Nombre");
             return View(cotizacion);
         }
 
@@ -151,6 +179,62 @@ namespace SWRCVA.Controllers
             db.Cotizacion.Remove(cotizacion);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public JsonResult AgregarProducto(int Idpro, int Cvidrio, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto)
+        {
+            Calculos C = new Calculos();
+            var resultado = "No se pudo agregar el Producto";
+            var ValidarMat = C.ValidarMateriales(Idpro, Cvidrio, CAluminio);
+            if (ValidarMat == "Ready")
+            {
+                var resultCalculo = Calculos.calcularMonto(Idpro, Cvidrio, CAluminio, Insta, Cant, Ancho, Alto);
+            
+
+            }
+            else
+            {
+                TempData["ListaProductos"] = ListaProductos;
+                resultado = ValidarMat;
+                return Json(resultado,
+                JsonRequestBehavior.AllowGet);
+            }
+            if (TempData["ListaProductos"] != null)
+            {
+                ListaProductos = (List<Producto>)TempData["ListaProductos"];
+
+            }
+            try
+            {
+
+                Producto ListPro = db.Producto.Find(Idpro);
+                ListPro.IdProducto = Idpro;
+                ListPro.Nombre = ListPro.Nombre;
+                if (ListaProductos.Count() == 0) { ListaProductos.Add(ListPro); }
+                else
+                {
+                    foreach (Producto listProduct in ListaProductos)
+                    {
+                        if (listProduct.IdProducto == Idpro)
+                        {
+                            TempData["ListaProductos"] = ListaProductos;
+                            resultado = "No se puede duplicar el El producto!";
+                            return Json(resultado,
+                            JsonRequestBehavior.AllowGet);
+                        }
+
+                    }
+                    ListaProductos.Add(ListPro);
+                }
+            }
+            catch
+            {
+                return Json(resultado,
+              JsonRequestBehavior.AllowGet);
+            }
+            TempData["ListaProductos"] = ListaProductos;
+            return Json(ListaProductos.ToList(),
+                JsonRequestBehavior.AllowGet);
+
         }
 
         protected override void Dispose(bool disposing)
