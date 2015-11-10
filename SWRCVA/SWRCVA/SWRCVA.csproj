@@ -312,6 +312,7 @@
     <Content Include="Scripts\FuncionesCliente.js" />
     <Content Include="Scripts\FuncionesMaterial.js" />
     <Content Include="Scripts\FuncionesModalMaterial.js" />
+    <Content Include="Scripts\FuncionesOrden.js" />
     <Content Include="Scripts\FuncionesParametros.js" />
     <Content Include="Scripts\FuncionesProducto.js" />
     <Content Include="Scripts\FuncionesUsuario.js" />
