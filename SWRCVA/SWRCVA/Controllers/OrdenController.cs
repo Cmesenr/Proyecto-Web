@@ -57,7 +57,7 @@ namespace SWRCVA.Controllers
             return View(ordenes.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: Cotizacion/Edit/5
+        // GET: Orden/Edit/5
         public ActionResult Editar(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace SWRCVA.Controllers
             return View(orden);
         }
 
-        // POST: Cotizacion/Edit/5
+        // POST: Orden/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
