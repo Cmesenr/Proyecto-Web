@@ -17,7 +17,7 @@ namespace SWRCVA.Controllers
     public class ProductoController : Controller
     {
         private DataContext db = new DataContext();
-        private List<ListaMatProducto> Listamateriales = new List<ListaMatProducto>();
+        private List<Material> Listamateriales = new List<Material>();
         // GET: Productoes
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -114,10 +114,12 @@ namespace SWRCVA.Controllers
                         {
                             db.Producto.Add(producto);
                             db.SaveChanges();
-                            foreach (ListaMatProducto item in (List<ListaMatProducto>)TempData["ListaMateriales"])
+                            foreach (Material item in (List<Material>)TempData["ListaMateriales"])
                             {
-                                item.IdProducto = producto.IdProducto;
-                                db.ListaMatProducto.Add(item);
+                                ListaMatProducto LM = new ListaMatProducto();
+                                LM.IdProducto= producto.IdProducto;
+                                LM.IdMaterial = item.IdMaterial;
+                                db.ListaMatProducto.Add(LM);
                             }
                             db.SaveChanges();
                             TempData["ListaMateriales"] = null;
@@ -159,10 +161,10 @@ namespace SWRCVA.Controllers
             }
             foreach (var item in (List<ListaMatProducto>)producto.ListaMatProducto.ToList())
             {
-                ListaMatProducto MatProduct = new ListaMatProducto();
-                MatProduct.IdProducto = item.IdProducto;
+                Material MatProduct = new Material();
                 MatProduct.IdMaterial = item.IdMaterial;
-                MatProduct.NombreMaterial = item.Material.Nombre;
+                MatProduct.Nombre = item.Material.Nombre;
+                MatProduct.IdTipoMaterial = item.Material.IdTipoMaterial;
                 Listamateriales.Add(MatProduct);
             }
             TempData["ListaMateriales"] = Listamateriales;
@@ -222,10 +224,12 @@ namespace SWRCVA.Controllers
                         db.ListaMatProducto.Remove(item);
                         db.SaveChanges();
                     }
-                    foreach (ListaMatProducto item in (List<ListaMatProducto>)TempData["ListaMateriales"])
+                    foreach (Material item in (List<Material>)TempData["ListaMateriales"])
                     {
-                        item.IdProducto = producto.IdProducto;
-                        db.ListaMatProducto.Add(item);
+                        ListaMatProducto LM = new ListaMatProducto();
+                        LM.IdProducto = producto.IdProducto;
+                        LM.IdMaterial = item.IdMaterial;
+                        db.ListaMatProducto.Add(LM);
                     }
                     db.SaveChanges();
                     TempData["ListaMateriales"] = null;
@@ -260,21 +264,22 @@ namespace SWRCVA.Controllers
             var resultado = "No se pudo agregar el color";
             if (TempData["ListaMateriales"] != null)
             {
-                Listamateriales = (List<ListaMatProducto>)TempData["ListaMateriales"];
+                Listamateriales = (List<Material>)TempData["ListaMateriales"];
 
             }
             try
             {
-                
-                ListaMatProducto ListMat = new ListaMatProducto();
-                Material mat = db.Material.Find(IdMat);
-                ListMat.IdMaterial = IdMat;
-                ListMat.NombreMaterial = mat.Nombre;
-                ListMat.TipoMate= mat.IdTipoMaterial;
-                if (Listamateriales.Count() == 0) { Listamateriales.Add(ListMat); }
+
+                Material mater = db.Material.Find(IdMat);
+                Material mat = new Material();
+                mat.IdMaterial = mater.IdMaterial;
+                mat.Nombre = mater.Nombre;
+                mat.IdTipoMaterial = mater.IdTipoMaterial;
+
+                if (Listamateriales.Count() == 0) { Listamateriales.Add(mat); }
                 else
                 {
-                    foreach (ListaMatProducto listMatProduct in Listamateriales)
+                    foreach (Material listMatProduct in Listamateriales)
                     {
                         if (listMatProduct.IdMaterial == IdMat)
                         {
@@ -283,7 +288,7 @@ namespace SWRCVA.Controllers
                             return Json(resultado,
                             JsonRequestBehavior.AllowGet);
                         }
-                        if (listMatProduct.TipoMate == ListMat.TipoMate)
+                        if (listMatProduct.IdTipoMaterial == mat.IdTipoMaterial)
                         {
                             TempData["ListaMateriales"] = Listamateriales;
                             resultado = "No se puede insertar materiales de un mismo tipo en un Producto!";
@@ -292,7 +297,7 @@ namespace SWRCVA.Controllers
                         }
 
                     }
-                    Listamateriales.Add(ListMat);
+                    Listamateriales.Add(mat);
                 }
             }
             catch
@@ -309,11 +314,11 @@ namespace SWRCVA.Controllers
         {
             if (TempData["ListaMateriales"] != null)
             {
-                Listamateriales = (List<ListaMatProducto>)TempData["ListaMateriales"];
+                Listamateriales = (List<Material>)TempData["ListaMateriales"];
             }
             try
             {
-                foreach (ListaMatProducto listMatProduct in Listamateriales)
+                foreach (Material listMatProduct in Listamateriales)
                 {
                     if (listMatProduct.IdMaterial == id)
                     {

@@ -185,17 +185,16 @@ namespace SWRCVA.Controllers
             Calculos C = new Calculos();
             var resultado = "No se pudo agregar el Producto";
             var ValidarMat = C.ValidarMateriales(Idpro, Cvidrio, CAluminio);
-            if (ValidarMat == "Ready")
+            if (ValidarMat.Count()==0)
             {
-                var resultCalculo = Calculos.calcularMonto(Idpro, Cvidrio, CAluminio, Insta, Cant, Ancho, Alto);
+                var resultCalculo = C.calcularMonto(Idpro, Cvidrio, CAluminio, Insta, Cant, Ancho, Alto);
             
 
             }
             else
             {
                 TempData["ListaProductos"] = ListaProductos;
-                resultado = ValidarMat;
-                return Json(resultado,
+                return Json(ValidarMat,
                 JsonRequestBehavior.AllowGet);
             }
             if (TempData["ListaProductos"] != null)

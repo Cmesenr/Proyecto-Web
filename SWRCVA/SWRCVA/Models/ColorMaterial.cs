@@ -17,7 +17,7 @@ namespace SWRCVA.Models
         [Column(Order = 1)]
         public int IdColorMat { get; set; }
 
-        public decimal Costo { get; set; }
+        public decimal? Costo { get; set; }
         [NotMapped]
         public string NombreMaterial { get; set; }
 
