@@ -55,15 +55,6 @@
                             @Html.RadioButtonFor(model => model.Forma, "MFFM") &nbsp;<span class="text-muted">Movil-Fijo-Fijo-Movil</span>
                         @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
                     </div>
-                    <div id="Group_Portones" class="col-md-10" hidden="hidden">
-                        @Html.RadioButtonFor(model => model.Forma, "FM") &nbsp;<span class="text-muted">Fijo-Movil</span><br>
-                        @Html.RadioButtonFor(model => model.Forma, "MM") &nbsp;<span class="text-muted">Movil-Movil</span><br>
-                        @Html.RadioButtonFor(model => model.Forma, "FMF") &nbsp;<span class="text-muted">Fijo-Movil-Fijo</span><br>
-                        @Html.RadioButtonFor(model => model.Forma, "MFM") &nbsp;<span class="text-muted">Movil-Fijo-Movil</span><br>
-                        @Html.RadioButtonFor(model => model.Forma, "FMMF") &nbsp;<span class="text-muted">Fijo-Movil-Movil-Fijo</span><br>
-                        @Html.RadioButtonFor(model => model.Forma, "MFFM") &nbsp;<span class="text-muted">Movil-Fijo-Fijo-Movil</span>
-                        @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
-                </div>
                     </div>
                 <div class="form-group" id="ProductMaterial">
                     @Html.Label("Materiales", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -167,15 +158,7 @@
 
     </div>
 </div>
-<div id="ModalError" class="modal fade" tabindex="-1" data-backdrop="ModalError" data-keyboard="false" style="display: none;">
-    <div class="modal-body">
-        <center><p id="TextModal"></p></center>
-    </div>
-    <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
-        <button type="button" data-dismiss="modal" class="btn btn-primary">Continue Task</button>
-    </div>
-</div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
    @Scripts.Render("~/bundles/FuncionesProducto")

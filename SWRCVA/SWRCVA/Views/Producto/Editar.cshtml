@@ -47,21 +47,12 @@
                     @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
                 </div>
                 <div id="Group_Ventana5020" class="col-md-10" hidden="hidden">
-                    @Html.RadioButtonFor(model => model.Forma, "F-M") &nbsp;<span class="text-muted">Fijo-Movil</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "M-M") &nbsp;<span class="text-muted">Movil-Movil</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "F-M-F") &nbsp;<span class="text-muted">Fijo-Movil-Fijo</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "M-F-M") &nbsp;<span class="text-muted">Movil-Fijo-Movil</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "F-M-M-F") &nbsp;<span class="text-muted">Fijo-Movil-Movil-Fijo</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "M-F-F-M") &nbsp;<span class="text-muted">Movil-Fijo-Fijo-Movil</span>
-                    @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
-                </div>
-                <div id="Group_Portones" class="col-md-10" hidden="hidden">
-                    @Html.RadioButtonFor(model => model.Forma, "F-M") &nbsp;<span class="text-muted">Fijo-Movil</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "M-M") &nbsp;<span class="text-muted">Movil-Movil</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "F-M-F") &nbsp;<span class="text-muted">Fijo-Movil-Fijo</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "M-F-M") &nbsp;<span class="text-muted">Movil-Fijo-Movil</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "F-M-M-F") &nbsp;<span class="text-muted">Fijo-Movil-Movil-Fijo</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "M-F-F-M") &nbsp;<span class="text-muted">Movil-Fijo-Fijo-Movil</span>
+                    @Html.RadioButtonFor(model => model.Forma, "FM") &nbsp;<span class="text-muted">Fijo-Movil</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "MM") &nbsp;<span class="text-muted">Movil-Movil</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "FMF") &nbsp;<span class="text-muted">Fijo-Movil-Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "MFM") &nbsp;<span class="text-muted">Movil-Fijo-Movil</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "FMMF") &nbsp;<span class="text-muted">Fijo-Movil-Movil-Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "MFFM") &nbsp;<span class="text-muted">Movil-Fijo-Fijo-Movil</span>
                     @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
                 </div>
             </div>

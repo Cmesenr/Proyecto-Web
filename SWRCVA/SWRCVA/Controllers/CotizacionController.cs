@@ -187,13 +187,10 @@ namespace SWRCVA.Controllers
             var ValidarMat = C.ValidarMateriales(Idpro, Cvidrio, CAluminio);
             if (ValidarMat.Count()==0)
             {
-                var resultCalculo = C.calcularMonto(Idpro, Cvidrio, CAluminio, Insta, Cant, Ancho, Alto);
-            
-
+                TempData["MateralCotizacion"] = C.calcularMonto(Idpro, Cvidrio, CAluminio, Insta, Cant, Ancho, Alto);
             }
             else
             {
-                TempData["ListaProductos"] = ListaProductos;
                 return Json(ValidarMat,
                 JsonRequestBehavior.AllowGet);
             }
@@ -204,11 +201,18 @@ namespace SWRCVA.Controllers
             }
             try
             {
-
                 Producto ListPro = db.Producto.Find(Idpro);
-                ListPro.IdProducto = Idpro;
-                ListPro.Nombre = ListPro.Nombre;
-                if (ListaProductos.Count() == 0) { ListaProductos.Add(ListPro); }
+                Producto Produ = new Producto();
+                Produ.IdProducto = Idpro;
+                Produ.Nombre = ListPro.Nombre;
+                Produ.Cantidad = Cant;
+                foreach (var item in (List<ProductoCotizacion>)TempData["MateralCotizacion"])
+                {
+                    if (Idpro == item.IdProducto)
+                        Produ.Subtotal += item.Subtotal;
+                }
+                
+                if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
                 else
                 {
                     foreach (Producto listProduct in ListaProductos)
@@ -222,7 +226,7 @@ namespace SWRCVA.Controllers
                         }
 
                     }
-                    ListaProductos.Add(ListPro);
+                    ListaProductos.Add(Produ);
                 }
             }
             catch

@@ -42,24 +42,33 @@
                 success: function (data) {
 
                     if (typeof (data) == "string") {
-                        alert(data);
-                        $("#ColorMatselect").val("");
-                        $("#txtCostoMat").val("");
+                        $("#TextModal").html(data);
+                        $('#ModalError').modal("show");
                     }
                     else {
-                        $("#ListaColor").empty();
-                        $("#ListaColor").append('<tr><th>Color</th><th>Costo</th><th></th></tr>');
+                        if (data[0].IdProducto == null) {
+                            var Resultado = "<center>El o los materiales siguienetes no poseen el color selecionado:</center> <ul>";
+                            for (var i = 0; i < data.length; i++) {
+                                Resultado +="<li>"+ data[i]+"</li>";
+                            }
+                            Resultado += "</ul>";
+                            $("#TextModal").html(Resultado);
+                            $('#ModalError').modal("show");
+                        }
+                        else{
+                        $("#ListaProductos").empty();
+                        $("#ListaProductos").append('<tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
 
                         for (var i = 0; i < data.length; i++) {
-                            $('#ListaColor').append('<tr>' +
-                                                  '<td>' + data[i].NombreMaterial + '</td>' +
-                                                  '<td class="Listacol2">' + data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
-                                                  '<td><input type="button" id="eliminarcolormat" data-id=' + data[i].IdColorMat + ' class="btn-danger btn-xs" value="X" /></td>' +
+                            $('#ListaProductos').append('<tr>' +
+                                                  '<td>' + data[i].Nombre + '</td>' +
+                                                   '<td>' + data[i].Cantidad + '</td>' +
+                                                  '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                                  '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                                 '</tr>');
                         }
+                        }
 
-                        $("#ColorMatselect").val("");
-                        $("#txtCostoMat").val("");
                     }
                 },
                 error: function (result) {

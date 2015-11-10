@@ -25,6 +25,8 @@ namespace SWRCVA.Models
         public int IdMaterial { get; set; }
 
         public decimal CantMaterial { get; set; }
+        [NotMapped]
+        public decimal Subtotal { get; set; }
 
         public virtual Cotizacion Cotizacion { get; set; }
 

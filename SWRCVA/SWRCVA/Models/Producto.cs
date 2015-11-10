@@ -9,6 +9,7 @@ namespace SWRCVA.Models
     [Table("Producto")]
     public partial class Producto
     {
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Producto()
         {
@@ -38,6 +39,10 @@ namespace SWRCVA.Models
         [Required]
         [StringLength(15)]
         public string Usuario { get; set; }
+        [NotMapped]
+        public decimal Subtotal { get; set; }
+        [NotMapped]
+        public int Cantidad { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ListaMatProducto> ListaMatProducto { get; set; }

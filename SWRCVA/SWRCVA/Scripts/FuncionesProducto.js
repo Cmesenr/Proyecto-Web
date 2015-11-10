@@ -93,7 +93,6 @@ $(document).ready(function () {
         var id = $("#DropDownTipoProducto").val();
         $("#Group_Ventana").hide();
         $("#Group_Ventana5020").hide();
-        $("#Group_Portones").hide();
         $("#lblAtributos").hide();
         switch (id) {
             case '0' : {           
@@ -107,7 +106,7 @@ $(document).ready(function () {
                 break;
             }
             case '6': {
-                $("#Group_Portones").show();
+                $("#Group_Ventana5020").show();
                 $("#lblAtributos").show();
                 break;
             }

@@ -64,82 +64,105 @@
             <div class="col-md-7">
 
                 <div class="row">
-                    <table class="table-hover" id="ListaProductos"></table>
-                </div>
-                <div class="row">
                     <div class="form-group">
 
                         <div class="col-md-12">
-                            <img id="MostrarImagen" class="img-thumbnail" src="" alt="" />
-                            @Html.ValidationMessage("Imagen", "", new { @class = "text-danger" })
-
+                            <table class="table" id="ListaProductos"></table>
                         </div>
                     </div>
-                    </div>
-                    <hr />
-
-
                 </div>
-            <div class="col-md-5">
-             
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-
-                            <div class="col-md-12">
-                                @Html.CheckBox("CkbCedazo", new { htmlAttributes = new { @class = "form-control",id= "CkbCedazo" }  }) &nbsp;&nbsp;<span><strong>Con Cedaso</strong></span>
-                                @Html.ValidationMessage("Cedazo", "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                @Html.Editor("txtAncho", new { htmlAttributes = new { @class = "form-control", placeholder = "Ancho", type="number", id= "txtAncho", required = "required", title = "Ancho Requerido!" } })
-                                @Html.ValidationMessage("Ancho", "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                @Html.Editor("txtAlto", new { htmlAttributes = new { @class = "form-control", placeholder = "Alto", type = "number", id ="txtAlto", required = "required", title = "Alto requerido!" } })
-                                @Html.ValidationMessage("Alto", "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                                    
-                </div>
-                <div class="row">
-                    <div class="col-md-9">
-                        </div>
-                        <div class="col-md-3">
+                        <div class="row">
                             <div class="form-group">
+
                                 <div class="col-md-12">
-                                    <button type="button" id="btnCotizar" onclick="" class="btn btn-primary edit"><h4>Agregar</h4></button>
+                                    <img id="MostrarImagen" class="img-thumbnail" src="" alt="" />
+                                    @Html.ValidationMessage("Imagen", "", new { @class = "text-danger" })
 
                                 </div>
                             </div>
                         </div>
+                        <hr />
 
 
                     </div>
-                <div class="row">
+                    <div class="col-md-5">
 
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="text-right">
-                            @Html.Editor("txtTotal", new { htmlAttributes = new { @class = "form-control", placeholder = "Total" } })
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+
+                                    <div class="col-md-12">
+                                        @Html.CheckBox("CkbCedazo", new { htmlAttributes = new { @class = "form-control", id = "CkbCedazo" } }) &nbsp;&nbsp;<span><strong>Con Cedaso</strong></span>
+                                        @Html.ValidationMessage("Cedazo", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.Editor("txtAncho", new { htmlAttributes = new { @class = "form-control", placeholder = "Ancho", type = "number", id = "txtAncho", required = "required", title = "Ancho Requerido!" } })
+                                        @Html.ValidationMessage("Ancho", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        @Html.Editor("txtAlto", new { htmlAttributes = new { @class = "form-control", placeholder = "Alto", type = "number", id = "txtAlto", required = "required", title = "Alto requerido!" } })
+                                        @Html.ValidationMessage("Alto", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="button" id="btnCotizar" onclick="" class="btn btn-primary edit"><h4>Agregar</h4></button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-right">
+                                    @Html.Editor("txtTotal", new { htmlAttributes = new { @class = "form-control", placeholder = "Total" } })
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
         <hr />
         </div>
 }
+<div class="modal fade" id="ModalError" role="dialog">
+    <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Error</h4>
+            </div>
+            <div class="modal-body">
+               <p id="TextModal"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 <div>
     @Html.ActionLink("Regresar a la Lista", "Index")
 </div>

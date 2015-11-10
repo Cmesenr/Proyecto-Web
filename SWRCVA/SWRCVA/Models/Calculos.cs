@@ -9,7 +9,7 @@ namespace SWRCVA.Models
     {
         private DataContext db = new DataContext();
         List<ProductoCotizacion> ListaCosto = new List<ProductoCotizacion>();
-        public decimal calcularMonto(int Idpro, int Cvidrio, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto)
+        public List<ProductoCotizacion> calcularMonto(int Idpro, int Cvidrio, int CAluminio,int Insta, int Cant, decimal Ancho, decimal Alto)
         {
             var producto = db.Producto.Find(Idpro);
             var Aluminios= (from s in db.ListaMatProducto
@@ -56,7 +56,11 @@ namespace SWRCVA.Models
                 decimal VertCent = 0;
                 decimal VertLlav = 0;
                 decimal cierre = 0;
-               
+                decimal empaq = 0;
+                decimal felpa = 0;
+                decimal IV =1+db.Valor.Find(2).Porcentaje;
+                
+
                 foreach (var item in producto.Forma.ToString())
                 {
                     if (item == 'M')
@@ -73,6 +77,8 @@ namespace SWRCVA.Models
                 {
                     VertCent = Alto * 2;
                     VertLlav= Alto * 2;
+                    empaq = (Ancho * 2) + (Alto * 2);
+                    felpa= (Ancho * 2) + (Alto * 2);
                     if (Movil == 2)
                     {
                         SupH = Ancho;
@@ -89,12 +95,14 @@ namespace SWRCVA.Models
                 else if (producto.Forma.Count() == 3)
                 {
                     cierre = 2;
+                    empaq = (Ancho * 2) + (Alto * 6);
                     if (Movil == 2)
                     {
                         SupH = Ancho*1.5m;
                         InfH = Ancho*0.5m;
                         VertCent = Alto * 4;
                         VertLlav = Alto * 2;
+                        felpa = Alto*6;
 
                     }
                     else
@@ -103,6 +111,7 @@ namespace SWRCVA.Models
                         InfH = Ancho/3;
                         VertCent = Alto * 2;
                         VertLlav = Alto * 4;
+                        felpa = (Ancho / 3) + (Alto * 3);
                     }
                 }
                 else
@@ -112,6 +121,8 @@ namespace SWRCVA.Models
                     VertCent = Alto * 4;
                     VertLlav = Alto * 4;
                     cierre = 1;
+                    empaq = (Ancho * 2) + (Alto * 6);
+                    felpa = Alto * 6;
                 }
                 foreach (var item in materiales)
                     {
@@ -122,61 +133,99 @@ namespace SWRCVA.Models
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Ancho;
-                                break;
+                            PC.Subtotal= PC.CantMaterial *((decimal)item.Costo*IV);
+                            ListaCosto.Add(PC);
+                            break;
                             case 20://Umbral
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Ancho;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
                             break;
                             case 21://Jamba
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Alto*2;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
                             break;
                             case 24://Sup hoja
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
                             PC.CantMaterial =SupH;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
                             break;
                             case 23://Inf Hoja
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = InfH;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
                             break;
                             case 26://Vertical Centro
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = VertCent;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
                             break;
                             case 25://Vertical
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = VertLlav;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
                             break;
                             case 16://Rodin
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Movil*2;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
                             break;
                             case 5://Cierre
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
-                            PC.CantMaterial = Movil * 2;
+                            PC.CantMaterial = cierre;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
                             break;
                             case 8://Empaque
-                                break;
+                            PC.IdMaterial = item.IdMaterial;
+                            PC.IdProducto = Idpro;
+                            PC.CantMaterial = empaq;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
+                            break;
                             case 53://Vidrio
-                                break;
+                            PC.IdMaterial = item.IdMaterial;
+                            PC.IdProducto = Idpro;
+                            PC.CantMaterial = Ancho*Alto;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
+                            break;
                             case 10://Felpa
-                                break;
+                            PC.IdMaterial = item.IdMaterial;
+                            PC.IdProducto = Idpro;
+                            PC.CantMaterial = Ancho * Alto;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
+                            break;
                             case 17://Tornillo
-                                break;
+                            PC.IdMaterial = item.IdMaterial;
+                            PC.IdProducto = Idpro;
+                            PC.CantMaterial = 1;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
+                            break;
                         }
-
+                   
                    }
             }
 
-            return 0;
+            return ListaCosto;
         }
         public List<string>  ValidarMateriales(int Idpro, int Cvidrio, int CAluminio)
         {
