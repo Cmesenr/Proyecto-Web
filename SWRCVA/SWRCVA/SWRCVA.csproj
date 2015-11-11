@@ -378,10 +378,10 @@
     <Content Include="Views\Cotizacion\Cotizar.cshtml" />
     <Content Include="Views\Cotizacion\Editar.cshtml" />
     <Content Include="Views\Cotizacion\Index.cshtml" />
-    <Content Include="Views\Orden\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Orden\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
