@@ -58,35 +58,36 @@ namespace SWRCVA.Controllers
         }
 
         // GET: Orden/Edit/5
-        public ActionResult Editar(int? id)
+        public ActionResult Editar(int? idCotizacion, int? idProducto)
         {
-            if (id == null)
+            if (idCotizacion == null && idProducto == null && Session["EstadoOrden"] == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Orden orden = db.Orden.Find(id);
+            Orden orden = db.Orden.Find(idProducto,idCotizacion);
+
+            orden.Estado = int.Parse(Session["EstadoOrden"].ToString());
+            db.Entry(orden).State = EntityState.Modified;
+            db.SaveChanges();
 
             if (orden == null)
             {
                 return HttpNotFound();
             }
-            return View(orden);
+
+            return RedirectToAction("Index");
         }
 
-        // POST: Orden/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Editar([Bind(Include = "IdCotizacion,IdCliente,CantProducto,Estado,Fecha,Usuario,MontoParcial")] Orden orden)
+        // GET: Orden/AlmacenarEstado/5
+        public ActionResult AlmacenarEstado(int? estado)
         {
-            if (ModelState.IsValid)
+            if (estado != null)
             {
-                db.Entry(orden).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Session["EstadoOrden"] = null;
+                Session["EstadoOrden"] = estado;
             }
-            return View(orden);
+
+            return View();
         }
     }
 }
