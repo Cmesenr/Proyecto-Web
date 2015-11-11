@@ -71,20 +71,8 @@
                         </div>
                     </div>
                 </div>
-                        <div class="row">
-                            <div class="form-group">
-
-                                <div class="col-md-12">
-                                    <img id="MostrarImagen" class="img-thumbnail" src="" alt="" />
-                                    @Html.ValidationMessage("Imagen", "", new { @class = "text-danger" })
-
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-
-
-                    </div>
+                     <hr />
+                  </div>
                     <div class="col-md-5">
 
                         <div class="row">
@@ -116,12 +104,18 @@
 
                         </div>
                         <div class="row">
-                            <div class="col-md-9">
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-9" >
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <button type="button" id="btnCotizar" onclick="" class="btn btn-primary edit"><h4>Agregar</h4></button>
+                                        <img id="MostrarImagen" class="" height="200" width="350" src="~/Content/Imagenes/incognita.jpg" alt="" />
+                                        <div id="ImageDiv" class="text-center"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3" align="right">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="button" id="btnAgregar" onclick="" class="btn btn-primary edit"><h4>Agregar</h4></button>
 
                                     </div>
                                 </div>
@@ -130,16 +124,20 @@
 
                         </div>
                         <div class="row">
-
+                            <div class="col-md-4">
+                               
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="text-right">
-                                    @Html.Editor("txtTotal", new { htmlAttributes = new { @class = "form-control", placeholder = "Total" } })
+                            <div class="col-md-12" align="right">
+                                <div class="form-group">    
+                                    <div class="col-md-12">                                
+                                        <table><tr><td><h2>@Html.Label("Total:", new { htmlAttributes = new { @class = "control-label col-md-5" } })&nbsp;&nbsp;</h2></td><td><h1><span class="label label-success" id="txtTotal">0.00</span></h1></td></tr></table>    
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                            </div>
                 </div>
         <hr />
         </div>

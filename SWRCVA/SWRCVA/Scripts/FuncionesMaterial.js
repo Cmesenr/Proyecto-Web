@@ -113,6 +113,7 @@ function CambiarCat() {
         $("#CostoMatterial").slideDown();
         $("#txtCosto").attr("required", "required"); 
         $("#dropSubCat").removeAttr("required");
+        $("#DropDownTipoMat").removeAttr("disabled");
     }
     else {
         $("#CostoMatterial").slideUp();
@@ -136,6 +137,33 @@ function RefrescarLista() {
         }
     });
 
+}
+
+function CargarTipoMat(id) {
+    if(id!=""){
+    $.ajax({
+        cache: false,
+        url: "/Material/CargarTipoMaterial",
+        type: "get",
+        data: { id: id },
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            var items = "<option value=''>Seleccione</option>";
+            for (var i = 0; i < data.length; i++) {
+
+                items += "<option value=" + parseInt(data[i].IdTipoMaterial) + ">" + data[i].Nombre + "</option>";
+            }
+            $("#DropDownTipoMat").removeAttr("disabled");
+            $("#DropDownTipoMat").html(items);
+
+        },
+        error: function (result) {
+            alert('ERROR ' + result.status + ' ' + result.statusText);
+        }
+
+    });
+    }
 }
 //Cargar combo color, tipo Material y subCategoria
 function CargarColorAndSub() {
@@ -163,28 +191,7 @@ function CargarColorAndSub() {
             }
 
         });
-        $.ajax({
-            cache: false,
-            url: "/Material/CargarTipoMaterial",
-            type: "get",
-            data: { id: id },
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                var items = "<option value=''>Tipos...</option>";
-                for (var i = 0; i < data.length; i++) {
-
-                    items += "<option value=" + parseInt(data[i].IdTipoMaterial) + ">" + data[i].Nombre + "</option>";
-                }
-                $('#DropDownTipoMat').removeAttr("disabled");
-                $("#DropDownTipoMat").html(items);
-
-            },
-            error: function (result) {
-                alert('ERROR ' + result.status + ' ' + result.statusText);
-            }
-
-        });
+        CargarTipoMat(id);
         $.ajax({
             cache: false,
             url: "/Material/CargarColores",

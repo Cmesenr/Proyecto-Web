@@ -41,7 +41,7 @@ namespace SWRCVA.Controllers
                               select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                Materiales = Materiales.Where(s => s.Nombre.Contains(searchString));
+                Materiales = Materiales.Where(s => s.Nombre.Contains(searchString)||s.CategoriaMat.Nombre.Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -71,6 +71,14 @@ namespace SWRCVA.Controllers
             ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
             ViewBag.SubCatMaterial = new SelectList(db.SubCategoria, "IdSubCatMat", "Nombre");
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
+            ViewBag.IdTipoMaterial = new SelectList((from s in db.TipoMaterial
+                                                     select new
+                                                     {
+                                                         s.IdTipoMaterial,
+                                                         s.Nombre
+                                                     }
+                                                    ), "IdTipoMaterial", "Nombre");
+
             return View();
         }
 
@@ -83,7 +91,14 @@ namespace SWRCVA.Controllers
             {
                 ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
                 ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
-
+                ViewBag.IdTipoMaterial = new SelectList((from s in db.TipoMaterial
+                                                         where s.IdCatMat == material.IdCatMat
+                                                         select new
+                                                         {
+                                                             s.IdTipoMaterial,
+                                                             s.Nombre
+                                                         }
+                                                     ), "IdTipoMaterial", "Nombre");
                 ModelState.Remove("Usuario");
                 material.Usuario = Session["UsuarioActual"].ToString();
 

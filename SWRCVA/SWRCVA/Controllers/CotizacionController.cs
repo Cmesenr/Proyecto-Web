@@ -211,7 +211,7 @@ namespace SWRCVA.Controllers
                     if (Idpro == item.IdProducto)
                         Produ.Subtotal += item.Subtotal;
                 }
-                
+                Produ.Subtotal = ((Produ.Subtotal) * (1 + Insta)) * Cant;
                 if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
                 else
                 {
@@ -239,7 +239,56 @@ namespace SWRCVA.Controllers
                 JsonRequestBehavior.AllowGet);
 
         }
+        public JsonResult EliminarProducto(int id)
+        {
+            if (TempData["ListaProductos"] != null)
+            {
+                ListaProductos = (List<Producto>)TempData["ListaProductos"];
+            }
+            try
+            {
+                foreach (Producto listProduct in ListaProductos)
+                {
+                    if (listProduct.IdProducto == id)
+                    {
+                        ListaProductos.Remove(listProduct);
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError("", "No se pudo borrar la linea, y si el problema persiste contacte el administrador del sistema.");
+            }
+            TempData["ListaProductos"] = ListaProductos;
+            return Json(ListaProductos.ToList(),
+                JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult CalcularTotal()
+        {
+            decimal Total=0;
+            if (TempData["ListaProductos"] != null)
+            {
+                ListaProductos = (List<Producto>)TempData["ListaProductos"];
+                foreach (var item in ListaProductos)
+                {
+                    Total += item.Subtotal;
+                }
+
+            }
+
+            TempData["ListaProductos"] = ListaProductos;
+            return Json(Total,
+             JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult ConsultarImagen(int id)
+        {
+            string imagen =Convert.ToBase64String(db.Producto.Find(id).Imagen);
+            return Json(imagen,
+             JsonRequestBehavior.AllowGet);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

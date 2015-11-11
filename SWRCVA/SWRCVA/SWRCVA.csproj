@@ -256,6 +256,7 @@
     <Content Include="Content\Imagenes\images\slides\tree.jpg" />
     <Content Include="Content\Imagenes\images\slides\_notes\dwsync.xml" />
     <Content Include="Content\Imagenes\images\_notes\dwsync.xml" />
+    <Content Include="Content\Imagenes\incognita.jpg" />
     <Content Include="Content\Imagenes\loading.gif" />
     <Content Include="Content\Imagenes\logo2.png" />
     <Content Include="Content\jquery-ui.css" />

@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
-    
-    $("#formCotizar").on("click", "#btnCotizar", function () {
+    $('#DropDownProductos').on("change", function () {
+        ConsultarImagen($('#DropDownProductos').val());
+    })
+    $("#formCotizar").on("click", "#btnAgregar", function () {
 
          if ($('#DropDownProductos')[0].checkValidity() == false) {
             $("#DropDownProductos").tooltip();
@@ -67,6 +69,7 @@
                                                   '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                                 '</tr>');
                         }
+                        CalcularTotal();
                         }
 
                     }
@@ -78,5 +81,61 @@
             })
       
     })
+    $("#formCotizar").on("click", "#eliminarProducto", function () {
+        var id = $(this).attr("data-id");
+        $.ajax({
+            cache: false,
+            url: "/Cotizacion/EliminarProducto",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#ListaProductos").empty();
+                $("#ListaProductos").append('<tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
+
+                for (var i = 0; i < data.length; i++) {
+                    $('#ListaProductos').append('<tr>' +
+                                          '<td>' + data[i].Nombre + '</td>' +
+                                           '<td>' + data[i].Cantidad + '</td>' +
+                                          '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                          '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
+                                        '</tr>');
+                }
+                CalcularTotal();
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+        })
+
+    })
 
 })
+function CalcularTotal() {
+    $.ajax({
+        cache: false,
+        url: "/Cotizacion/CalcularTotal",
+        type: "get",
+        data: {},
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $("#txtTotal").html("₡ " + data.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+        }
+    })
+}
+function ConsultarImagen(id) {
+    var para = {id:id};
+    $.ajax({
+        cache: false,
+        url: "/Cotizacion/ConsultarImagen",
+        type: "get",
+        data: para,
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $('#MostrarImagen').attr('src', "data:image/png;base64," + data)
+        }
+    })
+}
