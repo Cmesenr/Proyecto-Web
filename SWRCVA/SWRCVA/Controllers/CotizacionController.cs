@@ -61,7 +61,14 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion/Create
         public ActionResult Cotizar()
         {
-            ViewBag.Productos = new SelectList(db.Producto, "IdProducto", "Nombre");
+            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
+            ViewBag.IdVidrio = new SelectList(from s in db.Material
+                                              where s.IdCatMat == 3
+                                              select new
+                                              {
+                                                  s.IdMaterial,
+                                                  s.Nombre
+                                              }, "IdMaterial", "Nombre");
             ViewBag.ColoresVidrio=new SelectList((from s in db.ColorMat
                                                   where s.IdCatMaterial == 3
                                                   select new
@@ -99,7 +106,14 @@ namespace SWRCVA.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Productos = new SelectList(db.Producto, "IdProducto", "Nombre");
+            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
+            ViewBag.IdVidrio = new SelectList(from s in db.Material
+                                              where s.IdCatMat == 3
+                                              select new
+                                              {
+                                                  s.IdMaterial,
+                                                  s.Nombre
+                                              },"IdMaterial","Nombre");
             ViewBag.ColoresVidrio = new SelectList((from s in db.ColorMat
                                                     where s.IdCatMaterial == 3
                                                     select new
@@ -180,14 +194,15 @@ namespace SWRCVA.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public JsonResult AgregarProducto(int Idpro, int Cvidrio, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto)
+        public JsonResult AgregarProducto(int Idpro, int Cvidrio, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto, int vidrio)
         {
             Calculos C = new Calculos();
             var resultado = "No se pudo agregar el Producto";
-            var ValidarMat = C.ValidarMateriales(Idpro, Cvidrio, CAluminio);
+            decimal instalacion = db.Valor.Find(Insta).Porcentaje;
+            var ValidarMat = C.ValidarMateriales(Idpro, Cvidrio, CAluminio, vidrio);
             if (ValidarMat.Count()==0)
             {
-                TempData["MateralCotizacion"] = C.calcularMonto(Idpro, Cvidrio, CAluminio, Insta, Cant, Ancho, Alto);
+                TempData["MateralCotizacion"] = C.calcularMonto(Idpro, Cvidrio, CAluminio, Insta, Cant, Ancho, Alto, vidrio);
             }
             else
             {
@@ -206,12 +221,13 @@ namespace SWRCVA.Controllers
                 Produ.IdProducto = Idpro;
                 Produ.Nombre = ListPro.Nombre;
                 Produ.Cantidad = Cant;
+
                 foreach (var item in (List<ProductoCotizacion>)TempData["MateralCotizacion"])
                 {
                     if (Idpro == item.IdProducto)
                         Produ.Subtotal += item.Subtotal;
                 }
-                Produ.Subtotal = ((Produ.Subtotal) * (1 + Insta)) * Cant;
+                Produ.Subtotal = ((Produ.Subtotal) * (1 + instalacion)) * Cant;
                 if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
                 else
                 {
@@ -288,6 +304,29 @@ namespace SWRCVA.Controllers
             string imagen =Convert.ToBase64String(db.Producto.Find(id).Imagen);
             return Json(imagen,
              JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ConsultarProductos(int id)
+        {
+            var Productos = (from s in db.Producto
+                                where s.IdTipoProducto == id
+                                select new
+                                {
+                                    IdProducto = s.IdProducto,
+                                    Nombre = s.Nombre
+                                }).ToList();
+
+
+            return Json(Productos,
+               JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ConsultarClientes(string filtro)
+        {
+            var Clientes = (from s in db.Cliente
+                            where s.Nombre.Contains(filtro)
+                            select s).Take(5);
+            
+            return Json(Clientes,
+              JsonRequestBehavior.AllowGet);
         }
         protected override void Dispose(bool disposing)
         {

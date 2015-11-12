@@ -9,7 +9,7 @@ namespace SWRCVA.Models
     {
         private DataContext db = new DataContext();
         List<ProductoCotizacion> ListaCosto = new List<ProductoCotizacion>();
-        public List<ProductoCotizacion> calcularMonto(int Idpro, int Cvidrio, int CAluminio,int Insta, int Cant, decimal Ancho, decimal Alto)
+        public List<ProductoCotizacion> calcularMonto(int Idpro, int Cvidrio, int CAluminio,int Insta, int Cant, decimal Ancho, decimal Alto, int vid)
         {
             var producto = db.Producto.Find(Idpro);
             var Aluminios= (from s in db.ListaMatProducto
@@ -22,14 +22,14 @@ namespace SWRCVA.Models
                                  s.Material.IdTipoMaterial,
                                  c.Costo
                              }).ToList();
-            var Vidrios= (from s in db.ListaMatProducto
+            var Vidrio= (from s in db.Material
                           join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
-                          where s.IdProducto == Idpro && s.Material.IdCatMat == 3 && c.IdColorMat == Cvidrio
+                         where s.IdMaterial == vid && c.IdColorMat == Cvidrio
                           select new
                           {
-                              s.IdProducto,
+                              IdProducto= Idpro,
                               s.IdMaterial,
-                              s.Material.IdTipoMaterial,
+                              s.IdTipoMaterial,
                               c.Costo
                           }).ToList();
             var Acesorios= (from s in db.ListaMatProducto
@@ -43,7 +43,7 @@ namespace SWRCVA.Models
                             }).ToList();
 
             var materiales = Aluminios;
-            materiales.AddRange(Vidrios);
+            materiales.AddRange(Vidrio);
             materiales.AddRange(Acesorios);
 
             //Ventana 5020
@@ -209,7 +209,7 @@ namespace SWRCVA.Models
                             case 10://Felpa
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
-                            PC.CantMaterial = Ancho * Alto;
+                            PC.CantMaterial = felpa;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
                             ListaCosto.Add(PC);
                             break;
@@ -227,7 +227,7 @@ namespace SWRCVA.Models
 
             return ListaCosto;
         }
-        public List<string>  ValidarMateriales(int Idpro, int Cvidrio, int CAluminio)
+        public List<string>  ValidarMateriales(int Idpro, int Cvidrio, int CAluminio, int vidrio)
         {
 
             var MatAlumino = (from s in db.ListaMatProducto
@@ -240,14 +240,14 @@ namespace SWRCVA.Models
                                select s.Material.Nombre).ToList();
 
             var Diferentes = MatAlumino.Except(MatAlumino2).ToList();
-            var MatVidrio = (from s in db.ListaMatProducto
-                              where s.IdProducto == Idpro && s.Material.IdCatMat == 3
-                              select s.Material.Nombre
+            var MatVidrio = (from s in db.Material
+                              where s.IdMaterial== vidrio
+                             select s.Nombre
                              ).ToList();
-            var MatVidrio2 = (from s in db.ListaMatProducto
-                               join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
-                               where s.IdProducto == Idpro && s.Material.IdCatMat == 3 && c.IdColorMat == Cvidrio
-                              select s.Material.Nombre).ToList();
+            var MatVidrio2 = (from s in db.Material
+                              join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
+                               where s.IdMaterial == vidrio && c.IdColorMat == Cvidrio
+                              select s.Nombre).ToList();
             Diferentes.AddRange(MatVidrio.Except(MatVidrio2).ToList());
 
             return Diferentes;
