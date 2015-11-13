@@ -14,7 +14,7 @@ namespace SWRCVA.Models
         public Producto()
         {
             ListaMatProducto = new HashSet<ListaMatProducto>();
-            Orden = new HashSet<Orden>();
+            DetalleFactura = new HashSet<DetalleFactura>();
             ProductoCotizacion = new HashSet<ProductoCotizacion>();
         }
 
@@ -48,7 +48,8 @@ namespace SWRCVA.Models
         public virtual ICollection<ListaMatProducto> ListaMatProducto { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orden> Orden { get; set; }
+        public virtual ICollection<DetalleFactura> DetalleFactura { get; set; }
+
 
         public virtual TipoProducto TipoProducto { get; set; }
 

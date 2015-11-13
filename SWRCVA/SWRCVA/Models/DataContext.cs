@@ -22,7 +22,6 @@ namespace SWRCVA.Models
         public virtual DbSet<Factura> Factura { get; set; }
         public virtual DbSet<ListaMatProducto> ListaMatProducto { get; set; }
         public virtual DbSet<Material> Material { get; set; }
-        public virtual DbSet<Orden> Orden { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoCotizacion> ProductoCotizacion { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
@@ -66,19 +65,14 @@ namespace SWRCVA.Models
                 .WithRequired(e => e.CategoriaMat)
                 .HasForeignKey(e => e.IdCatMat)
                 .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Cliente>()
-                .Property(e => e.Telefono)
-                .HasPrecision(8, 0);
+                 .Property(e => e.Usuario)
+                 .IsUnicode(false);
 
             modelBuilder.Entity<Cliente>()
                 .HasMany(e => e.Cotizacion)
                 .WithRequired(e => e.Cliente)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Cliente>()
-                .Property(e => e.Usuario)
-                .IsUnicode(false);
 
             modelBuilder.Entity<Cliente>()
                 .HasMany(e => e.Factura)
@@ -106,11 +100,6 @@ namespace SWRCVA.Models
             modelBuilder.Entity<Cotizacion>()
                 .Property(e => e.MontoParcial)
                 .HasPrecision(12, 2);
-
-            modelBuilder.Entity<Cotizacion>()
-                .HasMany(e => e.Orden)
-                .WithRequired(e => e.Cotizacion)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Cotizacion>()
                 .HasMany(e => e.ProductoCotizacion)
@@ -161,27 +150,15 @@ namespace SWRCVA.Models
                 .WithRequired(e => e.Material)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Orden>()
-                .Property(e => e.Usuario)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Orden>()
-                .HasMany(e => e.DetalleFactura)
-                .WithRequired(e => e.Orden)
-                .HasForeignKey(e => new { e.IdProducto, e.IdCotizacion })
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Producto>()
                 .Property(e => e.Usuario)
                 .IsUnicode(false);
-
+            modelBuilder.Entity<Producto>()
+               .HasMany(e => e.DetalleFactura)
+               .WithRequired(e => e.Producto)
+               .WillCascadeOnDelete(false);
             modelBuilder.Entity<Producto>()
                 .HasMany(e => e.ListaMatProducto)
-                .WithRequired(e => e.Producto)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Producto>()
-                .HasMany(e => e.Orden)
                 .WithRequired(e => e.Producto)
                 .WillCascadeOnDelete(false);
 
@@ -193,11 +170,6 @@ namespace SWRCVA.Models
             modelBuilder.Entity<ProductoCotizacion>()
                 .Property(e => e.CantMaterial)
                 .HasPrecision(12, 2);
-
-            modelBuilder.Entity<Proveedor>()
-                .Property(e => e.Telefono)
-                .HasPrecision(8, 0);
-
             modelBuilder.Entity<Proveedor>()
                 .Property(e => e.Usuario)
                 .IsUnicode(false);

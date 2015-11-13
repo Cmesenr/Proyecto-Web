@@ -23,10 +23,11 @@ namespace SWRCVA.Models
         [Column(Order = 2)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdMaterial { get; set; }
-
-        public decimal CantMaterial { get; set; }
         [NotMapped]
         public decimal Subtotal { get; set; }
+        public decimal CantMaterial { get; set; }
+
+        public int CantProducto { get; set; }
 
         public virtual Cotizacion Cotizacion { get; set; }
 

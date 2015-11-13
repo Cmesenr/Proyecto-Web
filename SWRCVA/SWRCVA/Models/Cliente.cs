@@ -23,8 +23,9 @@ namespace SWRCVA.Models
         [StringLength(100)]
         public string Nombre { get; set; }
 
-        [Column(TypeName = "numeric")]
-        public decimal Telefono { get; set; }
+        [Required]
+        [StringLength(10)]
+        public string Telefono { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -45,5 +46,6 @@ namespace SWRCVA.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Factura> Factura { get; set; }
+
     }
 }

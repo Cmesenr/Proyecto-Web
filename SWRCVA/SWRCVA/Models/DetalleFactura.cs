@@ -24,7 +24,6 @@ namespace SWRCVA.Models
         public int IdCotizacion { get; set; }
 
         public virtual Factura Factura { get; set; }
-
-        public virtual Orden Orden { get; set; }
+        public virtual Producto Producto { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace SWRCVA.Controllers
     public class OrdenController : Controller
     {
         private DataContext db = new DataContext();
-
+/*
         // GET: Orden
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -89,5 +89,6 @@ namespace SWRCVA.Controllers
 
             return View();
         }
+        */
     }
 }

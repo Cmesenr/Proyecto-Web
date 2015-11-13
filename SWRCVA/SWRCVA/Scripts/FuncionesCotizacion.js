@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
-    $("#txtClienteModal").keypress(function () {
-        var params = {filtro:$("#txtClienteModal").val()};
+    //Listar Clientes
+    $("#txtClienteModal").on("input", function () {
+        var params = { filtro: $("#txtClienteModal").val() };
+        $('#TableCliente').html('<center><img src="/Content/Imagenes/Cargando.gif"/></center>');
         $.ajax({
             cache: false,
             url: "/Cotizacion/ConsultarClientes",
@@ -10,14 +12,15 @@
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#TableCliente").empty();
+                $("#TableCliente").fadeIn(1000).html();
                 $("#TableCliente").append('<tr><th>Cliente</th><th>Telefono</th><th>Correo</th><th></th></tr>');
 
                     for (var i = 0; i < data.length; i++) {
-                        $('#TableCliente').append('<tr>' +
+                        $('#TableCliente').append('<tr>'+
                                               '<td>' + data[i].Nombre + '</td>' +
                                               '<td>' + data[i].Telefono + '</td>' +
                                               '<td>' + data[i].Correo + '</td>' +
-                                              '<td> <button type="button" id="SeleccionarCliente" class="btn btn-default btn-sm"><span data-id=' + data[i].IdCliente + ' class="glyphicon glyphicon-ok" /></button></td>' +
+                                              '<td> <button type="button" id="SeleccionarCliente" class="btn btn-default btn-sm" data-nombre="' + data[i].Nombre + '"  data-myvalue="' + data[i].IdCliente + '"><span class="glyphicon glyphicon-ok" /></button></td>' +
                                             '</tr>');
            
                 }
@@ -28,12 +31,26 @@
 
         })
     })
+    //Selecionar El CLiente
+    $("#headerPrincipal").on("click", "#SeleccionarCliente", function (e) {
+        $("#txtClienteFinal").val($(this).data("nombre"));
+        $("#txtClienteFinal").data("cliente", $(this).data("myvalue"));
+        $("#ModalCliente").modal("hide");
+    })
+    //Mostrar el modal CLiente
     $("#txtClienteFinal").on("click", function () {
         $("#ModalCliente").modal("show");
+
     })
+    //estableser el focus al levantar el modal
+    $('#ModalCliente').on('shown.bs.modal', function () {
+        $("#txtClienteModal").focus();
+    });
+    //consultar imagen producto
     $('#DropDownProductos').on("change", function () {
         ConsultarImagen($('#DropDownProductos').val());
     })
+    //cargar productos 
     $('#DropDownTipoProductos').on("change", function () {
         var id = $('#DropDownTipoProductos').val();
         $.ajax({
@@ -58,6 +75,105 @@
             }
         })
     })
+    //Guardar Cliente 
+    $("#headerPrincipal").on("click", "#btnGuardarModal", function () {
+        if ($('#txtNombreCliente')[0].checkValidity() == false) {
+            $("#txtNombreCliente").tooltip();
+            $("#txtNombreCliente").focus();
+            return false;
+        }
+        else if ($('#txtTelefonoCliente')[0].checkValidity() == false) {
+            $("#txtTelefonoCliente").tooltip();
+            $("#txtTelefonoCliente").focus();
+            return false;
+        } else if ($('#txtCorreoCliente')[0].checkValidity() == false) {
+            $("#txtCorreoCliente").tooltip();
+            $("#txtCorreoCliente").focus();
+            return false;
+        } else if ($('#txtDireccionCliente')[0].checkValidity() == false) {
+            $("#txtDireccionCliente").tooltip();
+            $("#txtDireccionCliente").focus();
+            return false;
+        }
+        var para = { Nombre: $('#txtNombreCliente').val(), Telefono: $('#txtTelefonoCliente').val(), Correo: $('#txtCorreoCliente').val(), Direccion: $('#txtDireccionCliente').val()};
+        $.ajax({
+            cache: false,
+            url: "/Cotizacion/GuardarCliente",
+            type: "get",
+            data: para,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#ModalCrearCliente').modal("hide");
+                $("#ModalCliente").modal("hide");
+                $("#txtClienteFinal").val(data.Nombre);
+                $("#txtClienteFinal").data("cliente", data.IdCliente);
+               
+            }
+        })
+
+    })
+    $('#ModalCrearCliente').on('hidden.bs.modal', function () {
+        $('#txtNombreCliente').val("");
+        $('#txtTelefonoCliente').val("");
+        $('#txtCorreoCliente').val("");
+        $('#txtDireccionCliente').val("");
+    });
+    $('#ModalCliente').on('hidden.bs.modal', function () {
+        $("#txtClienteModal").val("");
+    });
+    //Procesar Cotizacion
+    $("#btnProcesar").on("click", function () {
+        if ($('#txtClienteFinal')[0].checkValidity() == false) {
+            $("#txtClienteFinal").tooltip();
+            $("#txtClienteFinal").focus();
+            return false;
+        }
+        var para = { IdCliente: $('#txtClienteFinal').data("cliente"), Comentario: $('#txtAreaComentario').val() };
+        $.ajax({
+            cache: false,
+            url: "/Cotizacion/ProcesarCotizacion",
+            type: "get",
+            data: para,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "Cotizacion Procesada!") {
+                    LimpiarCamposHeader();
+                }
+                $("#TextModal").html(data);
+                $('#ModalError').modal("show");
+            }
+        })
+
+    })
+    //Guardar Cotizacion
+    $("#btnGuardar").on("click", function () {
+        if ($('#txtClienteFinal')[0].checkValidity() == false) {
+            $("#txtClienteFinal").tooltip();
+            $("#txtClienteFinal").focus();
+            return false;
+        }
+        var para = { IdCliente: $('#txtClienteFinal').data("cliente"), Comentario: $('#txtAreaComentario').val() };
+        $.ajax({
+            cache: false,
+            url: "/Cotizacion/GuardarCotizacion",
+            type: "get",
+            data: para,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "Cotizacion Guardada!") {
+                    LimpiarCamposHeader();
+                }
+                    $("#TextModal").html(data);
+                    $('#ModalError').modal("show");
+             
+            }
+        })
+
+    })
+    //Agregar Producto 
     $("#formCotizar").on("click", "#btnAgregar", function () {
         
         if ($('#DropDownTipoProductos')[0].checkValidity() == false) {
@@ -137,6 +253,7 @@
                                                 '</tr>');
                         }
                         CalcularTotal();
+                        LimpiarCamposBoddy();
                         }
 
                     }
@@ -206,9 +323,30 @@ function ConsultarImagen(id) {
         }
     })
 }
+function LimpiarCamposHeader() {
+    $('#txtClienteFinal').val("");
+    $('#txtAreaComentario').val("");
+    $('#ListaProductos').html("");
+}
+function LimpiarCamposBoddy() {
+    $('#DropDownTipoProductos').val("");
+    $('#DropDownProductos').val("");
+    $('#DropDownCVidrio').val("");
+    $('#DropDownCAluminio').val("");
+    $('#DropDownInstalacion').val("");
+    $('#DropDownVidrio').val("");
+    $('#txtCantidad').val("");
+    $('#txtAncho').val("");
+    $('#txtAlto').val("");
+}
 var nav4 = window.Event ? true : false;
 function acceptNum(evt) {
     // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
     var key = nav4 ? evt.which : evt.keyCode;
     return (key <= 13 || (key >= 48 && key <= 57) || key == 46);
+}
+function acceptonlyNum(evt) {
+    // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
+    var key = nav4 ? evt.which : evt.keyCode;
+    return (key <= 13 || (key >= 48 && key <= 57));
 }

@@ -134,6 +134,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Ancho;
                             PC.Subtotal= PC.CantMaterial *((decimal)item.Costo*IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 20://Umbral
@@ -141,6 +142,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Ancho;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 21://Jamba
@@ -148,6 +150,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Alto*2;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 24://Sup hoja
@@ -155,6 +158,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial =SupH;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 23://Inf Hoja
@@ -162,6 +166,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = InfH;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 26://Vertical Centro
@@ -169,6 +174,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = VertCent;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 25://Vertical
@@ -176,6 +182,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = VertLlav;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 16://Rodin
@@ -183,6 +190,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Movil*2;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 5://Cierre
@@ -190,6 +198,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = cierre;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 8://Empaque
@@ -197,6 +206,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = empaq;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 53://Vidrio
@@ -204,6 +214,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Ancho*Alto;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 10://Felpa
@@ -211,6 +222,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = felpa;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                             case 17://Tornillo
@@ -218,6 +230,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = 1;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            PC.CantProducto = Cant;
                             ListaCosto.Add(PC);
                             break;
                         }

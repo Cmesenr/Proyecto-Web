@@ -31,11 +31,9 @@ namespace SWRCVA.Models
         [Required]
         [StringLength(30)]
         public string Direccion { get; set; }
-
-        [Column(TypeName = "numeric")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0}")]
-
-        public decimal Telefono { get; set; }
+        [Required]
+        [StringLength(10)]
+        public string Telefono { get; set; }
 
         public int Estado { get; set; }
 

@@ -15,6 +15,7 @@ namespace SWRCVA.Controllers
     {
         private DataContext db = new DataContext();
         List<Producto> ListaProductos = new List<Producto>();
+        List<ProductoCotizacion> ListaMateriales = new List<ProductoCotizacion>();
         // GET: Cotizacion
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -61,6 +62,10 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion/Create
         public ActionResult Cotizar()
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.IdVidrio = new SelectList(from s in db.Material
                                               where s.IdCatMat == 3
@@ -141,6 +146,10 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion/Edit/5
         public ActionResult Editar(int? id)
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -203,6 +212,7 @@ namespace SWRCVA.Controllers
             if (ValidarMat.Count()==0)
             {
                 TempData["MateralCotizacion"] = C.calcularMonto(Idpro, Cvidrio, CAluminio, Insta, Cant, Ancho, Alto, vidrio);
+                ListaMateriales = (List<ProductoCotizacion>)TempData["MateralCotizacion"];
             }
             else
             {
@@ -222,7 +232,7 @@ namespace SWRCVA.Controllers
                 Produ.Nombre = ListPro.Nombre;
                 Produ.Cantidad = Cant;
 
-                foreach (var item in (List<ProductoCotizacion>)TempData["MateralCotizacion"])
+                foreach (var item in ListaMateriales)
                 {
                     if (Idpro == item.IdProducto)
                         Produ.Subtotal += item.Subtotal;
@@ -250,6 +260,7 @@ namespace SWRCVA.Controllers
                 return Json(resultado,
               JsonRequestBehavior.AllowGet);
             }
+            TempData["MateralCotizacion"] = ListaMateriales;
             TempData["ListaProductos"] = ListaProductos;
             return Json(ListaProductos.ToList(),
                 JsonRequestBehavior.AllowGet);
@@ -323,10 +334,126 @@ namespace SWRCVA.Controllers
         {
             var Clientes = (from s in db.Cliente
                             where s.Nombre.Contains(filtro)
-                            select s).Take(5);
+                            select new
+                            { s.IdCliente,
+                              s.Nombre,
+                              s.Telefono,
+                              s.Correo
+                            }).Take(5);
             
             return Json(Clientes,
               JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GuardarCliente(string Nombre, string Telefono, string Correo, string Direccion)
+        {
+            Cliente C1 = new Cliente();
+            C1.Nombre = Nombre;
+            C1.Telefono = Telefono;
+            C1.Correo = Correo;
+            C1.Direccion = Direccion;
+            C1.Estado = 1;
+            C1.Usuario = Session["UsuarioActual"].ToString();
+            db.Cliente.Add(C1);
+            db.SaveChanges();
+            var Cliente = new { IdCliente = C1.IdCliente, Nombre = Nombre };
+            return Json(Cliente,
+              JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ProcesarCotizacion(int IdCliente, string Comentario)
+        {
+            var respuesta = "Cotizacion Procesada!";
+            try { 
+           
+            if (TempData["ListaProductos"] != null)
+            {
+                ListaProductos = (List<Producto>)TempData["ListaProductos"];
+                ListaMateriales= (List<ProductoCotizacion>)TempData["MateralCotizacion"];
+                Cotizacion Cot = new Cotizacion();
+                Cot.IdCliente = IdCliente;
+                Cot.Estado = "P";
+                Cot.Fecha = DateTime.Now;
+                Cot.FechaActualizacion = DateTime.Now;
+                Cot.Comentario = Comentario;
+                
+                foreach (var item in ListaProductos)
+                {
+                    Cot.MontoParcial += item.Subtotal;
+                }
+                Cot.Usuario= Session["UsuarioActual"].ToString();
+                    db.Cotizacion.Add(Cot);
+                    db.SaveChanges();
+
+                foreach (var item in ListaMateriales)
+                {
+                    item.IdCotizacion = Cot.IdCotizacion;
+                    db.ProductoCotizacion.Add(item);
+                }
+                    db.SaveChanges();
+
+            }
+            else
+            {
+                respuesta = "Debe Agregar Productos a la Cotizacion!";
+            }
+            }
+            catch
+            {
+                respuesta = "Un error inesperado a ocurrido, contacte al administrador del sistema";
+                return Json(respuesta,
+          JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(respuesta,
+          JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GuardarCotizacion(int IdCliente, string Comentario)
+        {
+            var respuesta = "Cotizacion Guardada!";
+            try
+            {
+
+                if (TempData["ListaProductos"] != null)
+                {
+                    ListaProductos = (List<Producto>)TempData["ListaProductos"];
+                    ListaMateriales = (List<ProductoCotizacion>)TempData["MateralCotizacion"];
+                    Cotizacion Cot = new Cotizacion();
+                    Cot.IdCliente = IdCliente;
+                    Cot.Estado = "G";
+                    Cot.Fecha = DateTime.Now;
+                    Cot.FechaActualizacion = DateTime.Now;
+                    Cot.Comentario = Comentario;
+
+                    foreach (var item in ListaProductos)
+                    {
+                        Cot.MontoParcial += item.Subtotal;
+                    }
+                    Cot.Usuario = Session["UsuarioActual"].ToString();
+                    db.Cotizacion.Add(Cot);
+                    db.SaveChanges();
+
+                    foreach (var item in ListaMateriales)
+                    {
+                        item.IdCotizacion = Cot.IdCotizacion;
+                        db.ProductoCotizacion.Add(item);
+                    }
+                    db.SaveChanges();
+
+                }
+                else
+                {
+                    respuesta = "Debe Agregar Productos a la Cotizacion!";
+                }
+            }
+            catch
+            {
+                respuesta = "Un error inesperado a ocurrido, contacte al administrador del sistema";
+                return Json(respuesta,
+          JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(respuesta,
+          JsonRequestBehavior.AllowGet);
         }
         protected override void Dispose(bool disposing)
         {
