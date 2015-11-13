@@ -51,7 +51,14 @@
             @Html.DisplayFor(modelItem => item.Cliente.Nombre)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Estado)
+            @if (item.Estado == "C")
+            {
+                @("Creada");
+            }
+            @if (item.Estado == "A")
+            {
+                @("Anulada");
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Fecha)
@@ -60,7 +67,7 @@
             @Html.DisplayFor(modelItem => item.MontoParcial)
         </td>
         <td>
-            <button id="btnEditarMaterial" data-id="@item.IdCotizacion" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+            <button id="btnEditarMaterial" data-id="@item.IdCotizacion" onclick="location.href='/Cotizacion/Editar?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
             <button id="btnBorrarMaterial" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdCotizacion" data-id="@item.IdCotizacion" type="button" class="btn btn-danger delete">Borrar</button>
         </td>
     </tr>

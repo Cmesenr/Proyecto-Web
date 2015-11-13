@@ -88,6 +88,18 @@ namespace SWRCVA.Models
                 .WithRequired(e => e.ColorMat)
                 .HasForeignKey(e => e.IdColorMat)
                 .WillCascadeOnDelete(false);
+            modelBuilder.Entity<ColorMat>()
+            .HasMany(e => e.ProductoCotizacion)
+            .WithRequired(e => e.ColorMat)
+            .HasForeignKey(e => e.IdColorVidrio)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ColorMat>()
+                .HasMany(e => e.ProductoCotizacion1)
+                .WithRequired(e => e.ColorMat1)
+                .HasForeignKey(e => e.IdColorAluminio)
+                .WillCascadeOnDelete(false);
+
 
             modelBuilder.Entity<ColorMaterial>()
                 .Property(e => e.Costo)
@@ -169,6 +181,17 @@ namespace SWRCVA.Models
 
             modelBuilder.Entity<ProductoCotizacion>()
                 .Property(e => e.CantMaterial)
+                .HasPrecision(12, 2);
+            modelBuilder.Entity<ProductoCotizacion>()
+                .Property(e => e.Instalacion)
+                .HasPrecision(12, 2);
+
+            modelBuilder.Entity<ProductoCotizacion>()
+                .Property(e => e.Ancho)
+                .HasPrecision(12, 2);
+
+            modelBuilder.Entity<ProductoCotizacion>()
+                .Property(e => e.Alto)
                 .HasPrecision(12, 2);
             modelBuilder.Entity<Proveedor>()
                 .Property(e => e.Usuario)

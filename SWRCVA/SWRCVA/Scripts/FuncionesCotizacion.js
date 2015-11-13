@@ -104,10 +104,16 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $('#ModalCrearCliente').modal("hide");
-                $("#ModalCliente").modal("hide");
-                $("#txtClienteFinal").val(data.Nombre);
-                $("#txtClienteFinal").data("cliente", data.IdCliente);
+                if (typeof (data) == "string") {
+                    $("#TextModal").html(data);
+                    $('#ModalError').modal("show");
+                }
+                else {
+                    $('#ModalCrearCliente').modal("hide");
+                    $("#ModalCliente").modal("hide");
+                    $("#txtClienteFinal").val(data.Nombre);
+                    $("#txtClienteFinal").data("cliente", data.IdCliente);
+                }
                
             }
         })
@@ -169,6 +175,57 @@
                     $("#TextModal").html(data);
                     $('#ModalError').modal("show");
              
+            }
+        })
+
+    })
+    $("#btnProcesarEdit").on("click", function () {
+        $('#txtClienteFinal').removeAttr("disabled");
+        if ($('#txtClienteFinal')[0].checkValidity() == false) {
+            $("#txtClienteFinal").tooltip();
+            $("#txtClienteFinal").focus();
+            return false;
+        }
+        var para = { Id:$("#IdCotizacion").val(), IdCliente: $('#txtClienteFinal').data("cliente"), Comentario: $('#txtAreaComentario').val() };
+        $.ajax({
+            cache: false,
+            url: "/Cotizacion/ProcesarCotizacionEdit",
+            type: "get",
+            data: para,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "Cotizacion Procesada!") {
+                    LimpiarCamposHeader();
+                }
+                $("#TextModal").html(data);
+                $('#ModalError').modal("show");
+            }
+        })
+
+    })
+    //Guardar Cotizacion
+    $("#btnGuardarEdit").on("click", function () {
+        if ($('#txtClienteFinal')[0].checkValidity() == false) {
+            $("#txtClienteFinal").tooltip();
+            $("#txtClienteFinal").focus();
+            return false;
+        }
+        var para = { Id: $("#IdCotizacion").val(), IdCliente: $('#txtClienteFinal').data("cliente"), Comentario: $('#txtAreaComentario').val() };
+        $.ajax({
+            cache: false,
+            url: "/Cotizacion/GuardarCotizacionEdit",
+            type: "get",
+            data: para,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "Cotizacion Guardada!") {
+                    LimpiarCamposHeader();
+                }
+                $("#TextModal").html(data);
+                $('#ModalError').modal("show");
+
             }
         })
 
@@ -327,6 +384,7 @@ function LimpiarCamposHeader() {
     $('#txtClienteFinal').val("");
     $('#txtAreaComentario').val("");
     $('#ListaProductos').html("");
+    $("#txtTotal").val("0.00");
 }
 function LimpiarCamposBoddy() {
     $('#DropDownTipoProductos').val("");
@@ -338,6 +396,54 @@ function LimpiarCamposBoddy() {
     $('#txtCantidad').val("");
     $('#txtAncho').val("");
     $('#txtAlto').val("");
+}
+function CargarListaProductos() {
+    $.ajax({
+        cache: false,
+        url: "/Cotizacion/ConsultarListaProductos",
+        type: "get",
+        data: {},
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+
+            if (typeof (data) == "string") {
+                $("#TextModal").html(data);
+                $('#ModalError').modal("show");
+            }
+            else {
+                if (data[0].IdProducto == null) {
+                    var Resultado = "<center>El o los materiales siguienetes no poseen el color selecionado:</center> <ul>";
+                    for (var i = 0; i < data.length; i++) {
+                        Resultado += "<li>" + data[i] + "</li>";
+                    }
+                    Resultado += "</ul>";
+                    $("#TextModal").html(Resultado);
+                    $('#ModalError').modal("show");
+                }
+                else {
+                    $("#ListaProductos").empty();
+                    $("#ListaProductos").append('<tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
+
+                    for (var i = 0; i < data.length; i++) {
+                        $('#ListaProductos').append('<tr>' +
+                                              '<td>' + data[i].Nombre + '</td>' +
+                                               '<td>' + data[i].Cantidad + '</td>' +
+                                              '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                              '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
+                                            '</tr>');
+                    }
+                    CalcularTotal();
+                    LimpiarCamposBoddy();
+                }
+
+            }
+        },
+        error: function (result) {
+            alert('ERROR ' + result.status + ' ' + result.statusText);
+        }
+
+    })
 }
 var nav4 = window.Event ? true : false;
 function acceptNum(evt) {
