@@ -384,7 +384,7 @@ function LimpiarCamposHeader() {
     $('#txtClienteFinal').val("");
     $('#txtAreaComentario').val("");
     $('#ListaProductos').html("");
-    $("#txtTotal").val("0.00");
+    $("#txtTotal").html("0.00");
 }
 function LimpiarCamposBoddy() {
     $('#DropDownTipoProductos').val("");
