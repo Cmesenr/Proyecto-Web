@@ -1,10 +1,10 @@
 ﻿@using PagedList.Mvc;
-@model PagedList.IPagedList<SWRCVA.Models.Orden>
+@model PagedList.IPagedList<SWRCVA.Models.Cotizacion>
 
 @{
     ViewBag.Title = "Ordenes";
 }
-<h2>Ordenes</h2>
+<h2>Órdenes</h2>
 @using (Html.BeginForm("Index", "Orden", FormMethod.Get))
 {
     @Html.AntiForgeryToken()
@@ -12,10 +12,10 @@
         <table>
             <tr>
                 <td>
-                    Buscar por cotización:
+                    Buscar por nombre:
                 </td>
                 <td>
-                    @Html.TextBox("Número cotización", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
                 </td>
                 <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
             </tr>
@@ -31,13 +31,13 @@
             Cliente
         </th>
         <th>
-            Cantidad
-        </th>
-        <th>
             Estado
         </th>
         <th>
-            Comentario
+            Fecha
+        </th>
+        <th>
+            Monto
         </th>
         <th></th>
     </tr>
@@ -48,29 +48,27 @@
                 @Html.DisplayFor(modelItem => item.IdCotizacion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCliente)
+                @Html.DisplayFor(modelItem => item.Cliente.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CantidadProd)
-            </td>
-            <td>          
-                        @Html.DropDownListFor(model => item.Estado, (new SelectList(
-                  new List<Object>{
-                      new { value = 2 , text = "Anulada"  },
-                      new { value = 1 , text = "En Espera de Material"  },
-                      new { value = 0 , text = "Procesada" }
-                    },
-                  "value",
-                  "text",
-                   item.Estado)), new { @class = "form-control", @required = "required", title = "El campo Estado es necesario",
-                       @onchange = "AlmacenarEstado(this.value)"})
-                        @Html.ValidationMessageFor(model => item.Estado, "", new { @class = "text-danger" })
+                @if (item.Estado == "C")
+                {
+                    @("Creada");
+                }
+                @if (item.Estado == "A")
+                {
+                    @("Anulada");
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Comentario)
+                @Html.DisplayFor(modelItem => item.Fecha)
             </td>
             <td>
-                <button id="btnActualizarEstado" data-id="@item.IdCotizacion,@item.IdProducto" type="button" class="btn btn-primary edit" onclick="Editar(@item.IdCotizacion,@item.IdProducto)">Actualizar Estado</button>
+                @Html.DisplayFor(modelItem => item.MontoParcial)
+            </td>
+            <td>
+                <button id="btnEditarMaterial" data-id="@item.IdCotizacion" onclick="location.href='/Cotizacion/Editar?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+                <button id="btnBorrarMaterial" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdCotizacion" data-id="@item.IdCotizacion" type="button" class="btn btn-danger delete">Borrar</button>
             </td>
         </tr>
     }
@@ -79,9 +77,3 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/FuncionesOrden")
-}

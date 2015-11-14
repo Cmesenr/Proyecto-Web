@@ -16,6 +16,7 @@ namespace SWRCVA.Controllers
         private DataContext db = new DataContext();
         List<Producto> ListaProductos = new List<Producto>();
         List<ProductoCotizacion> ListaMateriales = new List<ProductoCotizacion>();
+
         // GET: Cotizacion
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
