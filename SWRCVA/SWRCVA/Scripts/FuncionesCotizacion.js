@@ -75,6 +75,57 @@
             }
         })
     })
+    //Verificar Atributos
+    $("#DropDownProductos").on("change", function () {
+        var id = $(this).val();
+        $.ajax({
+            cache: false,
+            url: "/Cotizacion/VerificarAtributos",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "Celocia") {
+                    $("#txtCelocia").attr("required", "required");
+                    $("#txtCelocia").removeAttr("disabled");
+                }
+                else {
+                    $("#txtCelocia").attr("disabled", "disabled");
+                    $("#txtCelocia").removeAttr("required");
+                }
+
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+        })
+    })
+    //Cargar Combo Vidrios
+    $('input[name=Vidrio]').on("change", function () {
+        var id = $(this).val();
+        $.ajax({
+            cache: false,
+            url: "/Cotizacion/ColsultarVidrio",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var items = "<option value=''>Vidrios..</option>";
+                for (var i = 0; i < data.length; i++) {
+
+                    items += "<option value='" + data[i].IdMaterial + "'>" + data[i].Nombre + "</option>";
+                }
+
+                $("#DropDownVidrio").html(items);
+
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+        })
+    })
     //Guardar Cliente 
     $("#headerPrincipal").on("click", "#btnGuardarModal", function () {
         if ($('#txtNombreCliente')[0].checkValidity() == false) {
@@ -148,6 +199,7 @@
                     LimpiarCamposHeader();
                 }
                 $("#TextModal").html(data);
+                $("#HeaderModalInfo").html("Procesado");
                 $('#ModalError').modal("show");
             }
         })
@@ -172,13 +224,15 @@
                 if (data == "Cotizacion Guardada!") {
                     LimpiarCamposHeader();
                 }
-                    $("#TextModal").html(data);
+                $("#TextModal").html(data);
+                $("#HeaderModalInfo").html("Guardado");
                     $('#ModalError').modal("show");
              
             }
         })
 
     })
+    //Procesar cotizacion despues de editar
     $("#btnProcesarEdit").on("click", function () {
         $('#txtClienteFinal').removeAttr("disabled");
         if ($('#txtClienteFinal')[0].checkValidity() == false) {
@@ -199,6 +253,7 @@
                     LimpiarCamposHeader();
                 }
                 $("#TextModal").html(data);
+                $("#HeaderModalInfo").html("Procesado");
                 $('#ModalError').modal("show");
             }
         })
@@ -224,6 +279,7 @@
                     LimpiarCamposHeader();
                 }
                 $("#TextModal").html(data);
+                $("#HeaderModalInfo").html("Guardado");
                 $('#ModalError').modal("show");
 
             }
@@ -272,8 +328,12 @@
             $("#txtAlto").tooltip();
             $("#txtAlto").focus();
             return false;
+        } else if ($('#txtCelocia')[0].checkValidity() == false) {
+            $("#txtAlto").tooltip();
+            $("#txtAlto").focus();
+            return false;
         }
-        var paraProd = { Idpro: $('#DropDownProductos').val(), Cvidrio: $("#DropDownCVidrio").val(), CAluminio: $('#DropDownCAluminio').val(), Insta: $('#DropDownInstalacion').val(), Cant: $('#txtCantidad').val(), Ancho: $('#txtAncho').val(), Alto: $('#txtAlto').val(), vidrio: $('#DropDownVidrio').val() };
+        var paraProd = { Idpro: $('#DropDownProductos').val(), Cvidrio: $("#DropDownCVidrio").val(), anchoCelocia: $('#txtCelocia').val(), CAluminio: $('#DropDownCAluminio').val(), Insta: $('#DropDownInstalacion').val(), Cant: $('#txtCantidad').val(), Ancho: $('#txtAncho').val(), Alto: $('#txtAlto').val(), vidrio: $('#DropDownVidrio').val() };
                $.ajax({
                 cache: false,
                 url: "/Cotizacion/AgregarProducto",
@@ -285,6 +345,7 @@
 
                     if (typeof (data) == "string") {
                         $("#TextModal").html(data);
+                        $("#HeaderModalInfo").html("Error");
                         $('#ModalError').modal("show");
                     }
                     else {
@@ -409,6 +470,7 @@ function CargarListaProductos() {
 
             if (typeof (data) == "string") {
                 $("#TextModal").html(data);
+                $("#HeaderModalInfo").html("Error");
                 $('#ModalError').modal("show");
             }
             else {
@@ -445,6 +507,7 @@ function CargarListaProductos() {
 
     })
 }
+
 var nav4 = window.Event ? true : false;
 function acceptNum(evt) {
     // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46

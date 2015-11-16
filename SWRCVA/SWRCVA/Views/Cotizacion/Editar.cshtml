@@ -148,8 +148,12 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.DropDownList("IdVidrio", null, "Vidrio..", new { @class = "form-control", id = "DropDownVidrio", required = "required", title = "Selecione el espesor del Vidrio!" })
+                    <div class="col-md-4">
+                        <input type="radio" name="Vidrio" value="10" title="Vidrio en Lamina" />&nbsp;<span class="text-muted" title="Vidrio en Lamina">L</span><br><input type="radio" name="Vidrio" value="11" title="Vidrio Cortado" />&nbsp;<span class="text-muted" title="Vidrio Cortado">C</span>
+                    </div>
+                    <div class="col-md-8">
+                        @Html.DropDownList("Vidrio", (new SelectList(
+         new List<Object> { })), "Vidrio..", new { @class = "form-control", id = "DropDownVidrio", required = "required", title = "Selecione el espesor del Vidrio!" })
                         @Html.ValidationMessage("Instalación", "", new { @class = "text-danger" })
                     </div>
                 </div>

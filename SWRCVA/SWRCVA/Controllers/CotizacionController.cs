@@ -69,13 +69,6 @@ namespace SWRCVA.Controllers
                 return RedirectToAction("Login", "Login");
             }
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
-            ViewBag.IdVidrio = new SelectList(from s in db.Material
-                                              where s.IdCatMat == 3
-                                              select new
-                                              {
-                                                  s.IdMaterial,
-                                                  s.Nombre
-                                              }, "IdMaterial", "Nombre");
             ViewBag.ColoresVidrio=new SelectList((from s in db.ColorMat
                                                   where s.IdCatMaterial == 3
                                                   select new
@@ -114,14 +107,9 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion/Edit/5
         public ActionResult Editar(int? id)
         {
+            
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
-            ViewBag.IdVidrio = new SelectList(from s in db.Material
-                                              where s.IdCatMat == 3
-                                              select new
-                                              {
-                                                  s.IdMaterial,
-                                                  s.Nombre
-                                              }, "IdMaterial", "Nombre");
+           
             ViewBag.ColoresVidrio = new SelectList((from s in db.ColorMat
                                                     where s.IdCatMaterial == 3
                                                     select new
@@ -129,6 +117,14 @@ namespace SWRCVA.Controllers
                                                         IdColor = s.IdColor,
                                                         Nombre = s.Nombre
                                                     }), "IdColor", "Nombre");
+            ViewData["ColoresPaleta"] = (from s in db.ColorMat
+                                                    where s.IdCatMaterial == 3
+                                                    select new
+                                                    {
+                                                        IdColor = s.IdColor,
+                                                        Nombre = s.Nombre
+                                                    }).ToList();
+
             ViewBag.ColoresAluminio = new SelectList((from s in db.ColorMat
                                                       where s.IdCatMaterial == 2
                                                       select new
@@ -162,18 +158,38 @@ namespace SWRCVA.Controllers
             ListaMateriales = (from s in db.ProductoCotizacion
                                where s.IdCotizacion == id
                                select s).ToList();
+            decimal? anchocelocia = null;
+            int vidrio = 0;
             int Idpro = 0;
             int Cant = 0;
+            int ColorVidrio = 0;
+            int ColorAluminio = 0;
+            decimal instalacion = 0;
+            decimal ancho = 0;
+            decimal alto = 0;
+
             foreach (var item in ListaMateriales)
             {
+                if (item.Producto.Forma == "CF" || item.Producto.Forma == "FCF")
+                {
+                    anchocelocia = (item.CantMaterial / (item.Alto / 0.09m)) * 0.0254m;
+                }
+                if (item.Producto.Forma == "COF")
+                    anchocelocia = (item.CantMaterial / (item.Ancho / 0.09m)) * 0.0254m;
                 if (item.Material.IdCatMat == 3)
                 {
-                    TempData["MateralCotizacion"] = C.calcularMonto(item.IdProducto, item.IdColorVidrio, item.IdColorAluminio, item.Instalacion, item.CantProducto, item.Ancho, item.Alto, item.IdMaterial);
-                    ListaMateriales = (List<ProductoCotizacion>)TempData["MateralCotizacion"];
+                    vidrio = item.IdMaterial;
                     Idpro = item.IdProducto;
                     Cant = item.CantProducto;
+                    ColorVidrio = item.IdColorVidrio;
+                    ColorAluminio = item.IdColorAluminio;
+                    instalacion = item.Instalacion;
+                    ancho = item.Ancho;
+                    alto = item.Alto;
                 }
             }
+            TempData["MateralCotizacion"] = C.calcularMonto(Idpro, ColorVidrio, anchocelocia, ColorAluminio, instalacion, Cant, ancho, alto, vidrio);
+            ListaMateriales = (List<ProductoCotizacion>)TempData["MateralCotizacion"];
             Producto ListPro = db.Producto.Find(Idpro);
             Producto Produ = new Producto();
             Produ.IdProducto = Idpro;
@@ -234,7 +250,7 @@ namespace SWRCVA.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public JsonResult AgregarProducto(int Idpro, int Cvidrio, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto, int vidrio)
+        public JsonResult AgregarProducto(int Idpro, int Cvidrio,decimal? anchocelocia, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto, int vidrio)
         {
             Calculos C = new Calculos();
 
@@ -243,7 +259,7 @@ namespace SWRCVA.Controllers
             decimal instalacion = db.Valor.Find(Insta).Porcentaje;
             if (ValidarMat.Count()==0)
             {
-                TempData["MateralCotizacion"] = C.calcularMonto(Idpro, Cvidrio, CAluminio, instalacion, Cant, Ancho, Alto, vidrio);
+                TempData["MateralCotizacion"] = C.calcularMonto(Idpro, Cvidrio, anchocelocia, CAluminio, instalacion, Cant, Ancho, Alto, vidrio);
                 ListaMateriales = (List<ProductoCotizacion>)TempData["MateralCotizacion"];
             }
             else
@@ -384,6 +400,18 @@ namespace SWRCVA.Controllers
                JsonRequestBehavior.AllowGet);
            
         }
+        public JsonResult ColsultarVidrio(int id)
+        {
+           var vidrio=(from s in db.Material
+                                              where s.IdCatMat == 3 && s.IdSubCatMat== id
+                                      select new
+                                              {
+                                                  s.IdMaterial,
+                                                  s.Nombre
+                                              }).ToList();
+            return Json(vidrio,
+               JsonRequestBehavior.AllowGet);
+        }
         public JsonResult ConsultarClientes(string filtro)
         {
                 var Clientes = (from s in db.Cliente
@@ -398,6 +426,17 @@ namespace SWRCVA.Controllers
                 return Json(Clientes,
                  JsonRequestBehavior.AllowGet);        
        
+        }
+        public JsonResult VerificarAtributos(int id)
+        {
+            string resultado = "";
+            var product = db.Producto.Find(id);
+            if (product.Forma == "CF" || product.Forma == "FCF"||product.Forma=="COF")
+            {
+                resultado = "Celocia";
+            }
+            return Json(resultado,
+               JsonRequestBehavior.AllowGet);
         }
         public JsonResult GuardarCliente(string Nombre, string Telefono, string Correo, string Direccion)
         {
@@ -544,7 +583,6 @@ namespace SWRCVA.Controllers
                     Cotizacion Cotiz = db.Cotizacion.Find(id);
                     Cotiz.IdCliente = IdCliente;
                     Cotiz.Estado = "P";
-                    Cotiz.Fecha = DateTime.Now;
                     Cotiz.FechaActualizacion = DateTime.Now;
                     Cotiz.Comentario = Comentario;
                     Cotiz.MontoParcial = 0;
