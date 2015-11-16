@@ -44,6 +44,12 @@ namespace SWRCVA.Models
         [NotMapped]
         public int Cantidad { get; set; }
 
+        [NotMapped]
+        public decimal Ancho { get; set; }
+
+        [NotMapped]
+        public decimal Alto { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ListaMatProducto> ListaMatProducto { get; set; }
 

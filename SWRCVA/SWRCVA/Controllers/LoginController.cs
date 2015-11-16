@@ -29,12 +29,12 @@ namespace SWRCVA.Controllers
                 ViewBag.Message = "¡Lo sentimos usuario no existe!";
             }
 
-            if (usuarioActual != null && usuarioActual.Contraseña != login.Contraseña)
+            if (usuarioActual != null && usuarioActual.Contraseña != Encriptar(login.Contraseña))
             {
                 ViewBag.Message = "¡Lo sentimos contraseña inválida!";
             }
 
-            if (usuarioActual != null && usuarioActual.Contraseña == login.Contraseña)
+            if (usuarioActual != null && usuarioActual.Contraseña == Encriptar(login.Contraseña))
             {
                 Session["UsuarioActual"] = usuarioActual.IdUsuario.ToString();
 
@@ -70,7 +70,7 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CambiarContraseña(Login login)
         {
-            if(login.IdUsuario != null && login.Contraseña != null)
+            if (login.IdUsuario != null && login.Contraseña != null)
             {
                 Usuario usuarioToUpdate = db.Usuario.Find(login.IdUsuario);
 
@@ -78,7 +78,6 @@ namespace SWRCVA.Controllers
                 {
                     ModelState.Remove("Contraseña");
                     ModelState.Remove("Usuario1");
-                    usuarioToUpdate.Contraseña = login.Contraseña;
                     usuarioToUpdate.Usuario1 = login.IdUsuario;
 
                     if (ModelState.IsValid)
@@ -86,6 +85,7 @@ namespace SWRCVA.Controllers
                         if (TryUpdateModel(usuarioToUpdate, "",
                            new string[] { "Contraseña", "IdRol", "Estado", "Usuario1" }))
                         {
+                            usuarioToUpdate.Contraseña = Encriptar(login.Contraseña);
                             try
                             {
                                 db.SaveChanges();
@@ -101,6 +101,14 @@ namespace SWRCVA.Controllers
                 }
             }
             return View();
+        }
+
+        public string Encriptar(string _cadenaAencriptar)
+        {
+            string result = string.Empty;
+            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(_cadenaAencriptar);
+            result = Convert.ToBase64String(encryted);
+            return result;
         }
     }
 }

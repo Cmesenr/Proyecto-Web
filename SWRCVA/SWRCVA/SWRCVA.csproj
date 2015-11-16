@@ -379,6 +379,7 @@
     <Content Include="Views\Cotizacion\Editar.cshtml" />
     <Content Include="Views\Cotizacion\Index.cshtml" />
     <Content Include="Views\Orden\Index.cshtml" />
+    <Content Include="Views\Orden\Detalles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

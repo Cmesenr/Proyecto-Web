@@ -1,0 +1,137 @@
+﻿@model SWRCVA.Models.Cotizacion
+
+@{
+    ViewBag.Title = "Detalles";
+}
+<br />
+<div class="row" id="headerPrincipal">
+    <div class="col-md-2">
+        <h2>Orden</h2>
+    </div>
+    <br />
+    <div class="text-right">
+        <button type="button" id="btnProcesarEdit" onclick="" class="btn btn-success"><h4>Terminar Orden</h4></button>
+    </div>
+</div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal" id="formOrden">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.IdCotizacion, new { id = "IdCotizacion" })
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha)                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Cliente:</b> <br />@Html.DisplayFor(modelItem => Model.Cliente.Nombre)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Estado:</b> <br />@if (Model.Estado == "P")
+                            {@( "Procesada")}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <b>Comentario:</b> <br />@Html.DisplayFor(modelItem => Model.Comentario)                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <table class="table" id="ListaProductos"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                HOLA
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                HOLA
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                HOLA
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                HOLA
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" align="right">
+                        <div class="form-group">
+                            HOLA
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" align="right">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                HOLA
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           </div>
+           <hr />
+        </div>
+    }
+<div>
+    @Html.ActionLink("Regresar a la Lista", "Index")
+</div>
+@section Scripts {
+       @Scripts.Render("~/bundles/FuncionesOrden")
+        <script type="text/javascript">
+            CargarListaProductos();
+        </script>
+}

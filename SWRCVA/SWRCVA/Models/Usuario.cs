@@ -20,7 +20,7 @@ namespace SWRCVA.Models
         public string IdUsuario { get; set; }
 
         [Required]
-        [StringLength(8)]
+        [StringLength(200)]
         [DataType(DataType.Password)]
         public string Contraseña { get; set; }
 
@@ -37,5 +37,6 @@ namespace SWRCVA.Models
         public virtual ICollection<Factura> Factura { get; set; }
 
         public virtual Rol Rol { get; set; }
+
     }
 }

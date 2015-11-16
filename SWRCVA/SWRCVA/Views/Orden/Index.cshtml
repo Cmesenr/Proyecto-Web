@@ -1,10 +1,14 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<SWRCVA.Models.Cotizacion>
 
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewBag.Title = "Ordenes";
 }
+
 <h2>Órdenes</h2>
+
 @using (Html.BeginForm("Index", "Orden", FormMethod.Get))
 {
     @Html.AntiForgeryToken()
@@ -41,6 +45,8 @@
         </th>
         <th></th>
     </tr>
+
+
     @foreach (var item in Model)
     {
         <tr>
@@ -51,13 +57,9 @@
                 @Html.DisplayFor(modelItem => item.Cliente.Nombre)
             </td>
             <td>
-                @if (item.Estado == "C")
+                @if (item.Estado == "P")
                 {
-                    @("Creada");
-                }
-                @if (item.Estado == "A")
-                {
-                    @("Anulada");
+                    @("Procesada");
                 }
             </td>
             <td>
@@ -67,8 +69,7 @@
                 @Html.DisplayFor(modelItem => item.MontoParcial)
             </td>
             <td>
-                <button id="btnEditarMaterial" data-id="@item.IdCotizacion" onclick="location.href='/Cotizacion/Editar?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-                <button id="btnBorrarMaterial" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdCotizacion" data-id="@item.IdCotizacion" type="button" class="btn btn-danger delete">Borrar</button>
+                <button id="btnDetalleCotizacion" data-id="@item.IdCotizacion" onclick="location.href='/Orden/Detalles?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Ver detalle/Terminar</button>
             </td>
         </tr>
     }
@@ -77,3 +78,6 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@section Scripts {
+    @Scripts.Render("~/bundles/FuncionesOrden")
+}

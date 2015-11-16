@@ -79,13 +79,19 @@ namespace SWRCVA.Controllers
             try
             {
                 ModelState.Remove("Usuario1");
+                usuario.Contraseña = Encriptar(usuario.Contraseña);
                 usuario.Usuario1 = Session["UsuarioActual"].ToString();
 
-                if (ModelState.IsValid)
+                Usuario validaUsuario = db.Usuario.Find(usuario.IdUsuario);
+
+                if ( validaUsuario == null)
                 {
-                    db.Usuario.Add(usuario);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        db.Usuario.Add(usuario);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
                 }
             }
             catch (RetryLimitExceededException /* dex */)
@@ -109,7 +115,13 @@ namespace SWRCVA.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Usuario usuario = db.Usuario.Find(id);
+            if (usuario != null)
+            {
+                usuario.Contraseña = DesEncriptar(usuario.Contraseña);
+            }
+
             if (usuario == null)
             {
                 return HttpNotFound();
@@ -132,22 +144,23 @@ namespace SWRCVA.Controllers
             usuario.Usuario1= Session["UsuarioActual"].ToString();
             Usuario usuarioToUpdate = db.Usuario.Find(id);
 
+
             if (ModelState.IsValid) {
-            if (TryUpdateModel(usuarioToUpdate, "",
-               new string[] { "Contraseña", "IdRol", "Estado", "Usuario1" }))
-            {
-
-                try
+                if (TryUpdateModel(usuarioToUpdate, "",
+                   new string[] { "Contraseña", "IdRol", "Estado", "Usuario1" }))
                 {
-                    db.SaveChanges();
+                    usuarioToUpdate.Contraseña = Encriptar(usuario.Contraseña);
+                    try
+                    {
+                        db.SaveChanges();
 
-                    return RedirectToAction("Index");
+                        return RedirectToAction("Index");
+                    }
+                    catch (RetryLimitExceededException /* dex */)
+                    {
+                        ModelState.AddModelError("", "Imposible guardar los cambios. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
+                    }
                 }
-                catch (RetryLimitExceededException /* dex */)
-                {
-                    ModelState.AddModelError("", "Imposible guardar los cambios. Intentelo de nuevo, si el problema persiste, contacte el administrador del sistema.");
-                }
-            }
             }
             return View(usuarioToUpdate);
         }
@@ -179,6 +192,22 @@ namespace SWRCVA.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public string Encriptar(string _cadenaAencriptar)
+        {
+            string result = string.Empty;
+            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(_cadenaAencriptar);
+            result = Convert.ToBase64String(encryted);
+            return result;
+        }
+
+        public string DesEncriptar(string _cadenaAdesencriptar)
+        {
+            string result = string.Empty;
+            byte[] decryted = Convert.FromBase64String(_cadenaAdesencriptar);
+            result = System.Text.Encoding.Unicode.GetString(decryted);
+            return result;
         }
     }
 }
