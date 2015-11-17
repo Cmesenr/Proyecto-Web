@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     //Listar Clientes
-    $("#txtClienteModal").on("input", function () {
+    $("#txtClienteModal").on("keypress", function () {
         var params = { filtro: $("#txtClienteModal").val() };
         $('#TableCliente').html('<center><img src="/Content/Imagenes/Cargando.gif"/></center>');
         $.ajax({
@@ -317,7 +317,7 @@
     })
     //Agregar Producto 
     $("#formCotizar").on("click", "#btnAgregar", function () {
-        
+        $('#ListaProductos').html('<center><img src="/Content/Imagenes/loadinfo1.gif"/></center>');
         if ($('#DropDownTipoProductos')[0].checkValidity() == false) {
             $("#DropDownTipoProductos").tooltip();
             $("#DropDownTipoProductos").focus();
@@ -388,7 +388,8 @@
                             $('#ModalError').modal("show");
                         }
                         else{
-                        $("#ListaProductos").empty();
+                            $("#ListaProductos").empty();
+                            $("#ListaProductos").fadeIn(1000).html();
                         $("#ListaProductos").append('<tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
 
                         for (var i = 0; i < data.length; i++) {
@@ -457,7 +458,8 @@ function CalcularTotal() {
     })
 }
 function ConsultarImagen(id) {
-    var para = {id:id};
+    var para = { id: id };
+    $('#MostrarImagen').fadeOut().attr('src', "");
     $.ajax({
         cache: false,
         url: "/Cotizacion/ConsultarImagen",
@@ -466,7 +468,8 @@ function ConsultarImagen(id) {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            $('#MostrarImagen').attr('src', "data:image/png;base64," + data)
+            $('#MostrarImagen').fadeIn(1000).attr('src', "data:image/png;base64," + data);
+            
         }
     })
 }
@@ -537,7 +540,19 @@ function CargarListaProductos() {
 
     })
 }
+function RefrescarLista() {
+    $.ajax({
+        cache: false,
+        url: "/Cotizacion/RefrescarLista",
+        type: "GET",
+        data: {},
+        contentType: "application/json; charset=utf-8",
+        success: function (result) {
 
+        }
+    });
+
+}
 var nav4 = window.Event ? true : false;
 function acceptNum(evt) {
     // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46

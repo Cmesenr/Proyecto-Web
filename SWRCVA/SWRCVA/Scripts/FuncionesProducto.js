@@ -22,7 +22,7 @@
 $(document).ready(function () {
     $("#ImageFile").change(function () {
         var data = new FormData();
-        $('#ImageDiv').html('<img src="/Content/Imagenes/loading.gif"/>');
+        $('#ImageDiv').html('<img src="/Content/Imagenes/loadinfo2.gif"/>');
         $("#ImageDiv").fadeIn(1000).html();
         var files = $("#ImageFile").get(0).files;
         if (files.length > 0) {
@@ -30,7 +30,7 @@ $(document).ready(function () {
             var reader = new FileReader();
             
             reader.onload = function (e) {
-                $("#ImageDiv").fadeOut();
+                $("#ImageDiv").hide();
                 $('#MostrarImagen')
                     .attr('src', e.target.result)               
             };
@@ -93,6 +93,7 @@ $(document).ready(function () {
         var id = $("#DropDownTipoProducto").val();
         $("#Group_Ventana").hide();
         $("#Group_Ventana5020").hide();
+        $("#Group_Ventana").hide();
         $("#lblAtributos").hide();
         switch (id) {
             case '0' : {           

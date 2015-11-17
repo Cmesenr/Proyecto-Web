@@ -58,7 +58,7 @@ namespace SWRCVA.Models
             materiales.AddRange(Acesorios);
 
             //Ventana 5020
-            if (producto.IdTipoProducto == 1)
+            if (producto.IdTipoProducto == 1|| producto.IdTipoProducto == 6)
             {
                 decimal SupH = 0;
                 decimal InfH = 0;
