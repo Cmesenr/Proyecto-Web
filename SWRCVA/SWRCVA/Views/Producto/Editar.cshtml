@@ -36,14 +36,14 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Forma, "Atributos", htmlAttributes: new { @class = "control-label col-md-2", @hidden = "hidden", id = "lblAtributos" })
                 <div id="Group_Ventana" class="col-md-10" hidden="hidden">
-
                     @Html.RadioButtonFor(model => model.Forma, "F") &nbsp;<span class="text-muted">Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "E") &nbsp;<span class="text-muted">Espejo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "FA") &nbsp;<span class="text-muted">Fijo Akari</span><br>
                     @Html.RadioButtonFor(model => model.Forma, "CE") &nbsp;<span class="text-muted">Celocia</span><br>
                     @Html.RadioButtonFor(model => model.Forma, "CU") &nbsp;<span class="text-muted">Curva</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "F-C") &nbsp;<span class="text-muted">Fijo-Celocia</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "C-F") &nbsp;<span class="text-muted">Celocia-Fijo</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "C-o-F") &nbsp;<span class="text-muted">Celocia sobre Fijo</span><br>
-                    @Html.RadioButtonFor(model => model.Forma, "F-C-F") &nbsp;<span class="text-muted">Fijo-Celocia-Fijo</span>
+                    @Html.RadioButtonFor(model => model.Forma, "CF") &nbsp;<span class="text-muted">Celocia-Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "COF") &nbsp;<span class="text-muted">Celocia sobre Fijo</span><br>
+                    @Html.RadioButtonFor(model => model.Forma, "FCF") &nbsp;<span class="text-muted">Fijo-Celocia-Fijo</span>
                     @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
                 </div>
                 <div id="Group_Ventana5020" class="col-md-10" hidden="hidden">

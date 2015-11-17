@@ -202,7 +202,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\camera.css" />
+    <Content Include="Content\Imagenes\brickwall.png" />
     <Content Include="Content\Imagenes\Cargando.gif" />
+    <Content Include="Content\Imagenes\footer_lodyas.png" />
+    <Content Include="Content\Imagenes\fresh_snow.png" />
     <Content Include="Content\Imagenes\images\blank.gif" />
     <Content Include="Content\Imagenes\images\camera-loader.gif" />
     <Content Include="Content\Imagenes\images\camera_skins.png" />
@@ -259,6 +262,9 @@
     <Content Include="Content\Imagenes\incognita.jpg" />
     <Content Include="Content\Imagenes\loading.gif" />
     <Content Include="Content\Imagenes\logo2.png" />
+    <Content Include="Content\Imagenes\nice_snow.png" />
+    <Content Include="Content\Imagenes\small_steps.png" />
+    <Content Include="Content\Imagenes\tweed.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\_notes\dwsync.xml" />

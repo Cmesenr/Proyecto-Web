@@ -256,10 +256,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" id="HeaderModalInfo">Error</h4>
+                <h4 class="modal-title">Error</h4>
             </div>
             <div class="modal-body">
                <p id="TextModal"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalMensaje" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="HeaderModalInfo">Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="TextModalinfo"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn">Ok</button>
@@ -281,20 +300,19 @@
               
                 @{foreach (var item in (List<SWRCVA.Models.ColorMat>)ViewData["ColoresPaleta"])
                     {
-                                    <input type="radio" name="Vidrio" value="@item.IdColor" title="Vidrio en Lamina" /> <span class="text-muted">@item.Nombre</span><br>
+                                    <input type="radio" id="CPaleta" name="ColoresPaleta" value="@item.IdColor" required="required" title="Color Requerido" /> <span class="text-muted">@item.Nombre</span><br>
                     }
                 }
-                <p id="TextModal"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn">Ok</button>
+                <button type="button" id="btnGuardarColorPaleta" class="btn"><span class="glyphicon glyphicon-floppy-saved"> Guardar</span></button>
             </div>
         </div>
 
     </div>
 </div>
 <div>
-    @Html.ActionLink("Regresar a la Lista", "Index")
+    <button onclick="location.href='@Url.Action("Index")',RefrescarLista()" class="btn btn-primary"><h4>Regresar a la Lista</h4></button>
 </div>
 @section Scripts {
 

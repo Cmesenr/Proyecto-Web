@@ -31,7 +31,9 @@ namespace SWRCVA.Models
         public int IdColorVidrio { get; set; }
 
         public int IdColorAluminio { get; set; }
-
+        public int? IdColorPaleta { get; set; }
+        public decimal? AnchoCelocia { get; set; }
+        
         public decimal Instalacion { get; set; }
 
         public decimal Ancho { get; set; }

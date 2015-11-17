@@ -1,12 +1,19 @@
-﻿body {
+﻿html{
+  height: 100%;
+}
+body {
+    min-height: 100%;
     padding-top: 50px;
     padding-bottom: 20px;
+     background-image: url('Imagenes/footer_lodyas.png');
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    min-height: 720px;
+    background-image: url(../../Content/Imagenes/brickwall.png);
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -83,4 +90,11 @@ textarea {
 
      color:#000000;
     font-size:medium; 
+}
+footer {
+    left:0px;
+    position:fixed;
+    height:20px;
+    bottom:0;
+    width: 100%;
 }

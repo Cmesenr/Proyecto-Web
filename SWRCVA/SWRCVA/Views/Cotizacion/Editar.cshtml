@@ -175,7 +175,15 @@
             <div class="col-md-5">
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="form-group">
+
+                            <div class="col-md-12">
+                                @Html.Editor("Celocia", new { htmlAttributes = new { @class = "form-control", id = "txtCelocia", required = "required", onKeyPress = "return acceptNum(event)", title = "Ancho Celocia requerida!", placeholder = "Celocia", disabled = "disabled" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
 
                             <div class="col-md-12">
@@ -183,7 +191,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <div class="col-md-12">
                                 @Html.Editor("txtAncho", new { htmlAttributes = new { @class = "form-control", placeholder = "Ancho", onKeyPress = "return acceptNum(event)", id = "txtAncho", required = "required", title = "Ancho Requerido!" } })
@@ -191,7 +199,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <div class="col-md-12">
                                 @Html.Editor("txtAlto", new { htmlAttributes = new { @class = "form-control", placeholder = "Alto", onKeyPress = "return acceptNum(event)", id = "txtAlto", required = "required", title = "Alto requerido!" } })
@@ -255,6 +263,50 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalMensaje" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="HeaderModalInfo">Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="TextModalinfo"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalColores" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="HeaderModalInfo">Colores Paletas</h4>
+            </div>
+            <div class="modal-body">
+
+                @{foreach (var item in (List<SWRCVA.Models.ColorMat>)ViewData["ColoresPaleta"])
+                    {
+                        <input type="radio" id="CPaleta" name="ColoresPaleta" value="@item.IdColor" required="required" title="Color Requerido" /> <span class="text-muted">@item.Nombre</span><br>
+                    }
+                }
+                <p id="TextModal"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnGuardarColorPaleta" class="btn"><span class="glyphicon glyphicon-floppy-saved"> Guardar</span></button>
             </div>
         </div>
 

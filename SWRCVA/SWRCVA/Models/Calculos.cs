@@ -9,7 +9,7 @@ namespace SWRCVA.Models
     {
         private DataContext db = new DataContext();
         List<ProductoCotizacion> ListaCosto = new List<ProductoCotizacion>();
-        public List<ProductoCotizacion> calcularMonto(int Idpro, int Cvidrio, decimal? AnchoCelocia, int CAluminio,decimal insta, int Cant, decimal Ancho, decimal Alto, int vid)
+        public List<ProductoCotizacion> calcularMonto(int Idpro, int Cvidrio, decimal? AnchoCelocia, int CAluminio,decimal insta, int Cant, decimal Ancho, decimal Alto, int vid, int? ColorPaleta)
         {
             var producto = db.Producto.Find(Idpro);
             var Aluminios= (from s in db.ListaMatProducto
@@ -22,6 +22,16 @@ namespace SWRCVA.Models
                                  s.Material.IdTipoMaterial,
                                  c.Costo
                              }).ToList();
+            var Paleta = (from s in db.ListaMatProducto
+                          join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
+                          where s.IdProducto == Idpro && s.Material.IdCatMat == 3 && c.IdColorMat == ColorPaleta
+                          select new
+                          {
+                              s.IdProducto,
+                              s.IdMaterial,
+                              s.Material.IdTipoMaterial,
+                              c.Costo
+                          }).ToList();
             var Vidrio= (from s in db.Material
                           join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
                          where s.IdMaterial == vid && c.IdColorMat == Cvidrio
@@ -43,6 +53,7 @@ namespace SWRCVA.Models
                             }).ToList();
 
             var materiales = Aluminios;
+            materiales.AddRange(Paleta);
             materiales.AddRange(Vidrio);
             materiales.AddRange(Acesorios);
 
@@ -726,6 +737,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 48://Tubo
@@ -739,6 +751,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 58://Venilla
@@ -752,6 +765,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 49://Herraje
@@ -765,6 +779,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 55://Paleta
@@ -778,6 +793,8 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.IdColorPaleta = ColorPaleta;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                            
@@ -792,6 +809,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -805,6 +823,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -832,6 +851,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 48://Tubo
@@ -845,6 +865,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 58://Venilla
@@ -858,6 +879,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 49://Herraje
@@ -871,6 +893,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 55://Paleta
@@ -884,6 +907,8 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.IdColorPaleta = ColorPaleta;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
 
@@ -898,6 +923,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -911,6 +937,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -937,6 +964,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 48://Tubo
@@ -950,6 +978,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 58://Venilla
@@ -963,6 +992,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 49://Herraje
@@ -976,6 +1006,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 55://Paleta
@@ -989,6 +1020,8 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.IdColorPaleta = ColorPaleta;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
 
@@ -1003,6 +1036,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -1016,6 +1050,7 @@ namespace SWRCVA.Models
                                 PC.Instalacion = insta;
                                 PC.Ancho = Ancho;
                                 PC.Alto = Alto;
+                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -1026,7 +1061,7 @@ namespace SWRCVA.Models
 
             return ListaCosto;
         }
-        public List<string>  ValidarMateriales(int Idpro, int Cvidrio, int CAluminio, int vidrio)
+        public List<string>  ValidarMateriales(int Idpro, int Cvidrio, int CAluminio, int vidrio, int? ColorPaleta)
         {
 
             var MatAlumino = (from s in db.ListaMatProducto
@@ -1039,6 +1074,16 @@ namespace SWRCVA.Models
                                select s.Material.Nombre).ToList();
 
             var Diferentes = MatAlumino.Except(MatAlumino2).ToList();
+            var Paleta = (from s in db.ListaMatProducto
+                              where s.IdProducto == Idpro && s.Material.IdCatMat == 3
+                              select s.Material.Nombre
+                              ).ToList();
+            var Paleta2 = (from s in db.ListaMatProducto
+                               join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
+                               where s.IdProducto == Idpro && s.Material.IdCatMat == 3 && c.IdColorMat == ColorPaleta
+                           select s.Material.Nombre).ToList();
+
+            Diferentes.AddRange(Paleta.Except(Paleta2).ToList());
             var MatVidrio = (from s in db.Material
                               where s.IdMaterial== vidrio
                              select s.Nombre
