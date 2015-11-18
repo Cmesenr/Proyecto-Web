@@ -543,7 +543,7 @@ function CargarListaProductos() {
 function RefrescarLista() {
     $.ajax({
         cache: false,
-        url: "/Cotizacion/RefrescarLista",
+        url: "/Cotizacion/LimpiarListas",
         type: "GET",
         data: {},
         contentType: "application/json; charset=utf-8",

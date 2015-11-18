@@ -319,7 +319,12 @@
 @section Scripts {
 
     @Scripts.Render("~/bundles/FuncionesCotizacion")
+
     <script type="text/javascript">
+        $(window).unload(function () {
+            RefrescarLista();
+        });
      CargarListaProductos();
     </script>
+
 }
