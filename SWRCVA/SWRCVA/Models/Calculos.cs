@@ -8,8 +8,8 @@ namespace SWRCVA.Models
     public class Calculos
     {
         private DataContext db = new DataContext();
-        List<ProductoCotizacion> ListaCosto = new List<ProductoCotizacion>();
-        public List<ProductoCotizacion> calcularMonto(int Idpro, int Cvidrio, decimal? AnchoCelocia, int CAluminio,decimal insta, int Cant, decimal Ancho, decimal Alto, int vid, int? ColorPaleta)
+        List<MaterialCotizacion> ListaCosto = new List<MaterialCotizacion>();
+        public List<MaterialCotizacion> calcularMonto(int Idpro, int Cvidrio, decimal? Variable, int CAluminio,decimal insta, int Cant, decimal Ancho, decimal Alto, int vid, int? ColorPaleta, int? IdPaleta)
         {
             var producto = db.Producto.Find(Idpro);
             var Aluminios= (from s in db.ListaMatProducto
@@ -22,19 +22,10 @@ namespace SWRCVA.Models
                                  s.Material.IdTipoMaterial,
                                  c.Costo
                              }).ToList();
-            var Paleta = (from s in db.ListaMatProducto
-                          join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
-                          where s.IdProducto == Idpro && s.Material.IdCatMat == 3 && c.IdColorMat == ColorPaleta
-                          select new
-                          {
-                              s.IdProducto,
-                              s.IdMaterial,
-                              s.Material.IdTipoMaterial,
-                              c.Costo
-                          }).ToList();
+        
             var Vidrio= (from s in db.Material
                           join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
-                         where s.IdMaterial == vid && c.IdColorMat == Cvidrio
+                         where (s.IdMaterial == vid && c.IdColorMat == Cvidrio)||(s.IdMaterial==IdPaleta &&c.IdColorMat==ColorPaleta)
                           select new
                           {
                               IdProducto= Idpro,
@@ -53,7 +44,6 @@ namespace SWRCVA.Models
                             }).ToList();
 
             var materiales = Aluminios;
-            materiales.AddRange(Paleta);
             materiales.AddRange(Vidrio);
             materiales.AddRange(Acesorios);
 
@@ -136,7 +126,7 @@ namespace SWRCVA.Models
                 }
                 foreach (var item in materiales)
                     {
-                    ProductoCotizacion PC = new ProductoCotizacion();
+                    MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
                             case 22://Cargador
@@ -144,12 +134,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Ancho;
                             PC.Subtotal= PC.CantMaterial *((decimal)item.Costo*IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 20://Umbral
@@ -157,12 +141,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Ancho;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 21://Jamba
@@ -170,12 +148,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Alto*2;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 24://Sup hoja
@@ -183,12 +155,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial =SupH;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 23://Inf Hoja
@@ -196,12 +162,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = InfH;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 26://Vertical Centro
@@ -209,12 +169,7 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = VertCent;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
+
                             ListaCosto.Add(PC);
                             break;
                             case 25://Vertical
@@ -222,12 +177,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = VertLlav;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 16://Rodin
@@ -235,12 +184,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Movil*2;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 5://Cierre
@@ -248,12 +191,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = cierre;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 8://Empaque
@@ -261,12 +198,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = empaq;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 53://Vidrio
@@ -274,12 +205,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Ancho*Alto;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 10://Felpa
@@ -287,12 +212,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = felpa;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                             case 17://Tornillo
@@ -300,12 +219,6 @@ namespace SWRCVA.Models
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = 1;
                             PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                            PC.CantProducto = Cant;
-                            PC.IdColorVidrio = Cvidrio;
-                            PC.IdColorAluminio = CAluminio;
-                            PC.Instalacion = insta;
-                            PC.Ancho = Ancho;
-                            PC.Alto = Alto;
                             ListaCosto.Add(PC);
                             break;
                         }
@@ -323,7 +236,7 @@ namespace SWRCVA.Models
                 {
                     foreach (var item in materiales)
                     {
-                        ProductoCotizacion PC = new ProductoCotizacion();
+                        MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
                             case 44://Chapa
@@ -331,12 +244,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho*2)+0.35m;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 48://Marco Tubo
@@ -344,12 +251,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 60://Marco Venilla
@@ -357,12 +258,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + 0.35m;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 53://Vidrio
@@ -370,12 +265,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho * Alto;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -383,12 +272,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -400,7 +283,7 @@ namespace SWRCVA.Models
                 {
                     foreach (var item in materiales)
                     {
-                        ProductoCotizacion PC = new ProductoCotizacion();
+                        MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
                             case 43://Marco Canal
@@ -408,12 +291,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 49://Herraje
@@ -421,12 +298,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Alto/0.09m;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 55://Paleta
@@ -434,12 +305,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho / 0.0254m) * (Alto / 0.09m);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -447,12 +312,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial =1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -464,7 +323,7 @@ namespace SWRCVA.Models
                 {
                     foreach (var item in materiales)
                     {
-                        ProductoCotizacion PC = new ProductoCotizacion();
+                        MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
                             case 43://Marco Canal
@@ -472,12 +331,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 60://Venilla
@@ -485,12 +338,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 53://Vidrio
@@ -498,12 +345,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial =Ancho*Alto;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -511,12 +352,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -528,7 +363,7 @@ namespace SWRCVA.Models
                 {
                     foreach (var item in materiales)
                     {
-                        ProductoCotizacion PC = new ProductoCotizacion();
+                        MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
                             case 37://Lateral hoja
@@ -536,12 +371,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 23://Inferior Hoja
@@ -549,12 +378,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) * 2;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 8://Empaque
@@ -562,12 +385,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 53://Vidrio
@@ -575,12 +392,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho * Alto;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -588,12 +399,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -605,7 +410,7 @@ namespace SWRCVA.Models
                 {
                     foreach (var item in materiales)
                     {
-                        ProductoCotizacion PC = new ProductoCotizacion();
+                        MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
                             case 48://Marco Tubo
@@ -613,12 +418,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 31://Marco
@@ -626,12 +425,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 2://Bisagra
@@ -639,12 +432,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 2;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 9://Escuadra
@@ -652,12 +439,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 4;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 5://Cierre
@@ -665,12 +446,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 12://Haladera
@@ -678,12 +453,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 53://Vidrio
@@ -691,12 +460,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho * Alto;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -704,12 +467,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -722,7 +479,7 @@ namespace SWRCVA.Models
                 {
                     foreach (var item in materiales)
                     {
-                        ProductoCotizacion PC = new ProductoCotizacion();
+                        MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
                             
@@ -731,13 +488,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 48://Marco Tubo
@@ -745,27 +495,13 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 60://Venilla
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
-                                PC.CantMaterial = ((decimal)AnchoCelocia * 2) + (Alto * 2);
+                                PC.CantMaterial = ((decimal)Variable * 2) + (Alto * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 49://Herraje
@@ -773,43 +509,21 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Alto / 0.09m;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 55://Paleta
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
-                                PC.CantMaterial = ((decimal)AnchoCelocia / 0.0254m) * (Alto / 0.09m);
+                                PC.CantMaterial = ((decimal)Variable / 0.0254m) * (Alto / 0.09m);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.IdColorPaleta = ColorPaleta;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                            
                             case 53://Vidrio
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
-                                PC.CantMaterial = (Ancho- (decimal)AnchoCelocia) * Alto;
+                                PC.CantMaterial = (Ancho- (decimal)Variable) * Alto;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -817,13 +531,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -836,7 +543,7 @@ namespace SWRCVA.Models
                 {
                     foreach (var item in materiales)
                     {
-                        ProductoCotizacion PC = new ProductoCotizacion();
+                        MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
 
@@ -845,13 +552,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 48://Marco Tubo
@@ -859,27 +559,13 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 60://Venilla
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
-                                PC.CantMaterial = ((Alto - (decimal)AnchoCelocia) * 2) + (Ancho * 2);
+                                PC.CantMaterial = ((Alto - (decimal)Variable) * 2) + (Ancho * 2);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 49://Herraje
@@ -887,43 +573,21 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Alto / 0.09m;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 55://Paleta
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
-                                PC.CantMaterial = ((decimal)AnchoCelocia / 0.0254m) * (Alto / 0.09m);
+                                PC.CantMaterial = ((decimal)Variable / 0.0254m) * (Alto / 0.09m);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.IdColorPaleta = ColorPaleta;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
 
                             case 53://Vidrio
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
-                                PC.CantMaterial = Ancho * (Alto- (decimal)AnchoCelocia);
+                                PC.CantMaterial = Ancho * (Alto- (decimal)Variable);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -931,13 +595,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -949,7 +606,7 @@ namespace SWRCVA.Models
                 {
                     foreach (var item in materiales)
                     {
-                        ProductoCotizacion PC = new ProductoCotizacion();
+                        MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
 
@@ -958,13 +615,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 4);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 48://Marco Tubo
@@ -972,27 +622,13 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho*2;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 60://Venilla
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
-                                PC.CantMaterial = ((Alto - (decimal)AnchoCelocia) * 2) + (Ancho * 4);
+                                PC.CantMaterial = ((Alto - (decimal)Variable) * 2) + (Ancho * 4);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 49://Herraje
@@ -1000,43 +636,21 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Alto / 0.09m;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 55://Paleta
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
-                                PC.CantMaterial = ((decimal)AnchoCelocia / 0.0254m) * (Alto / 0.09m);
+                                PC.CantMaterial = ((decimal)Variable / 0.0254m) * (Alto / 0.09m);
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.IdColorPaleta = ColorPaleta;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
 
                             case 53://Vidrio
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
-                                PC.CantMaterial = (Ancho- (decimal)AnchoCelocia) * Alto;
+                                PC.CantMaterial = (Ancho- (decimal)Variable) * Alto;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                             case 17://Tornillera
@@ -1044,13 +658,6 @@ namespace SWRCVA.Models
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = 1;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
-                                PC.CantProducto = Cant;
-                                PC.IdColorVidrio = Cvidrio;
-                                PC.IdColorAluminio = CAluminio;
-                                PC.Instalacion = insta;
-                                PC.Ancho = Ancho;
-                                PC.Alto = Alto;
-                                PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
                         }
@@ -1058,10 +665,176 @@ namespace SWRCVA.Models
 
                 }
             }
+            //Puertas de Baño
+            if (producto.IdTipoProducto == 5)
+            {
+                decimal IV = 1 + db.Valor.Find(2).Porcentaje;
+                //Puerta un panel
+                if (producto.Forma == "PB1")
+                {
+                    foreach (var item in materiales)
+                    {
+                        MaterialCotizacion PC = new MaterialCotizacion();
+                        switch (item.IdTipoMaterial)
+                        {
+                            case 37://Lateral hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Alto*4;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 23://inferior hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 24://Superior hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 16://Rodin 4
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = 4;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 8://Empaque
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 2) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 9://Escuadra
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 61://Lamina
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (int)Variable;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 17://Tornillera
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                        }
+                    }
+                }
+                if (producto.Forma == "PB2")
+                {
+                    foreach (var item in materiales)
+                    {
+                        MaterialCotizacion PC = new MaterialCotizacion();
+                        switch (item.IdTipoMaterial)
+                        {
+                            case 22://Cargador
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 20://Umbral
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 21://Jamba
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Alto * 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 37://Lateral hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Alto * 4;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 23://inferior hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 24://Superior hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 16://Rodin 4
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 4;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 38://Pañera
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 8://Empaque
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 2) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 9://Escuadra
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 61://Lamina
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (int)Variable;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 17://Tornillera
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                        }
+                    }
+                }
+            }
 
-            return ListaCosto;
+                return ListaCosto;
         }
-        public List<string>  ValidarMateriales(int Idpro, int Cvidrio, int CAluminio, int vidrio, int? ColorPaleta)
+        public List<string>  ValidarMateriales(int Idpro, int Cvidrio, int CAluminio, int vidrio, int? ColorPaleta, int? IdPaleta)
         {
 
             var MatAlumino = (from s in db.ListaMatProducto
@@ -1074,23 +847,14 @@ namespace SWRCVA.Models
                                select s.Material.Nombre).ToList();
 
             var Diferentes = MatAlumino.Except(MatAlumino2).ToList();
-            var Paleta = (from s in db.ListaMatProducto
-                              where s.IdProducto == Idpro && s.Material.IdCatMat == 3
-                              select s.Material.Nombre
-                              ).ToList();
-            var Paleta2 = (from s in db.ListaMatProducto
-                               join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
-                               where s.IdProducto == Idpro && s.Material.IdCatMat == 3 && c.IdColorMat == ColorPaleta
-                           select s.Material.Nombre).ToList();
-
-            Diferentes.AddRange(Paleta.Except(Paleta2).ToList());
+       
             var MatVidrio = (from s in db.Material
-                              where s.IdMaterial== vidrio
+                              where s.IdMaterial== vidrio|| s.IdMaterial == IdPaleta
                              select s.Nombre
                              ).ToList();
             var MatVidrio2 = (from s in db.Material
                               join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
-                               where s.IdMaterial == vidrio && c.IdColorMat == Cvidrio
+                              where (s.IdMaterial == vidrio && c.IdColorMat == Cvidrio) || (s.IdMaterial == IdPaleta && c.IdColorMat == ColorPaleta)
                               select s.Nombre).ToList();
             Diferentes.AddRange(MatVidrio.Except(MatVidrio2).ToList());
 

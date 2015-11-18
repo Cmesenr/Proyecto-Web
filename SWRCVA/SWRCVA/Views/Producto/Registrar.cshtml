@@ -56,6 +56,12 @@
                             @Html.RadioButtonFor(model => model.Forma, "MFFM") &nbsp;<span class="text-muted">Movil-Fijo-Fijo-Movil</span>
                         @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
                     </div>
+                    <div id="Group_PuertaBano" class="col-md-10" hidden="hidden">
+                        @Html.RadioButtonFor(model => model.Forma, "PB1") &nbsp;<span class="text-muted">Un Panel</span><br>
+                        @Html.RadioButtonFor(model => model.Forma, "PB2") &nbsp;<span class="text-muted">Movil-Movil</span><br>
+                       
+                        @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
+                    </div>
                     </div>
                 <div class="form-group" id="ProductMaterial">
                     @Html.Label("Materiales", htmlAttributes: new { @class = "control-label col-md-2" })
