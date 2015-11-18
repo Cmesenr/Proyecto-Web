@@ -339,7 +339,7 @@ namespace SWRCVA.Models
                                 PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
-                            case 48://Tubo
+                            case 48://Marco Tubo
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho;
@@ -352,7 +352,7 @@ namespace SWRCVA.Models
                                 PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
-                            case 58://Venilla
+                            case 60://Marco Venilla
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + 0.35m;
@@ -403,7 +403,7 @@ namespace SWRCVA.Models
                         ProductoCotizacion PC = new ProductoCotizacion();
                         switch (item.IdTipoMaterial)
                         {
-                            case 31://Marco
+                            case 43://Marco Canal
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
@@ -467,7 +467,7 @@ namespace SWRCVA.Models
                         ProductoCotizacion PC = new ProductoCotizacion();
                         switch (item.IdTipoMaterial)
                         {
-                            case 31://Marco
+                            case 43://Marco Canal
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
@@ -480,7 +480,7 @@ namespace SWRCVA.Models
                                 PC.Alto = Alto;
                                 ListaCosto.Add(PC);
                                 break;
-                            case 58://Venilla
+                            case 60://Venilla
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
@@ -531,7 +531,7 @@ namespace SWRCVA.Models
                         ProductoCotizacion PC = new ProductoCotizacion();
                         switch (item.IdTipoMaterial)
                         {
-                            case 37://Lateral hora
+                            case 37://Lateral hoja
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2);
@@ -608,7 +608,7 @@ namespace SWRCVA.Models
                         ProductoCotizacion PC = new ProductoCotizacion();
                         switch (item.IdTipoMaterial)
                         {
-                            case 48://Tubo
+                            case 48://Marco Tubo
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
@@ -726,7 +726,7 @@ namespace SWRCVA.Models
                         switch (item.IdTipoMaterial)
                         {
                             
-                            case 31://Marco
+                            case 43://Marco Canal
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
@@ -740,7 +740,7 @@ namespace SWRCVA.Models
                                 PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
-                            case 48://Tubo
+                            case 48://Marco Tubo
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho;
@@ -754,7 +754,7 @@ namespace SWRCVA.Models
                                 PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
-                            case 58://Venilla
+                            case 60://Venilla
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = ((decimal)AnchoCelocia * 2) + (Alto * 2);
@@ -840,7 +840,7 @@ namespace SWRCVA.Models
                         switch (item.IdTipoMaterial)
                         {
 
-                            case 31://Marco
+                            case 43://Marco Canal
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 2);
@@ -854,7 +854,7 @@ namespace SWRCVA.Models
                                 PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
-                            case 48://Tubo
+                            case 48://Marco Tubo
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho;
@@ -868,7 +868,7 @@ namespace SWRCVA.Models
                                 PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
-                            case 58://Venilla
+                            case 60://Venilla
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = ((Alto - (decimal)AnchoCelocia) * 2) + (Ancho * 2);
@@ -953,7 +953,7 @@ namespace SWRCVA.Models
                         switch (item.IdTipoMaterial)
                         {
 
-                            case 31://Marco
+                            case 43://Marco Canal
                                 PC.IdMaterial = item.IdMaterial; 
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = (Ancho * 2) + (Alto * 4);
@@ -967,7 +967,7 @@ namespace SWRCVA.Models
                                 PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
-                            case 48://Tubo
+                            case 48://Marco Tubo
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho*2;
@@ -981,7 +981,7 @@ namespace SWRCVA.Models
                                 PC.AnchoCelocia = AnchoCelocia;
                                 ListaCosto.Add(PC);
                                 break;
-                            case 58://Venilla
+                            case 60://Venilla
                                 PC.IdMaterial = item.IdMaterial;
                                 PC.IdProducto = Idpro;
                                 PC.CantMaterial = ((Alto - (decimal)AnchoCelocia) * 2) + (Ancho * 4);

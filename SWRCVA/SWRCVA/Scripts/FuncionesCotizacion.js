@@ -189,6 +189,7 @@
     //Levantar modal de colores paleta 
     $('#txtCelocia').on('change', function () {
         if ($('#txtCelocia') != null) {
+            $('#ModalColores').modal({ backdrop: 'static', keyboard: false })
             $("#ModalColores").modal("show");
         }
         
@@ -390,10 +391,10 @@
                         else{
                             $("#ListaProductos").empty();
                             $("#ListaProductos").fadeIn(1000).html();
-                        $("#ListaProductos").append('<tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
+                            $("#ListaProductos").append('<tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
 
                         for (var i = 0; i < data.length; i++) {
-                            $('#ListaProductos').append('<tr>' +
+                            $('#ListaProductos').append('<tr class="warning">' +
                                                   '<td>' + data[i].Nombre + '</td>' +
                                                    '<td>' + data[i].Cantidad + '</td>' +
                                                   '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
@@ -424,10 +425,10 @@
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#ListaProductos").empty();
-                $("#ListaProductos").append('<tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
+                $("#ListaProductos").append('<tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
 
                 for (var i = 0; i < data.length; i++) {
-                    $('#ListaProductos').append('<tr>' +
+                    $('#ListaProductos').append('<tr class="warning">' +
                                           '<td>' + data[i].Nombre + '</td>' +
                                            '<td>' + data[i].Cantidad + '</td>' +
                                           '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
