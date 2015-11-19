@@ -32,4 +32,22 @@
         }
     })
 }
+//Terminar Orden
+$("#btnProcesarEdit").on("click", function () {
+    $.ajax({
+        cache: false,
+        url: "/Orden/ProcesarOrden",
+        type: "get",
+        data: {},
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (data == "Cotizacion Procesada!") {
+                $("#TextModalinfo").html(data);
+                $("#HeaderModalInfo").html("Procesado");
+                $('#ModalMensaje').modal("show");
+            }
+        }
+    })
 
+})

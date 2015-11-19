@@ -57,6 +57,8 @@ namespace SWRCVA.Controllers
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
+            Session["IdCotizacion"] = null;
+
             return View(cotizaciones.ToPagedList(pageNumber, pageSize));
         }
 
@@ -98,6 +100,7 @@ namespace SWRCVA.Controllers
 
             TempData["ListaProductoCotizacion"] = ListaProductoCotizacion;
             TempData["ListaProductos"] = ListaProductos;
+            Session["IdCotizacion"] = id;
 
             return View(cotizacion);
         }
@@ -113,6 +116,22 @@ namespace SWRCVA.Controllers
 
             return Json(ListaProductos,
          JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ProcesarOrden()
+        {
+            var respuesta = "Cotizacion Procesada!";
+
+            if (Session["IdCotizacion"] != null)
+            {
+                Cotizacion cotizacion = db.Cotizacion.Find(int.Parse(Session["IdCotizacion"].ToString()));
+                cotizacion.Estado = "T";
+                db.Entry(cotizacion).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return Json(respuesta, JsonRequestBehavior.AllowGet);
+
         }
     }
 }
