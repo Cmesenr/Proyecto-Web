@@ -13,10 +13,10 @@
             }
             else {
                     $("#ListaProductos").empty();
-                    $("#ListaProductos").append('<tr><th class="col-md-1" align="Center">Código</th><th class="col-md-5" align="left">Nombre</th><th class="col-md-1" align="Center">Cantidad</th><th class="col-md-1" align="Center">Ancho</th><th class="col-md-1" align="Center">Alto</th><th></th></tr>');
+                    $("#ListaProductos").append('<tr><th class="active" align="Center">Código</th><th class="active" align="left">Nombre</th><th class="active" align="Center">Cantidad</th><th class="active" align="Center">Ancho</th><th class="active" align="Center">Alto</th><th class="active"></th></tr>');
 
                     for (var i = 0; i < data.length; i++) {
-                        $('#ListaProductos').append('<tr>' +
+                        $('#ListaProductos').append('<tr class="warning">' +
                                               '<td class="col-md-1" align="Center">' + data[i].IdProducto + '</td>' +
                                               '<td class="col-md-5" align="Left">' + data[i].Nombre + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Cantidad + '</td>' +

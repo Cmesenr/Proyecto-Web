@@ -26,8 +26,8 @@
         </table>
     </p>
 }
-<table class="table">
-    <tr>
+<table class="table table-bordered table-hover">
+    <tr class="active">
         <th>
             Cotización
         </th>
@@ -49,7 +49,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="warning">
             <td>
                 @Html.DisplayFor(modelItem => item.IdCotizacion)
             </td>
@@ -65,10 +65,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Fecha)
             </td>
-            <td>
+            <td align="right">
                 @Html.DisplayFor(modelItem => item.MontoParcial)
             </td>
-            <td>
+            <td align="center">
                 <button id="btnDetalleCotizacion" data-id="@item.IdCotizacion" onclick="location.href='/Orden/Detalles?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Ver detalle/Terminar</button>
             </td>
         </tr>

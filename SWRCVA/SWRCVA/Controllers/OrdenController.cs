@@ -13,8 +13,8 @@ namespace SWRCVA.Controllers
     public class OrdenController : Controller
     {
         private DataContext db = new DataContext();
-        List<Producto> ListaProductos = new List<Producto>();
-        List<ProductoCotizacion> ListaProductoCotizacion = new List<ProductoCotizacion>();
+        List<Producto> ListaProductosOrden = new List<Producto>();
+        List<ProductoCotizacion> ListaProductoCotizacionOrden = new List<ProductoCotizacion>();
 
         // GET: Orden
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -72,17 +72,17 @@ namespace SWRCVA.Controllers
 
             Cotizacion cotizacion = db.Cotizacion.Find(id);
 
-            var ListaProductoCotizacion = db.ProductoCotizacion.Where(s => s.IdCotizacion == id).GroupBy(s => s.IdProducto);
+            var ListaProductoCotizacionOrden = db.ProductoCotizacion.Where(s => s.IdCotizacion == id).GroupBy(s => s.IdProducto);
 
-            if (ListaProductos.Count() == 0)
+            if (ListaProductosOrden.Count() == 0)
             {
-                foreach (var prodcot in ListaProductoCotizacion)
+                foreach (var prodcot in ListaProductoCotizacionOrden)
                 {
                     Producto ProAlmac = db.Producto.Find(prodcot.Key);
                     Producto Produ = new Producto();
                     Produ.IdProducto = ProAlmac.IdProducto;
                     Produ.Nombre = ProAlmac.Nombre;
-                    foreach (var item in ListaProductoCotizacion)
+                    foreach (var item in ListaProductoCotizacionOrden)
                     {
                         foreach (var g in item)
                         {
@@ -94,12 +94,12 @@ namespace SWRCVA.Controllers
                             }
                         }
                     }
-                    ListaProductos.Add(Produ);
+                    ListaProductosOrden.Add(Produ);
                 }
             }
 
-            TempData["ListaProductoCotizacion"] = ListaProductoCotizacion;
-            TempData["ListaProductos"] = ListaProductos;
+            TempData["ListaProductoCotizacionOrden"] = ListaProductoCotizacionOrden;
+            TempData["ListaProductosOrden"] = ListaProductosOrden;
             Session["IdCotizacion"] = id;
 
             return View(cotizacion);
@@ -107,14 +107,14 @@ namespace SWRCVA.Controllers
 
         public JsonResult ConsultarListaProductos()
         {
-            if (TempData["ListaProductos"] != null)
+            if (TempData["ListaProductosOrden"] != null)
             {
-                ListaProductos = (List<Producto>)TempData["ListaProductos"];
+                ListaProductosOrden = (List<Producto>)TempData["ListaProductosOrden"];
             }
 
-            TempData["ListaProductos"] = ListaProductos;
+            TempData["ListaProductosOrden"] = ListaProductosOrden;
 
-            return Json(ListaProductos,
+            return Json(ListaProductosOrden,
          JsonRequestBehavior.AllowGet);
         }
 
