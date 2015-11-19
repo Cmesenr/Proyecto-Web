@@ -517,7 +517,7 @@ function CargarListaProductos() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-
+            if (data != "" && data !=null) {
             if (typeof (data) == "string") {
                 $("#TextModal").html(data);
                 $("#HeaderModalInfo").html("Error");
@@ -549,6 +549,7 @@ function CargarListaProductos() {
                     LimpiarCamposBoddy();
                 }
 
+            }
             }
         },
         error: function (result) {

@@ -20,6 +20,11 @@
             $("#lblAtributos").show();
             break;
         }
+        case '3': {
+            $("#Group_Puertalujo").show();
+            $("#lblAtributos").show();
+            break;
+        }
             
 
     }
@@ -102,6 +107,8 @@ $(document).ready(function () {
         $("#Group_Ventana").hide();
         $("#lblAtributos").hide();
         $("#Group_PuertaBano").hide();
+        $("#Group_Puertalujo").hide();
+        
         switch (id) {
             case '0' : {           
                 $("#Group_Ventana").show();
@@ -123,6 +130,12 @@ $(document).ready(function () {
                 $("#lblAtributos").show();
                 break;
             }
+            case '3': {
+                $("#Group_Puertalujo").show();
+                $("#lblAtributos").show();
+                break;
+            }
+                
      
         }
 

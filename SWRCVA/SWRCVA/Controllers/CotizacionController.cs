@@ -558,16 +558,17 @@ namespace SWRCVA.Controllers
                 Cot.Usuario= Session["UsuarioActual"].ToString();
                     db.Cotizacion.Add(Cot);
                     db.SaveChanges();
-                    foreach (var item in ListaProductos)
-                    {
-                        item.IdCotizacion = Cot.IdCotizacion;
-                        db.ProductoCotizacion.Add(item);
-                    }
+                    
                     foreach (var item in ListaMateriales)
                     {
                     item.IdCotizacion = Cot.IdCotizacion;
                     db.MaterialCotizacion.Add(item);
                      }
+                    foreach (var item in ListaProductos)
+                    {
+                        item.IdCotizacion = Cot.IdCotizacion;
+                        db.ProductoCotizacion.Add(item);
+                    }
                     db.SaveChanges();
                     LimpiarListas();
                 }
@@ -609,18 +610,19 @@ namespace SWRCVA.Controllers
                     Cot.Usuario = Session["UsuarioActual"].ToString();
                     db.Cotizacion.Add(Cot);
                     db.SaveChanges();
-                     foreach (var item in ListaProductos)
-                    {
-                    item.IdCotizacion = Cot.IdCotizacion;
-                    db.ProductoCotizacion.Add(item);
-                    }
+                    
                 foreach (var item in ListaMateriales)
                     {
                         item.IdCotizacion = Cot.IdCotizacion;
                         db.MaterialCotizacion.Add(item);
                     }
-                    db.SaveChanges();              
-                    LimpiarListas();
+                foreach (var item in ListaProductos)
+                {
+                    item.IdCotizacion = Cot.IdCotizacion;
+                    db.ProductoCotizacion.Add(item);
+                }
+                db.SaveChanges();
+                LimpiarListas();
                 }
                 else
                 {
@@ -663,29 +665,31 @@ namespace SWRCVA.Controllers
                     db.Entry(Cotiz).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    foreach (var item in ListaP)
-                    {
-                        db.ProductoCotizacion.Attach(item);
-                        db.ProductoCotizacion.Remove(item);
-                        db.SaveChanges();
-                    }
                     foreach (var item in ListaM)
                     {
                         db.MaterialCotizacion.Attach(item);
                         db.MaterialCotizacion.Remove(item);
                         db.SaveChanges();
                     }
-                    foreach (var item in ListaProductos)
+                   
+                    foreach (var item in ListaP)
                     {
-                        item.IdCotizacion = Cotiz.IdCotizacion;
-                        db.ProductoCotizacion.Add(item);
+                        db.ProductoCotizacion.Attach(item);
+                        db.ProductoCotizacion.Remove(item);
+                        db.SaveChanges();
                     }
                     foreach (var item in ListaMateriales)
                     {
                         item.IdCotizacion = Cotiz.IdCotizacion;
                         db.MaterialCotizacion.Add(item);
                     }
+                    foreach (var item in ListaProductos)
+                    {
+                        item.IdCotizacion = Cotiz.IdCotizacion;
+                        db.ProductoCotizacion.Add(item);
+                    }
                     db.SaveChanges();
+                  
                     LimpiarListas();
                 }
                 else
@@ -734,29 +738,31 @@ namespace SWRCVA.Controllers
                     db.Entry(Cotiz).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    foreach (var item in ListaP)
-                    {
-                        db.ProductoCotizacion.Attach(item);
-                        db.ProductoCotizacion.Remove(item);
-                        db.SaveChanges();
-                    }
                     foreach (var item in ListaM)
                     {
                         db.MaterialCotizacion.Attach(item);
                         db.MaterialCotizacion.Remove(item);
                         db.SaveChanges();
                     }
+                  
+                    foreach (var item in ListaP)
+                    {
+                        db.ProductoCotizacion.Attach(item);
+                        db.ProductoCotizacion.Remove(item);
+                        db.SaveChanges();
+                    }
+                    foreach (var item in ListaMateriales)
+                    {
+                        item.IdCotizacion = Cotiz.IdCotizacion;
+                        db.MaterialCotizacion.Add(item);
+                    }
                     foreach (var item in ListaProductos)
                     {
                         item.IdCotizacion = Cotiz.IdCotizacion;
                         db.ProductoCotizacion.Add(item);
                     }
-                    foreach (var item in ListaMateriales) 
-                    {
-                        item.IdCotizacion = Cotiz.IdCotizacion;
-                        db.MaterialCotizacion.Add(item);
-                    }
                     db.SaveChanges();
+                    
                     LimpiarListas();
                 }
                 else

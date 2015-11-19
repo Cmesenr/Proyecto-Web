@@ -700,7 +700,7 @@ namespace SWRCVA.Models
                                 break;
                             case 16://Rodin 4
                                 PC.IdMaterial = item.IdMaterial;
-                                PC.IdProducto = 4;
+                                PC.IdProducto = Idpro;
                                 PC.CantMaterial = Ancho;
                                 PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
                                 ListaCosto.Add(PC);
