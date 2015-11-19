@@ -91,13 +91,29 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                if (data == "Celocia") {
+                if (data == "CV") {
                     $("#txtCelocia").attr("required", "required");
                     $("#txtCelocia").removeAttr("disabled");
+                    $('input[name=Vidrio]').removeAttr("disabled");
+                } else if (data == "C") {
+                    consultarVidrio(null, "Paleta");
+                    $('input[name=Vidrio]').attr("disabled", "disabled");
+                    $("#txtCelocia").attr("disabled", "disabled");
+                }
+                else if (data == "PB") {
+                    consultarVidrio(null, "Lamina");
+                    $("#txtCelocia").attr("required", "required");
+                    $('input[name=Vidrio]').attr("disabled", "disabled");
+                    $("#txtCelocia").removeAttr("disabled");
+                    $("#txtCelocia").attr("placeholder", "Laminas")
+                    $("#txtCelocia").unbind("change");
                 }
                 else {
                     $("#txtCelocia").attr("disabled", "disabled");
                     $("#txtCelocia").removeAttr("required");
+                    $("#txtCelocia").bind("change");
+                    $("#txtCelocia").val("");
+                    $('input[name=Vidrio]').removeAttr("disabled");
                 }
 
             },
@@ -109,27 +125,7 @@
     //Cargar Combo Vidrios
     $('input[name=Vidrio]').on("change", function () {
         var id = $(this).val();
-        $.ajax({
-            cache: false,
-            url: "/Cotizacion/ColsultarVidrio",
-            type: "get",
-            data: { id: id },
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                var items = "<option value=''>Vidrios..</option>";
-                for (var i = 0; i < data.length; i++) {
-
-                    items += "<option value='" + data[i].IdMaterial + "'>" + data[i].Nombre + "</option>";
-                }
-
-                $("#DropDownVidrio").html(items);
-
-            },
-            error: function (result) {
-                alert('ERROR ' + result.status + ' ' + result.statusText);
-            }
-        })
+        consultarVidrio(id, "Categoria");
     })
     //Guardar Cliente 
     $("#headerPrincipal").on("click", "#btnGuardarModal", function () {
@@ -189,6 +185,7 @@
     //Levantar modal de colores paleta 
     $('#txtCelocia').on('change', function () {
         if ($('#txtCelocia') != null) {
+            $('#ModalColores').modal({ backdrop: 'static', keyboard: false })
             $("#ModalColores").modal("show");
         }
         
@@ -199,13 +196,14 @@
             $("#CPaleta").tooltip();
             $("#CPaleta").focus();
             return false;
+        } else if (($('#DropDownPaletas')[0].checkValidity() == false)) {
+            $("#DropDownPaletas").tooltip();
+            $("#DropDownPaletas").focus();
+            return false;
         }
         
+        
         $("#ModalColores").modal("hide");
-    })
-    //guardar Color Paleta
-    $('input[name=ColoresPaleta]').on("click", function () {
-        $("#txtCelocia").data("ColorPaleta", $(this).val());
     })
     //Procesar Cotizacion
     $("#btnProcesar").on("click", function () {
@@ -362,7 +360,7 @@
             $("#txtCelocia").focus();
             return false;
         }
-        var paraProd = { Idpro: $('#DropDownProductos').val(), Cvidrio: $("#DropDownCVidrio").val(), anchoCelocia: $('#txtCelocia').val(), CAluminio: $('#DropDownCAluminio').val(), Insta: $('#DropDownInstalacion').val(), Cant: $('#txtCantidad').val(), Ancho: $('#txtAncho').val(), Alto: $('#txtAlto').val(), vidrio: $('#DropDownVidrio').val(), ColorPaleta: $("#txtCelocia").data("ColorPaleta") };
+        var paraProd = { Idpro: $('#DropDownProductos').val(), Cvidrio: $("#DropDownCVidrio").val(), anchoCelocia: $('#txtCelocia').val(), CAluminio: $('#DropDownCAluminio').val(), Insta: $('#DropDownInstalacion').val(), Cant: $('#txtCantidad').val(), Ancho: $('#txtAncho').val(), Alto: $('#txtAlto').val(), vidrio: $('#DropDownVidrio').val(), ColorPaleta: $('input[name=ColoresPaleta]').val(), IdPaleta: $("#DropDownPaletas").val() };
                $.ajax({
                 cache: false,
                 url: "/Cotizacion/AgregarProducto",
@@ -390,12 +388,12 @@
                         else{
                             $("#ListaProductos").empty();
                             $("#ListaProductos").fadeIn(1000).html();
-                        $("#ListaProductos").append('<tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
+                            $("#ListaProductos").append('<tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
 
                         for (var i = 0; i < data.length; i++) {
-                            $('#ListaProductos').append('<tr>' +
+                            $('#ListaProductos').append('<tr class="warning">' +
                                                   '<td>' + data[i].Nombre + '</td>' +
-                                                   '<td>' + data[i].Cantidad + '</td>' +
+                                                   '<td>' + data[i].CantProducto + '</td>' +
                                                   '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                                   '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                                 '</tr>');
@@ -424,12 +422,12 @@
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#ListaProductos").empty();
-                $("#ListaProductos").append('<tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
+                $("#ListaProductos").append('<tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
 
                 for (var i = 0; i < data.length; i++) {
-                    $('#ListaProductos').append('<tr>' +
+                    $('#ListaProductos').append('<tr class="warning">' +
                                           '<td>' + data[i].Nombre + '</td>' +
-                                           '<td>' + data[i].Cantidad + '</td>' +
+                                           '<td>' + data[i].CantProducto + '</td>' +
                                           '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                           '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                         '</tr>');
@@ -490,6 +488,8 @@ function LimpiarCamposBoddy() {
     $('#txtAncho').val("");
     $('#txtAlto').val("");
     $('#txtCelocia').val("");
+    $('input[name=ColoresPaleta]').attr('checked', false);
+    $("#DropDownPaletas").val("");
 }
 function CargarListaProductos() {
     $.ajax({
@@ -518,12 +518,12 @@ function CargarListaProductos() {
                 }
                 else {
                     $("#ListaProductos").empty();
-                    $("#ListaProductos").append('<tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
+                    $("#ListaProductos").append('<tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
 
                     for (var i = 0; i < data.length; i++) {
-                        $('#ListaProductos').append('<tr>' +
+                        $('#ListaProductos').append('<tr class="warning">' +
                                               '<td>' + data[i].Nombre + '</td>' +
-                                               '<td>' + data[i].Cantidad + '</td>' +
+                                               '<td>' + data[i].CantProducto + '</td>' +
                                               '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                               '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                             '</tr>');
@@ -552,6 +552,30 @@ function RefrescarLista() {
         }
     });
 
+}
+function consultarVidrio(id, bool) {
+    var para = { id: id, tipo: bool };
+    $.ajax({
+        cache: false,
+        url: "/Cotizacion/ColsultarVidrio",
+        type: "get",
+        data: para,
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            var items = "<option value=''>Vidrios..</option>";
+            for (var i = 0; i < data.length; i++) {
+
+                items += "<option value='" + data[i].IdMaterial + "'>" + data[i].Nombre + "</option>";
+            }
+
+            $("#DropDownVidrio").html(items);
+
+        },
+        error: function (result) {
+            alert('ERROR ' + result.status + ' ' + result.statusText);
+        }
+    })
 }
 var nav4 = window.Event ? true : false;
 function acceptNum(evt) {

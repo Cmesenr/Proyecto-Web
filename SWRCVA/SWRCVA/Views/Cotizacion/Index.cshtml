@@ -28,8 +28,8 @@
         </table>
     </p>
 }
-<table class="table">
-    <tr>
+<table class="table table-bordered table-hover">
+    <tr class="active">
         <th>
             Cliente
         </th>
@@ -46,7 +46,7 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+    <tr class="warning">
         <td>
             @Html.DisplayFor(modelItem => item.Cliente.Nombre)
         </td>

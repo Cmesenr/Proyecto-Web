@@ -12,6 +12,7 @@ namespace SWRCVA.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cotizacion()
         {
+            MaterialCotizacion = new HashSet<MaterialCotizacion>();
             ProductoCotizacion = new HashSet<ProductoCotizacion>();
         }
 
@@ -40,6 +41,9 @@ namespace SWRCVA.Models
         public string Usuario { get; set; }
 
         public virtual Cliente Cliente { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaterialCotizacion> MaterialCotizacion { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductoCotizacion> ProductoCotizacion { get; set; }

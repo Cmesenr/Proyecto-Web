@@ -166,7 +166,7 @@
                     <div class="form-group">
 
                         <div class="col-md-12">
-                            <table class="table" id="ListaProductos"></table>
+                            <table class="table table-bordered table-hover" id="ListaProductos"></table>
                         </div>
                     </div>
                 </div>
@@ -296,13 +296,13 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" id="HeaderModalInfo">Colores Paletas</h4>
             </div>
             <div class="modal-body">
-              
+                @Html.DropDownList("IdMaterial", (IEnumerable<SelectListItem>)ViewBag.Paletas, "Paleta..", new { @class = "form-control", id = "DropDownPaletas", required = "required", title = "Selecione la paleta!" })
                 @{foreach (var item in (List<SWRCVA.Models.ColorMat>)ViewData["ColoresPaleta"])
                     {
+                       
                                     <input type="radio" id="CPaleta" name="ColoresPaleta" value="@item.IdColor" required="required" title="Color Requerido" /> <span class="text-muted">@item.Nombre</span><br>
                     }
                 }

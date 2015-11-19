@@ -18,37 +18,36 @@ namespace SWRCVA.Models
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdProducto { get; set; }
-
-        [Key]
-        [Column(Order = 2)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int IdMaterial { get; set; }
-
-        public decimal CantMaterial { get; set; }
-
+        [NotMapped]
+        public string Nombre { get; set; }
         public int CantProducto { get; set; }
 
         public int IdColorVidrio { get; set; }
 
         public int IdColorAluminio { get; set; }
+
         public int? IdColorPaleta { get; set; }
+
         public decimal? AnchoCelocia { get; set; }
-        
+
         public decimal Instalacion { get; set; }
 
         public decimal Ancho { get; set; }
 
         public decimal Alto { get; set; }
-        [NotMapped]
         public decimal Subtotal { get; set; }
+
+        public decimal? Largo { get; set; }
+
+        public int? Divisiones { get; set; }
 
         public virtual ColorMat ColorMat { get; set; }
 
         public virtual ColorMat ColorMat1 { get; set; }
 
-        public virtual Cotizacion Cotizacion { get; set; }
+        public virtual ColorMat ColorMat2 { get; set; }
 
-        public virtual Material Material { get; set; }
+        public virtual Cotizacion Cotizacion { get; set; }
 
         public virtual Producto Producto { get; set; }
     }

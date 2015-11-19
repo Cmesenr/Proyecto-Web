@@ -15,6 +15,12 @@
             $("#lblAtributos").show();
             break;
         }
+        case '5': {
+            $("#Group_PuertaBano").show();
+            $("#lblAtributos").show();
+            break;
+        }
+            
 
     }
 })
@@ -95,6 +101,7 @@ $(document).ready(function () {
         $("#Group_Ventana5020").hide();
         $("#Group_Ventana").hide();
         $("#lblAtributos").hide();
+        $("#Group_PuertaBano").hide();
         switch (id) {
             case '0' : {           
                 $("#Group_Ventana").show();
@@ -108,6 +115,11 @@ $(document).ready(function () {
             }
             case '6': {
                 $("#Group_Ventana5020").show();
+                $("#lblAtributos").show();
+                break;
+            }
+            case '5': {
+                $("#Group_PuertaBano").show();
                 $("#lblAtributos").show();
                 break;
             }
