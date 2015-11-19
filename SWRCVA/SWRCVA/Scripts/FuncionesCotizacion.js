@@ -105,15 +105,20 @@
                     $("#txtCelocia").attr("required", "required");
                     $('input[name=Vidrio]').attr("disabled", "disabled");
                     $("#txtCelocia").removeAttr("disabled");
-                    $("#txtCelocia").attr("placeholder", "Laminas")
-                    $("#txtCelocia").unbind("change");
+                    $("#txtCelocia").attr("placeholder", "Laminas");
+                    $("#DropDownPaletas").val("");
+                    $('#DropDownPaletas').attr("disabled", "disabled");
+                    $("#DropDownPaletas").removeAttr("required");
                 }
                 else {
                     $("#txtCelocia").attr("disabled", "disabled");
                     $("#txtCelocia").removeAttr("required");
-                    $("#txtCelocia").bind("change");
                     $("#txtCelocia").val("");
+                    $("#txtCelocia").attr("placeholder", "Celocia")
                     $('input[name=Vidrio]').removeAttr("disabled");
+                    $("#DropDownPaletas").val("");
+                    $('#DropDownPaletas').attr("disabled", "disabled");
+                    $("#DropDownPaletas").removeAttr("required");
                 }
 
             },
@@ -182,25 +187,32 @@
     $('#ModalCliente').on('hidden.bs.modal', function () {
         $("#txtClienteModal").val("");
     });
-    //Levantar modal de colores paleta 
+    //habilitar combo paleta
     $('#txtCelocia').on('change', function () {
-        if ($('#txtCelocia') != null) {
+        if ($("#DropDownTipoProductos").val() == 0)
+        { 
+        if ($('#txtCelocia').val() != "") {
+            $('#DropDownPaletas').removeAttr("disabled");
+            $('#DropDownPaletas').attr("required","required");
+        }
+        }
+
+    });
+    //Levantar modal de colores paleta 
+    $('#DropDownPaletas').on('change', function () {
+          if ($('#txtCelocia') != null) {
             $('#ModalColores').modal({ backdrop: 'static', keyboard: false })
             $("#ModalColores").modal("show");
-        }
-        
+        }        
     });
+ 
     //Validar Color paleta
     $("#btnGuardarColorPaleta").on("click", function () {
         if ($('#CPaleta')[0].checkValidity() == false) {
             $("#CPaleta").tooltip();
             $("#CPaleta").focus();
             return false;
-        } else if (($('#DropDownPaletas')[0].checkValidity() == false)) {
-            $("#DropDownPaletas").tooltip();
-            $("#DropDownPaletas").focus();
-            return false;
-        }
+        } 
         
         
         $("#ModalColores").modal("hide");
@@ -359,8 +371,13 @@
             $("#txtCelocia").tooltip();
             $("#txtCelocia").focus();
             return false;
+        } else if ($('#DropDownPaletas')[0].checkValidity() == false) {
+            $("#DropDownPaletas").tooltip();
+            $("#DropDownPaletas").focus();
+            return false;
         }
-        var paraProd = { Idpro: $('#DropDownProductos').val(), Cvidrio: $("#DropDownCVidrio").val(), anchoCelocia: $('#txtCelocia').val(), CAluminio: $('#DropDownCAluminio').val(), Insta: $('#DropDownInstalacion').val(), Cant: $('#txtCantidad').val(), Ancho: $('#txtAncho').val(), Alto: $('#txtAlto').val(), vidrio: $('#DropDownVidrio').val(), ColorPaleta: $('input[name=ColoresPaleta]').val(), IdPaleta: $("#DropDownPaletas").val() };
+
+        var paraProd = { Idpro: $('#DropDownProductos').val(), Cvidrio: $("#DropDownCVidrio").val(), anchoCelocia: $('#txtCelocia').val(), CAluminio: $('#DropDownCAluminio').val(), Insta: $('#DropDownInstalacion').val(), Cant: $('#txtCantidad').val(), Ancho: $('#txtAncho').val(), Alto: $('#txtAlto').val(), vidrio: $('#DropDownVidrio').val(), ColorPaleta: $('input[name=ColoresPaleta]:checked').val(), IdPaleta: $("#DropDownPaletas").val() };
                $.ajax({
                 cache: false,
                 url: "/Cotizacion/AgregarProducto",

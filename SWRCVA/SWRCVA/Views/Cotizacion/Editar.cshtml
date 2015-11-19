@@ -187,7 +187,7 @@
                         <div class="form-group">
 
                             <div class="col-md-12">
-                                @Html.Editor("CantProducto", new { htmlAttributes = new { @class = "form-control", id = "txtCantidad", required = "required", onKeyPress = "return acceptonlyNum(event)", title = "Cantidad requerida!", placeholder = "Cantidad" } })
+                                @Html.DropDownList("IdMaterial", (IEnumerable<SelectListItem>)ViewBag.Paletas, "Paleta..", new { @class = "form-control", id = "DropDownPaletas", disabled = "disabled", required = "required", title = "Selecione la paleta!" })
                             </div>
                         </div>
                     </div>
@@ -220,6 +220,11 @@
                         </div>
                     </div>
                     <div class="col-md-3" align="right">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.Editor("CantProducto", new { htmlAttributes = new { @class = "form-control", id = "txtCantidad", required = "required", onKeyPress = "return acceptonlyNum(event)", title = "Cantidad requerida!", placeholder = "Cantidad" } })
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <button type="button" id="btnAgregar" onclick="" class="btn btn-primary edit"><h4>Agregar</h4></button>
@@ -298,7 +303,6 @@
                 <h4 class="modal-title" id="HeaderModalInfo">Colores Paletas</h4>
             </div>
             <div class="modal-body">
-                @Html.DropDownList("IdMaterial", (IEnumerable<SelectListItem>)ViewBag.Paletas, "Paleta..", new { @class = "form-control", id = "DropDownPaletas", required = "required", title = "Selecione la paleta!" })
                 @{foreach (var item in (List<SWRCVA.Models.ColorMat>)ViewData["ColoresPaleta"])
                     {
 
