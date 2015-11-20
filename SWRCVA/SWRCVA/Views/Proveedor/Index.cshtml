@@ -29,8 +29,8 @@
         </table>
     </p>
 }
-<table class="table">
-    <tr>
+<table class="table table-bordered table-hover">
+    <tr class="active">
         <th>
             @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
@@ -52,7 +52,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="warning">
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
@@ -98,7 +98,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
     <div class="modal-dialog">
 
         <!-- Modal content-->
-        <div  class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Borrar</h4>

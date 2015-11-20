@@ -145,6 +145,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\CotizacionController.cs" />
+    <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\OrdenController.cs" />
@@ -327,6 +328,7 @@
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\FuncionesCotizacion.js" />
+    <Content Include="Scripts\FuncionesFacturar.js" />
     <Content Include="Scripts\FuncionesLogin.js" />
     <Content Include="Scripts\FuncionesCliente.js" />
     <Content Include="Scripts\FuncionesMaterial.js" />
@@ -399,6 +401,8 @@
     <Content Include="Views\Cotizacion\Index.cshtml" />
     <Content Include="Views\Orden\Index.cshtml" />
     <Content Include="Views\Orden\Detalles.cshtml" />
+    <Content Include="Views\Factura\Facturar.cshtml" />
+    <Content Include="Views\Factura\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

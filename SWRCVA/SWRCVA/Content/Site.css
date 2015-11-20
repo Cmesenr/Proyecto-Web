@@ -98,3 +98,51 @@ footer {
     bottom:0;
     width: 100%;
 }
+.table-bordered{
+border: solid #ccc 1px;
+-moz-border-radius: 20px;
+-webkit-border-radius: 20px;
+border-radius: 20px;
+-webkit-box-shadow: 0 3px 3px #ccc;
+-moz-box-shadow: 0 3px 3px #ccc;
+box-shadow: 0 3px 3px #ccc;
+}
+.table-bordered th {
+background-color: #dce9f9;
+background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+background-image: -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+background-image: -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+background-image: -o-linear-gradient(top, #ebf3fc, #dce9f9);
+background-image: linear-gradient(top, #ebf3fc, #dce9f9);
+-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+-moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
+box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+border-top: none;
+text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+.table-bordered th:first-child {
+-moz-border-radius: 5px 0 0 0;
+-webkit-border-radius: 5px 0 0 0;
+border-radius: 5px 0 0 0;
+}
+.table-bordered th:last-child {
+-moz-border-radius: 0 5px 0 0;
+-webkit-border-radius: 0 5px 0 0;
+border-radius: 0 5px 0 0;
+}
+.table-bordered tr:last-child td:first-child {
+-moz-border-radius: 0 0 0 5px;
+-webkit-border-radius: 0 0 0 5px;
+border-radius: 0 0 0 5px;
+}
+.table-bordered tr:last-child td:last-child {
+-moz-border-radius: 0 0 5px 0;
+-webkit-border-radius: 0 0 5px 0;
+border-radius: 0 0 5px 0;
+}
+/*Estilo tabla Facturar*/
+.trTableFact{
+    height:10px;
+}

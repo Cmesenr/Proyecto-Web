@@ -52,7 +52,9 @@ namespace SWRCVA
               "~/Scripts/FuncionesOrden.js"));
             bundles.Add(new ScriptBundle("~/bundles/jqBootstrapValidation").Include(
               "~/Scripts/jqBootstrapValidation.js"));
-            
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesFacturar").Include(
+       "~/Scripts/FuncionesFacturar.js"));
+
         }
     }
 }

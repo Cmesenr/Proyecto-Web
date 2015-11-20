@@ -115,7 +115,10 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion/Edit/5
         public ActionResult Editar(int? id)
         {
-            
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Paletas = new SelectList((from s in db.Material
                                               where s.IdCatMat == 3 && s.IdTipoMaterial == 55
@@ -147,10 +150,7 @@ namespace SWRCVA.Controllers
                                                       IdValor = s.IdValor,
                                                       Nombre = s.Nombre
                                                   }), "IdValor", "Nombre");
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
-                return RedirectToAction("Login", "Login");
-            }
+         
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

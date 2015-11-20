@@ -11,13 +11,13 @@
 
 </p>
 <div class="row">
-    
+
 
     <div class="col-md-3">
         <table>
             <tr>
                 <td>
-                 @Html.Label("Parametro", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.Label("Parametro", htmlAttributes: new { @class = "control-label col-md-2" })
                 </td>
                 <td>
                     @Html.DropDownList("Parametro", (new SelectList(
@@ -37,11 +37,11 @@
                 </td>
             </tr>
         </table>
-        
-       
-       
-       
-       
+
+
+
+
+
     </div>
     <div class="col-md-6">
         @using (Html.BeginForm("Index", "Parametro", FormMethod.Get))
@@ -60,14 +60,13 @@
             </table>
 
         }
-        </div>
-
     </div>
-<br/>
 
-<table class="table">
-    <tr>
-        
+</div>
+<br />
+
+<table class="table table-bordered table-hover">
+    <tr class="active">
         <th>
             @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
@@ -85,7 +84,7 @@
                 Porcentaje
             </th>
         }
-  
+
         <th>
             Estado
         </th>
@@ -94,8 +93,8 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            
+        <tr class="warning">
+
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>

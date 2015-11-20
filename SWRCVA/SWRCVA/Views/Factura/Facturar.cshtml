@@ -1,0 +1,197 @@
+﻿@model SWRCVA.Models.Factura
+
+@{
+    ViewBag.Title = "Facturar";
+}
+<br />
+<div class="row" id="headerPrincipal">
+    <div class="col-md-3">
+        <h2>Facturación</h2>
+    </div>
+    <div class="col-md-6" align="left">   
+        <div class="form-group-lg">
+            <div class="col-md-12">
+                <input type="text" class="form-control" placeholder="Buscar Cliente" id="txtClienteFinal" required="required" title="Cliente requerido!" maxlength="30" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <button type="button" id="btnFacturar" onclick="" class="btn btn-success"><h4>Facturar</h4></button>
+    </div>
+    <div class="modal fade" id="ModalCliente" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Cliente</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" align="center">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input type="text" id="txtClienteModal" class="form-control" placeholder="Buscar Cliente" />
+                                </div><div class="col-md-4">
+                                    <button type="button" data-toggle="modal" data-target="#ModalCrearCliente" class="btn btn-primary">Agregar Cliente</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <table class="table" id="TableCliente"></table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="ModalCrearCliente" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Crear Cliente</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" align="center">
+                        <div class="form-group">
+                            <input type="text" id="txtNombreCliente" class="form-control" placeholder="Nombre" required="required" title="Nombre requerido" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtTelefonoCliente" onkeypress="return acceptonlyNum(event);" class="form-control" title="Telefono requerido" required="required" placeholder="Télefono" maxlength="10" />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="txtCorreoCliente" class="form-control" required="required" placeholder="Correo" title="Ingrese una direccion de correo válida" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtDireccionCliente" class="form-control" required="required" placeholder="Dirección" title="Direccion requerida" />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn"><span class="glyphicon glyphicon-remove"> Cancelar</span></button>
+                    <button type="button" id="btnGuardarModal" class="btn"><span class="glyphicon glyphicon-floppy-saved"> Guardar</span></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" id="formFacturar">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6">
+                
+                    <div class="row">
+                        <div class="form-group">
+
+                            <div class="col-md-12">
+                                <table style="" class="table FacturaTable table-bordered table-hover" id="ListaProductos" width="400">
+                                    <tr class="active" style=""><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                                    <tr class="warning"><td></td><td></td><td></td><td></td></tr>
+                          
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div>
+                    <button onclick="location.href='@Url.Action("Index","Factura")',RefrescarLista()" class="btn btn-primary"><h4>Regresar</h4></button>
+                </div>
+            </div>
+            <div class="col-md-6" align="right">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <table><tr><td><h2>@Html.Label("Total:", new { htmlAttributes = new { @class = "control-label col-md-5" } })&nbsp;&nbsp;</h2></td><td><h1><span class="label label-warning" id="txtTotal">0.00</span></h1></td></tr></table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+    
+            </div>
+        </div>
+        <hr />
+    </div>
+}
+
+<div class="modal fade" id="ModalError" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="TextModal"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalMensaje" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="HeaderModalInfo">Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="TextModalinfo"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/FuncionesFacturar")
+    <script type="text/javascript">
+        $(window).unload(function () {
+            RefrescarLista();
+        });
+        CargarListaProductos();
+    </script>
+}

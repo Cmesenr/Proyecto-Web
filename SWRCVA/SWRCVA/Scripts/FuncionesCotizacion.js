@@ -58,74 +58,78 @@
     //cargar productos 
     $('#DropDownTipoProductos').on("change", function () {
         var id = $('#DropDownTipoProductos').val();
-        $.ajax({
-            cache: false,
-            url: "/Cotizacion/ConsultarProductos",
-            type: "get",
-            data: { id: id },
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                var items = "<option value=''>Productos..</option>";
-                for (var i = 0; i < data.length; i++) {
+        if (id != "") {
+            $.ajax({
+                cache: false,
+                url: "/Cotizacion/ConsultarProductos",
+                type: "get",
+                data: { id: id },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    var items = "<option value=''>Productos..</option>";
+                    for (var i = 0; i < data.length; i++) {
 
-                    items += "<option value='" + data[i].IdProducto + "'>" + data[i].Nombre + "</option>";
+                        items += "<option value='" + data[i].IdProducto + "'>" + data[i].Nombre + "</option>";
+                    }
+
+                    $("#DropDownProductos").html(items);
+
+                },
+                error: function (result) {
+                    alert('ERROR ' + result.status + ' ' + result.statusText);
                 }
-
-                $("#DropDownProductos").html(items);
-
-            },
-            error: function (result) {
-                alert('ERROR ' + result.status + ' ' + result.statusText);
-            }
-        })
+            })
+        }
     })
     //Verificar Atributos
     $("#DropDownProductos").on("change", function () {
         var id = $(this).val();
-        $.ajax({
-            cache: false,
-            url: "/Cotizacion/VerificarAtributos",
-            type: "get",
-            data: { id: id },
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                if (data == "CV") {
-                    $("#txtCelocia").attr("required", "required");
-                    $("#txtCelocia").removeAttr("disabled");
-                    $('input[name=Vidrio]').removeAttr("disabled");
-                } else if (data == "C") {
-                    consultarVidrio(null, "Paleta");
-                    $('input[name=Vidrio]').attr("disabled", "disabled");
-                    $("#txtCelocia").attr("disabled", "disabled");
-                }
-                else if (data == "PB") {
-                    consultarVidrio(null, "Lamina");
-                    $("#txtCelocia").attr("required", "required");
-                    $('input[name=Vidrio]').attr("disabled", "disabled");
-                    $("#txtCelocia").removeAttr("disabled");
-                    $("#txtCelocia").attr("placeholder", "Laminas");
-                    $("#DropDownPaletas").val("");
-                    $('#DropDownPaletas').attr("disabled", "disabled");
-                    $("#DropDownPaletas").removeAttr("required");
-                }
-                else {
-                    $("#txtCelocia").attr("disabled", "disabled");
-                    $("#txtCelocia").removeAttr("required");
-                    $("#txtCelocia").val("");
-                    $("#txtCelocia").attr("placeholder", "Celocia")
-                    $('input[name=Vidrio]').removeAttr("disabled");
-                    $("#DropDownPaletas").val("");
-                    $('#DropDownPaletas').attr("disabled", "disabled");
-                    $("#DropDownPaletas").removeAttr("required");
-                }
+        if (id != "") {
+            $.ajax({
+                cache: false,
+                url: "/Cotizacion/VerificarAtributos",
+                type: "get",
+                data: { id: id },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == "CV") {
+                        $("#txtCelocia").attr("required", "required");
+                        $("#txtCelocia").removeAttr("disabled");
+                        $('input[name=Vidrio]').removeAttr("disabled");
+                    } else if (data == "C") {
+                        consultarVidrio(null, "Paleta");
+                        $('input[name=Vidrio]').attr("disabled", "disabled");
+                        $("#txtCelocia").attr("disabled", "disabled");
+                    }
+                    else if (data == "PB") {
+                        consultarVidrio(null, "Lamina");
+                        $("#txtCelocia").attr("required", "required");
+                        $('input[name=Vidrio]').attr("disabled", "disabled");
+                        $("#txtCelocia").removeAttr("disabled");
+                        $("#txtCelocia").attr("placeholder", "Laminas");
+                        $("#DropDownPaletas").val("");
+                        $('#DropDownPaletas').attr("disabled", "disabled");
+                        $("#DropDownPaletas").removeAttr("required");
+                    }
+                    else {
+                        $("#txtCelocia").attr("disabled", "disabled");
+                        $("#txtCelocia").removeAttr("required");
+                        $("#txtCelocia").val("");
+                        $("#txtCelocia").attr("placeholder", "Celocia")
+                        $('input[name=Vidrio]').removeAttr("disabled");
+                        $("#DropDownPaletas").val("");
+                        $('#DropDownPaletas').attr("disabled", "disabled");
+                        $("#DropDownPaletas").removeAttr("required");
+                    }
 
-            },
-            error: function (result) {
-                alert('ERROR ' + result.status + ' ' + result.statusText);
-            }
-        })
+                },
+                error: function (result) {
+                    alert('ERROR ' + result.status + ' ' + result.statusText);
+                }
+            })
+        }
     })
     //Cargar Combo Vidrios
     $('input[name=Vidrio]').on("change", function () {
@@ -213,8 +217,6 @@
             $("#CPaleta").focus();
             return false;
         } 
-        
-        
         $("#ModalColores").modal("hide");
     })
     //Procesar Cotizacion
@@ -355,11 +357,16 @@
             $("#DropDownVidrio").focus();
             return false;
         }
-        else if ($('#txtCantidad')[0].checkValidity() == false) {
-            $("#txtCantidad").tooltip();
-            $("#txtCantidad").focus();           
+        else if ($('#txtCelocia')[0].checkValidity() == false) {
+            $("#txtCelocia").tooltip();
+            $("#txtCelocia").focus();
             return false;
-        } else if ($('#txtAncho')[0].checkValidity() == false) {           
+        } else if ($('#DropDownPaletas')[0].checkValidity() == false) {
+            $("#DropDownPaletas").tooltip();
+            $("#DropDownPaletas").focus();
+            return false;
+        }
+        else if ($('#txtAncho')[0].checkValidity() == false) {           
             $("#txtAncho").tooltip();
             $("#txtAncho").focus();
             return false;
@@ -367,13 +374,10 @@
             $("#txtAlto").tooltip();
             $("#txtAlto").focus();
             return false;
-        } else if ($('#txtCelocia')[0].checkValidity() == false) {
-            $("#txtCelocia").tooltip();
-            $("#txtCelocia").focus();
-            return false;
-        } else if ($('#DropDownPaletas')[0].checkValidity() == false) {
-            $("#DropDownPaletas").tooltip();
-            $("#DropDownPaletas").focus();
+        } 
+        else if ($('#txtCantidad')[0].checkValidity() == false) {
+            $("#txtCantidad").tooltip();
+            $("#txtCantidad").focus();
             return false;
         }
 

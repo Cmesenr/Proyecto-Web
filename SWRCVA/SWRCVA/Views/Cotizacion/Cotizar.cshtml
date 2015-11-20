@@ -305,8 +305,7 @@
             <div class="modal-body">
                 @{foreach (var item in (List<SWRCVA.Models.ColorMat>)ViewData["ColoresPaleta"])
                     {
-                       
-                                    <input type="radio" id="CPaleta" name="ColoresPaleta" value="@item.IdColor" required="required" title="Color Requerido" /> <span class="text-muted">@item.Nombre</span><br>
+                   <input type="radio" id="CPaleta" name="ColoresPaleta" value="@item.IdColor" required="required" title="Color Requerido" /> <span class="text-muted">@item.Nombre</span><br>
                     }
                 }
             </div>

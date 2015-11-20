@@ -8,7 +8,7 @@
 <h2>Materiales</h2>
 <p>
     <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Material")'" class="btn btn-info">Registrar Nuevo</button>
-    
+
 </p>
 @using (Html.BeginForm("Index", "Material", FormMethod.Get))
 {
@@ -27,8 +27,8 @@
         </table>
     </p>
 }
-<table class="table">
-    <tr>
+<table class="table table-bordered table-hover">
+    <tr class="active">
         <th>
             @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
@@ -49,14 +49,15 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="warning">
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CategoriaMat.Nombre)
             </td>
-            <td>@if (item.SubCategoria != null)
+            <td>
+                @if (item.SubCategoria != null)
             {
                 @Html.DisplayFor(modelItem => item.SubCategoria.Nombre)
             }
@@ -64,26 +65,26 @@
             {
                 @Html.Raw("N/A");
                 }
-                
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Proveedor.Nombre)
-            </td>
-            <td>
-                @if (item.Estado == 1)
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Proveedor.Nombre)
+        </td>
+        <td>
+            @if (item.Estado == 1)
                 {
-                    @("Activo");
+                @("Activo");
                 }
                 else
                 {
-                    @("Inactivo");
+                @("Inactivo");
                 }
-            </td>
-            <td>
-                <button id="btnEditarMaterial" data-id="@item.IdMaterial" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-                <button id="btnBorrarMaterial"data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.IdMaterial"  type="button" class="btn btn-danger delete">Borrar</button>
-            </td>
-        </tr>
+        </td>
+        <td>
+            <button id="btnEditarMaterial" data-id="@item.IdMaterial" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+            <button id="btnBorrarMaterial" data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.IdMaterial" type="button" class="btn btn-danger delete">Borrar</button>
+        </td>
+    </tr>
     }
 
 </table>
@@ -96,8 +97,8 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
     @Scripts.Render("~/bundles/FuncionesModalMaterial")
 }
 
- <div class="modal fade" id="modal" role="dialog">
-                    </div>
+<div class="modal fade" id="modal" role="dialog">
+</div>
 <div class="modal fade" id="ModalConfirm" role="dialog">
     <div class="modal-dialog">
 

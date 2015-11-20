@@ -831,8 +831,407 @@ namespace SWRCVA.Models
                     }
                 }
             }
+            //Puertas Vatir
+            if (producto.IdTipoProducto == 4)
+            {
+                decimal IV = 1 + db.Valor.Find(2).Porcentaje;
+                //Puerta un panel
+                if (producto.Forma == "PC")
+                {
+                    foreach (var item in materiales)
+                    {
+                        MaterialCotizacion PC = new MaterialCotizacion();
+                        switch (item.IdTipoMaterial)
+                        {
+                            case 62://Tubo Liso
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho*2)+(Alto*2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 58://Venilla
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 4) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 48://Marco Tubo
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Alto * 2); ;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 8://Empaque
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 4) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 53://Vidrio
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho * Alto;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 4://Cerradura
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 16://Rodin 
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            
+                            case 46://riel
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho*2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 19://Adaptador
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 2) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 40://Angular
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho * 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 17://Tornillera
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                        }
+                    }
+                }
+                if (producto.Forma == "PB")
+                {
+                    foreach (var item in materiales)
+                    {
+                        MaterialCotizacion PC = new MaterialCotizacion();
+                        switch (item.IdTipoMaterial)
+                        {
+                            case 62://Tubo Liso
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = ((Ancho * 2) + (Alto * 2))-0.045m;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 58://Venilla
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = ((Ancho * 2) + (Alto * 2)) - 0.045m;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 48://Marco Tubo
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho+(Alto * 2); ;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 8://Empaque
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = ((Ancho * 2) + (Alto * 2)) - 0.045m;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 53://Vidrio
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho * Alto;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 5://Cierre
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 2://Bisagra 
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Alto;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 17://Tornillera
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                        }
+                    }
+                }
+            }
+            //Puertas de Lujo
+            if (producto.IdTipoProducto == 3)
+            {
+                decimal IV = 1 + db.Valor.Find(2).Porcentaje;
+                //Puerta un panel
+                if (producto.Forma == "PL1")
+                {
+                    foreach (var item in materiales)
+                    {
+                        MaterialCotizacion PC = new MaterialCotizacion();
+                        switch (item.IdTipoMaterial)
+                        {
+                            case 37://Lateral hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Alto * 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 23://inferior hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 24://Superior hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 29://Envidriador
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial =(Ancho*2)+(Alto*2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 20://Umbral 4
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 32://Barra de Empuje
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 12://Hajadera Concha
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 2://Bisagra
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 10://Felpa
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Alto*2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 4://Cerradura
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 48://Marco Tubo
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Alto * 2) + Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 5://Cierre
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 43://Marco Canal
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Alto * 2) + Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 13://Hidraulico
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            
+                            case 53://Vidrio
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho*Alto;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                        }
+                    }
+                }
+                //Puerta un panel
+                if (producto.Forma == "PL2")
+                {
+                    foreach (var item in materiales)
+                    {
+                        MaterialCotizacion PC = new MaterialCotizacion();
+                        switch (item.IdTipoMaterial)
+                        {
+                            case 37://Lateral hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Alto * 4;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 23://inferior hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 24://Superior hoja
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 29://Envidriador
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 4) + (Alto * 4);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 20://Umbral 4
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 32://Barra de Empuje
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 12://Hajadera Concha
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 4;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 2://Bisagra
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 10://Felpa
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Alto * 4;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 4://Cerradura
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 48://Marco Tubo
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Alto * 2) + Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 5://Cierre
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 2;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 43://Marco Canal
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Alto * 2) + Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 13://Hidraulico
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 1;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
 
-                return ListaCosto;
+                            case 53://Vidrio
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho * Alto;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                        }
+                    }
+                }
+            }
+
+            return ListaCosto;
         }
         public List<string>  ValidarMateriales(int Idpro, int Cvidrio, int CAluminio, int vidrio, int? ColorPaleta, int? IdPaleta)
         {

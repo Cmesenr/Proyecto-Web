@@ -29,13 +29,13 @@
         </table>
     </p>
 }
-<table class="table">
-    <tr>
+<table class="table table-bordered table-hover">
+    <tr class="active">
         <th>
             @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-           Tipo Producto
+            Tipo Producto
         </th>
         <th>
             Estado
@@ -43,31 +43,32 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-   
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoProducto.Nombre)
-        </td>
-        <td>
-            @if (item.Estado == 1)
+    @foreach (var item in Model)
+    {
+        <tr class="warning">
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoProducto.Nombre)
+            </td>
+            <td>
+                @if (item.Estado == 1)
                 {
-                @("Activo");
+                    @("Activo");
                 }
                 else
                 {
-                @("Inactivo");
+                    @("Inactivo");
                 }
-        </td>
-        <td>
-            <button id="btnEditarProducto" onclick="location.href='/Producto/Editar?id='+@item.IdProducto" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-            <button id="btnBorrarProducto" data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.IdProducto" type="button" class="btn btn-danger delete">Borrar</button>
-        </td>
-    </tr>
-}
+            </td>
+            <td>
+                <button id="btnEditarProducto" onclick="location.href='/Producto/Editar?id='+@item.IdProducto" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+                <button id="btnBorrarProducto" data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.IdProducto" type="button" class="btn btn-danger delete">Borrar</button>
+            </td>
+        </tr>
+    }
 
 </table>
 <br />
