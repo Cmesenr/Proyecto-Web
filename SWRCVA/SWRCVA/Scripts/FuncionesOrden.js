@@ -22,7 +22,7 @@
                                               '<td class="col-md-1" align="Center">' + data[i].Cantidad + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Ancho + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Alto + '</td>' +
-                                              '<td class="col-md-1" align="Center"><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="Ver materiales" /></td>' +
+                                              '<td class="col-md-1" align="Center"><input type="button" id="verDetalle" data-id=' + data[i].IdProducto + ' class="btn btn-primary" value="Ver materiales" /></td>' +
                                             '</tr>');
                 }
             }
@@ -52,7 +52,7 @@ $("#btnProcesarEdit").on("click", function () {
 
 })
 $(document).ready(function () {
-$("#formOrden").on("click", "#eliminarProducto", function () {
+    $("#formOrden").on("click", "#verDetalle", function () {
     var id = $(this).attr("data-id");
     $.ajax({
         cache: false,
@@ -62,15 +62,16 @@ $("#formOrden").on("click", "#eliminarProducto", function () {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            $("#ListaMateriales").empty();
-            $("#ListaMateriales").append('<tr class="active"><th>Producto</th><th>Cotización</th><th>Material</th></tr>');
+            if (data.length == 0) {
+                $("#ListaMateriales").empty();
+                $("#ListaMateriales").append('Este producto no cuenta con detalle de materiales.');
+            } else {
+                $("#ListaMateriales").empty();
+                $("#ListaMateriales").append('Lista de Materiales<br\>');
 
-            for (var i = 0; i < data.length; i++) {
-                $('#ListaMateriales').append('<tr class="warning">' +
-                                      '<td>' + data[i].IdMaterial + '</td>' +
-                                      '<td>' + data[i].Nombre + '</td>' +
-                                      '<td>' + data[i].Costo + '</td>' +
-                                      '</tr>');
+                for (var i = 0; i < data.length; i++) {
+                    $('#ListaMateriales').append("*" + data[i].Nombre + "<br\>");
+                }
             }
         },
         error: function (result) {

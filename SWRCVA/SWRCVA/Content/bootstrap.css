@@ -6797,4 +6797,19 @@ button.close {
     display: none !important;
   }
 }
+.text-displayFor {
+font-size: 15px;
+font-style:italic;
+font-family:'Comic Sans MS';
+font-weight:bold;
+}
+.div-material {
+border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 0px solid #6b70bd;
+padding: 5px 5px 5px 5px;
+font-size: 16px;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

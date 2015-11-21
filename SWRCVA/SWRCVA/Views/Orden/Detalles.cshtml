@@ -12,7 +12,7 @@
         <h2>Orden</h2>
     </div>
     <br />
-    <div class="text-right">
+    <div class="col-md-10" align="right">
         <button type="button" id="btnProcesarEdit" onclick="" class="btn btn-success"><h4>Terminar Orden</h4></button>
     </div>
 </div>
@@ -22,45 +22,56 @@
 
         <div class="form-horizontal" id="formOrden">
             <hr />
-            <div class="row">
-                <div class="col-md-2">
+            <div class="col-md-12">
+                <div class="col-md-3">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha)
+                            <span class="text-displayFor">
+                                <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha, new { @class = "text-displayFor" })
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-1">
                     <div class="form-group">
                         <div class="col-md-12">
-                                <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion)
+                            <span class="text-displayFor">
+                                <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion, new { @class = "text-displayFor" })
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <b>Cliente:</b> <br />@Html.DisplayFor(modelItem => Model.Cliente.Nombre)
+                            <span class="text-displayFor">
+                                <b>Cliente:</b> <br />@Html.DisplayFor(modelItem => Model.Cliente.Nombre)
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-1">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <b>Estado:</b> <br />@if (Model.Estado == "P")
-                            {@( "Procesada")}
+                            <span class="text-displayFor">
+                                <b>Estado:</b> <br />@if (Model.Estado == "P")
+                                {@( "Procesada")}
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <b>Comentario:</b> <br />@Html.DisplayFor(modelItem => Model.Comentario)</div>
+                            <span class="text-displayFor">
+                                <b>Comentario:</b> <br />@Html.DisplayFor(modelItem => Model.Comentario, new { @class = "text-displayFor" })
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
             <hr />
-            <div class="row">
+            <div  class="col-md-12">
                 <div class="col-md-7">
                     <div class="row">
                         <div class="form-group">
@@ -79,7 +90,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <table class="table" id="ListaMateriales"></table>
+                                    <div align="left" class="div-material" id="ListaMateriales"></div>
                                 </div>
                             </div>
                         </div>
