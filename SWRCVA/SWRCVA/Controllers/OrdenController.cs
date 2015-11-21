@@ -15,6 +15,8 @@ namespace SWRCVA.Controllers
         private DataContext db = new DataContext();
         List<Producto> ListaProductosOrden = new List<Producto>();
         List<ProductoCotizacion> ListaProductoCotizacionOrden = new List<ProductoCotizacion>();
+        List<MaterialCotizacion> ListaMaterialesOrden = new List<MaterialCotizacion>();
+        List<Material> ListaDetalleMateriales = new List<Material>();
 
         // GET: Orden
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -114,13 +116,12 @@ namespace SWRCVA.Controllers
 
             TempData["ListaProductosOrden"] = ListaProductosOrden;
 
-            return Json(ListaProductosOrden,
-         JsonRequestBehavior.AllowGet);
+            return Json(ListaProductosOrden,JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ProcesarOrden()
         {
-            var respuesta = "Cotizacion Procesada!";
+            var respuesta = "Orden Terminada!";
 
             if (Session["IdCotizacion"] != null)
             {
@@ -131,7 +132,40 @@ namespace SWRCVA.Controllers
             }
 
             return Json(respuesta, JsonRequestBehavior.AllowGet);
+        }
 
+        public JsonResult ConsultarMateriales(int idProducto)
+        {
+            int idCotizacion = int.Parse(Session["IdCotizacion"].ToString());
+
+                var ListaMateriales = from s in db.MaterialCotizacion
+                                           where (s.IdProducto == idProducto && s.IdCotizacion == idCotizacion)
+                                           select s;         
+
+            foreach(var item in ListaMateriales)
+            {
+                MaterialCotizacion materialCotizacion = new MaterialCotizacion();
+                materialCotizacion.IdMaterial = item.IdMaterial;
+
+                var Materiales = from s in db.Material
+                                      where (s.IdMaterial == item.IdMaterial)
+                                      select s;
+
+                foreach (var material in Materiales)
+                {
+                    Material detalleMaterial = new Material();
+                    detalleMaterial.IdMaterial = material.IdMaterial;
+                    detalleMaterial.Nombre = material.Nombre;
+                    detalleMaterial.IdCatMat = material.IdCatMat;
+                    detalleMaterial.IdSubCatMat = material.IdSubCatMat;
+                    detalleMaterial.IdTipoMaterial = material.IdTipoMaterial;
+                    detalleMaterial.IdProveedor = material.IdProveedor;
+                    detalleMaterial.Costo = material.Costo;
+                    ListaDetalleMateriales.Add(detalleMaterial);
+                }
+            }
+
+            return Json(ListaDetalleMateriales, JsonRequestBehavior.AllowGet);
         }
     }
 }

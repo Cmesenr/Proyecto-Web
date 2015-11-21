@@ -16,7 +16,7 @@
         <button type="button" id="btnProcesarEdit" onclick="" class="btn btn-success"><h4>Terminar Orden</h4></button>
     </div>
 </div>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Index", "Orden", FormMethod.Get))
     {
         @Html.AntiForgeryToken()
 
@@ -26,16 +26,14 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha)                            
+                            <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha)
                         </div>
                     </div>
                 </div>
                 <div class="col-md-1">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <span class="txt">
-                                <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion, new { id = "IdCotizacion" })
-                            </span>
+                                <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion)
                         </div>
                     </div>
                 </div>
@@ -63,75 +61,34 @@
             </div>
             <hr />
             <div class="row">
-                    <div class="col-md-7">
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <table class="table" id="ListaProductos"></table>
+                            </div>
+                        </div>
+                        <div>
+                            <button onclick="location.href='@Url.Action("Index")'" class="btn btn-primary"><h4>Regresar a la Lista</h4></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5" align="right">
+                    <div class="col-md-10" align="right">
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <table class="table" id="ListaProductos"></table>
+                                    <table class="table" id="ListaMateriales"></table>
                                 </div>
                             </div>
                         </div>
-                    </div>
-            <div class="col-md-5">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                HOLA
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                HOLA
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                HOLA
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                HOLA
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3" align="right">
-                        <div class="form-group">
-                            HOLA
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12" align="right">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                HOLA
-                            </div>
-                        </div>
-                    </div>
+                     </div>
                 </div>
             </div>
-           </div>
            <hr />
         </div>
     }
-<div>
-    @Html.ActionLink("Regresar a la Lista", "Index")
-</div>
 @section Scripts {
        @Scripts.Render("~/bundles/FuncionesOrden")
         <script type="text/javascript">

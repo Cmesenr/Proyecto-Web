@@ -22,7 +22,7 @@
                                               '<td class="col-md-1" align="Center">' + data[i].Cantidad + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Ancho + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Alto + '</td>' +
-                                              '<td class="col-md-1" align="Center"><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
+                                              '<td class="col-md-1" align="Center"><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="Ver materiales" /></td>' +
                                             '</tr>');
                 }
             }
@@ -42,7 +42,7 @@ $("#btnProcesarEdit").on("click", function () {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            if (data == "Cotizacion Procesada!") {
+            if (data == "Orden Terminada!") {
                 $("#TextModalinfo").html(data);
                 $("#HeaderModalInfo").html("Procesado");
                 $('#ModalMensaje').modal("show");
@@ -50,4 +50,32 @@ $("#btnProcesarEdit").on("click", function () {
         }
     })
 
+})
+$(document).ready(function () {
+$("#formOrden").on("click", "#eliminarProducto", function () {
+    var id = $(this).attr("data-id");
+    $.ajax({
+        cache: false,
+        url: "/Orden/ConsultarMateriales",
+        type: "get",
+        data: { idProducto : id },
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $("#ListaMateriales").empty();
+            $("#ListaMateriales").append('<tr class="active"><th>Producto</th><th>Cotización</th><th>Material</th></tr>');
+
+            for (var i = 0; i < data.length; i++) {
+                $('#ListaMateriales').append('<tr class="warning">' +
+                                      '<td>' + data[i].IdMaterial + '</td>' +
+                                      '<td>' + data[i].Nombre + '</td>' +
+                                      '<td>' + data[i].Costo + '</td>' +
+                                      '</tr>');
+            }
+        },
+        error: function (result) {
+            alert('ERROR ' + result.status + ' ' + result.statusText);
+        }
+     })
+   })
 })
