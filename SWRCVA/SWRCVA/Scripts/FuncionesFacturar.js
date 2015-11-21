@@ -31,12 +31,22 @@
 })
 
 $(document).ready(function () {
+
     $.extend(true, $.fn.dataTable.defaults, {
         "lengthMenu": [[5,10,15,-1], [5,10,15, "All"]],
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
         }
-    } );
+    });
+    $('#ListaProductos').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "searching": false,
+        "scrollY": '200px',
+        "scrollX": false,
+        "scrollCollapse": false
+    });
    
     //Listar Clientes
     $("#txtClienteModal").on("keypress", function () {
@@ -184,7 +194,7 @@ $(document).ready(function () {
                         for (var i = 0; i < data.length; i++) {
                             $('#ListaProductos').append('<tr class="trTableFact warning">' +
                                                   '<td>' + data[i].Nombre + '</td>' +
-                                                   '<td>' + data[i].CantProducto + '</td>' +
+                                                   '<td>' + data[i].CantMat + '</td>' +
                                                   '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                                   '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                                 '</tr>');
@@ -219,7 +229,7 @@ $(document).ready(function () {
                 for (var i = 0; i < data.length; i++) {
                     $('#ListaProductos').append('<tr class="trTableFact warning">' +
                                           '<td>' + data[i].Nombre + '</td>' +
-                                           '<td>' + data[i].CantProducto + '</td>' +
+                                           '<td>' + data[i].CantMat + '</td>' +
                                           '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                           '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                         '</tr>');
@@ -269,21 +279,13 @@ function CargarListaProductos() {
                         for (var i = 0; i < data.length; i++) {
                                 $('#ListaProductos').append('<tr class="trTableFact warning">' +
                                                       '<td>' + data[i].Nombre + '</td>' +
-                                                       '<td>' + data[i].CantProducto + '</td>' +
+                                                       '<td>' + data[i].CantMat + '</td>' +
                                                       '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                                       '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                                     '</tr>');
                         }
                         $("#ListaProductos").append('</tbody>');
-                        $('#ListaProductos').DataTable({
-                            "paging": false,
-                            "ordering": false,
-                            "info": false,
-                            "searching":false,
-                            "scrollY": '200px',
-                            "scrollX": false,
-                            "scrollCollapse": false
-                        });
+
                         CalcularTotal();
                     }
 

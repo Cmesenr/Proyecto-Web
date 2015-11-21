@@ -13,7 +13,7 @@ body {
     padding-left: 15px;
     padding-right: 15px;
     min-height: 600px;
-    background-image: url('Imagenes/ravenna.png');
+    background-image: url('Imagenes/rockywall.png');
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -148,11 +148,11 @@ border-radius: 0 0 5px 0;
 }
 .MarcoFactura {
     width: 100%;
-    background-image: url('Imagenes/mochaGrunge.png');
+    background-image: url('Imagenes/footer_lodyas.png');
     border-radius: 9px 9px 9px 9px;
     -moz-border-radius: 9px 9px 9px 9px;
     -webkit-border-radius: 9px 9px 9px 9px;
-    border: 2px solid #000000;
+    border: 2px solid #808080;
 }
 .SubMarcoFactura{
    width:90%; 

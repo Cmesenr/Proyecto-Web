@@ -276,6 +276,7 @@
     <Content Include="Content\Imagenes\nice_snow.png" />
     <Content Include="Content\Imagenes\old_wall.png" />
     <Content Include="Content\Imagenes\ravenna.png" />
+    <Content Include="Content\Imagenes\rockywall.png" />
     <Content Include="Content\Imagenes\small_steps.png" />
     <Content Include="Content\Imagenes\tweed.png" />
     <Content Include="Content\Imagenes\white_brick_wall.png" />
