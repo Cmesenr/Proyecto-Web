@@ -16,8 +16,9 @@ namespace SWRCVA.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int IdFactura { get; set; }
+        public long IdFactura { get; set; }
+
+        public int IdCotizacion { get; set; }
 
         public DateTime FechaHora { get; set; }
 
@@ -34,6 +35,8 @@ namespace SWRCVA.Models
         public int Estado { get; set; }
 
         public virtual Cliente Cliente { get; set; }
+
+        public virtual Cotizacion Cotizacion { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleFactura> DetalleFactura { get; set; }

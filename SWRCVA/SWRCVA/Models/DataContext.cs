@@ -23,6 +23,7 @@ namespace SWRCVA.Models
         public virtual DbSet<ListaMatProducto> ListaMatProducto { get; set; }
         public virtual DbSet<Material> Material { get; set; }
         public virtual DbSet<MaterialCotizacion> MaterialCotizacion { get; set; }
+        public virtual DbSet<MaterialEsperado> MaterialEsperado { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoCotizacion> ProductoCotizacion { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
@@ -116,6 +117,10 @@ namespace SWRCVA.Models
             modelBuilder.Entity<Cotizacion>()
                 .Property(e => e.MontoParcial)
                 .HasPrecision(12, 2);
+            modelBuilder.Entity<Cotizacion>()
+            .HasMany(e => e.Factura)
+            .WithRequired(e => e.Cotizacion)
+            .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Cotizacion>()
                       .HasMany(e => e.MaterialCotizacion)
@@ -126,10 +131,6 @@ namespace SWRCVA.Models
                 .HasMany(e => e.ProductoCotizacion)
                 .WithRequired(e => e.Cotizacion)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<DetalleFactura>()
-                .Property(e => e.Usuario)
-                .IsUnicode(false);
 
             modelBuilder.Entity<DetalleFactura>()
                 .Property(e => e.MontoParcial)

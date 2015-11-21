@@ -146,3 +146,17 @@ border-radius: 0 0 5px 0;
 .trTableFact{
     height:10px;
 }
+.MarcoFactura{
+    width:100%;
+   background-image:url(../Content/Imagenes/footer_lodyas.png);
+   border-radius: 9px 9px 9px 9px;
+-moz-border-radius: 9px 9px 9px 9px;
+-webkit-border-radius: 9px 9px 9px 9px;
+border: 2px solid #000000;
+}
+.SubMarcoFactura{
+    width:90%; 
+    position:static;
+   padding-left:10px;
+   padding-right:10px;
+}

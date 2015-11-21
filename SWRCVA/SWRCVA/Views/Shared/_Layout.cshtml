@@ -5,7 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Vidrios Don Antonio</title>
-    @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/css")
+        <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
    
    
@@ -93,6 +94,8 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jquery-iu")
+    @Scripts.Render("~/bundles/dataTables")
+    @Scripts.Render("~/bundles/dataTablesBoot")
     @Scripts.Render("~/bundles/bootstrap")  
     @Scripts.Render("~/bundles/jqBootstrapValidation")
     @RenderSection("scripts", required: false)

@@ -64,44 +64,35 @@ namespace SWRCVA.Controllers
         // GET: Factura/Create
         public ActionResult Facturar(int? id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                Cotizacion cotizacion = db.Cotizacion.Find(id);
+                if (cotizacion == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewData["Cliente"] = cotizacion.Cliente.Nombre;
+                var ListaProdu = (from s in db.ProductoCotizacion
+                                  where s.IdCotizacion == id
+                                  select s).ToList();
+                List<ProductoCotizacion> ListaP = new List<ProductoCotizacion>();
+                foreach (var item in ListaProdu)
+                {
+                    ProductoCotizacion p = new ProductoCotizacion();
+                    p.IdProducto = item.IdProducto;
+                    p.Nombre = item.Producto.Nombre;
+                    p.CantProducto = item.CantProducto;
+                    p.Subtotal = item.Subtotal;
+                    ListaP.Add(p);
+                }
 
-            Cotizacion cotizacion = db.Cotizacion.Find(id);
-            if (cotizacion == null)
-            {
-                return HttpNotFound();
-            }
 
-            var ListaProdu = (from s in db.ProductoCotizacion
-                              where s.IdCotizacion == id
-                              select s).ToList();
-            List<ProductoCotizacion> ListaP = new List<ProductoCotizacion>();
-            foreach (var item in ListaProdu)
-            {
-                ProductoCotizacion p = new ProductoCotizacion();
-                p.IdProducto = item.IdProducto;
-                p.Nombre = item.Producto.Nombre;
-                p.CantProducto = item.CantProducto;
-                p.IdColorPaleta = item.IdColorPaleta;
-                p.AnchoCelocia = item.AnchoCelocia;
-                p.IdColorVidrio = item.IdColorVidrio;
-                p.IdColorAluminio = item.IdColorAluminio;
-                p.Instalacion = item.Instalacion;
-                p.Ancho = item.Ancho;
-                p.Alto = item.Alto;
-                p.Subtotal = item.Subtotal;
-                ListaP.Add(p);
+                foreach (var itemProduct in ListaP)
+                {
+                    ListaProductos.Add(itemProduct);
+                }
+                TempData["ListaProductosFact"] = ListaProductos;
             }
- 
-
-            foreach (var itemProduct in ListaP)
-            {
-                ListaProductos.Add(itemProduct);
-            }
-            TempData["ListaProductosFact"] = ListaProductos;
             return View();
         }
 
@@ -184,6 +175,77 @@ namespace SWRCVA.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public JsonResult AgregarProducto(int Idpro, int Cant,int cat,decimal costo, decimal? Extra)
+        {
+            var resultado = "Error al intentar agregar el producto";
+            if (TempData["ListaProductosFact"] != null)
+            {
+                ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
+
+            }
+            try
+            {
+                
+                decimal IV = 1 + db.Valor.Find(2).Porcentaje;
+                Material ListMat = db.Material.Find(Idpro);
+                ProductoCotizacion Produ = new ProductoCotizacion();
+                Produ.IdProducto = Idpro;
+                Produ.Nombre = ListMat.Nombre;
+                Produ.CantProducto = Cant;
+                Produ.Subtotal =Cant*((costo * IV) * 1.5m);
+                if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
+                else
+                {
+                    foreach (ProductoCotizacion listProduct in ListaProductos)
+                    {
+                        if (listProduct.IdProducto == Idpro)
+                        {
+                            TempData["ListaProductosFact"] = ListaProductos;
+                            resultado = "No se puede duplicar el El producto!";
+                            return Json(resultado,
+                            JsonRequestBehavior.AllowGet);
+                        }
+
+                    }
+                    ListaProductos.Add(Produ);
+                }
+            }
+            catch(Exception e)
+            {
+                return Json(resultado,
+              JsonRequestBehavior.AllowGet);
+            }
+            TempData["ListaProductosFact"] = ListaProductos;
+            return Json(ListaProductos.ToList(),
+                JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult EliminarProducto(int id)
+        {
+            if (TempData["ListaProductosFact"] != null)
+            {
+                ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
+            }
+            try
+            {
+                foreach (ProductoCotizacion listProduct in ListaProductos)
+                {
+                    if (listProduct.IdProducto == id)
+                    {
+                        ListaProductos.Remove(listProduct);
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError("", "No se pudo borrar la linea, y si el problema persiste contacte el administrador del sistema.");
+            }
+            TempData["ListaProductosFact"] = ListaProductos;
+            return Json(ListaProductos.ToList(),
+                JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult ConsultarClientes(string filtro)
         {
             var Clientes = (from s in db.Cliente
@@ -224,6 +286,48 @@ namespace SWRCVA.Controllers
             var Cliente = new { IdCliente = C1.IdCliente, Nombre = Nombre };
             return Json(Cliente,
               JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ConsultarMateriales()
+        {
+            var Aluminios = (from s in db.Material
+                             join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
+                             where s.IdCatMat == 2 
+                             select new
+                             {
+                                 Id = s.IdMaterial,
+                                 Nombre = s.Nombre,
+                                 Categoria = s.CategoriaMat.Nombre,
+                                 Color = c.ColorMat.Nombre,
+                                 Costo = c.Costo
+                             }).ToList();
+
+            var Vidrio = (from s in db.Material
+                          join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
+                          where s.IdCatMat == 3
+                          select new
+                          {
+                             Id= s.IdMaterial,
+                             Nombre= s.Nombre,
+                              Categoria = s.CategoriaMat.Nombre,
+                              Color = c.ColorMat.Nombre,
+                              Costo=c.Costo
+                          }).ToList();
+            var Acesorios = (from s in db.Material
+                             where s.IdCatMat == 1
+                             select new
+                             {
+                                 Id = s.IdMaterial,
+                                 Nombre = s.Nombre,
+                                 Categoria = s.CategoriaMat.Nombre,
+                                 Color = "n/a",
+                                 Costo = s.Costo
+                             }).ToList();
+
+            var materiales = Aluminios;
+            materiales.AddRange(Vidrio);
+            materiales.AddRange(Acesorios);
+            return Json(materiales,
+             JsonRequestBehavior.AllowGet);
         }
         public JsonResult CalcularTotal()
         {

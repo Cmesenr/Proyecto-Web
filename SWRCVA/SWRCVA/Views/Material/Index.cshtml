@@ -30,6 +30,9 @@
 <table class="table table-bordered table-hover">
     <tr class="active">
         <th>
+            ID
+        </th>
+        <th>
             @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
@@ -50,6 +53,9 @@
     @foreach (var item in Model)
     {
         <tr class="warning">
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMaterial)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>

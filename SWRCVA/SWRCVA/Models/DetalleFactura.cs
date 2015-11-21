@@ -9,21 +9,22 @@ namespace SWRCVA.Models
     [Table("DetalleFactura")]
     public partial class DetalleFactura
     {
-        public int IdProducto { get; set; }
+        [Key]
+        [Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public long IdFactura { get; set; }
 
         [Key]
+        [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int IdFactura { get; set; }
-
-        [Required]
-        [StringLength(15)]
-        public string Usuario { get; set; }
+        public int IdProducto { get; set; }
 
         public decimal MontoParcial { get; set; }
 
-        public int IdCotizacion { get; set; }
-
         public virtual Factura Factura { get; set; }
+
+        public virtual Material Material { get; set; }
+
         public virtual Producto Producto { get; set; }
     }
 }
