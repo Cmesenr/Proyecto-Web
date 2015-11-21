@@ -143,10 +143,24 @@
                         </div>
                         <div class="row">
 
-                            <div class="col-md-4" align="left">
+                            <div class="col-md-3" align="left">
                                 <div class="form-group">
                                     <div class="col-md-12">
                                         <input type="text" class="form-control" placeholder="Codigo de Material" id="txtProducto" required="required" title="Producto requerido!" maxlength="100" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" align="left">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" onkeypress='return acceptNum(event);' placeholder="Cantidad" id="txtCantidad" required="required" title="Cantidad Requerida"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" align="left">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" onkeypress='return acceptonlyNum(event);' placeholder="% Extra" id="txtExtra" required="required" title="Cantidad Requerida" />
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +171,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-7" align="left">
+                            <div class="col-md-4" align="left">
                             <div class="form-group">
                                 <div class="col-md-12">
                                    
@@ -166,12 +180,14 @@
                         </div>
                         </div>
                         <hr />
-                        <div class="row" style="height:200px">
-                            <div class="form-group">
-                                <div class="col-md-12" align="center">
-                                    <table style="" class="table table-hover"  id="ListaProductos">
-                                        <thead><tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr></thead>
-                                                                           </table>
+                        <div class="row" style="height:300px">
+                            <div class="MarcoDetalle">
+                                <div class="form-group">
+                                    <div class="col-md-12" align="center">
+                                        <table style="" class="table table-bordered table-hover" id="ListaProductos">
+                                            <thead><tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr></thead>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +195,7 @@
                             <div class=" form-group">
                                 <div class="col-md-8" align="left">
                                     <div>
-                                        <table><tr><td><h2><span class="text-muted">Total:</span>&nbsp;&nbsp;</h2></td><td><h1><span class="label label-warning" id="txtTotal">0.00</span></h1></td></tr></table>
+                                        <table><tr><td><h2><span class="text-nowrap">Total:</span>&nbsp;&nbsp;</h2></td><td><h1><span class="label label-warning" id="txtTotal">0.00</span></h1></td></tr></table>
                                     </div>
                                 </div>
 

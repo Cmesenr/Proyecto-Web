@@ -15,8 +15,8 @@
                                       '<td>' + data[i].Nombre + '</td>' +
                                       '<td>' + data[i].Categoria + '</td>' +
                                       '<td>' + data[i].Color + '</td>' +
-                                      '<td>' + data[i].Costo + '</td>' +
-                                      '<td> <button type="button" id="SeleccionarMaterial" class="btn btn-default btn-sm" data-nombre="' + data[i].Nombre + '"  data-myvalue="' + data[i].IdCliente + '"><span class="glyphicon glyphicon-ok" /></button></td>' +
+                                      '<td>' + data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                      '<td> <button type="button" id="SeleccionarMaterial" class="btn btn-default btn-sm" data-costo="' + data[i].Costo + '"  data-myvalue="' + data[i].Id + '"><span class="glyphicon glyphicon-ok" /></button></td>' +
                                     '</tr>');
 
             }
@@ -70,14 +70,21 @@ $(document).ready(function () {
 
         })
     })
+    //Abrir modal  Material
     $("#txtProducto").on("click", function () {
         $("#ModalMateriales").modal("show");
+    })
+    //Selecionar El Material
+    $("#headerPrincipal").on("click", "#SeleccionarMaterial", function (e) {
+        $("#txtProducto").val($(this).data("myvalue"));
+        $("#txtProducto").data("costo", $(this).data("costo"));
+        $("#ModalMateriales").modal("hide");
     })
     //Selecionar El CLiente
     $("#headerPrincipal").on("click", "#SeleccionarCliente", function (e) {
         $("#txtClienteFinal").val($(this).data("nombre"));
         $("#txtClienteFinal").data("cliente", $(this).data("myvalue"));
-        $("#    ").modal("hide");
+        $("#ModalCliente").modal("hide");
     })
     //Mostrar el modal CLiente
     $("#txtClienteFinal").on("click", function () {
@@ -144,51 +151,10 @@ $(document).ready(function () {
         $("#txtClienteModal").val("");
     });
     //Agregar Producto 
-    $("#formCotizar").on("click", "#btnAgregar", function () {
-        $('#ListaProductos').html('<center><img src="/Content/Imagenes/loadinfo1.gif"/></center>');
-        if ($('#DropDownTipoProductos')[0].checkValidity() == false) {
-            $("#DropDownTipoProductos").tooltip();
-            $("#DropDownTipoProductos").focus();
-            return false;
-        }
-        else if ($('#DropDownProductos')[0].checkValidity() == false) {
-            $("#DropDownProductos").tooltip();
-            $("#DropDownProductos").focus();
-            return false;
-        } else if ($('#DropDownCVidrio')[0].checkValidity() == false) {
-            $("#DropDownCVidrio").tooltip();
-            $("#DropDownCVidrio").focus();
-            return false;
-        } else if ($('#DropDownCAluminio')[0].checkValidity() == false) {
-            $("#DropDownCAluminio").tooltip();
-            $("#DropDownCAluminio").focus();
-            return false;
-        } else if ($('#DropDownInstalacion')[0].checkValidity() == false) {
-            $("#DropDownInstalacion").tooltip();
-            $("#DropDownInstalacion").focus();
-            return false;
-        }
-        else if ($('#DropDownVidrio')[0].checkValidity() == false) {
-            $("#DropDownVidrio").tooltip();
-            $("#DropDownVidrio").focus();
-            return false;
-        }
-        else if ($('#txtCelocia')[0].checkValidity() == false) {
-            $("#txtCelocia").tooltip();
-            $("#txtCelocia").focus();
-            return false;
-        } else if ($('#DropDownPaletas')[0].checkValidity() == false) {
-            $("#DropDownPaletas").tooltip();
-            $("#DropDownPaletas").focus();
-            return false;
-        }
-        else if ($('#txtAncho')[0].checkValidity() == false) {
-            $("#txtAncho").tooltip();
-            $("#txtAncho").focus();
-            return false;
-        } else if ($('#txtAlto')[0].checkValidity() == false) {
-            $("#txtAlto").tooltip();
-            $("#txtAlto").focus();
+    $("#formFacturar").on("click", "#btnAgregarMat", function () {
+        if ($('#txtProducto')[0].checkValidity() == false) {
+            $("#txtProducto").tooltip();
+            $("#txtProducto").focus();
             return false;
         }
         else if ($('#txtCantidad')[0].checkValidity() == false) {
@@ -197,10 +163,10 @@ $(document).ready(function () {
             return false;
         }
 
-        var paraProd = { Idpro: $('#DropDownProductos').val(), Cvidrio: $("#DropDownCVidrio").val(), anchoCelocia: $('#txtCelocia').val(), CAluminio: $('#DropDownCAluminio').val(), Insta: $('#DropDownInstalacion').val(), Cant: $('#txtCantidad').val(), Ancho: $('#txtAncho').val(), Alto: $('#txtAlto').val(), vidrio: $('#DropDownVidrio').val(), ColorPaleta: $('input[name=ColoresPaleta]:checked').val(), IdPaleta: $("#DropDownPaletas").val() };
+        var paraProd = { Idpro: $('#txtProducto').val(), Cant: $("#txtCantidad").val(), costo: $('#txtProducto').data("costo"), extra: $('#txtExtra').val() };
         $.ajax({
             cache: false,
-            url: "/Cotizacion/AgregarProducto",
+            url: "/Factura/AgregarProducto",
             type: "get",
             data: paraProd,
             dataType: "json",
@@ -213,22 +179,8 @@ $(document).ready(function () {
                     $('#ModalError').modal("show");
                 }
                 else {
-                    if (data[0].IdProducto == null) {
-                        var Resultado = "<center>El o los materiales siguienetes no poseen el color selecionado:</center> <ul>";
-                        for (var i = 0; i < data.length; i++) {
-                            Resultado += "<li>" + data[i] + "</li>";
-                        }
-                        Resultado += "</ul>";
-                        $("#TextModal").html(Resultado);
-                        $('#ModalError').modal("show");
-                    }
-                    else {
-
-                        $("#ListaProductos").empty();
-                        $("#ListaProductos").fadeIn(1000).html();
+                        $("#ListaProductos tbody").empty();
                         $("#ListaProductos").append('<tbody>');
-
-
                         for (var i = 0; i < data.length; i++) {
                             $('#ListaProductos').append('<tr class="trTableFact warning">' +
                                                   '<td>' + data[i].Nombre + '</td>' +
@@ -241,8 +193,7 @@ $(document).ready(function () {
                         CalcularTotal();
                     }
 
-                }
-            },
+                },
             error: function (result) {
                 alert('ERROR ' + result.status + ' ' + result.statusText);
             }
@@ -261,6 +212,7 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#ListaProductos tbody").empty();
+                $("#ListaProductos").fadeIn(1000).html();
                 $("#ListaProductos").append('<tbody>');
 
 
@@ -283,6 +235,7 @@ $(document).ready(function () {
     })
 })
 function CargarListaProductos() {
+    $('#ListaProductos tbody').html('<center><img src="/Content/Imagenes/loadinfo1.gif"/></center>');
     $.ajax({
         cache: false,
         url: "/Factura/ConsultarListaProductos",
@@ -308,6 +261,7 @@ function CargarListaProductos() {
                         $('#ModalError').modal("show");
                     }
                     else {
+                        $("#ListaProductos tbody").fadeIn(1000).html();
                         $("#ListaProductos tbody").empty();
                         $("#ListaProductos").append('<tbody>');
 
@@ -326,8 +280,9 @@ function CargarListaProductos() {
                             "ordering": false,
                             "info": false,
                             "searching":false,
-                            scrollY: '200px',
-                            scrollCollapse: true
+                            "scrollY": '200px',
+                            "scrollX": false,
+                            "scrollCollapse": false
                         });
                         CalcularTotal();
                     }
@@ -366,4 +321,15 @@ function RefrescarLista() {
         }
     });
 
+}
+var nav4 = window.Event ? true : false;
+function acceptNum(evt) {
+    // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
+    var key = nav4 ? evt.which : evt.keyCode;
+    return (key <= 13 || (key >= 48 && key <= 57) || key == 46);
+}
+function acceptonlyNum(evt) {
+    // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
+    var key = nav4 ? evt.which : evt.keyCode;
+    return (key <= 13 || (key >= 48 && key <= 57));
 }

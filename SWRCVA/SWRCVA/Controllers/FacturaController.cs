@@ -175,7 +175,7 @@ namespace SWRCVA.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public JsonResult AgregarProducto(int Idpro, int Cant,int cat,decimal costo, decimal? Extra)
+        public JsonResult AgregarProducto(int Idpro, int Cant,decimal costo, decimal? Extra)
         {
             var resultado = "Error al intentar agregar el producto";
             if (TempData["ListaProductosFact"] != null)
@@ -192,7 +192,16 @@ namespace SWRCVA.Controllers
                 Produ.IdProducto = Idpro;
                 Produ.Nombre = ListMat.Nombre;
                 Produ.CantProducto = Cant;
-                Produ.Subtotal =Cant*((costo * IV) * 1.5m);
+                if (Extra != null)
+                {
+                    Extra = (Extra / 100m)+1;
+                    Produ.Subtotal = (Cant * ((costo * IV) * 1.5m))*(decimal)Extra;
+                }
+                else
+                {
+                    Produ.Subtotal = Cant * ((costo * IV) * 1.5m);
+                }
+                
                 if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
                 else
                 {

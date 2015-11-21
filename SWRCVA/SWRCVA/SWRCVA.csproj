@@ -209,6 +209,7 @@
     <Content Include="Content\dataTables.bootstrap.min.css" />
     <Content Include="Content\Imagenes\brickwall.png" />
     <Content Include="Content\Imagenes\Cargando.gif" />
+    <Content Include="Content\Imagenes\fabric_plaid.png" />
     <Content Include="Content\Imagenes\footer_lodyas.png" />
     <Content Include="Content\Imagenes\fresh_snow.png" />
     <Content Include="Content\Imagenes\images\blank.gif" />
@@ -265,14 +266,19 @@
     <Content Include="Content\Imagenes\images\slides\_notes\dwsync.xml" />
     <Content Include="Content\Imagenes\images\_notes\dwsync.xml" />
     <Content Include="Content\Imagenes\incognita.jpg" />
+    <Content Include="Content\Imagenes\kindajean.png" />
     <Content Include="Content\Imagenes\loadinfo1.gif" />
     <Content Include="Content\Imagenes\loadinfo2.gif" />
     <Content Include="Content\Imagenes\loadinfo3.gif" />
     <Content Include="Content\Imagenes\loading.gif" />
     <Content Include="Content\Imagenes\logo2.png" />
+    <Content Include="Content\Imagenes\mochaGrunge.png" />
     <Content Include="Content\Imagenes\nice_snow.png" />
+    <Content Include="Content\Imagenes\old_wall.png" />
+    <Content Include="Content\Imagenes\ravenna.png" />
     <Content Include="Content\Imagenes\small_steps.png" />
     <Content Include="Content\Imagenes\tweed.png" />
+    <Content Include="Content\Imagenes\white_brick_wall.png" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\_notes\dwsync.xml" />

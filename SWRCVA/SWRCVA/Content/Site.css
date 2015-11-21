@@ -12,8 +12,8 @@ body {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    min-height: 720px;
-    background-image: url(../../Content/Imagenes/brickwall.png);
+    min-height: 600px;
+    background-image: url('Imagenes/ravenna.png');
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -146,17 +146,30 @@ border-radius: 0 0 5px 0;
 .trTableFact{
     height:10px;
 }
-.MarcoFactura{
-    width:100%;
-   background-image:url(../Content/Imagenes/footer_lodyas.png);
-   border-radius: 9px 9px 9px 9px;
--moz-border-radius: 9px 9px 9px 9px;
--webkit-border-radius: 9px 9px 9px 9px;
-border: 2px solid #000000;
+.MarcoFactura {
+    width: 100%;
+    background-image: url('Imagenes/mochaGrunge.png');
+    border-radius: 9px 9px 9px 9px;
+    -moz-border-radius: 9px 9px 9px 9px;
+    -webkit-border-radius: 9px 9px 9px 9px;
+    border: 2px solid #000000;
 }
 .SubMarcoFactura{
-    width:90%; 
+   width:90%; 
+   position:static;
+   padding-left:10px;
+   padding-right:10px;
+}
+.MarcoDetalle{
+    background-color:#ccc;
+    width:100%; 
+    height:100%;
     position:static;
    padding-left:10px;
    padding-right:10px;
+   padding-top:10px;
+      border-radius: 9px 9px 9px 9px;
+-moz-border-radius: 9px 9px 9px 9px;
+-webkit-border-radius: 9px 9px 9px 9px;
+border: 0px solid #000000;
 }
