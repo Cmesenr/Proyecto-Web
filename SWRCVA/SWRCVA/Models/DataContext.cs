@@ -136,6 +136,10 @@ namespace SWRCVA.Models
                 .Property(e => e.MontoParcial)
                 .HasPrecision(12, 2);
 
+            modelBuilder.Entity<DetalleFactura>()
+             .Property(e => e.Cantidad)
+             .HasPrecision(12, 2);
+
             modelBuilder.Entity<Factura>()
                 .Property(e => e.MontoTotal)
                 .HasPrecision(12, 2);

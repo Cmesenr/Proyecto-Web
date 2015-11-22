@@ -173,3 +173,14 @@ border-radius: 0 0 5px 0;
 -webkit-border-radius: 9px 9px 9px 9px;
 border: 0px solid #000000;
 }
+
+.btn-circle {
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  padding-left:12px;
+  padding-top:8px;
+  font-size: 40px;
+  line-height: 1.42;
+  border-radius: 35px;
+}

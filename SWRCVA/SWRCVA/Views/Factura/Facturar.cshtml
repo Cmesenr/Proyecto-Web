@@ -13,19 +13,27 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
             <div class="col-md-1">
-
+                <div>
+                    <button onclick="location.href='@Url.Action("Index","Factura")',RefrescarLista()" class="btn-circle btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                </div>
             </div>
             <div class="col-md-10">
                 <div class="MarcoFactura" align="center">
                     <div class="SubMarcoFactura">
                         <br />
                         <div class="row" id="headerPrincipal">
-                            <div class="col-md-3">
-             
+                            <div class="col-md-3 text-right">
+                                <strong><span class="" style="color:white; " id="lblPaleta" >Paleta</span></strong> &nbsp; &nbsp;<input name="Rtipo" type="checkbox" class="" id="CkPaleta" disabled="disabled"  />
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" placeholder="Ancho" id="txtAncho" required="required" title="Ancho requerido!" disabled="disabled"/>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" placeholder="Alto" id="txtAlto" required="required" title="Alto requerido!" disabled="disabled"/>
+                            </div>
+                            <div class="col-md-1">
                                 
-                            </div>
+                        </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="col-md-12" align="right">
@@ -212,9 +220,7 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <div>
-                    <button onclick="location.href='@Url.Action("Index","Factura")',RefrescarLista()" class="btn btn-primary"><h4>Regresar</h4></button>
-                </div>
+              
             </div>
             <div class="col-md-6" align="right">
               
@@ -263,6 +269,45 @@
             </div>
         </div>
 
+    </div>
+</div>
+<div class="modal fade" id="ModalFacturar" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Facturar</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal" align="center">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2><span class="text-muted">Detalle Factura</span></h2>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="text" id="txtMontoPagar" class="form-control" placeholder="Paga con..." />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="text" id="txtMontoPagar" class="form-control" placeholder="Paga con..." />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <table class="table" id="TableCliente"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Cerrar</button>
+            </div>
+        </div>
     </div>
 </div>
 
