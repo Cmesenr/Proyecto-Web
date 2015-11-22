@@ -190,6 +190,7 @@
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\ProductoCotizacion.cs" />
     <Compile Include="Models\Proveedor.cs" />
+    <Compile Include="Models\Reportes.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\SubCategoria.cs" />
     <Compile Include="Models\TipoMaterial.cs" />
@@ -198,6 +199,13 @@
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Valor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\ReporteCotizacion.aspx.cs">
+      <DependentUpon>ReporteCotizacion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteCotizacion.aspx.designer.cs">
+      <DependentUpon>ReporteCotizacion.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
@@ -287,6 +295,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Reportes\ReporteCotizacion.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -414,6 +423,9 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reportes\ReportCotizacion.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
