@@ -81,7 +81,7 @@ namespace SWRCVA.Controllers
                     ProductoCotizacion p = new ProductoCotizacion();
                     p.IdProducto = item.IdProducto;
                     p.Nombre = item.Producto.Nombre;
-                    p.CantProducto = item.CantProducto;
+                    p.CantMat = item.CantProducto;
                     p.Subtotal = item.Subtotal;
                     ListaP.Add(p);
                 }
@@ -175,31 +175,55 @@ namespace SWRCVA.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public JsonResult AgregarProducto(int Idpro, int Cant,decimal costo, decimal? Extra)
+        public JsonResult AgregarProducto(int Idpro, decimal Cant,decimal costo, decimal? Extra,decimal? Ancho, decimal? Alto)
         {
             var resultado = "Error al intentar agregar el producto";
             if (TempData["ListaProductosFact"] != null)
             {
                 ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
-
             }
             try
-            {
-                
+            {               
                 decimal IV = 1 + db.Valor.Find(2).Porcentaje;
                 Material ListMat = db.Material.Find(Idpro);
                 ProductoCotizacion Produ = new ProductoCotizacion();
                 Produ.IdProducto = Idpro;
                 Produ.Nombre = ListMat.Nombre;
-                Produ.CantProducto = Cant;
+                Produ.CantMat = Cant;
+                switch (ListMat.IdCatMat)
+                {
+                    case 1:
+                        {
+                            Produ.Subtotal =((costo * IV) * 1.5m);
+                            break;
+                        }
+                    case 2:
+                        {
+                            Produ.Subtotal = ((costo * IV) * 1.5m);
+                            break;
+                        }
+                    case 3:
+                        {
+                            if(ListMat.IdTipoMaterial== 55)
+                            {
+                                Produ.Subtotal = (decimal)Ancho *((costo * IV) * 1.5m);
+                            }
+                            else
+                            {
+                                Produ.Subtotal = ((decimal)Ancho * (decimal)Alto) * ((costo * IV) * 1.5m);
+                            }
+                            break;
+                        }
+                }
+
                 if (Extra != null)
                 {
                     Extra = (Extra / 100m)+1;
-                    Produ.Subtotal = (Cant * ((costo * IV) * 1.5m))*(decimal)Extra;
+                    Produ.Subtotal = (Produ.Subtotal * Cant) *(decimal)Extra;
                 }
                 else
                 {
-                    Produ.Subtotal = Cant * ((costo * IV) * 1.5m);
+                    Produ.Subtotal = Produ.Subtotal* Cant;
                 }
                 
                 if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
@@ -254,6 +278,52 @@ namespace SWRCVA.Controllers
             return Json(ListaProductos.ToList(),
                 JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult ProcesarFactura(int IdCliente, int IdCotizacion, decimal MontoPagar, decimal Montototal)
+        {
+            var respuesta = "Factura Registrada!";
+            try
+            {
+
+                if (TempData["ListaProductosFact"] != null)
+                {
+                    ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductos"];
+                    Factura Fact = new Factura();
+                    Fact.IdCliente = IdCliente;
+                    Fact.IdCotizacion = IdCotizacion;
+                    Fact.FechaHora = DateTime.Now;
+                    Fact.Usuario = Session["UsuarioActual"].ToString();
+                    Fact.Estado=1;
+                    Fact.MontoTotal = Montototal;
+                    Fact.MontoPagar = MontoPagar;
+                    db.Factura.Add(Fact);
+                    db.SaveChanges();
+
+                    foreach (var item in ListaProductos)
+                    {
+                        DetalleFactura D1 = new DetalleFactura();
+                        D1.IdFactura = Fact.IdFactura;
+                        D1.IdProducto = item.IdProducto;
+                        D1.MontoParcial = item.Subtotal;
+                        D1.Cantidad = item.CantMat;
+                        db.DetalleFactura.Add(D1);
+                    }
+                    db.SaveChanges();
+                    LimpiarListas();
+                }
+                else
+                {
+                    respuesta = "Debe Agregar Productos a la Cotizacion!";
+                }
+            }
+            catch (Exception e)
+            {
+                respuesta = "Un error inesperado a ocurrido, contacte al administrador del sistema\n\n" + e;
+                return Json(respuesta,
+          JsonRequestBehavior.AllowGet);
+            }
+            return Json(respuesta,
+         JsonRequestBehavior.AllowGet);
         }
         public JsonResult ConsultarClientes(string filtro)
         {

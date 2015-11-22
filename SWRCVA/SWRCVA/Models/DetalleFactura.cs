@@ -21,10 +21,14 @@ namespace SWRCVA.Models
 
         public decimal MontoParcial { get; set; }
 
+        public decimal Cantidad { get; set; }
+
         public virtual Factura Factura { get; set; }
 
         public virtual Material Material { get; set; }
 
         public virtual Producto Producto { get; set; }
+
+
     }
 }
