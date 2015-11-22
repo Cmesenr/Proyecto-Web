@@ -264,8 +264,18 @@ $(document).ready(function () {
 
     })
 })
+//Click a Terminar Factura
 $("#btnFacturar").on("click", function () {
-    $("#ModalFacturar").modal("show");
+    if ($('#txtClienteFinal')[0].checkValidity() == false) {
+        $("#txtClienteFinal").tooltip();
+        $("#txtClienteFinal").focus();
+        return false;
+    }
+    $("#lblClienteFact").html($("#txtClienteFinal").val());
+    $("#lblMontoTotal").html($("#txtTotal").html().substr());
+    
+    
+        $("#ModalFacturar").modal("show");
 })
 function CargarListaProductos() {
     $.ajax({
@@ -381,4 +391,22 @@ function acceptonlyNum(evt) {
     // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
     var key = nav4 ? evt.which : evt.keyCode;
     return (key <= 13 || (key >= 48 && key <= 57));
+}
+
+function CalcularCambio() {
+    var patron = ",";
+    var MontoP = 0;
+    var MontoTotal = $("#lblMontoTotal").html().substring(1);
+    MontoTotal = MontoTotal.replace(patron, '');
+    MontoTotal = parseFloat(MontoTotal);
+    MontoP = parseFloat($("#txtMontoPagar").val()).toFixed(2);
+    var Cambio=0;
+    if (MontoTotal < MontoP) {
+        Cambio = parseFloat(MontoP - MontoTotal).toFixed(2);
+        $("#lblMontoCambio").html("₡ "+Cambio);
+        $("#txtMontoPagar").attr("class", "form-control  alert-success");
+    } else {
+        $("#txtMontoPagar").attr("class", "form-control alert-danger");
+    }
+
 }

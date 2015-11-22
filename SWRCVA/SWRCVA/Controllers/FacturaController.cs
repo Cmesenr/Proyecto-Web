@@ -313,7 +313,7 @@ namespace SWRCVA.Controllers
                 }
                 else
                 {
-                    respuesta = "Debe Agregar Productos a la Cotizacion!";
+                    respuesta = "Debe Agregar Productos a la Factura!";
                 }
             }
             catch (Exception e)

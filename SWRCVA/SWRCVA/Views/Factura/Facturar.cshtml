@@ -281,31 +281,62 @@
             </div>
             <div class="modal-body">
                 <div class="form-horizontal" align="center">
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h2><span class="text-muted">Detalle Factura</span></h2>
-                            </div>
+                    <div class="row">
+            
+                        <div class="col-md-8">
+                            <h3><span class="text-muted">Detalle Factura</span></h3>
                         </div>
+                        <div class="text-nowrap col-md-4" style="float:right;padding-right:10px;">
+                            <script type="text/javascript">
+                                var date = new Date();
+                                var d = date.getDate();
+                                var day = (d < 10) ? '0' + d : d;
+                                var m = date.getMonth() + 1;
+                                var month = (m < 10) ? '0' + m : m;
+                                var yy = date.getYear();
+                                var year = (yy < 1000) ? yy + 1900 : yy;
+                                document.write(day + "/" + month + "/" + year);
+                            </script>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4><span id="lblClienteFact" class="text-muted"></span></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <h4><span class="text-muted">Monto:</span></h4>
+                            </div>
+                            <div class="col-md-7">
+                                <h4><span id="lblMontoTotal" class="text-danger"></span></h4>
 
-                        <div class="row">
-                            <div class="col-md-8">
-                                <input type="text" id="txtMontoPagar" class="form-control" placeholder="Paga con..." />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <input type="text" id="txtMontoPagar" class="form-control" placeholder="Paga con..." />
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <table class="table" id="TableCliente"></table>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4><span class="text-muted">Paga Con:</span></h4>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="number" id="txtMontoPagar" value="" class="form-control" onkeyup="return CalcularCambio();" placeholder="" />
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4><span class="text-muted">Su Cambio:</span></h4>
+                        </div>
+                        <div class="col-md-7">
+                            <h4><span id="lblMontoCambio" class="text-success"></span></h4>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn">Cerrar</button>
+                <button type="button" id="btnPagar" class="btn btn-lg btn-success">Pagar</button>
             </div>
         </div>
     </div>
