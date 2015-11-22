@@ -9,7 +9,6 @@ namespace SWRCVA.Models
     [Table("Producto")]
     public partial class Producto
     {
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Producto()
         {
@@ -48,6 +47,15 @@ namespace SWRCVA.Models
 
         [NotMapped]
         public decimal Ancho { get; set; }
+
+        [NotMapped]
+        public string ColorVidrio { get; set; }
+
+        [NotMapped]
+        public string ColorAluminio { get; set; }
+
+        [NotMapped]
+        public decimal? AnchoCelocia { get; set; }
 
         [NotMapped]
         public decimal Alto { get; set; }

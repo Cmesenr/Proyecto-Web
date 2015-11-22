@@ -13,15 +13,17 @@
             }
             else {
                     $("#ListaProductos").empty();
-                    $("#ListaProductos").append('<tr><th class="active" align="Center">Código</th><th class="active" align="left">Nombre</th><th class="active" align="Center">Cantidad</th><th class="active" align="Center">Ancho</th><th class="active" align="Center">Alto</th><th class="active"></th></tr>');
+                    $("#ListaProductos").append('<tr><th class="active" align="left">Nombre</th><th class="active" align="Center">Cantidad</th><th class="active" align="Center">Ancho</th><th class="active" align="Center">Alto</th><th class="active" align="Center">Color Vidrio</th><th class="active" align="Center">Color Aluminio</th><th class="active" align="Center">Ancho Celocia</th><th class="active"></th></tr>');
 
                     for (var i = 0; i < data.length; i++) {
                         $('#ListaProductos').append('<tr class="warning">' +
-                                              '<td class="col-md-1" align="Center">' + data[i].IdProducto + '</td>' +
-                                              '<td class="col-md-5" align="Left">' + data[i].Nombre + '</td>' +
+                                              '<td class="col-md-7" align="Left">' + data[i].Nombre + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Cantidad + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Ancho + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Alto + '</td>' +
+                                              '<td class="col-md-1" align="Center">' + data[i].ColorVidrio + '</td>' +
+                                              '<td class="col-md-1" align="Center">' + data[i].ColorAluminio + '</td>' +
+                                              '<td class="col-md-1" align="Center">' + data[i].AnchoCelocia + '</td>' +
                                               '<td class="col-md-1" align="Center"><input type="button" id="verDetalle" data-id=' + data[i].IdProducto + ' class="btn btn-primary" value="Ver materiales" /></td>' +
                                             '</tr>');
                 }
@@ -67,11 +69,15 @@ $(document).ready(function () {
                 $("#ListaMateriales").append('Este producto no cuenta con detalle de materiales.');
             } else {
                 $("#ListaMateriales").empty();
-                $("#ListaMateriales").append('Lista de Materiales<br\>');
+                $("#ListaMateriales").append('<b>Lista de Materiales</b><br\>');
 
+                $('#ListaMateriales').append("<table>");
+                $('#ListaMateriales').append("</br>");
+                $('#ListaMateriales').append("<tr><th>Material</th><th>Cantidad</th></tr>");
                 for (var i = 0; i < data.length; i++) {
-                    $('#ListaMateriales').append("*" + data[i].Nombre + "<br\>");
+                    $('#ListaMateriales').append("<tr><td align='left'>" + data[i].Nombre + "</td><td align='center'>" + data[i].CantMaterial + "</td></tr>");
                 }
+                $('#ListaMateriales').append("</table>");
             }
         },
         error: function (result) {

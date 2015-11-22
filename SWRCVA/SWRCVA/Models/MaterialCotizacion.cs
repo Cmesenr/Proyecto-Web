@@ -28,6 +28,10 @@
 
         public decimal Subtotal { get; set; }
 
+        [NotMapped]
+        public string Nombre { get; set; }
+
+
         public virtual Cotizacion Cotizacion { get; set; }
 
         public virtual Material Material { get; set; }

@@ -16,7 +16,6 @@ namespace SWRCVA.Controllers
         List<Producto> ListaProductosOrden = new List<Producto>();
         List<ProductoCotizacion> ListaProductoCotizacionOrden = new List<ProductoCotizacion>();
         List<MaterialCotizacion> ListaMaterialesOrden = new List<MaterialCotizacion>();
-        List<Material> ListaDetalleMateriales = new List<Material>();
 
         // GET: Orden
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -93,6 +92,16 @@ namespace SWRCVA.Controllers
                                 Produ.Cantidad = g.CantProducto;
                                 Produ.Alto = g.Alto;
                                 Produ.Ancho = g.Ancho;
+                                Produ.ColorVidrio = g.ColorMat.Nombre;
+                                Produ.ColorAluminio = g.ColorMat1.Nombre;
+                                if (g.AnchoCelocia == null)
+                                {
+                                    Produ.AnchoCelocia = 0;
+                                }
+                                else
+                                {
+                                    Produ.AnchoCelocia = g.AnchoCelocia;
+                                }
                             }
                         }
                     }
@@ -146,26 +155,13 @@ namespace SWRCVA.Controllers
             {
                 MaterialCotizacion materialCotizacion = new MaterialCotizacion();
                 materialCotizacion.IdMaterial = item.IdMaterial;
+                materialCotizacion.Nombre = item.Material.Nombre;
+                materialCotizacion.CantMaterial = item.CantMaterial;
 
-                var Materiales = from s in db.Material
-                                      where (s.IdMaterial == item.IdMaterial)
-                                      select s;
-
-                foreach (var material in Materiales)
-                {
-                    Material detalleMaterial = new Material();
-                    detalleMaterial.IdMaterial = material.IdMaterial;
-                    detalleMaterial.Nombre = material.Nombre;
-                    detalleMaterial.IdCatMat = material.IdCatMat;
-                    detalleMaterial.IdSubCatMat = material.IdSubCatMat;
-                    detalleMaterial.IdTipoMaterial = material.IdTipoMaterial;
-                    detalleMaterial.IdProveedor = material.IdProveedor;
-                    detalleMaterial.Costo = material.Costo;
-                    ListaDetalleMateriales.Add(detalleMaterial);
-                }
+                ListaMaterialesOrden.Add(materialCotizacion);
             }
 
-            return Json(ListaDetalleMateriales, JsonRequestBehavior.AllowGet);
+            return Json(ListaMaterialesOrden, JsonRequestBehavior.AllowGet);
         }
     }
 }
