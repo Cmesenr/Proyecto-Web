@@ -8,8 +8,21 @@
         @Styles.Render("~/Content/css")
         <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
-   
-   
+    <script>
+    function startTime() {
+    today = new Date();
+    h = today.getHours();
+    m = today.getMinutes();
+    s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('reloj').innerHTML = h + ":" + m + ":" + s;
+    t = setTimeout('startTime()', 500);
+    }
+    function checkTime(i)
+    { if (i < 10) { i = "0" + i; } return i; }
+    window.onload = function () { startTime(); }
+    </script>
 </head>
 <body>
   
@@ -78,18 +91,22 @@
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                 </ul>
+                
                 @Html.Partial("_LoginPartial")
+
             </div>
+           
         </div>
+        
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer >
-            <div class="label-primary text-right">
-
-                <p>&copy; @DateTime.Now.Year - SWRCVA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-               </div>
+            
+            <div class="label-primary col-md-12">             
+               <p class="col-md-1 text-right" style="font-size:15px;">Hora:</p><p class="col-md-9" id="reloj" style="font-size:15px;"></p><p class="col-md-2"> &copy; @DateTime.Now.Year - SWRCVA</p>
+            </div>
         </footer>
     </div>
 
