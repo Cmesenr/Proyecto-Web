@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-md-1">
                 <div>
-                    <button onclick="location.href='@Url.Action("Index","Factura")',RefrescarLista()" class="btn-circle btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                    <button type="button" onclick="location.href='@Url.Action("Index", "Factura")',RefrescarLista()" class="btn-circle btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></button>
                 </div>
             </div>
             <div class="col-md-10">
@@ -37,9 +37,9 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="col-md-12" align="right">
-                                        @if (ViewData["Cliente"] != null)
+                                        @if (ViewData["Cliente"] != null && ViewData["IdCliente"] != null)
                                         {
-                                            <input type="text" class="form-control" placeholder="Buscar Cliente" value="@ViewData["Cliente"].ToString()" id="txtClienteFinal" disabled="disabled" required="required" title="Cliente requerido!" maxlength="30" />
+                                            <input type="text" class="form-control" placeholder="Buscar Cliente" value="@ViewData["Cliente"].ToString()" data-cliente="@ViewData["IdCliente"].ToString()" id="txtClienteFinal" disabled="disabled" required="required" title="Cliente requerido!" maxlength="30" />
                                         }
                                         else
                                         {
@@ -175,14 +175,25 @@
                             <div class="col-md-1" align="left">
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <button type="button" id="btnAgregarMat" class="btn btn-default btn-sm" data-nombre="" data-myvalue=""><span class="glyphicon glyphicon-plus" /></button>
+                                        <button type="button" id="btnAgregarMat" class="btn-circlesm btn-success btn-sm" data-nombre="" data-myvalue=""><span class="glyphicon glyphicon-plus" /></button>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4" align="left">
                             <div class="form-group">
-                                <div class="col-md-12">
-                                   
+                                <div class="col-md-7 text-right">
+                                    <strong><span class="" style="color:white; font-size:18px; " id="lbCotizacion"># Cotizacion:</span></strong> 
+                                </div>
+                                <div class="col-md-5 text-right">
+                                    @if (ViewData["IdCotizacion"] != null)
+                                    {
+                                        <input type="text" class="form-control" id="txtCotizacion" value="@ViewData["IdCotizacion"].ToString()" disabled="disabled" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" class="form-control" id="txtCotizacion" value="" disabled="disabled" />
+                                    }
+                                
                                 </div>
                             </div>
                         </div>
@@ -208,7 +219,8 @@
                                 </div>
 
                                 <div class="col-md-4" align="right">
-                                    <button type="button" id="btnFacturar" onclick="" class="btn btn-success"><h4>Facturar</h4></button>
+                                    @*<button type="button" id="btnFacturar" onclick="" class="btn btn-success"><h4>Facturar</h4></button>*@
+                                    <button type="button" id="btnFacturar" value="" class="btn-circleSave btn-primary btn-lg" title="Facturar"><span class="glyphicon glyphicon-floppy-open"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -321,7 +333,7 @@
                             <h4><span class="text-muted">Paga Con:</span></h4>
                         </div>
                         <div class="col-md-7">
-                            <input type="number" id="txtMontoPagar" value="" class="form-control" onkeyup="return CalcularCambio();" placeholder="" />
+                            <input type="number" id="txtMontoPagar" value="" class="form-control" onkeypress='return acceptonlyNum(event);' onkeyup="return CalcularCambio();" placeholder="" required="required" title="Dijite el monto!"  />
                         </div>
                     </div>
                     <div class="row">

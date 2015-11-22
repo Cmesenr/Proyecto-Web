@@ -67,11 +67,15 @@ namespace SWRCVA.Controllers
             if (id != null)
             {
                 Cotizacion cotizacion = db.Cotizacion.Find(id);
+                if (cotizacion.Estado != "T") { cotizacion = null; }
+                
                 if (cotizacion == null)
                 {
                     return HttpNotFound();
                 }
                 ViewData["Cliente"] = cotizacion.Cliente.Nombre;
+                ViewData["IdCliente"] = cotizacion.Cliente.IdCliente;
+                ViewData["IdCotizacion"] = cotizacion.IdCotizacion;
                 var ListaProdu = (from s in db.ProductoCotizacion
                                   where s.IdCotizacion == id
                                   select s).ToList();
@@ -255,10 +259,8 @@ namespace SWRCVA.Controllers
         }
         public JsonResult EliminarProducto(int id)
         {
-            if (TempData["ListaProductosFact"] != null)
-            {
+
                 ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
-            }
             try
             {
                 foreach (ProductoCotizacion listProduct in ListaProductos)
@@ -279,18 +281,33 @@ namespace SWRCVA.Controllers
                 JsonRequestBehavior.AllowGet);
 
         }
-        public JsonResult ProcesarFactura(int IdCliente, int IdCotizacion, decimal MontoPagar, decimal Montototal)
+        public JsonResult ProcesarFactura(int IdCliente, int? IdCotizacion, decimal MontoPagar, decimal Montototal)
         {
             var respuesta = "Factura Registrada!";
             try
             {
-
                 if (TempData["ListaProductosFact"] != null)
                 {
-                    ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductos"];
+                    ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
+                }
+               
+                if (ListaProductos.Count()>0)
+                {                   
                     Factura Fact = new Factura();
                     Fact.IdCliente = IdCliente;
-                    Fact.IdCotizacion = IdCotizacion;
+                    if (IdCotizacion != null)
+                    {
+                        Cotizacion Cotiz = db.Cotizacion.Find(IdCotizacion);
+                        Cotiz.Estado = "F";
+                        Cotiz.FechaActualizacion = DateTime.Now;
+                        db.Entry(Cotiz).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        Fact.IdCotizacion = null;
+                    }
+
                     Fact.FechaHora = DateTime.Now;
                     Fact.Usuario = Session["UsuarioActual"].ToString();
                     Fact.Estado=1;

@@ -184,3 +184,34 @@ border: 0px solid #000000;
   line-height: 1.42;
   border-radius: 35px;
 }
+.btn-circleplus {
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  padding-left:15px;
+  padding-top:9px;
+  font-size: 40px;
+  line-height: 1.42;
+  border-radius: 35px;
+}
+.btn-circleSave {
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  padding-left:15px;
+  padding-top:9px;
+  font-size: 40px;
+  line-height: 1.42;
+  border-radius: 10px;
+}
+
+.btn-circlesm {
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  padding-left:9px;
+  padding-top:5px;
+  font-size: 15px;
+  line-height: 1.42;
+  border-radius: 25px;
+}

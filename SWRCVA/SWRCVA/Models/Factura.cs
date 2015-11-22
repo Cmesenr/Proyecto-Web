@@ -18,7 +18,7 @@ namespace SWRCVA.Models
         [Key]
         public long IdFactura { get; set; }
 
-        public int IdCotizacion { get; set; }
+        public int? IdCotizacion { get; set; }
 
         public DateTime FechaHora { get; set; }
 

@@ -176,6 +176,12 @@ namespace SWRCVA.Models
               .WithRequired(e => e.Material)
               .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Material>()
+              .HasMany(e => e.DetalleFactura)
+              .WithRequired(e => e.Material)
+              .HasForeignKey(e => e.IdProducto)
+              .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<MaterialCotizacion>()
                .Property(e => e.CantMaterial)
                .HasPrecision(12, 2);

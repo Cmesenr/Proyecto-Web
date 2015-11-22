@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="col-md-1" align="right">
-        <button type="button" id="btnGuardar" onclick="" class="btn btn-default"><h4>Guardar</h4></button>
+        <button type="button" id="btnGuardar" value="" class="btn-circleSave btn-primary btn-lg" title="Guardar"><span class="glyphicon glyphicon-floppy-saved"></span></button>
     </div>
     <div class="col-md-2" align="right">
             <button type="button" id="btnProcesar" onclick="" class="btn btn-success"><h4>Procesar Cotización</h4></button>
@@ -228,7 +228,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <button type="button" id="btnAgregar" onclick="" class="btn btn-primary edit"><h4>Agregar</h4></button>
+                                        <button type="button" id="btnAgregar" onclick="" tite="Agregar" class="btn-circleplus btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
 
                                     </div>
                                 </div>
@@ -317,7 +317,8 @@
     </div>
 </div>
 <div>
-    <button onclick="location.href='@Url.Action("Index")',RefrescarLista()" class="btn btn-primary"><h4>Regresar a la Lista</h4></button>
+    <button type="button" onclick="location.href='@Url.Action("Index")',RefrescarLista()" class="btn-circle btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></button>
+   
 </div>
 @section Scripts {
 

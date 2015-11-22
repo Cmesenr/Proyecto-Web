@@ -1,4 +1,13 @@
 ﻿$(document).ready(function () {
+    $('#ListaProductos').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "searching": false,
+        "scrollY": '200px',
+        "scrollX": false,
+        "scrollCollapse": false
+    });
     $.ajax({
         cache: false,
         url: "/Factura/ConsultarMateriales",
@@ -75,6 +84,7 @@ $(document).ready(function () {
     //Abrir modal  Material
     $("#txtProducto").on("click", function () {
         $("#ModalMateriales").modal("show");
+
     })
 
 
@@ -272,11 +282,57 @@ $("#btnFacturar").on("click", function () {
         return false;
     }
     $("#lblClienteFact").html($("#txtClienteFinal").val());
-    $("#lblMontoTotal").html($("#txtTotal").html().substr());
+    $("#lblMontoTotal").html("₡ "+$("#txtTotal").html().substr(1));
     
     
         $("#ModalFacturar").modal("show");
 })
+//Click Pagar 
+$("#btnPagar").on("click", function () {
+    if ($("#txtMontoPagar").hasClass("alert-success")) {
+        var patron = ",";
+        var MontoP = 0;
+        var MontoTotal = $("#lblMontoTotal").html().substring(1);
+        MontoTotal = parseFloat(MontoTotal.replace(patron, ''));
+
+        var para = { IdCliente: $("#txtClienteFinal").data("cliente"), IdCotizacion: $("#txtCotizacion").val(), MontoPagar: $("#txtMontoPagar").val(), MontoTotal: MontoTotal }
+        $.ajax({
+            cache: false,
+            url: "/Factura/ProcesarFactura",
+            type: "get",
+            data: para,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "Factura Registrada!") {
+                    RefrescarLista();
+                    $("#ModalFacturar").modal("hide");
+                    LimpiarDatosRegistro();
+                    CargarListaProductos();
+                    CalcularTotal();
+                    $("#TextModalinfo").html(data);
+                    $("#HeaderModalInfo").html("Registrada");
+                    $('#ModalMensaje').modal("show");
+                } else {
+                    $("#ModalFacturar").modal("hide");
+                    $("#TextModal").html(data);
+                    $("#HeaderModalInfo").html("Error");
+                    $('#ModalError').modal("show");
+                }
+               
+            }
+        })
+    }
+    else {
+
+        $("#txtMontoPagar").tooltip();
+        $("#txtMontoPagar").focus();
+    }
+})
+$('#ModalMensaje').on('hidden.bs.modal', function () {
+    $("#ModalMensaje").removeData('bs.modal');
+    //window.location.href = "/Factura/Facturar";
+});
 function CargarListaProductos() {
     $.ajax({
         cache: false,
@@ -318,21 +374,15 @@ function CargarListaProductos() {
 
                 }
             }
+            else {
+                $("#ListaProductos tbody").empty();
+            }
         },
         error: function (result) {
             alert('ERROR ' + result.status + ' ' + result.statusText);
         }
 
     })
-    $('#ListaProductos').DataTable({
-        "paging": false,
-        "ordering": false,
-        "info": false,
-        "searching": false,
-        "scrollY": '200px',
-        "scrollX": false,
-        "scrollCollapse": false
-    });
 }
 function CalcularTotal() {
     $.ajax({
@@ -343,7 +393,7 @@ function CalcularTotal() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            $("#txtTotal").html("₡ " + data.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+            $("#txtTotal").html("₡ " + round5(parseFloat(data)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
         }
     })
 }
@@ -379,7 +429,14 @@ function LimpiarCampos(){
     $('#txtCantidad').val("");
     $('#txtAncho').val("");
     $('#txtAlto').val("");
+    $('#txtExtra').val("");
     $('#CkPaleta').removeAttr('checked');
+}
+function LimpiarDatosRegistro() {
+    $("#txtClienteFinal").val("");
+    $("#txtClienteFinal").removeAttr("disabled", "disabled");
+    $("#txtCotizacion").val("");
+    $("#txtMontoPagar").val("");
 }
 var nav4 = window.Event ? true : false;
 function acceptNum(evt) {
@@ -392,21 +449,26 @@ function acceptonlyNum(evt) {
     var key = nav4 ? evt.which : evt.keyCode;
     return (key <= 13 || (key >= 48 && key <= 57));
 }
-
+//calcular cambio
 function CalcularCambio() {
+
     var patron = ",";
     var MontoP = 0;
     var MontoTotal = $("#lblMontoTotal").html().substring(1);
-    MontoTotal = MontoTotal.replace(patron, '');
-    MontoTotal = parseFloat(MontoTotal);
+    MontoTotal = parseFloat(MontoTotal.replace(patron, ''));
     MontoP = parseFloat($("#txtMontoPagar").val()).toFixed(2);
     var Cambio=0;
-    if (MontoTotal < MontoP) {
-        Cambio = parseFloat(MontoP - MontoTotal).toFixed(2);
+    if (MontoTotal <= MontoP) {
+        Cambio = parseFloat(MontoP - MontoTotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         $("#lblMontoCambio").html("₡ "+Cambio);
-        $("#txtMontoPagar").attr("class", "form-control  alert-success");
+        $("#txtMontoPagar").attr("class", "form-control alert-success");
     } else {
         $("#txtMontoPagar").attr("class", "form-control alert-danger");
+        $("#lblMontoCambio").html("₡ " + "0.00");
     }
 
+}
+//redondear a 5
+function round5(x) {
+    return Math.ceil(x / 5) * 5;
 }

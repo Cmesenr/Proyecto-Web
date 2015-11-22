@@ -9,7 +9,7 @@
 <h2>Cotizaciones</h2>
 
 <div class="text-right">
-    <button id="Registrar" onclick="location.href='@Url.Action("Cotizar", "Cotizacion")'" class="btn btn-info"><h4>Cotizar</h4></button>
+    <button type="button" id="btnAgregar" onclick="location.href='@Url.Action("Cotizar", "Cotizacion")'"  tlite="Cotizar" class="btn-circleplus btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
 </div>
 @using (Html.BeginForm("Index", "Cotizacion", FormMethod.Get))
 {
