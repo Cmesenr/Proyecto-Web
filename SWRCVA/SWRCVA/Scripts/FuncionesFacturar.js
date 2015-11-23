@@ -333,6 +333,12 @@ $('#ModalMensaje').on('hidden.bs.modal', function () {
     $("#ModalMensaje").removeData('bs.modal');
     //window.location.href = "/Factura/Facturar";
 });
+$('#ModalFacturar').on('hidden.bs.modal', function () {
+    $("#ModalFacturar").removeData('bs.modal');
+    $("#txtMontoPagar").val("");
+    $("#txtMontoPagar").removeClass("alert-success");
+    $("#lblMontoCambio").html("₡ " + "0.00");
+});
 function CargarListaProductos() {
     $.ajax({
         cache: false,
@@ -451,19 +457,19 @@ function acceptonlyNum(evt) {
 }
 //calcular cambio
 function CalcularCambio() {
-
-    var patron = ",";
     var MontoP = 0;
     var MontoTotal = $("#lblMontoTotal").html().substring(1);
-    MontoTotal = parseFloat(MontoTotal.replace(patron, ''));
-    MontoP = parseFloat($("#txtMontoPagar").val()).toFixed(2);
+    MontoTotal = MontoTotal.replace(/[,]/gi, '');
+    MontoTotal = parseFloat(MontoTotal);
+
+    MontoP = parseFloat($("#txtMontoPagar").val());
     var Cambio=0;
     if (MontoTotal <= MontoP) {
         Cambio = parseFloat(MontoP - MontoTotal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         $("#lblMontoCambio").html("₡ "+Cambio);
-        $("#txtMontoPagar").attr("class", "form-control alert-success");
+        $("#txtMontoPagar").attr("class", "form-control input-lg alert-success");
     } else {
-        $("#txtMontoPagar").attr("class", "form-control alert-danger");
+        $("#txtMontoPagar").attr("class", "form-control input-lg alert-danger");
         $("#lblMontoCambio").html("₡ " + "0.00");
     }
 
