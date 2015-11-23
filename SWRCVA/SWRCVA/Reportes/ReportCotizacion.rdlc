@@ -488,6 +488,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -514,16 +515,19 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
+        <NoRowsMessage>=IIF(Cint(CountRows("DSReporteCotizacion")) = 0,"  No hay cotizaciones  ",-1)</NoRowsMessage>
         <DataSetName>DSReporteCotizacion</DataSetName>
         <Top>1.64253cm</Top>
         <Left>0.01121cm</Left>
         <Height>1.2cm</Height>
-        <Width>19.75848cm</Width>
+        <Width>19.75847cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
+          <FontSize>12pt</FontSize>
+          <Color>Red</Color>
         </Style>
       </Tablix>
     </ReportItems>
