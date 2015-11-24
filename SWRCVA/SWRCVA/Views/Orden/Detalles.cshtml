@@ -8,12 +8,14 @@
 
 <br />
 <div class="row" id="headerPrincipal">
-    <div class="col-md-2">
-        <h2>Orden</h2>
+    <div class="col-md-4">
+        <button onclick="location.href='@Url.Action("Index")'" title="Atras" class="btn-circle btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></button>
     </div>
-    <br />
-    <div class="col-md-10" align="right">
-        <button type="button" id="btnProcesarEdit" onclick="" class="btn btn-success"><h4>Terminar Orden</h4></button>
+    <div class="col-md-4 text-center">
+        <h2>Detalles de la orden</h2>
+    </div>
+    <div class="col-md-4" align="right">
+        <button type="button" id="btnProcesarEdit" title="Procesar Orden" class="btn-circle btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span></button>
     </div>
 </div>
     @using (Html.BeginForm("Index", "Orden", FormMethod.Get))
@@ -21,83 +23,84 @@
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal" id="formOrden">
-            <hr />
-            <div class="col-md-12">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha, new { @class = "text-displayFor" })
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion, new { @class = "text-displayFor" })
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Cliente:</b> <br />@Html.DisplayFor(modelItem => Model.Cliente.Nombre)
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Estado:</b> <br />@if (Model.Estado == "P")
-                                {@( "Procesada")}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Comentario:</b> <br />@Html.DisplayFor(modelItem => Model.Comentario, new { @class = "text-displayFor" })
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <div  class="col-md-12">
-                <div class="col-md-7">
-                    <div class="row">
+            <div class="ContenedorOrden">
+                <div class="col-md-12">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <div class="col-md-12">
-                                <table class="table" id="ListaProductos"></table>
+                                <span class="text-displayFor">
+                                    <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha, new { @class = "text-displayFor" })
+                                </span>
                             </div>
                         </div>
-                        <div>
-                            <button onclick="location.href='@Url.Action("Index")'" class="btn btn-primary"><h4>Regresar a la Lista</h4></button>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <span class="text-displayFor">
+                                    <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion, new { @class = "text-displayFor" })
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <span class="text-displayFor">
+                                    <b>Cliente:</b> <br />@Html.DisplayFor(modelItem => Model.Cliente.Nombre)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <span class="text-displayFor">
+                                    <b>Estado:</b> <br />@if (Model.Estado == "P")
+                                    {@( "Procesada")}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <span class="text-displayFor">
+                                    <b>Comentario:</b> <br />@Html.DisplayFor(modelItem => Model.Comentario, new { @class = "text-displayFor" })
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-5" align="right">
-                    <div class="col-md-10" align="right">
+                <hr />
+                <div class="col-md-12">
+                    <div class="col-md-7">
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <div align="left" class="div-material" id="ListaMateriales"></div>
+                                    <table class="table table-bordered table-hover" id="ListaProductos"></table>
                                 </div>
                             </div>
                         </div>
-                     </div>
+                    </div>
+
+                    <div class="col-md-5" align="right">
+                        <div class="col-md-10" align="right">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <table align="left" class='table table-bordered table-hover' id="ListaMateriales">
+                                            <thead><tr><th>Material</th><th>Cantidad</th></tr></thead>
+                                            <tbody></tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-           <hr />
         </div>
     }
 @section Scripts {

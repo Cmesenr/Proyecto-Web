@@ -212,9 +212,9 @@ namespace SWRCVA.Controllers
                             {
                                 Produ.Subtotal = (decimal)Ancho *((costo * IV) * 1.5m);
                             }
-                            else
+                            else if (ListMat.IdTipoMaterial == 61)
                             {
-                                Produ.Subtotal = ((decimal)Ancho * (decimal)Alto) * ((costo * IV) * 1.5m);
+                                Produ.Subtotal = ((costo * IV) * 1.5m);
                             }
                             break;
                         }

@@ -17,7 +17,7 @@
 
                     for (var i = 0; i < data.length; i++) {
                         $('#ListaProductos').append('<tr class="warning">' +
-                                              '<td class="col-md-7" align="Left">' + data[i].Nombre + '</td>' +
+                                              '<td class="col-md-5" align="Left">' + data[i].Nombre + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Cantidad + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Ancho + '</td>' +
                                               '<td class="col-md-1" align="Center">' + data[i].Alto + '</td>' +
@@ -65,19 +65,13 @@ $(document).ready(function () {
         contentType: "application/json; charset=utf-8",
         success: function (data) {
             if (data.length == 0) {
-                $("#ListaMateriales").empty();
-                $("#ListaMateriales").append('Este producto no cuenta con detalle de materiales.');
+                $("#ListaMateriales tbody").empty();
+                $("#ListaMateriales tbody").append('Este producto no cuenta con detalle de materiales.');
             } else {
-                $("#ListaMateriales").empty();
-                $("#ListaMateriales").append('<b>Lista de Materiales</b><br\>');
-
-                $('#ListaMateriales').append("<table>");
-                $('#ListaMateriales').append("</br>");
-                $('#ListaMateriales').append("<tr><th>Material</th><th>Cantidad</th></tr>");
+                $("#ListaMateriales tbody").empty();
                 for (var i = 0; i < data.length; i++) {
-                    $('#ListaMateriales').append("<tr><td align='left'>" + data[i].Nombre + "</td><td align='center'>" + data[i].CantMaterial + "</td></tr>");
+                    $('#ListaMateriales tbody').append("<tr class='active'><td align='left'>" + data[i].Nombre + "</td><td align='center'>" + data[i].CantMaterial + "</td></tr>");
                 }
-                $('#ListaMateriales').append("</table>");
             }
         },
         error: function (result) {

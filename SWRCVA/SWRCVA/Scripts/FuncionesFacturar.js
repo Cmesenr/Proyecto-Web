@@ -103,13 +103,22 @@ $(document).ready(function () {
 
     })
     //Evento chekar Paleta
-    $("#CkPaleta").change(function () {
-        if ($(this).is(":checked")) {
+    $('input[name=Rtipo]').on("change",function () {
+        if ($(this).val()=="P") {
             $("#txtAlto").attr("disabled", "disabled");
             $("#txtAlto").removeAttr("required");
-        } else {
+        } else if ($(this).val() == "L") {
+            $("#txtAlto").attr("disabled", "disabled");
+            $("#txtAlto").removeAttr("required");
+            $("#txtAncho").attr("disabled", "disabled");
+            $("#txtAncho").removeAttr("required");
+           
+        }
+        else {
             $("#txtAlto").attr("required", "required");
             $("#txtAlto").removeAttr("disabled");
+            $("#txtAncho").attr("required", "required");
+            $("#txtAncho").removeAttr("disabled");
         }
       
     })
@@ -417,14 +426,14 @@ function RefrescarLista() {
 
 }
 function mostrarCamposVidrio() {
-    $("#CkPaleta").removeAttr("disabled");
+    $('input[name=Rtipo]').removeAttr("disabled");
     $("#txtAncho").removeAttr("disabled");
     $("#txtAlto").removeAttr("disabled");
     $("#txtAncho").attr("required", "required");
     $("#txtAlto").attr("required", "required");
 }
 function ocultarCamposVidrio() {
-    $("#CkPaleta").attr("disabled","disabled");
+    $('input[name=Rtipo]').attr("disabled", "disabled");
     $("#txtAncho").attr("disabled", "disabled");
     $("#txtAlto").attr("disabled", "disabled");
     $("#txtAncho").removeAttr("required");
@@ -436,7 +445,7 @@ function LimpiarCampos(){
     $('#txtAncho').val("");
     $('#txtAlto').val("");
     $('#txtExtra').val("");
-    $('#CkPaleta').removeAttr('checked');
+    $('input[name=Rtipo]').attr('checked', false);
 }
 function LimpiarDatosRegistro() {
     $("#txtClienteFinal").val("");
