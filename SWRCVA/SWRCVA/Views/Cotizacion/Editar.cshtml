@@ -6,27 +6,27 @@
 <br />
 <div class="row" id="headerPrincipal">
     <div class="col-md-2">
-        <h2>Cotizacion</h2>
+        <button type="button" onclick="location.href='@Url.Action("Index")',RefrescarLista()" class="btn-circle btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></button>
     </div>
     <div class="col-md-4">
         <div class="form-group-lg">
             <div class="col-md-12">
-                <input type="text" class="form-control" placeholder="Buscar Cliente" id="txtClienteFinal" data-cliente="@Model.IdCliente" value="@Model.Cliente.Nombre" required="required" title="Cliente requerido!" maxlength="30" disabled="disabled" />
+                <input type="text" class="form-control" placeholder="Buscar Cliente" id="txtClienteFinal" data-cliente="@Model.IdCliente" value="@Model.Cliente.Nombre" required="required" title="Cliente requerido!" disabled="disabled" maxlength="30" />
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
             <div class="col-md-12">
-                <textarea style="width:100%" class="TexArea" cols="100" rows="3" id="txtAreaComentario" placeholder="Comentario sobre el producto" maxlength="500">@Model.Comentario</textarea>
+                <textarea style="width:100%" class="TexArea" cols="100" rows="3" id="txtAreaComentario" placeholder="Comentario sobre el producto" maxlength="500"></textarea>
             </div>
         </div>
     </div>
     <div class="col-md-1" align="right">
-        <button type="button" id="btnGuardarEdit" onclick="" class="btn btn-default"><h4>Guardar</h4></button>
+        <button type="button" id="btnGuardarEdit" value="" class="btn-circleSave btn-primary btn-lg" title="Guardar"><span class="glyphicon glyphicon-floppy-saved"></span></button>
     </div>
     <div class="col-md-2" align="right">
-        <button type="button" id="btnProcesarEdit" onclick="" class="btn btn-success"><h4>Procesar Cotización</h4></button>
+        <button type="button" id="btnProcesarEdit" title="Procesar Cotización" class="btn-circle btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span></button>
     </div>
     <div class="modal fade" id="ModalCliente" role="dialog">
         <div class="modal-dialog">
@@ -102,157 +102,159 @@
 
     <div class="form-horizontal" id="formCotizar">
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.IdCotizacion, new {  id = "IdCotizacion" })
-        <div class="row">
-            <div class="col-md-2">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.DropDownList("IdTipoProducto", (IEnumerable<SelectListItem>)ViewBag.IdTipoProducto, "Tipo Producto..", new { @class = "form-control", id = "DropDownTipoProductos", required = "required", title = "Selecione un tipo de Producto!" })
-                        @Html.ValidationMessageFor(model => model.ProductoCotizacion, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.DropDownList("Producto", (new SelectList(
-                  new List<Object> { })), "Productos..", new { @class = "form-control", id = "DropDownProductos", required = "required", title = "Selecione un Producto!" })
-                        @Html.ValidationMessageFor(model => model.ProductoCotizacion, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColoresVidrio, "Color Vidrio..", new { @class = "form-control", id = "DropDownCVidrio", required = "required", title = "Selecione el color del Vidrio!" })
-                        @Html.ValidationMessage("ColoresVidrio", "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColoresAluminio, "Color Aluminio..", new { @class = "form-control", id = "DropDownCAluminio", required = "required", title = "Selecione el color del Aluminio!" })
-                        @Html.ValidationMessage("ColoresAluminio", "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.DropDownList("IdValor", (IEnumerable<SelectListItem>)ViewBag.Instalacion, "Instalacion..", new { @class = "form-control", id = "DropDownInstalacion", required = "required", title = "Selecione el porcentaje de Instalacion!" })
-                        @Html.ValidationMessage("Instalación", "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <input type="radio" name="Vidrio" value="10" title="Vidrio en Lamina" />&nbsp;<span class="text-muted" title="Vidrio en Lamina">L</span><br><input type="radio" name="Vidrio" value="11" title="Vidrio Cortado" />&nbsp;<span class="text-muted" title="Vidrio Cortado">C</span>
-                    </div>
-                    <div class="col-md-8">
-                        @Html.DropDownList("Vidrio", (new SelectList(
-         new List<Object> { })), "Vidrio..", new { @class = "form-control", id = "DropDownVidrio", required = "required", title = "Selecione el espesor del Vidrio!" })
-                        @Html.ValidationMessage("Instalación", "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-md-7">
-
-                <div class="row">
+        <div class="ContenedorCotizacion">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.IdCotizacion, new { id = "IdCotizacion" })
+            <div class="row">
+                <div class="col-md-2">
                     <div class="form-group">
-
                         <div class="col-md-12">
-                            <table class="table" id="ListaProductos"></table>
+                            @Html.DropDownList("IdTipoProducto", (IEnumerable<SelectListItem>)ViewBag.IdTipoProducto, "Tipo Producto..", new { @class = "form-control", id = "DropDownTipoProductos", required = "required", title = "Selecione un tipo de Producto!" })
+                            @Html.ValidationMessageFor(model => model.ProductoCotizacion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.DropDownList("Producto", (new SelectList(
+                  new List<Object> { })), "Productos..", new { @class = "form-control", id = "DropDownProductos", required = "required", title = "Selecione un Producto!" })
+                            @Html.ValidationMessageFor(model => model.ProductoCotizacion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColoresVidrio, "Color Vidrio..", new { @class = "form-control", id = "DropDownCVidrio", required = "required", title = "Selecione el color del Vidrio!" })
+                            @Html.ValidationMessage("ColoresVidrio", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.DropDownList("IdColor", (IEnumerable<SelectListItem>)ViewBag.ColoresAluminio, "Color Aluminio..", new { @class = "form-control", id = "DropDownCAluminio", required = "required", title = "Selecione el color del Aluminio!" })
+                            @Html.ValidationMessage("ColoresAluminio", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.DropDownList("IdValor", (IEnumerable<SelectListItem>)ViewBag.Instalacion, "Instalacion..", new { @class = "form-control", id = "DropDownInstalacion", required = "required", title = "Selecione el porcentaje de Instalacion!" })
+                            @Html.ValidationMessage("Instalación", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <input type="radio" name="Vidrio" value="10" title="Vidrio en Lamina" />&nbsp;<span class="text-muted" title="Vidrio en Lamina">L</span><br><input type="radio" name="Vidrio" value="11" title="Vidrio Cortado" />&nbsp;<span class="text-muted" title="Vidrio Cortado">C</span>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DropDownList("Vidrio", (new SelectList(
+         new List<Object> { })), "Vidrio..", new { @class = "form-control", id = "DropDownVidrio", required = "required", title = "Selecione el espesor del Vidrio!" })
+                            @Html.ValidationMessage("Instalación", "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-7">
 
-                <div class="row">
-                    <div class="col-md-3">
+                    <div class="row">
                         <div class="form-group">
 
                             <div class="col-md-12">
-                                @Html.Editor("Celocia", new { htmlAttributes = new { @class = "form-control", id = "txtCelocia", required = "required", onKeyPress = "return acceptNum(event)", title = "Ancho Celocia requerida!", placeholder = "Celocia", disabled = "disabled" } })
+                                <table class="table table-bordered table-hover" id="ListaProductos"></table>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-
-                            <div class="col-md-12">
-                                @Html.DropDownList("IdMaterial", (IEnumerable<SelectListItem>)ViewBag.Paletas, "Paleta..", new { @class = "form-control", id = "DropDownPaletas", disabled = "disabled", required = "required", title = "Selecione la paleta!" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                @Html.Editor("txtAncho", new { htmlAttributes = new { @class = "form-control", placeholder = "Ancho", onKeyPress = "return acceptNum(event)", id = "txtAncho", required = "required", title = "Ancho Requerido!" } })
-                                @Html.ValidationMessage("Ancho", "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                @Html.Editor("txtAlto", new { htmlAttributes = new { @class = "form-control", placeholder = "Alto", onKeyPress = "return acceptNum(event)", id = "txtAlto", required = "required", title = "Alto requerido!" } })
-                                @Html.ValidationMessage("Alto", "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <div id="ImageDiv" class="text-center">
-                                    <img id="MostrarImagen" class="" height="200" width="350" src="~/Content/Imagenes/incognita.jpg" alt="" />
+                <div class="col-md-5">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+
+                                <div class="col-md-12">
+                                    @Html.Editor("Celocia", new { htmlAttributes = new { @class = "form-control", id = "txtCelocia", required = "required", onKeyPress = "return acceptNum(event)", title = "Ancho Celocia requerida!", placeholder = "Celocia", disabled = "disabled" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+
+                                <div class="col-md-12">
+                                    @Html.DropDownList("IdMaterial", (IEnumerable<SelectListItem>)ViewBag.Paletas, "Paleta..", new { @class = "form-control", id = "DropDownPaletas", disabled = "disabled", required = "required", title = "Selecione la paleta!" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.Editor("txtAncho", new { htmlAttributes = new { @class = "form-control", placeholder = "Ancho", onKeyPress = "return acceptNum(event)", id = "txtAncho", required = "required", title = "Ancho Requerido!" } })
+                                    @Html.ValidationMessage("Ancho", "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.Editor("txtAlto", new { htmlAttributes = new { @class = "form-control", placeholder = "Alto", onKeyPress = "return acceptNum(event)", id = "txtAlto", required = "required", title = "Alto requerido!" } })
+                                    @Html.ValidationMessage("Alto", "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div id="ImageDiv" class="text-center">
+                                        <img id="MostrarImagen" class="" height="200" width="350" src="~/Content/Imagenes/incognita.jpg" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" align="right">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.Editor("CantProducto", new { htmlAttributes = new { @class = "form-control", id = "txtCantidad", required = "required", onKeyPress = "return acceptonlyNum(event)", title = "Cantidad requerida!", placeholder = "Cantidad" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <button type="button" id="btnAgregar" onclick="" tite="Agregar" class="btn-circleplus btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12" align="right">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <table><tr><td><h2>@Html.Label("Total:", new { htmlAttributes = new { @class = "control-label col-md-5" } })&nbsp;&nbsp;</h2></td><td><h1><span class="label label-warning" id="txtTotal">0.00</span></h1></td></tr></table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3" align="right">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                @Html.Editor("CantProducto", new { htmlAttributes = new { @class = "form-control", id = "txtCantidad", required = "required", onKeyPress = "return acceptonlyNum(event)", title = "Cantidad requerida!", placeholder = "Cantidad" } })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <button type="button" id="btnAgregar" onclick="" class="btn btn-primary edit"><h4>Agregar</h4></button>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12" align="right">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <table><tr><td><h2>@Html.Label("Total:", new { htmlAttributes = new { @class = "control-label col-md-5" } })&nbsp;&nbsp;</h2></td><td><h1><span class="label label-warning" id="txtTotal">0.00</span></h1></td></tr></table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
+
         </div>
-        <hr />
     </div>
+
 }
 
 <div class="modal fade" id="ModalError" role="dialog">
@@ -316,9 +318,6 @@
         </div>
 
     </div>
-</div>
-<div>
-    <button onclick="location.href='@Url.Action("Index")',RefrescarLista()" class="btn btn-primary"><h4>Regresar a la Lista</h4></button>
 </div>
 @section Scripts {
 
