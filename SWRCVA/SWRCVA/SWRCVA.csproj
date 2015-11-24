@@ -207,6 +207,13 @@
     <Compile Include="Reportes\ReporteCotizacion.aspx.designer.cs">
       <DependentUpon>ReporteCotizacion.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reportes\ReporteFacturacion.aspx.cs">
+      <DependentUpon>ReporteFacturacion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteFacturacion.aspx.designer.cs">
+      <DependentUpon>ReporteFacturacion.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
@@ -297,6 +304,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Reportes\ReporteCotizacion.aspx" />
+    <Content Include="Reportes\ReporteFacturacion.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -417,6 +425,7 @@
     <Content Include="Views\Factura\Facturar.cshtml" />
     <Content Include="Views\Factura\Index.cshtml" />
     <Content Include="Views\Reporte\ReporteCotizacion.cshtml" />
+    <Content Include="Views\Reporte\ReporteFacturacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -427,6 +436,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reportes\ReportFacturacion.rdlc" />
     <EmbeddedResource Include="Reportes\ReportCotizacion.rdlc" />
   </ItemGroup>
   <PropertyGroup>

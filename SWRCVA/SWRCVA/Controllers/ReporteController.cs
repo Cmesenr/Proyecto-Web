@@ -13,5 +13,11 @@ namespace SWRCVA.Controllers
         {
             return View();
         }
+
+        // GET: Reporte
+        public ActionResult ReporteFacturacion()
+        {
+            return View();
+        }
     }
 }
