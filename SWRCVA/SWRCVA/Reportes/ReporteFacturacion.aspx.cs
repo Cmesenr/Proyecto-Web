@@ -15,7 +15,7 @@ namespace SWRCVA.Reportes
             Models.Reportes reporte = new Models.Reportes();
 
             ReportViewerFacturacion.LocalReport.DataSources.Clear();
-            ReportViewerFacturacion.LocalReport.DataSources.Add(new ReportDataSource("DSReporteFacturacion", reporte.reporteCotizacionFacturacion(dt, nombre, tipoReporte)));
+            //ReportViewerFacturacion.LocalReport.DataSources.Add(new ReportDataSource("DSReporteFacturacion", reporte.reporteCotizacionFacturacion(dt, nombre, tipoReporte)));
             ReportViewerFacturacion.LocalReport.Refresh();
         }
 

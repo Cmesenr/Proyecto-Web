@@ -2,40 +2,6 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
-      <Textbox Name="Textbox2">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Reporte Cotizaciones</Value>
-                <Style>
-                  <FontStyle>Italic</FontStyle>
-                  <FontSize>18pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <TextDecoration>Underline</TextDecoration>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>0.2667cm</Top>
-        <Left>0.31813cm</Left>
-        <Height>0.9175cm</Height>
-        <Width>9.27333cm</Width>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
       <Tablix Name="Tablix1">
         <TablixBody>
           <TablixColumns>
@@ -488,7 +454,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -517,11 +482,10 @@
         </TablixRowHierarchy>
         <NoRowsMessage>=IIF(Cint(CountRows("DSReporteCotizacion")) = 0,"  No hay cotizaciones  ",-1)</NoRowsMessage>
         <DataSetName>DSReporteCotizacion</DataSetName>
-        <Top>1.64253cm</Top>
+        <Top>0.11853cm</Top>
         <Left>0.01121cm</Left>
         <Height>1.2cm</Height>
         <Width>19.75847cm</Width>
-        <ZIndex>1</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -531,7 +495,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>1.29813in</Height>
+    <Height>0.61063in</Height>
     <Style />
   </Body>
   <Width>7.79584in</Width>

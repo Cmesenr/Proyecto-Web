@@ -14,7 +14,7 @@ namespace SWRCVA.Models
     {
         private DataContext db = new DataContext();
 
-        public DataTable reporteCotizacionFacturacion(DateTime fecha, string nombre, string reporte)
+        public DataTable reporteCotizacionFacturacion(DateTime fechaInicio, DateTime fechaFin, int idCliente, string reporte)
         {
             string stProcedure = "";
 
@@ -27,7 +27,8 @@ namespace SWRCVA.Models
                 stProcedure = "sp_getDatosReporteFacturacion";
             }
 
-            string pConsulta = "set dateformat dmy; exec "+ stProcedure +" '" + fecha.ToShortDateString() + "','"+ nombre +"'";
+            string pConsulta = "set dateformat dmy; exec "+ stProcedure +" '" + fechaInicio.ToShortDateString() + "','"
+                +fechaFin.ToShortDateString()+ "'," + idCliente;
 
             DataTable dt = new DataTable();
             SqlConnection conn = ((SqlConnection)db.Database.Connection);
