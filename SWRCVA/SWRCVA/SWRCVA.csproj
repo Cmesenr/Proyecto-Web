@@ -357,6 +357,7 @@
     <Content Include="Scripts\FuncionesOrden.js" />
     <Content Include="Scripts\FuncionesParametros.js" />
     <Content Include="Scripts\FuncionesProducto.js" />
+    <Content Include="Scripts\FuncionesReportes.js" />
     <Content Include="Scripts\FuncionesUsuario.js" />
     <Content Include="Scripts\FuncionesProveedor.js" />
     <Content Include="Scripts\jqBootstrapValidation.js" />

@@ -50,6 +50,8 @@ namespace SWRCVA
               "~/Scripts/FuncionesCotizacion.js"));
             bundles.Add(new ScriptBundle("~/bundles/FuncionesOrden").Include(
               "~/Scripts/FuncionesOrden.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesReportes").Include(
+              "~/Scripts/FuncionesReportes.js"));
             bundles.Add(new ScriptBundle("~/bundles/jqBootstrapValidation").Include(
               "~/Scripts/jqBootstrapValidation.js"));
             bundles.Add(new ScriptBundle("~/bundles/FuncionesFacturar").Include(
@@ -59,6 +61,7 @@ namespace SWRCVA
             bundles.Add(new ScriptBundle("~/bundles/dataTablesBoot").Include(
      "~/Scripts/dataTables.bootstrap.min.js"));
             
+
 
 
         }
