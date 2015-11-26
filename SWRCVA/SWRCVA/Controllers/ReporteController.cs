@@ -39,7 +39,7 @@ namespace SWRCVA.Controllers
             ReportViewer reportviewer = new ReportViewer();
             reportviewer.ProcessingMode = ProcessingMode.Local;
             reportviewer.LocalReport.ReportPath = "Reportes/ReportCotizacion.rdlc";
-            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteCotizacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, "Cotizacion")));
+            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteCotizacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, "Cotizacion", null)));
             reportviewer.LocalReport.Refresh();
 
             byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
@@ -77,7 +77,46 @@ namespace SWRCVA.Controllers
             ReportViewer reportviewer = new ReportViewer();
             reportviewer.ProcessingMode = ProcessingMode.Local;
             reportviewer.LocalReport.ReportPath = "Reportes/ReportFacturacion.rdlc";
-            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteFacturacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, "Facturacion")));
+            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteFacturacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, "Facturacion", null)));
+            reportviewer.LocalReport.Refresh();
+
+            byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
+
+
+            Response.Buffer = true;
+            Response.Clear();
+            Response.ContentType = mimeType;
+            Response.BinaryWrite(bytes);
+
+            return View();
+        }
+
+        // GET: Reporte
+        public ActionResult ReporteOrden()
+        {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            return View();
+        }
+
+        // POST: Reporte
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReporteOrden(Reporte reporte)
+        {
+            Warning[] warnings;
+            string[] streamIds;
+            string mimeType = string.Empty;
+            string encoding = string.Empty;
+            string extension = string.Empty;
+
+            ReportViewer reportviewer = new ReportViewer();
+            reportviewer.ProcessingMode = ProcessingMode.Local;
+            reportviewer.LocalReport.ReportPath = "Reportes/ReportOrden.rdlc";
+            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteOrden", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, "Orden", reporte.Estado)));
             reportviewer.LocalReport.Refresh();
 
             byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
@@ -107,27 +146,39 @@ namespace SWRCVA.Controllers
              JsonRequestBehavior.AllowGet);
         }
 
-        public DataTable reporteCotizacionFacturacion(DateTime fechaInicio, DateTime fechaFin, int idCliente, string reporte)
+        public DataTable reporteCotizacionFacturacion(DateTime fechaInicio, DateTime fechaFin, int idCliente, string reporte, string estado)
         {
             string stProcedure = "";
+            string consulta = "";
 
             if (reporte == "Cotizacion")
             {
                 stProcedure = "sp_getDatosReporteCotizacion";
+
+                consulta = "set dateformat dmy; exec " + stProcedure + " '" + fechaInicio.ToShortDateString() + "','"
+                    + fechaFin.ToShortDateString() + "'," + idCliente;
             }
-            else
+            if (reporte == "Facturacion")
             {
                 stProcedure = "sp_getDatosReporteFacturacion";
-            }
 
-            string pConsulta = "set dateformat dmy; exec " + stProcedure + " '" + fechaInicio.ToShortDateString() + "','"
-                + fechaFin.ToShortDateString() + "'," + idCliente;
+                consulta = "set dateformat dmy; exec " + stProcedure + " '" + fechaInicio.ToShortDateString() + "','"
+                    + fechaFin.ToShortDateString() + "'," + idCliente;
+            }
+            if (reporte == "Orden")
+            {
+                stProcedure = "sp_getDatosReporteOrden";
+
+                consulta = "set dateformat dmy; exec " + stProcedure + " '" + fechaInicio.ToShortDateString() + "','"
+
+                    + fechaFin.ToShortDateString() + "'," + idCliente + ",'" + estado +"'";
+            }
 
             DataTable dt = new DataTable();
             SqlConnection conn = ((SqlConnection)db.Database.Connection);
             conn.Open();
 
-            System.Data.SqlClient.SqlDataAdapter adaptador = new System.Data.SqlClient.SqlDataAdapter(pConsulta, conn);
+            System.Data.SqlClient.SqlDataAdapter adaptador = new System.Data.SqlClient.SqlDataAdapter(consulta, conn);
             System.Data.DataTable dataTable = new System.Data.DataTable();
             adaptador.Fill(dt);
 

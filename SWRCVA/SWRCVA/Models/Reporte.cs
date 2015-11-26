@@ -26,5 +26,9 @@ namespace SWRCVA.Models
         public DateTime FechaFin { get; set; }
 
         public int IdCliente { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        public string Estado { get; set; }
     }
 }

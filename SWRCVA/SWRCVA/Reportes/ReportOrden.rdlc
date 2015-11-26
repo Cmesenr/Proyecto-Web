@@ -2,40 +2,6 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
-      <Textbox Name="Textbox2">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Reporte Facturas</Value>
-                <Style>
-                  <FontStyle>Italic</FontStyle>
-                  <FontSize>18pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <TextDecoration>Underline</TextDecoration>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>0.2667cm</Top>
-        <Left>0.31813cm</Left>
-        <Height>0.9175cm</Height>
-        <Width>9.27333cm</Width>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
       <Tablix Name="Tablix1">
         <TablixBody>
           <TablixColumns>
@@ -46,13 +12,13 @@
               <Width>1.9091cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>6.15302cm</Width>
+              <Width>4.67135cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.13147cm</Width>
+              <Width>3.09972cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.37615cm</Width>
+              <Width>4.85782cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.75576cm</Width>
@@ -108,7 +74,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Fact. #</Value>
+                              <Value>Ord. #</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontSize>12pt</FontSize>
@@ -182,7 +148,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Monto Total</Value>
+                              <Value>Monto</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontSize>12pt</FontSize>
@@ -219,7 +185,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Monto Pagar</Value>
+                              <Value>Comentario</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontSize>12pt</FontSize>
@@ -291,14 +257,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="FechaHora">
+                    <Textbox Name="Fecha">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!FechaHora.Value</Value>
+                              <Value>=Fields!Fecha.Value</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                                 <Format>d</Format>
@@ -310,7 +276,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>FechaHora</rd:DefaultName>
+                      <rd:DefaultName>Fecha</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -326,14 +292,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="IdFactura">
+                    <Textbox Name="IdCotizacion">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!IdFactura.Value</Value>
+                              <Value>=Fields!IdCotizacion.Value</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                               </Style>
@@ -344,7 +310,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>IdFactura</rd:DefaultName>
+                      <rd:DefaultName>IdCotizacion</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -392,14 +358,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="MontoTotal">
+                    <Textbox Name="MontoParcial">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!MontoTotal.Value</Value>
+                              <Value>=Fields!MontoParcial.Value</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                                 <Format>'₡'#,0.00;('₡'#,0.00)</Format>
@@ -411,7 +377,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>MontoTotal</rd:DefaultName>
+                      <rd:DefaultName>MontoParcial</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -428,14 +394,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="MontoPagar">
+                    <Textbox Name="Comentario">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!MontoPagar.Value</Value>
+                              <Value>=Fields!Comentario.Value</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                               </Style>
@@ -444,7 +410,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>MontoPagar</rd:DefaultName>
+                      <rd:DefaultName>Comentario</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -514,12 +480,12 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <NoRowsMessage>=IIF(Cint(CountRows("DSReporteFacturacion")) = 0,"  No hay Facturas  ",-1)</NoRowsMessage>
-        <DataSetName>DSReporteFacturacion</DataSetName>
-        <Top>1.64253cm</Top>
+        <NoRowsMessage>=IIF(Cint(CountRows("DSReporteOrden")) = 0,"  No hay ordenes  ",-1)</NoRowsMessage>
+        <DataSetName>DSReporteOrden</DataSetName>
+        <Top>1.38853cm</Top>
+        <Left>0.01121cm</Left>
         <Height>1.2cm</Height>
-        <Width>19.79022cm</Width>
-        <ZIndex>1</ZIndex>
+        <Width>19.75847cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -528,8 +494,41 @@
           <Color>Red</Color>
         </Style>
       </Tablix>
+      <Textbox Name="Textbox1">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Reporte Ordenes</Value>
+                <Style>
+                  <FontSize>22pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>Underline</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Left>0.01121cm</Left>
+        <Height>1.04979cm</Height>
+        <Width>8.66268cm</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>1.29813in</Height>
+    <Height>1.1523in</Height>
     <Style />
   </Body>
   <Width>7.79584in</Width>
@@ -545,28 +544,24 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="DataSetReporteFacturas">
+    <DataSource Name="DataSetReporteOrdenesTrabajo">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>43127e9a-dc6b-437c-ad43-0322f282abf8</rd:DataSourceID>
+      <rd:DataSourceID>6f0c722a-1403-4090-b8bd-5c465d286c9d</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="DSReporteFacturacion">
+    <DataSet Name="DSReporteOrden">
       <Query>
-        <DataSourceName>DataSetReporteFacturas</DataSourceName>
+        <DataSourceName>DataSetReporteOrdenesTrabajo</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="IdFactura">
-          <DataField>IdFactura</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
-        </Field>
-        <Field Name="FechaHora">
-          <DataField>FechaHora</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+        <Field Name="IdCotizacion">
+          <DataField>IdCotizacion</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Nombre">
           <DataField>Nombre</DataField>
@@ -576,22 +571,26 @@
           <DataField>Estado</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="MontoTotal">
-          <DataField>MontoTotal</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="Fecha">
+          <DataField>Fecha</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="MontoPagar">
-          <DataField>MontoPagar</DataField>
+        <Field Name="Comentario">
+          <DataField>Comentario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MontoParcial">
+          <DataField>MontoParcial</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>DataSetReporteFacturas</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\Anca\Documents\GitHubVisualStudio\Proyecto-Web\SWRCVA\SWRCVA\DataSets\DataSetReporteFacturas.xsd</rd:SchemaPath>
-        <rd:TableName>sp_getDatosReporteFacturacion</rd:TableName>
+        <rd:DataSetName>DataSetReporteOrdenesTrabajo</rd:DataSetName>
+        <rd:SchemaPath>C:\Users\Anca\Documents\GitHubVisualStudio\Proyecto-Web\SWRCVA\SWRCVA\DataSets\DataSetReporteOrdenesTrabajo.xsd</rd:SchemaPath>
+        <rd:TableName>sp_getDatosReporteOrden</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>sp_getDatosReporteFacturacionTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterName>sp_getDatosReporteOrdenTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

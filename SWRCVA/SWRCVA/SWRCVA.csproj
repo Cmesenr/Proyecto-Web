@@ -497,6 +497,7 @@
     <Content Include="Views\Factura\Index.cshtml" />
     <Content Include="Views\Reporte\ReporteFacturacion.cshtml" />
     <Content Include="Views\Reporte\ReporteCotizacion.cshtml" />
+    <Content Include="Views\Reporte\ReporteOrden.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -507,6 +508,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reportes\ReportOrden.rdlc" />
     <EmbeddedResource Include="Reportes\ReportFacturacion.rdlc" />
     <EmbeddedResource Include="Reportes\ReportCotizacion.rdlc" />
   </ItemGroup>
