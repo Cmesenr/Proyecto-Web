@@ -1,18 +1,10 @@
 ﻿$(function () {
-    $("#txtFechaInicio").datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
-    $("#txtFechaFin").datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
-    $("#form1").on("click", "#SeleccionarCliente", function (e) {
+    $("#formReporte").on("click", "#SeleccionarCliente", function (e) {
         $("#txtNombre").val($(this).data("nombre"));
         $("#txtIdCliente").val($(this).data("myvalue"));
         $("#ModalCliente").modal("hide");
     })
-    $("#txtIdCliente").on("click", function () {
+    $("#txtNombre").on("click", function () {
         $("#ModalCliente").modal("show");
     })
     $("#txtClienteModal").on("keypress", function () {
