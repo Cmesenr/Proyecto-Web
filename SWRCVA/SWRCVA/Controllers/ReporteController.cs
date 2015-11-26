@@ -17,11 +17,17 @@ namespace SWRCVA.Controllers
         // GET: Reporte
         public ActionResult ReporteCotizacion()
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             return View();
         }
 
         // POST: Reporte
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ReporteCotizacion(Reporte reporte)
         {
             Warning[] warnings;
@@ -38,14 +44,10 @@ namespace SWRCVA.Controllers
 
             byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
 
-
-            // Now that you have all the bytes representing the PDF report, buffer it and send it to the client.
             Response.Buffer = true;
             Response.Clear();
             Response.ContentType = mimeType;
-            //Response.AddHeader("content-disposition", "inline; filename= Cotizacion." + extension);
-            Response.BinaryWrite(bytes); // create the file
-            Response.Flush(); // send it to the client to download
+            Response.BinaryWrite(bytes);
 
             return View();
         }
@@ -53,11 +55,17 @@ namespace SWRCVA.Controllers
         // GET: Reporte
         public ActionResult ReporteFacturacion()
         {
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
             return View();
         }
 
         // POST: Reporte
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ReporteFacturacion(Reporte reporte)
         {
             Warning[] warnings;
@@ -75,13 +83,10 @@ namespace SWRCVA.Controllers
             byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
 
 
-            // Now that you have all the bytes representing the PDF report, buffer it and send it to the client.
             Response.Buffer = true;
             Response.Clear();
             Response.ContentType = mimeType;
-            //Response.AddHeader("content-disposition", "inline; filename= Cotizacion." + extension);
-            Response.BinaryWrite(bytes); // create the file
-            Response.Flush(); // send it to the client to download
+            Response.BinaryWrite(bytes);
 
             return View();
         }
