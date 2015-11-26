@@ -16,6 +16,15 @@ namespace SWRCVA
             bundles.Add(new ScriptBundle("~/bundles/jquery-iu").Include(
                         "~/Scripts/jquery-ui.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery-1.10.2.js",
+                        "~/Scripts/jquery-ui.js"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                                 "~/Content/bootstrap.css",
+                                 "~/Content/themes/base/jquery.ui.css",
+                                 "~/Content/site.css"));
+
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
             // preparado para la producción y podrá utilizar la herramienta de compilación disponible en http://modernizr.com para seleccionar solo las pruebas que necesite.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -60,10 +69,6 @@ namespace SWRCVA
        "~/Scripts/jquery.dataTables.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/dataTablesBoot").Include(
      "~/Scripts/dataTables.bootstrap.min.js"));
-            
-
-
-
         }
     }
 }

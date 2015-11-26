@@ -20,7 +20,7 @@ namespace SWRCVA.Controllers
             return View();
         }
 
-        // GET: Reporte
+        // POST: Reporte
         [HttpPost]
         public ActionResult ReporteCotizacion(Reporte reporte)
         {
@@ -55,6 +55,37 @@ namespace SWRCVA.Controllers
         {
             return View();
         }
+
+        // POST: Reporte
+        [HttpPost]
+        public ActionResult ReporteFacturacion(Reporte reporte)
+        {
+            Warning[] warnings;
+            string[] streamIds;
+            string mimeType = string.Empty;
+            string encoding = string.Empty;
+            string extension = string.Empty;
+
+            ReportViewer reportviewer = new ReportViewer();
+            reportviewer.ProcessingMode = ProcessingMode.Local;
+            reportviewer.LocalReport.ReportPath = "Reportes/ReportFacturacion.rdlc";
+            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteFacturacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, "Facturacion")));
+            reportviewer.LocalReport.Refresh();
+
+            byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
+
+
+            // Now that you have all the bytes representing the PDF report, buffer it and send it to the client.
+            Response.Buffer = true;
+            Response.Clear();
+            Response.ContentType = mimeType;
+            //Response.AddHeader("content-disposition", "inline; filename= Cotizacion." + extension);
+            Response.BinaryWrite(bytes); // create the file
+            Response.Flush(); // send it to the client to download
+
+            return View();
+        }
+
         public JsonResult ConsultarClientes(string filtro)
         {
             var Clientes = (from s in db.Cliente

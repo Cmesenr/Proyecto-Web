@@ -1,8 +1,57 @@
-﻿
+﻿@model SWRCVA.Models.Reporte
+
 @{
-    ViewBag.Title = "ReporteFactura";
+    ViewBag.Title = "ReporteFacturacion";
 }
 
-<h2>Reporte Factura</h2>
+<h2>Reporte Facturación</h2>
 
-<div style="text-align:center"><iframe src="~/Reportes/ReporteFacturacion.aspx" height="800px" width="900px" frameborder="0"></iframe></div>
+
+@using (Html.BeginForm("ReporteFacturacion", "Reporte", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+     @Html.AntiForgeryToken()
+
+    <div id="FormProductos" class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-md-6" id="form">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaInicio, "Desde:", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.FechaInicio, new { @class = "form-control datepicker " })
+                        @Html.ValidationMessageFor(model => model.FechaInicio)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaFin, "Hasta:", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.FechaFin, new { @class = "form-control datepicker " })
+                        @Html.ValidationMessageFor(model => model.FechaFin)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdCliente, "Id cliente", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.IdCliente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-offset-2 col-md-4 text-right">
+                    <button type="submit" value="" class="btn-circleSave btn-primary btn-lg" title="Guardar"><span class="glyphicon glyphicon-floppy-open"></span></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datetime")
+    <script src="~/Scripts/FuncionesPicker.js"></script>
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+}

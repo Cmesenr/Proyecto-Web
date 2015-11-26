@@ -482,7 +482,7 @@
         </TablixRowHierarchy>
         <NoRowsMessage>=IIF(Cint(CountRows("DSReporteCotizacion")) = 0,"  No hay cotizaciones  ",-1)</NoRowsMessage>
         <DataSetName>DSReporteCotizacion</DataSetName>
-        <Top>0.11853cm</Top>
+        <Top>1.38853cm</Top>
         <Left>0.01121cm</Left>
         <Height>1.2cm</Height>
         <Width>19.75847cm</Width>
@@ -494,8 +494,41 @@
           <Color>Red</Color>
         </Style>
       </Tablix>
+      <Textbox Name="Textbox1">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Reporte Cotizaciones</Value>
+                <Style>
+                  <FontSize>22pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>Underline</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Left>0.01121cm</Left>
+        <Height>1.04979cm</Height>
+        <Width>8.66268cm</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>0.61063in</Height>
+    <Height>1.1523in</Height>
     <Style />
   </Body>
   <Width>7.79584in</Width>
