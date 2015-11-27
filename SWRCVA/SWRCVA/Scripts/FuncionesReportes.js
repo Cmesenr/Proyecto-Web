@@ -54,4 +54,26 @@
             }
         })
     })
+
+
+    $("#Procesar").on("click", function () {
+
+        var txtFechaInicio = $("#FechaInicio").val();
+        var txtFechaFin = $("#FechaFin").val();
+
+        if (txtFechaInicio === "") {
+            $("#FechaInicio").tooltip();
+            $("#FechaInicio").focus();
+            return false;
+        }
+        if (txtFechaFin === "") {
+            $("#FechaFin").tooltip();
+            $("#FechaFin").focus();
+            return false;
+        }
+    })
+
+
+
 });
+

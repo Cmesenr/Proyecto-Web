@@ -19,10 +19,12 @@ namespace SWRCVA.Models
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaInicio { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaFin { get; set; }
 
         public int IdCliente { get; set; }
