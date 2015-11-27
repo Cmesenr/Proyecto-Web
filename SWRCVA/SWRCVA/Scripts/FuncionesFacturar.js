@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+
     $('#ListaProductos').DataTable({
         "paging": false,
         "ordering": false,
@@ -274,7 +275,7 @@ $(document).ready(function () {
                                           '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                         '</tr>');
                 }
-                CalcularTotal();
+                 CalcularTotal();
             },
             error: function (result) {
                 alert('ERROR ' + result.status + ' ' + result.statusText);
@@ -314,19 +315,21 @@ $("#btnPagar").on("click", function () {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 if (data == "Factura Registrada!") {
-                    RefrescarLista();
+                    CargarListaProductosTicket();
                     $("#ModalFacturar").modal("hide");
-                    LimpiarDatosRegistro();
-                    CargarListaProductos();
-                    CalcularTotal();
                     $("#TextModalinfo").html(data);
                     $("#HeaderModalInfo").html("Registrada");
+                    LimpiarDatosRegistro();
+                    RefrescarLista();
+                    CargarListaProductos();
+                    CalcularTotal();
                     $('#ModalMensaje').modal("show");
                 } else {
                     $("#ModalFacturar").modal("hide");
                     $("#TextModal").html(data);
                     $("#HeaderModalInfo").html("Error");
                     $('#ModalError').modal("show");
+
                 }
                
             }
@@ -340,6 +343,7 @@ $("#btnPagar").on("click", function () {
 })
 $('#ModalMensaje').on('hidden.bs.modal', function () {
     $("#ModalMensaje").removeData('bs.modal');
+    PrintContent();
     //window.location.href = "/Factura/Facturar";
 });
 $('#ModalFacturar').on('hidden.bs.modal', function () {
@@ -391,6 +395,34 @@ function CargarListaProductos() {
             }
             else {
                 $("#ListaProductos tbody").empty();
+            }
+        },
+        error: function (result) {
+            alert('ERROR ' + result.status + ' ' + result.statusText);
+        }
+
+    })
+}
+function CargarListaProductosTicket() {
+    $.ajax({
+        cache: false,
+        url: "/Factura/ConsultarListaProductosTicket",
+        type: "get",
+        data: {},
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (data != "" && data != null) {
+                $("#TicketDetalle tbody").empty();
+
+                        for (var i = 0; i < data.length; i++) {
+                            $('#TicketDetalle tbody').append('<tr>' +
+                                                      '<td>' + data[i].Nombre + '</td>' +
+                                                       '<td>' + data[i].CantMat + '</td>' +
+                                                      '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                                    '</tr>');
+                        }
+              
             }
         },
         error: function (result) {
@@ -487,3 +519,14 @@ function CalcularCambio() {
 function round5(x) {
     return Math.ceil(x / 5) * 5;
 }
+    function PrintContent() {
+        var DocumentContainer = document.getElementById('TicketFactura');
+        var WindowObject = window.open("", "PrintWindow",
+        "width=300,height=500,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+        WindowObject.document.write();
+        WindowObject.document.writeln(DocumentContainer.innerHTML);
+        WindowObject.document.close();
+        WindowObject.focus();
+        WindowObject.print();
+        WindowObject.close();
+    }

@@ -326,7 +326,6 @@ namespace SWRCVA.Controllers
                         db.DetalleFactura.Add(D1);
                     }
                     db.SaveChanges();
-                    LimpiarListas();
                 }
                 else
                 {
@@ -339,6 +338,7 @@ namespace SWRCVA.Controllers
                 return Json(respuesta,
           JsonRequestBehavior.AllowGet);
             }
+            TempData["ListaProductosFact"] = ListaProductos;
             return Json(respuesta,
          JsonRequestBehavior.AllowGet);
         }
@@ -454,6 +454,17 @@ namespace SWRCVA.Controllers
              JsonRequestBehavior.AllowGet);
         }
         public JsonResult ConsultarListaProductos()
+        {
+            if (TempData["ListaProductosFact"] != null)
+            {
+                ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
+            }
+            TempData["ListaProductosFact"] = ListaProductos;
+            return Json(ListaProductos,
+         JsonRequestBehavior.AllowGet);
+        }
+        
+        public JsonResult ConsultarListaProductosTicket()
         {
             if (TempData["ListaProductosFact"] != null)
             {
