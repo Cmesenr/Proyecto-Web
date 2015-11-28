@@ -315,14 +315,10 @@ $("#btnPagar").on("click", function () {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 if (data == "Factura Registrada!") {
-                    CargarListaProductosTicket();
                     $("#ModalFacturar").modal("hide");
                     $("#TextModalinfo").html(data);
                     $("#HeaderModalInfo").html("Registrada");
                     LimpiarDatosRegistro();
-                    RefrescarLista();
-                    CargarListaProductos();
-                    CalcularTotal();
                     $('#ModalMensaje').modal("show");
                 } else {
                     $("#ModalFacturar").modal("hide");
@@ -343,7 +339,7 @@ $("#btnPagar").on("click", function () {
 })
 $('#ModalMensaje').on('hidden.bs.modal', function () {
     $("#ModalMensaje").removeData('bs.modal');
-    PrintContent();
+        PrintContent();
     //window.location.href = "/Factura/Facturar";
 });
 $('#ModalFacturar').on('hidden.bs.modal', function () {
@@ -403,33 +399,9 @@ function CargarListaProductos() {
 
     })
 }
-function CargarListaProductosTicket() {
-    $.ajax({
-        cache: false,
-        url: "/Factura/ConsultarListaProductosTicket",
-        type: "get",
-        data: {},
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            if (data != "" && data != null) {
-                $("#TicketDetalle tbody").empty();
-
-                        for (var i = 0; i < data.length; i++) {
-                            $('#TicketDetalle tbody').append('<tr>' +
-                                                      '<td>' + data[i].Nombre + '</td>' +
-                                                       '<td>' + data[i].CantMat + '</td>' +
-                                                      '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
-                                                    '</tr>');
-                        }
-              
-            }
-        },
-        error: function (result) {
-            alert('ERROR ' + result.status + ' ' + result.statusText);
-        }
-
-    })
+function LimpiarListaProductos() {
+    $("#ListaProductos tbody").empty();
+    $("#txtTotal").html("₡ " + "0.00");
 }
 function CalcularTotal() {
     $.ajax({
@@ -519,14 +491,10 @@ function CalcularCambio() {
 function round5(x) {
     return Math.ceil(x / 5) * 5;
 }
-    function PrintContent() {
-        var DocumentContainer = document.getElementById('TicketFactura');
-        var WindowObject = window.open("", "PrintWindow",
-        "width=300,height=500,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
-        WindowObject.document.write();
-        WindowObject.document.writeln(DocumentContainer.innerHTML);
-        WindowObject.document.close();
+var WindowObject = new Object();
+function PrintContent() {
+        WindowObject = window.open("/Factura/Ticket/", "PrintWindow",
+        "width=300,height=500,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");        
         WindowObject.focus();
-        WindowObject.print();
-        WindowObject.close();
-    }
+        LimpiarListaProductos();
+}

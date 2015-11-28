@@ -426,6 +426,7 @@
     <Content Include="Scripts\FuncionesProducto.js" />
     <Content Include="Scripts\FuncionesReportes.js" />
     <Content Include="Scripts\FuncionesRespaldo.js" />
+    <Content Include="Scripts\FuncionesTicket.js" />
     <Content Include="Scripts\FuncionesUsuario.js" />
     <Content Include="Scripts\FuncionesProveedor.js" />
     <Content Include="Scripts\jqBootstrapValidation.js" />
@@ -501,6 +502,7 @@
     <Content Include="Views\Reporte\ReporteCotizacion.cshtml" />
     <Content Include="Views\Reporte\ReporteOrden.cshtml" />
     <Content Include="Views\Respaldo\RepaldarBD.cshtml" />
+    <Content Include="Views\Factura\Ticket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
