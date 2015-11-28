@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "RepaldarBD";
+}
+
+<h2>Repaldar BD</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label class="control-label col-md-2"> Tipo de operación: </label>
+            <div class="col-md-10">
+                <input type="radio" name="Respaldo" value="Respaldo" checked/>&nbsp;<span class="text-muted" title="Respaldar BD">Respaldar</span><br>
+                <input type="radio" name="Respaldo" value="Restauracion" />&nbsp;<span class="text-muted" title="Restaurar BD">Restaurar</span>
+            </div>
+        </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4">
+                    <input type="button" id="Procesar" value="Procesar Operacion" class="btn btn-primary edit" />
+                </div>
+            </div>
+        </div>
+}
+
+@section Scripts {
+      @Scripts.Render("~/bundles/FuncionesRespaldo")
+}
+
+
+
+

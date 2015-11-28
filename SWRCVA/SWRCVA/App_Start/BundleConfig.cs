@@ -64,11 +64,13 @@ namespace SWRCVA
             bundles.Add(new ScriptBundle("~/bundles/jqBootstrapValidation").Include(
               "~/Scripts/jqBootstrapValidation.js"));
             bundles.Add(new ScriptBundle("~/bundles/FuncionesFacturar").Include(
-       "~/Scripts/FuncionesFacturar.js"));
+            "~/Scripts/FuncionesFacturar.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FuncionesRespaldo").Include(
+            "~/Scripts/FuncionesRespaldo.js"));
             bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
-       "~/Scripts/jquery.dataTables.min.js"));
+            "~/Scripts/jquery.dataTables.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/dataTablesBoot").Include(
-     "~/Scripts/dataTables.bootstrap.min.js"));
+            "~/Scripts/dataTables.bootstrap.min.js"));
         }
     }
 }

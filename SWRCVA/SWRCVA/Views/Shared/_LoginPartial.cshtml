@@ -5,9 +5,6 @@
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hola " + Session["UsuarioActual"].ToString(), "Index")
-            </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar Session</a></li>
         </ul>
     }
