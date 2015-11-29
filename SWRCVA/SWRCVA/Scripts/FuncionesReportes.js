@@ -62,12 +62,12 @@
         var txtFechaFin = $("#FechaFin").val();
 
         if (txtFechaInicio === "") {
-            $("#FechaInicio").tooltip();
+            $("#FechaInicio").tooltip({content:"test"});
             $("#FechaInicio").focus();
             return false;
         }
         if (txtFechaFin === "") {
-            $("#FechaFin").tooltip();
+            $("#FechaFin").tooltip({ content: "test" });
             $("#FechaFin").focus();
             return false;
         }

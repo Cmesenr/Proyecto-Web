@@ -17,7 +17,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FechaInicio, "Desde:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.FechaInicio, new { @class = "form-control datepicker ", @readonly = "readonly" })
+                @Html.TextBoxFor(model => model.FechaInicio, new { @class = "form-control datepicker ", @readonly = "readonly", required = "required", title = "Fecha requerida!" })
                 @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -25,7 +25,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FechaFin, "Hasta:", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.FechaFin, new { @class = "form-control datepicker ", @readonly = "readonly" })
+                @Html.TextBoxFor(model => model.FechaFin, new { @class = "form-control datepicker ", @readonly = "readonly", required = "required", title = "Fecha requerida!" })
                 @Html.ValidationMessageFor(model => model.FechaFin, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -75,15 +75,14 @@
                         <button type="button" data-dismiss="modal" class="btn">Cerrar</button>
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
 
-    <div class="col-md-offset-2 col-md-4t">
-        <button type="submit" value="" class="btn-primary btn-lg" title="Procesar">Procesar</button>
-    </div>
+        <div class="col-md-offset-2 col-md-4t">
+            <button type="submit" value="" id="Procesar" class="btn-primary btn-lg" title="Procesar">Procesar</button>
+        </div>
 
+    </div>
 }
 @section Scripts {
     @Scripts.Render("~/bundles/datetime")
