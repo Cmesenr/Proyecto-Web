@@ -188,10 +188,12 @@
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\MaterialCotizacion.cs" />
     <Compile Include="Models\MaterialEsperado.cs" />
+    <Compile Include="Models\MaterialItemCotizacion.cs" />
     <Compile Include="Models\Parametro.cs" />
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\ProductoCotizacion.cs" />
     <Compile Include="Models\Proveedor.cs" />
+    <Compile Include="Models\ReciboDinero.cs" />
     <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\SubCategoria.cs" />

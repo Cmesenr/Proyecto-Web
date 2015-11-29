@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    ConsultarListaMateriales();
     //Listar Clientes
     $("#txtClienteModal").on("keypress", function () {
         var params = { filtro: $("#txtClienteModal").val() };
@@ -31,6 +32,58 @@
 
         })
     })
+    //abrir modal materiales
+    $("#btnBuscarMat").on("click", function () {
+        $("#ModalMateriales").modal("show");
+    })
+    $("#TipoProductoAdd").on("change", function () {
+        if ($("#TipoProductoAdd").val() == 1) {
+            $("#RowMaterial").removeAttr("hidden");
+            $("#RowProductoEncabezado").attr("hidden", "hidden");
+        } else {
+            $("#RowProductoEncabezado").removeAttr("hidden");
+            $("#RowMaterial").attr("hidden", "hidden");
+            $("#txtAncho").removeAttr("disabled");
+            $("#txtAlto").removeAttr("disabled");
+            $("#txtAncho").attr("required", "required");
+            $("#txtAlto").attr("required", "required");
+        }
+
+    })
+    //Evento chekar Paleta
+    $('input[name=Rtipo]').on("change", function () {
+        if ($(this).val() == "P") {
+            $("#txtAlto").attr("disabled", "disabled");
+            $("#txtAlto").removeAttr("required");
+        } else if ($(this).val() == "L") {
+            $("#txtAlto").attr("disabled", "disabled");
+            $("#txtAlto").removeAttr("required");
+            $("#txtAncho").attr("disabled", "disabled");
+            $("#txtAncho").removeAttr("required");
+
+        }
+        else {
+            $("#txtAlto").attr("required", "required");
+            $("#txtAlto").removeAttr("disabled");
+            $("#txtAncho").attr("required", "required");
+            $("#txtAncho").removeAttr("disabled");
+        }
+
+    })
+    //Selecionar El Material
+    $("#formCotizar").on("click", "#SeleccionarMaterial", function (e) {
+        $("#txtProducto").val($(this).data("myvalue"));
+        $("#txtProducto").data("costo", $(this).data("costo"));
+        if ($(this).data("cat") == "Vidrio") {
+            mostrarCamposVidrio();
+        }
+        else {
+            ocultarCamposVidrio();
+        }
+        $("#ModalMateriales").modal("hide");
+
+    })
+
     //Selecionar El CLiente
     $("#headerPrincipal").on("click", "#SeleccionarCliente", function (e) {
         $("#txtClienteFinal").val($(this).data("nombre"));
@@ -329,7 +382,70 @@
     })
     //Agregar Producto 
     $("#formCotizar").on("click", "#btnAgregar", function () {
-        $('#ListaProductos').html('<center><img src="/Content/Imagenes/loadinfo1.gif"/></center>');
+        $('#ListaProductos tbody').html('<tr><td colspan="3"><center><img src="/Content/Imagenes/loadinfo1.gif"/></center></td></tr>');
+        if ($("#TipoProductoAdd").val() == 1) {
+            if ($('#txtProducto')[0].checkValidity() == false) {
+                $("#txtProducto").tooltip();
+                $("#txtProducto").focus();
+                return false;
+            }
+            else if ($('#txtCantidad')[0].checkValidity() == false) {
+                $("#txtCantidad").tooltip();
+                $("#txtCantidad").focus();
+                return false;
+            }
+            else if ($('#txtAncho')[0].checkValidity() == false) {
+                $("#txtAncho").tooltip();
+                $("#txtAncho").focus();
+                return false;
+            }
+            else if ($('#txtAlto')[0].checkValidity() == false) {
+                $("#txtAlto").tooltip();
+                $("#txtAlto").focus();
+                return false;
+            }
+
+            var paraProd = { Idpro: $('#txtProducto').val(), Cant: $("#txtCantidad").val(), costo: $('#txtProducto').data("costo"), extra: $('#txtExtra').val(), Ancho: $("#txtAncho").val(), Alto: $("#txtAlto").val() };
+            $.ajax({
+                cache: false,
+                url: "/Cotizacion/AgregarMaterial",
+                type: "get",
+                data: paraProd,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (typeof (data) == "string") {
+                        $("#TextModal").html(data);
+                        $("#HeaderModalInfo").html("Error");
+                        $('#ModalError').modal("show");
+                    }
+                    else {
+                        $("#ListaProductos tbody").empty();
+                        $("#ListaProductos tbody").fadeIn(1000).html();
+
+                        for (var i = 0; i < data.length; i++) {
+                            $('#ListaProductos tbody').append('<tr class="trTableFact warning">' +
+                                                  '<td>' + data[i].Nombre + '</td>' +
+                                                   '<td>' + data[i].CantMat + '</td>' +
+                                                  '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                                  '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
+                                                '</tr>');
+                        }
+                        CalcularTotal();
+                        LimpiarCampos();
+                        ocultarCamposVidrio();
+                    }
+
+                },
+                error: function (result) {
+                    alert('ERROR ' + result.status + ' ' + result.statusText);
+                }
+
+            })
+        }
+        else{
+            $('#ListaProductos tbody').html('<tr><td colspan="3"><center><img src="/Content/Imagenes/loadinfo1.gif"/></center></td></tr>');
         if ($('#DropDownTipoProductos')[0].checkValidity() == false) {
             $("#DropDownTipoProductos").tooltip();
             $("#DropDownTipoProductos").focus();
@@ -407,14 +523,12 @@
                             $('#ModalError').modal("show");
                         }
                         else{
-                            $("#ListaProductos").empty();
-                            $("#ListaProductos").fadeIn(1000).html();
-                            $("#ListaProductos").append('<tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
-
+                            $("#ListaProductos tbody").empty();
+                            $("#ListaProductos tbody").fadeIn(1000).html();
                         for (var i = 0; i < data.length; i++) {
-                            $('#ListaProductos').append('<tr class="warning">' +
+                            $('#ListaProductos tbody').append('<tr class="warning">' +
                                                   '<td>' + data[i].Nombre + '</td>' +
-                                                   '<td>' + data[i].CantProducto + '</td>' +
+                                                   '<td>' + data[i].CantMat + '</td>' +
                                                   '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                                   '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                                 '</tr>');
@@ -429,7 +543,8 @@
                     alert('ERROR ' + result.status + ' ' + result.statusText);
                 }
 
-            })
+               })
+        }
       
     })
     $("#formCotizar").on("click", "#eliminarProducto", function () {
@@ -442,11 +557,11 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("#ListaProductos").empty();
-                $("#ListaProductos").append('<tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
+                $("#ListaProductos tbody").empty();
+              
 
                 for (var i = 0; i < data.length; i++) {
-                    $('#ListaProductos').append('<tr class="warning">' +
+                    $('#ListaProductos tbody').append('<tr class="warning">' +
                                           '<td>' + data[i].Nombre + '</td>' +
                                            '<td>' + data[i].CantProducto + '</td>' +
                                           '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
@@ -575,6 +690,40 @@ function RefrescarLista() {
     });
 
 }
+function ConsultarListaMateriales() {
+    $("#divLoading").addClass('show');
+    $.ajax({
+        cache: false,
+        url: "/Factura/ConsultarMateriales",
+        type: "get",
+        data: {},
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $("#TableMateriales tbody").empty();
+            $("#TableMateriales").append('<tbody>');
+            for (var i = 0; i < data.length; i++) {
+                $('#TableMateriales').append('<tr>' +
+                                      '<td>' + data[i].Id + '</td>' +
+                                      '<td>' + data[i].Nombre + '</td>' +
+                                      '<td>' + data[i].Categoria + '</td>' +
+                                      '<td>' + data[i].Color + '</td>' +
+                                      '<td>' + data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                      '<td> <button type="button" id="SeleccionarMaterial" class="btn btn-default btn-sm" data-cat="' + data[i].Categoria + '" data-costo="' + data[i].Costo + '"  data-myvalue="' + data[i].Id + '"><span class="glyphicon glyphicon-ok" /></button></td>' +
+                                    '</tr>');
+
+            }
+            $("#TableMateriales").append('</tbody>');
+            $('#TableMateriales').DataTable();
+            $("#divLoading").fadeOut();
+            $("#divLoading").removeClass('show');
+        },
+        error: function (result) {
+            alert('ERROR ' + result.status + ' ' + result.statusText);
+        }
+
+    })
+}
 function consultarVidrio(id, bool) {
     var para = { id: id, tipo: bool };
     $.ajax({
@@ -590,7 +739,6 @@ function consultarVidrio(id, bool) {
 
                 items += "<option value='" + data[i].IdMaterial + "'>" + data[i].Nombre + "</option>";
             }
-
             $("#DropDownVidrio").html(items);
 
         },
@@ -598,6 +746,28 @@ function consultarVidrio(id, bool) {
             alert('ERROR ' + result.status + ' ' + result.statusText);
         }
     })
+}
+function mostrarCamposVidrio() {
+    $('input[name=Rtipo]').removeAttr("disabled");
+    $("#txtAncho").removeAttr("disabled");
+    $("#txtAlto").removeAttr("disabled");
+    $("#txtAncho").attr("required", "required");
+    $("#txtAlto").attr("required", "required");
+}
+function ocultarCamposVidrio() {
+    $('input[name=Rtipo]').attr("disabled", "disabled");
+    $("#txtAncho").attr("disabled", "disabled");
+    $("#txtAlto").attr("disabled", "disabled");
+    $("#txtAncho").removeAttr("required");
+    $("#txtAlto").removeAttr("required");
+}
+function LimpiarCampos() {
+    $('#txtProducto').val("");
+    $('#txtCantidad').val("");
+    $('#txtAncho').val("");
+    $('#txtAlto').val("");
+    $('#txtExtra').val("");
+    $('input[name=Rtipo]').attr('checked', false);
 }
 var nav4 = window.Event ? true : false;
 function acceptNum(evt) {

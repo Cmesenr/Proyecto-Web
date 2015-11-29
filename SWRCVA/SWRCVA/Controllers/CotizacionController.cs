@@ -174,7 +174,7 @@ namespace SWRCVA.Controllers
                 ProductoCotizacion p = new ProductoCotizacion();
                 p.IdProducto = item.IdProducto;
                 p.Nombre = item.Producto.Nombre;
-                p.CantProducto = item.CantProducto;
+                p.CantMat = item.CantProducto;
                 p.IdColorPaleta = item.IdColorPaleta;
                 p.AnchoCelocia = item.AnchoCelocia;
                 p.IdColorVidrio = item.IdColorVidrio;
@@ -284,7 +284,8 @@ namespace SWRCVA.Controllers
                 ProductoCotizacion Produ = new ProductoCotizacion();
                 Produ.IdProducto = Idpro;
                 Produ.Nombre = ListPro.Nombre;
-                Produ.CantProducto = Cant;
+                Produ.Tipo = "Prod";
+                Produ.CantMat = Cant;
                 Produ.IdColorPaleta =ColorPaleta;
                 Produ.AnchoCelocia = anchocelocia;
                 Produ.IdColorVidrio =Cvidrio;
@@ -321,6 +322,94 @@ namespace SWRCVA.Controllers
               JsonRequestBehavior.AllowGet);
             }
             TempData["MateralCotizacion"] = ListaMateriales;
+            TempData["ListaProductos"] = ListaProductos;
+            return Json(ListaProductos.ToList(),
+                JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult AgregarMaterial(int Idpro, decimal Cant, decimal costo, decimal? Extra, decimal? Ancho, decimal? Alto)
+        {
+            var resultado = "Error al intentar agregar el producto";
+            if (TempData["ListaProductos"] != null)
+            {
+                ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductos"];
+            }
+            try
+            {
+                decimal IV = 1 + db.Valor.Find(2).Porcentaje;
+                Material ListMat = db.Material.Find(Idpro);
+                ProductoCotizacion Produ = new ProductoCotizacion();
+                Produ.IdProducto = Idpro;
+                Produ.Tipo = "Mat";
+                Produ.Nombre = ListMat.Nombre;
+                Produ.CantMat = Cant;
+                if (Ancho != null)
+                {
+                    Produ.Ancho = (decimal)Ancho;
+                }
+                if (Alto != null)
+                {
+                    Produ.Alto = (decimal)Alto;
+                }
+               
+                switch (ListMat.IdCatMat)
+                {
+                    case 1:
+                        {
+                            Produ.Subtotal = ((costo * IV) * 1.5m);
+                            break;
+                        }
+                    case 2:
+                        {
+                            Produ.Subtotal = ((costo * IV) * 1.5m);
+                            break;
+                        }
+                    case 3:
+                        {
+                            if (ListMat.IdTipoMaterial == 55)
+                            {
+                                Produ.Subtotal = (decimal)Ancho * ((costo * IV) * 1.5m);
+                            }
+                            else if (ListMat.IdTipoMaterial == 61)
+                            {
+                                Produ.Subtotal = ((costo * IV) * 1.5m);
+                            }
+                            break;
+                        }
+                }
+
+                if (Extra != null)
+                {
+                    Extra = (Extra / 100m) + 1;
+                    Produ.Subtotal = (Produ.Subtotal * Cant) * (decimal)Extra;
+                }
+                else
+                {
+                    Produ.Subtotal = Produ.Subtotal * Cant;
+                }
+                Produ.Subtotal = Math.Round((Decimal)Produ.Subtotal, 2);
+                if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
+                else
+                {
+                    foreach (ProductoCotizacion listProduct in ListaProductos)
+                    {
+                        if (listProduct.IdProducto == Idpro)
+                        {
+                            TempData["ListaProductos"] = ListaProductos;
+                            resultado = "No se puede duplicar el El producto!";
+                            return Json(resultado,
+                            JsonRequestBehavior.AllowGet);
+                        }
+
+                    }
+                    ListaProductos.Add(Produ);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(resultado,
+              JsonRequestBehavior.AllowGet);
+            }
             TempData["ListaProductos"] = ListaProductos;
             return Json(ListaProductos.ToList(),
                 JsonRequestBehavior.AllowGet);
@@ -567,7 +656,24 @@ namespace SWRCVA.Controllers
                     foreach (var item in ListaProductos)
                     {
                         item.IdCotizacion = Cot.IdCotizacion;
-                        db.ProductoCotizacion.Add(item);
+                        if (item.Tipo == "Mat")
+                        {
+                            MaterialItemCotizacion M = new MaterialItemCotizacion();
+                            M.IdCotizacion= Cot.IdCotizacion;
+                            M.IdMaterial = item.IdProducto;
+                            M.Cantidad = item.CantMat;
+                            M.Ancho = item.Ancho;
+                            M.Alto = item.Alto;
+                            M.Subtotal = item.Subtotal;
+                            db.MaterialItemCotizacion.Add(M);
+                        }
+                        else
+                        {
+                            item.CantProducto = (int)item.CantMat;
+                            db.ProductoCotizacion.Add(item);
+                        }
+                        
+                       
                     }
                     db.SaveChanges();
                     LimpiarListas();
@@ -619,7 +725,24 @@ namespace SWRCVA.Controllers
                 foreach (var item in ListaProductos)
                 {
                     item.IdCotizacion = Cot.IdCotizacion;
-                    db.ProductoCotizacion.Add(item);
+                    if (item.Tipo == "Mat")
+                    {
+                        MaterialItemCotizacion M = new MaterialItemCotizacion();
+                        M.IdCotizacion = Cot.IdCotizacion;
+                        M.IdMaterial = item.IdProducto;
+                        M.Cantidad = item.CantMat;
+                        M.Ancho = item.Ancho;
+                        M.Alto = item.Alto;
+                        M.Subtotal = item.Subtotal;
+                        db.MaterialItemCotizacion.Add(M);
+                    }
+                    else
+                    {
+                        item.CantProducto = (int)item.CantMat;
+                        db.ProductoCotizacion.Add(item);
+                    }
+
+
                 }
                 db.SaveChanges();
                 LimpiarListas();

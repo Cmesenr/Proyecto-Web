@@ -90,8 +90,8 @@ namespace SWRCVA.Controllers
                             if (g.IdProducto == ProAlmac.IdProducto)
                             {
                                 Produ.Cantidad = g.CantProducto;
-                                Produ.Alto = g.Alto;
-                                Produ.Ancho = g.Ancho;
+                                Produ.Alto = (decimal)g.Alto;
+                                Produ.Ancho = (decimal)g.Ancho;
                                 Produ.ColorVidrio = g.ColorMat.Nombre;
                                 Produ.ColorAluminio = g.ColorMat1.Nombre;
                                 if (g.AnchoCelocia == null)

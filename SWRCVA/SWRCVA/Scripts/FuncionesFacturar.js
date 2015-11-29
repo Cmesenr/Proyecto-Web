@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
     $('#ListaProductos').DataTable({
         "paging": false,
         "ordering": false,
@@ -85,7 +84,6 @@ $(document).ready(function () {
     //Abrir modal  Material
     $("#txtProducto").on("click", function () {
         $("#ModalMateriales").modal("show");
-
     })
 
 
