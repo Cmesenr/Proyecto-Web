@@ -31,6 +31,9 @@
 <table class="table table-bordered table-hover">
     <tr class="active">
         <th>
+            # Cotización
+        </th>
+        <th>
             Cliente
         </th>
         <th>
@@ -47,6 +50,9 @@
 
 @foreach (var item in Model) {
     <tr class="warning">
+        <td>
+            @Html.DisplayFor(modelItem => item.IdCotizacion)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Cliente.Nombre)
         </td>
@@ -67,8 +73,9 @@
             @Html.DisplayFor(modelItem => item.MontoParcial)
         </td>
         <td>
-            <button id="btnEditarMaterial" data-id="@item.IdCotizacion" onclick="location.href='/Cotizacion/Editar?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-            <button id="btnBorrarMaterial" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdCotizacion" data-id="@item.IdCotizacion" type="button" class="btn btn-danger delete">Borrar</button>
+            <button id="btnEditarCot" data-id="@item.IdCotizacion" onclick="location.href='/Cotizacion/Editar?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+            <button id="btnBorrarCot" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdCotizacion" data-id="@item.IdCotizacion" type="button" class="btn btn-danger delete">Borrar</button>&nbsp;|
+            <button id="btnImprimirCot" data-id="@item.IdCotizacion" title="Imprimir" type="button" class="btn btn-default pulse"><span class="glyphicon glyphicon-print"></span></button>
         </td>
     </tr>
 }
@@ -79,3 +86,27 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@section Scripts {
+
+    @Scripts.Render("~/bundles/FuncionesCotizacion")
+}
+<div class="modal fade" id="ModalConfirm" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Borrar</h4>
+            </div>
+            <div class="modal-body">
+                <center><p id="TextModal"></p></center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return EliminarCotizacion(this.value)" class="btn btn-primary">Continuar</button>
+            </div>
+        </div>
+
+    </div>
+</div>

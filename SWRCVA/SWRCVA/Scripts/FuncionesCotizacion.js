@@ -32,11 +32,20 @@
 
         })
     })
+    //cargar datos a modal eliminar
+    $('#ModalConfirm').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data().id;
+        var data = $(e.relatedTarget).data().info;
+        $(e.currentTarget).find('#btnModalborrar').val(id);
+        $(e.currentTarget).find('#TextModal').html("Esta seguro que desea borrar la Cotizacion " + data + " ?");
+    });
     //abrir modal materiales
     $("#btnBuscarMat").on("click", function () {
         $("#ModalMateriales").modal("show");
     })
+    //cambiar de Producto o Material
     $("#TipoProductoAdd").on("change", function () {
+        SwitchTipoProducto();
         if ($("#TipoProductoAdd").val() == 1) {
             $("#RowMaterial").removeAttr("hidden");
             $("#RowProductoEncabezado").attr("hidden", "hidden");
@@ -74,17 +83,11 @@
     $("#formCotizar").on("click", "#SeleccionarMaterial", function (e) {
         $("#txtProducto").val($(this).data("myvalue"));
         $("#txtProducto").data("costo", $(this).data("costo"));
-        if ($(this).data("cat") == "Vidrio") {
-            mostrarCamposVidrio();
-        }
-        else {
-            ocultarCamposVidrio();
-        }
+        VerificarMaterial($("#txtProducto").val());
         $("#ModalMateriales").modal("hide");
 
     })
-
-    //Selecionar El CLiente
+     //Selecionar El CLiente
     $("#headerPrincipal").on("click", "#SeleccionarCliente", function (e) {
         $("#txtClienteFinal").val($(this).data("nombre"));
         $("#txtClienteFinal").data("cliente", $(this).data("myvalue"));
@@ -382,7 +385,7 @@
     })
     //Agregar Producto 
     $("#formCotizar").on("click", "#btnAgregar", function () {
-        $('#ListaProductos tbody').html('<tr><td colspan="3"><center><img src="/Content/Imagenes/loadinfo1.gif"/></center></td></tr>');
+        $('#ListaProductos tbody').html('<tr><td colspan="4"><center><img src="/Content/Imagenes/loadinfo1.gif"/></center></td></tr>');
         if ($("#TipoProductoAdd").val() == 1) {
             if ($('#txtProducto')[0].checkValidity() == false) {
                 $("#txtProducto").tooltip();
@@ -445,7 +448,7 @@
             })
         }
         else{
-            $('#ListaProductos tbody').html('<tr><td colspan="3"><center><img src="/Content/Imagenes/loadinfo1.gif"/></center></td></tr>');
+            $('#ListaProductos tbody').html('<tr><td colspan="4"><center><img src="/Content/Imagenes/loadinfo1.gif"/></center></td></tr>');
         if ($('#DropDownTipoProductos')[0].checkValidity() == false) {
             $("#DropDownTipoProductos").tooltip();
             $("#DropDownTipoProductos").focus();
@@ -547,6 +550,7 @@
         }
       
     })
+    //eliminar producto de la lista
     $("#formCotizar").on("click", "#eliminarProducto", function () {
         var id = $(this).attr("data-id");
         $.ajax({
@@ -563,7 +567,7 @@
                 for (var i = 0; i < data.length; i++) {
                     $('#ListaProductos tbody').append('<tr class="warning">' +
                                           '<td>' + data[i].Nombre + '</td>' +
-                                           '<td>' + data[i].CantProducto + '</td>' +
+                                           '<td>' + data[i].CantMat + '</td>' +
                                           '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                           '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                         '</tr>');
@@ -578,6 +582,14 @@
     })
 
 })
+//Imprimir 
+$(".pulse").click(function () {
+    var id = $(this).attr("data-id");
+    var WindowObject = window.open("/Cotizacion/Plaforma?id="+id+"", "PrintWindow",
+"width=310,height=500,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+    WindowObject.focus();
+   
+});
 function CalcularTotal() {
     $.ajax({
         cache: false,
@@ -618,14 +630,17 @@ function LimpiarCamposBoddy() {
     $('#DropDownProductos').val("");
     $('#DropDownCVidrio').val("");
     $('#DropDownCAluminio').val("");
+    $('#DropDownVidrio').val("");
     $('#DropDownInstalacion').val("");
     $('#DropDownVidrio').val("");
     $('#txtCantidad').val("");
     $('#txtAncho').val("");
     $('#txtAlto').val("");
     $('#txtCelocia').val("");
+    $('input[name=Vidrio]').attr('checked', false);
     $('input[name=ColoresPaleta]').attr('checked', false);
     $("#DropDownPaletas").val("");
+    $('#MostrarImagen').removeAttr('src');
 }
 function CargarListaProductos() {
     $.ajax({
@@ -653,13 +668,12 @@ function CargarListaProductos() {
                     $('#ModalError').modal("show");
                 }
                 else {
-                    $("#ListaProductos").empty();
-                    $("#ListaProductos").append('<tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>');
+                    $("#ListaProductos tbody").empty();
 
                     for (var i = 0; i < data.length; i++) {
-                        $('#ListaProductos').append('<tr class="warning">' +
+                        $('#ListaProductos tbody').append('<tr class="warning">' +
                                               '<td>' + data[i].Nombre + '</td>' +
-                                               '<td>' + data[i].CantProducto + '</td>' +
+                                               '<td>' + data[i].CantMat + '</td>' +
                                               '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                               '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                             '</tr>');
@@ -747,18 +761,83 @@ function consultarVidrio(id, bool) {
         }
     })
 }
+function VerificarMaterial(id) {
+    if (id != "") {
+        $.ajax({
+            cache: false,
+            url: "/Cotizacion/VerificarMaterial",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "Vidrio") {
+                    mostrarCamposVidrio();
+                } else if (data == "Paleta") {
+                    MostrarCamposPaleta();
+                }
+                else if (data == "Material") {
+                    ocultarCamposVidrio();
+                }
+
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+        })
+    }
+}
+function EliminarCotizacion(valor) {
+    var params = { id: valor };
+    $.ajax({
+        cache: false,
+        url: "/Cotizacion/Borrar",
+        type: "GET",
+        data: params,
+        contentType: "application/json; charset=utf-8",
+        success: function (result) {
+            parent.document.location = parent.document.location;
+        }
+    });
+
+}
+function SwitchTipoProducto() {
+    $('#txtProducto').val("");
+    $('#txtCantidad').val("");
+    $('#txtAncho').val("");
+    $('#txtAlto').val("");
+    $('#txtExtra').val("");
+    $('#DropDownTipoProductos').val("");
+    $('#DropDownProductos').val("");
+    $('#DropDownCVidrio').val("");
+    $('#DropDownCAluminio').val("");
+    $('#DropDownVidrio').val("");
+    $('#DropDownInstalacion').val("");
+    $('#DropDownVidrio').val("");
+    $('#txtCantidad').val("");
+    $('#txtCelocia').val("");
+    $('input[name=Vidrio]').attr('checked', false);
+    $('input[name=ColoresPaleta]').attr('checked', false);
+    $("#DropDownPaletas").val("");
+    $('#MostrarImagen').removeAttr('src');
+}
 function mostrarCamposVidrio() {
-    $('input[name=Rtipo]').removeAttr("disabled");
     $("#txtAncho").removeAttr("disabled");
     $("#txtAlto").removeAttr("disabled");
     $("#txtAncho").attr("required", "required");
     $("#txtAlto").attr("required", "required");
 }
 function ocultarCamposVidrio() {
-    $('input[name=Rtipo]').attr("disabled", "disabled");
     $("#txtAncho").attr("disabled", "disabled");
     $("#txtAlto").attr("disabled", "disabled");
     $("#txtAncho").removeAttr("required");
+    $("#txtAlto").removeAttr("required");
+}
+function MostrarCamposPaleta() {
+    $("#txtAncho").removeAttr("disabled");
+    $("#txtAncho").attr("placeholder","Largo");
+    $("#txtAlto").attr("disabled", "disabled");
+    $("#txtAncho").attr("required", "required");
     $("#txtAlto").removeAttr("required");
 }
 function LimpiarCampos() {
@@ -767,7 +846,6 @@ function LimpiarCampos() {
     $('#txtAncho').val("");
     $('#txtAlto').val("");
     $('#txtExtra').val("");
-    $('input[name=Rtipo]').attr('checked', false);
 }
 var nav4 = window.Event ? true : false;
 function acceptNum(evt) {

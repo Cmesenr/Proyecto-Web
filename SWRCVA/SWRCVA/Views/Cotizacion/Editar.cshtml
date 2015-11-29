@@ -5,10 +5,16 @@
 }
 <br />
 <div class="row" id="headerPrincipal">
-    <div class="col-md-2">
+    <div class="col-md-1">
         <button type="button" onclick="location.href='@Url.Action("Index")',RefrescarLista()" class="btn-circle btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></button>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
+        <select id="TipoProductoAdd" class="btn btn-default btn-lg" name="TipoPro">
+            <option class="btn btn-lg" value="0" selected>Productos</option>
+            <option class="btn btn-lg" value="1">Materiales</option>
+        </select>
+    </div>
+    <div class="col-md-3">
         <div class="form-group-lg">
             <div class="col-md-12">
                 <input type="text" class="form-control" placeholder="Buscar Cliente" id="txtClienteFinal" data-cliente="@Model.IdCliente" value="@Model.Cliente.Nombre" required="required" title="Cliente requerido!" disabled="disabled" maxlength="30" />
@@ -25,7 +31,7 @@
     <div class="col-md-1" align="right">
         <button type="button" id="btnGuardarEdit" value="" class="btn-circleSave btn-primary btn-lg" title="Guardar"><span class="glyphicon glyphicon-floppy-saved"></span></button>
     </div>
-    <div class="col-md-2" align="right">
+    <div class="col-md-1" align="right">
         <button type="button" id="btnProcesarEdit" title="Procesar Cotización" class="btn-circle btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span></button>
     </div>
     <div class="modal fade" id="ModalCliente" role="dialog">
@@ -101,11 +107,73 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal" id="formCotizar">
+        <div class="modal fade" id="ModalMateriales" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Materiales</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal" align="center">
+                            <div class="form-group">
+                                <table class="table table-striped table-bordered" id="TableMateriales">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>Categoria</th>
+                                            <th>Color</th>
+                                            <th>Costo</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <hr />
         <div class="ContenedorCotizacion">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.IdCotizacion, new { id = "IdCotizacion" })
-            <div class="row">
+            <div id="RowMaterial" class="row" hidden="hidden">
+
+                <div class="col-md-3" align="left">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="Codigo de Material" id="txtProducto" required="required" title="Producto requerido!" maxlength="100" />
+                            </div>
+                            <button type="button" id="btnBuscarMat" class="btn btn-primary btn-sm col-md-2" data-nombre="" data-myvalue=""><span class="glyphicon glyphicon-search" /></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" align="left">
+                    <div class="form-group">
+                        <div class="col-md-8 text-right">
+                            <input type="text" class="form-control" onkeypress='return acceptonlyNum(event);' placeholder="% Extra" id="txtExtra" required="required" title="Cantidad Requerida" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <strong><span class="" style="color:white; " id="lbLamina">Lamina</span></strong> &nbsp; &nbsp;<input name="Rtipo" type="radio" class="" id="CkLamina" value="L" disabled="disabled" />
+                </div>
+                <div class="col-md-2">
+                    <strong><span class="" style="color:white; " id="lblPaleta">Paleta</span></strong> &nbsp; &nbsp;<input name="Rtipo" type="radio" class="" id="CkPaleta" value="P" disabled="disabled" />
+                </div>
+                <div class="col-md-5">
+
+                </div>
+
+            </div>
+            <div  id="RowProductoEncabezado"  class="row">
                 <div class="col-md-2">
                     <div class="form-group">
                         <div class="col-md-12">
@@ -167,7 +235,10 @@
                         <div class="form-group">
 
                             <div class="col-md-12">
-                                <table class="table table-bordered table-hover" id="ListaProductos"></table>
+                                <table class="table table-bordered table-hover" id="ListaProductos">
+                                    <thead><tr class="active"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -318,6 +389,8 @@
         </div>
 
     </div>
+</div>
+<div id="divLoading">
 </div>
 @section Scripts {
 
