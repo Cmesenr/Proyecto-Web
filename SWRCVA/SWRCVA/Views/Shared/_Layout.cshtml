@@ -102,7 +102,6 @@
     }
 }
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                 </ul>
                 
                 @Html.Partial("_LoginPartial")
@@ -116,9 +115,24 @@
         @RenderBody()
         <hr />
         <footer >
-            
             <div class="label-primary col-md-12">             
-               <p class="col-md-1 text-right" style="font-size:15px;">Hora:</p><p class="col-md-9" id="reloj" style="font-size:15px;"></p><p class="col-md-2"> &copy; @DateTime.Now.Year - SWRCVA</p>
+               <p class="col-md-1 text-right" style="font-size:15px;">Hora:</p>
+               <p class="col-md-1 text-left" id="reloj" style="font-size:15px;"></p>
+
+               @if (@Session["UsuarioActual"] != null)
+               {
+                <p class="col-md-2">
+                    Usuario: @Session["UsuarioActual"].ToString()
+                </p>
+               }
+               @if (@Session["UsuarioActual"] != null)
+               {
+               <p class="col-md-8 text-right"> &copy; @DateTime.Now.Year - SWRCVA</p>
+               }
+               else
+               {
+                <p class="col-md-10 text-right"> &copy; @DateTime.Now.Year - SWRCVA</p>
+               }
             </div>
         </footer>
     </div>
@@ -129,8 +143,6 @@
     @Scripts.Render("~/bundles/dataTablesBoot")
     @Scripts.Render("~/bundles/bootstrap")  
     @Scripts.Render("~/bundles/jqBootstrapValidation")
-    @RenderSection("scripts", required: false)
-   
-  
+    @RenderSection("scripts", required: false)  
 </body>
 </html>

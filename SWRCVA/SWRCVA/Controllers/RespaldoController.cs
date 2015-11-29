@@ -35,7 +35,7 @@ namespace SWRCVA.Controllers
         {
             SqlConnection conn;
 
-            string stringConexion = "Data Source = localhost ; User Id = sa; Password = 123.";
+            string stringConexion = "Data Source = Angel\\Anca; User Id = UserBackup; Password = UserBackup";
             conn = new SqlConnection(stringConexion);
 
             return conn;
@@ -54,8 +54,6 @@ namespace SWRCVA.Controllers
                 command.ExecuteNonQuery();
 
                 conn.Close();
-
-                //ViewBag.Message("Se hizo el respaldo de la Base de Datos exitosamente.");
             }
             catch (RetryLimitExceededException /* dex */)
             {
@@ -77,8 +75,6 @@ namespace SWRCVA.Controllers
                 command.ExecuteNonQuery();
 
                 conn.Close();
-
-                //ViewBag.Message("Se hizo el respaldo de la Base de Datos exitosamente.");
             }
             catch (RetryLimitExceededException /* dex */)
             {
