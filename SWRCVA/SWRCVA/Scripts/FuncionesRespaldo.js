@@ -7,7 +7,8 @@
 
     $('#Procesar').on("click", function () {
         if (tipo != "") {
-            var param = {tipoOperacion : tipo}
+            var param = { tipoOperacion: tipo }
+            $('#Cargando').html('<img src="/Content/Imagenes/loading3.gif"/><p>Espere un momento...</p>');
             $.ajax({
                 cache: false,
                 url: "/Respaldo/RepaldarBD",
@@ -16,6 +17,7 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     $('#ModalMensaje').modal("show");
+                    $('#Cargando').html('');
                 },
                 error: function (result) {
                     alert('ERROR ' + result.status + ' ' + result.statusText);
