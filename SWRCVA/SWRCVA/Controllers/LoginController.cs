@@ -103,12 +103,28 @@ namespace SWRCVA.Controllers
             return View();
         }
 
-        public string Encriptar(string _cadenaAencriptar)
+        public string Encriptar(string cadenaAencriptar)
         {
             string result = string.Empty;
-            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(_cadenaAencriptar);
+            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(cadenaAencriptar);
             result = Convert.ToBase64String(encryted);
             return result;
+        }
+
+        public bool validaUsuario(HttpSessionStateBase session)
+        {
+            bool respuesta = false;
+
+            if (session["UsuarioActual"] == null)
+            {
+                respuesta = false;
+            }
+            else
+            {
+                respuesta = true;
+            }
+
+            return respuesta;
         }
     }
 }

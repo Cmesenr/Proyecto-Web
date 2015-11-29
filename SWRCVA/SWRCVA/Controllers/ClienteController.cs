@@ -17,10 +17,9 @@ namespace SWRCVA.Controllers
         // GET: Cliente
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -37,7 +36,7 @@ namespace SWRCVA.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var clientes = from s in db.Cliente
-                              select s;
+                           select s;
             if (!String.IsNullOrEmpty(searchString))
             {
                 clientes = clientes.Where(s => s.Nombre.Contains(searchString));
@@ -60,6 +59,10 @@ namespace SWRCVA.Controllers
         // GET: Cliente/Registrar
         public ActionResult Registrar()
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
 
@@ -68,6 +71,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registrar(Cliente cliente)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 ModelState.Remove("Usuario");
@@ -91,10 +98,9 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             if (id == null)
             {
@@ -113,6 +119,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarPost(int? id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -139,6 +149,10 @@ namespace SWRCVA.Controllers
         // GET: Cliente/Borrar/5
         public ActionResult Borrar(int? id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             Cliente clienteToUpdate = db.Cliente.Find(id);
             try
             {

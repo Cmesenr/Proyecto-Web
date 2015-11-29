@@ -194,18 +194,18 @@ namespace SWRCVA.Controllers
             base.Dispose(disposing);
         }
 
-        public string Encriptar(string _cadenaAencriptar)
+        public string Encriptar(string cadenaAencriptar)
         {
             string result = string.Empty;
-            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(_cadenaAencriptar);
+            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(cadenaAencriptar);
             result = Convert.ToBase64String(encryted);
             return result;
         }
 
-        public string DesEncriptar(string _cadenaAdesencriptar)
+        public string DesEncriptar(string cadenaAdesencriptar)
         {
             string result = string.Empty;
-            byte[] decryted = Convert.FromBase64String(_cadenaAdesencriptar);
+            byte[] decryted = Convert.FromBase64String(cadenaAdesencriptar);
             result = System.Text.Encoding.Unicode.GetString(decryted);
             return result;
         }
