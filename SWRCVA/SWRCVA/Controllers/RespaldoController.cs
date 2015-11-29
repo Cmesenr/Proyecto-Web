@@ -14,10 +14,10 @@ namespace SWRCVA.Controllers
         // GET: Respaldo
         public ActionResult RepaldarBD(string tipoOperacion)
         {
-            /*if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
             {
                 return RedirectToAction("Login", "Login");
-            }*/
+            }
 
             if (tipoOperacion == "Respaldo")
             {
@@ -40,7 +40,6 @@ namespace SWRCVA.Controllers
 
             return conn;
         }
-
 
         public void EjecutarRespaldo()
         {
