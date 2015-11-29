@@ -185,6 +185,7 @@
     <Compile Include="Models\Factura.cs" />
     <Compile Include="Models\HttpPostedFileBaseExtensions.cs" />
     <Compile Include="Models\ListaMatProducto.cs" />
+    <Compile Include="Models\ListaProducto.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\MaterialCotizacion.cs" />
     <Compile Include="Models\MaterialEsperado.cs" />
@@ -505,6 +506,7 @@
     <Content Include="Views\Reporte\ReporteOrden.cshtml" />
     <Content Include="Views\Respaldo\RepaldarBD.cshtml" />
     <Content Include="Views\Factura\Ticket.cshtml" />
+    <Content Include="Views\Cotizacion\Plaforma.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

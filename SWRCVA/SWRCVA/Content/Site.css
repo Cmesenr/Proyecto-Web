@@ -106,6 +106,8 @@ border-radius: 20px;
 -webkit-box-shadow: 0 3px 3px #ccc;
 -moz-box-shadow: 0 3px 3px #ccc;
 box-shadow: 0 3px 3px #ccc;
+margin-left:5px;
+
 }
 .table-bordered th {
 background-color: #dce9f9;
