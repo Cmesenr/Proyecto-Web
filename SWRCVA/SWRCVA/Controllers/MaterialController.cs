@@ -18,11 +18,9 @@ namespace SWRCVA.Controllers
         private List<ColorMaterial> Listacolores = new List<ColorMaterial>();
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -62,10 +60,9 @@ namespace SWRCVA.Controllers
         // GET: Material/Create
         public ActionResult Registrar()
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
@@ -87,6 +84,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registrar(Material material)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             try
             {
                 ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
@@ -146,10 +147,9 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre"); 
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
@@ -204,6 +204,10 @@ namespace SWRCVA.Controllers
         [HttpPost]
         public ActionResult Editar(int? id, Material material)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             ViewBag.ColorMaterial = new SelectList((from s in db.ColorMat
                                                     where s.IdCatMaterial == material.IdCatMat
@@ -283,6 +287,10 @@ namespace SWRCVA.Controllers
         // GET: Material/Delete/5
         public ActionResult Borrar(int id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             Material materialToUpdate = db.Material.Find(id);
             try
             {

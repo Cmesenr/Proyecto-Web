@@ -20,10 +20,9 @@ namespace SWRCVA.Controllers
         // GET: Orden
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -66,10 +65,9 @@ namespace SWRCVA.Controllers
         // GET: Cliente/Editar/5
         public ActionResult Detalles(int? id)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             Cotizacion cotizacion = db.Cotizacion.Find(id);
 
