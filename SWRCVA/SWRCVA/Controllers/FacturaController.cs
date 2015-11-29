@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SWRCVA.Models;
 using PagedList;
+using System.Globalization;
 
 namespace SWRCVA.Controllers
 {
@@ -64,6 +65,11 @@ namespace SWRCVA.Controllers
         // GET: Factura/Create
         public ActionResult Facturar(int? id)
         {
+
+            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
+            {
+                return RedirectToAction("Login", "Login");
+            }
             if (id != null)
             {
                 Cotizacion cotizacion = db.Cotizacion.Find(id);
@@ -86,7 +92,7 @@ namespace SWRCVA.Controllers
                     p.IdProducto = item.IdProducto;
                     p.Nombre = item.Producto.Nombre;
                     p.CantMat = item.CantProducto;
-                    p.Subtotal = item.Subtotal;
+                    p.Subtotal = Math.Round((Decimal)item.Subtotal, 2);
                     ListaP.Add(p);
                 }
 
@@ -100,23 +106,19 @@ namespace SWRCVA.Controllers
             return View();
         }
 
-        // POST: Factura/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Facturar([Bind(Include = "IdFactura,FechaHora,MontoTotal,MontoPagar,Usuario,IdCliente,Estado")] Factura factura)
+        public ActionResult Ticket()
         {
-            if (ModelState.IsValid)
+            if (TempData["ListaProductosFact"] != null)
             {
-                db.Factura.Add(factura);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
             }
-
-            ViewBag.IdCliente = new SelectList(db.Cliente, "IdCliente", "Nombre", factura.IdCliente);
-            ViewBag.Usuario = new SelectList(db.Usuario, "IdUsuario", "Contraseña", factura.Usuario);
-            return View(factura);
+            ViewData["IdFactura"] = TempData["IdFactura"];
+            ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", TempData["Total"]);
+            ViewData["ListaPro"] = ListaProductos;
+            TempData["ListaProductosFact"] = ListaProductos;
+            LimpiarListas();
+            return View();
         }
 
         // GET: Factura/Edit/5
@@ -229,7 +231,7 @@ namespace SWRCVA.Controllers
                 {
                     Produ.Subtotal = Produ.Subtotal* Cant;
                 }
-                
+                Produ.Subtotal = Math.Round((Decimal)Produ.Subtotal, 2);
                 if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
                 else
                 {
@@ -326,6 +328,7 @@ namespace SWRCVA.Controllers
                         db.DetalleFactura.Add(D1);
                     }
                     db.SaveChanges();
+                    TempData["IdFactura"] = Fact.IdFactura;
                 }
                 else
                 {
@@ -448,7 +451,7 @@ namespace SWRCVA.Controllers
                 return Json(resultado,
                   JsonRequestBehavior.AllowGet);
             }
-
+            TempData["Total"] = Total;
             TempData["ListaProductosFact"] = ListaProductos;
             return Json(Total,
              JsonRequestBehavior.AllowGet);
@@ -474,9 +477,12 @@ namespace SWRCVA.Controllers
             return Json(ListaProductos,
          JsonRequestBehavior.AllowGet);
         }
+        
         public void LimpiarListas()
         {
             TempData["ListaProductosFact"] = null;
+            TempData["IdFactura"] = null;
+            TempData["Total"] = null;
         }
         protected override void Dispose(bool disposing)
         {

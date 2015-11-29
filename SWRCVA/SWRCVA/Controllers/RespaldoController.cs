@@ -35,7 +35,7 @@ namespace SWRCVA.Controllers
         {
             SqlConnection conn;
 
-            string stringConexion = "Data Source = ANGEL\\ANCA ; User Id = UserBackup; Password = UserBackup";
+            string stringConexion = "Data Source = localhost ; User Id = sa; Password = 123.";
             conn = new SqlConnection(stringConexion);
 
             return conn;

@@ -350,34 +350,14 @@
         </div>
     </div>
 </div>
-<div style="width:100%" id="TicketFactura" hidden="hidden">
-    <div id="TicketHeader">
-        <h3><span>Vidrios Don Antonio</span></h3>
-        <span>Vidrios Don Antonio SA</span>
-        <span>Ced: 310162232211</span>
-        <span>Factura:</span><span id="IdFactura"></span>
-        <span>Diagonal Pollos Beto San Antonio del Tejar, Alajuela</span>
-        <hr />
-    </div>
-    <div id="Ticketbody">
-        <table id="TicketDetalle">
-            <thead><tr><th>Nombre</th><th>Cantidad</th><th>Precio</th></tr></thead>
-            <tbody></tbody>
-        </table>
-        <span class="text-right">TOTAL:</span><span id="lblTicketTotal"></span>
-    </div>
-    <div id="Ticketfooter" class="text-center">
-        <span>IVA Incluido</span>
-        <span>Gracias Por Preferirnos</span>
-    </div>
-</div>
+<div id="dialog" title="Ticket" style="overflow: hidden;"></div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/FuncionesFacturar")
-    <script type="text/javascript">
-        $(window).unload(function () {
-            RefrescarLista();
-        });
-        CargarListaProductos();
-    </script>
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/FuncionesFacturar")
+        <script type="text/javascript">
+            $(window).unload(function () {
+                RefrescarLista();
+            });
+            CargarListaProductos();
+        </script>
+    }

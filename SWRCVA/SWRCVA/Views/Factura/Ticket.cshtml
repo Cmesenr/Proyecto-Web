@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = null;
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/FuncionesTicket.js"></script>
+
+<div style="width:300px" id="TicketFactura">
+    <div id="TicketHeader">
+        <h3><span>Vidrios Don Antonio</span></h3>
+        <span>Vidrios Don Antonio SA</span><br />
+        <span>Tel: 24324313, 88821258 </span>
+        <span>Ced: 310162232211</span><br />
+        <span>Factura:</span><strong><span id="IdFactura">@ViewData["IdFactura"].ToString()</span></strong><br />
+        <span>Diagonal Pollos Beto San Antonio del Tejar, Alajuela</span><br />
+        <hr />
+    </div>
+    <div id="Ticketbody">
+        <table id="TicketDetalle">
+            <thead><tr><th>Nombre</th><th>Cantidad</th><th>Precio</th></tr></thead>
+            <tbody>
+                @foreach (var item in (List<SWRCVA.Models.ProductoCotizacion>)ViewData["ListaPro"])
+                {
+                <tr><td>@item.Nombre</td><td>@item.CantMat</td><td>@item.Subtotal</td></tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-right">
+            <span class="">TOTAL:</span><strong><span id="lblTicketTotal">@ViewData["Total"].ToString()</span></strong>
+        </div>
+    </div>
+    <div id="Ticketfooter" class="text-center">
+        <span>IVA Incluido</span>
+        <span>Gracias Por Preferirnos</span>
+    </div>
+</div>
+
+<script language="JavaScript">
+    window.print();
+</script>
+
