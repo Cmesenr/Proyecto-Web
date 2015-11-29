@@ -42,6 +42,8 @@ namespace SWRCVA.Models
         public int? Divisiones { get; set; }
         [NotMapped]
         public decimal CantMat { get; set; }
+        [NotMapped]
+        public string Tipo { get; set; }
 
         public virtual ColorMat ColorMat { get; set; }
 

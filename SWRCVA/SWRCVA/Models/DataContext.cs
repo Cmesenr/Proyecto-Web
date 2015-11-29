@@ -24,9 +24,11 @@ namespace SWRCVA.Models
         public virtual DbSet<Material> Material { get; set; }
         public virtual DbSet<MaterialCotizacion> MaterialCotizacion { get; set; }
         public virtual DbSet<MaterialEsperado> MaterialEsperado { get; set; }
+        public virtual DbSet<MaterialItemCotizacion> MaterialItemCotizacion { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoCotizacion> ProductoCotizacion { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
+        public virtual DbSet<ReciboDinero> ReciboDinero { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<SubCategoria> SubCategoria { get; set; }
         public virtual DbSet<TipoMaterial> TipoMaterial { get; set; }
@@ -128,7 +130,17 @@ namespace SWRCVA.Models
                       .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Cotizacion>()
+            .HasMany(e => e.MaterialItemCotizacion)
+            .WithRequired(e => e.Cotizacion)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Cotizacion>()
                 .HasMany(e => e.ProductoCotizacion)
+                .WithRequired(e => e.Cotizacion)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Cotizacion>()
+                .HasMany(e => e.ReciboDinero)
                 .WithRequired(e => e.Cotizacion)
                 .WillCascadeOnDelete(false);
 
@@ -189,6 +201,20 @@ namespace SWRCVA.Models
             modelBuilder.Entity<MaterialCotizacion>()
                 .Property(e => e.Subtotal)
                 .HasPrecision(12, 2);
+
+            modelBuilder.Entity<MaterialItemCotizacion>()
+                .Property(e => e.Subtotal)
+                .HasPrecision(12, 2);
+            modelBuilder.Entity<MaterialItemCotizacion>()
+               .Property(e => e.Cantidad)
+               .HasPrecision(12, 2);
+            modelBuilder.Entity<MaterialItemCotizacion>()
+           .Property(e => e.Ancho)
+           .HasPrecision(12, 2);
+
+            modelBuilder.Entity<MaterialItemCotizacion>()
+                .Property(e => e.Alto)
+                .HasPrecision(12, 2);
             modelBuilder.Entity<Producto>()
                 .Property(e => e.Usuario)
                 .IsUnicode(false);
@@ -238,6 +264,10 @@ namespace SWRCVA.Models
                 .HasMany(e => e.Material)
                 .WithRequired(e => e.Proveedor)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ReciboDinero>()
+            .Property(e => e.Monto)
+            .HasPrecision(12, 2);
 
             modelBuilder.Entity<Rol>()
                 .Property(e => e.Usuario)

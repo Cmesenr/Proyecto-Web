@@ -14,7 +14,9 @@ namespace SWRCVA.Models
         {
             Factura = new HashSet<Factura>();
             MaterialCotizacion = new HashSet<MaterialCotizacion>();
+            MaterialItemCotizacion = new HashSet<MaterialItemCotizacion>();
             ProductoCotizacion = new HashSet<ProductoCotizacion>();
+            ReciboDinero = new HashSet<ReciboDinero>();
         }
 
         [Key]
@@ -49,6 +51,12 @@ namespace SWRCVA.Models
         public virtual ICollection<MaterialCotizacion> MaterialCotizacion { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaterialItemCotizacion> MaterialItemCotizacion { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductoCotizacion> ProductoCotizacion { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReciboDinero> ReciboDinero { get; set; }
     }
 }
