@@ -188,6 +188,7 @@ namespace SWRCVA.Controllers
             try
             {               
                 decimal IV = 1 + db.Valor.Find(2).Porcentaje;
+                decimal Cargo = 1 + db.Valor.Find(5).Porcentaje;
                 Material ListMat = db.Material.Find(Idpro);
                 ProductoCotizacion Produ = new ProductoCotizacion();
                 Produ.IdProducto = Idpro;
@@ -197,27 +198,27 @@ namespace SWRCVA.Controllers
                 {
                     case 1:
                         {
-                            Produ.Subtotal =((costo * IV) * 1.5m);
+                            Produ.Subtotal =((costo * IV) * Cargo);
                             break;
                         }
                     case 2:
                         {
-                            Produ.Subtotal = ((costo * IV) * 1.5m);
+                            Produ.Subtotal = ((costo * IV) * Cargo);
                             break;
                         }
                     case 3:
                         {
                             if (ListMat.IdTipoMaterial == 55)
                             {
-                                Produ.Subtotal = (decimal)Ancho * ((costo * IV) * 1.5m);
+                                Produ.Subtotal = (decimal)Ancho * ((costo * IV) * Cargo);
                             }
                             else if (ListMat.IdTipoMaterial == 53)
                             {
-                                Produ.Subtotal = ((decimal)Ancho * (decimal)Alto) * ((costo * IV) * 1.5m);
+                                Produ.Subtotal = ((decimal)Ancho * (decimal)Alto) * ((costo * IV) * Cargo);
                             }
                             else
                             {
-                                Produ.Subtotal = ((costo * IV) * 1.5m);
+                                Produ.Subtotal = ((costo * IV) * Cargo);
                             }
                             break;
                         }
