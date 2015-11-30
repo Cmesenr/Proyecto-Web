@@ -8,76 +8,77 @@
 }
 
 <h2>Órdenes</h2>
-
-@using (Html.BeginForm("Index", "Orden", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
-    <p>
-        <table>
-            <tr>
-                <td>
-                    Buscar por nombre:
-                </td>
-                <td>
-                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
-                </td>
-                <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
-            </tr>
-        </table>
-    </p>
-}
-<table class="table table-bordered table-hover">
-    <tr class="active">
-        <th>
-            Cotización
-        </th>
-        <th>
-            Cliente
-        </th>
-        <th>
-            Estado
-        </th>
-        <th>
-            Fecha
-        </th>
-        <th>
-            Monto
-        </th>
-        <th></th>
-    </tr>
-
-
-    @foreach (var item in Model)
+<div class="MatenimientoFondo">
+    @using (Html.BeginForm("Index", "Orden", FormMethod.Get))
     {
-        <tr class="warning">
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCotizacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cliente.Nombre)
-            </td>
-            <td>
-                @if (item.Estado == "P")
-                {
-                    @("Procesada");
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td align="right">
-                @Html.DisplayFor(modelItem => item.MontoParcial)
-            </td>
-            <td align="center">
-                <button id="btnDetalleCotizacion" data-id="@item.IdCotizacion" onclick="location.href='/Orden/Detalles?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Ver detalle/Terminar</button>
-            </td>
-        </tr>
+        @Html.AntiForgeryToken()
+        <p>
+            <table>
+                <tr>
+                    <td>
+                        Buscar por nombre:
+                    </td>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                    </td>
+                    <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+                </tr>
+            </table>
+        </p>
     }
-</table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-@Html.PagedListPager(Model, page => Url.Action("Index",
+    <table class="table table-bordered table-hover">
+        <tr class="active">
+            <th>
+                Cotización
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Monto
+            </th>
+            <th></th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            <tr class="warning">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCotizacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+                </td>
+                <td>
+                    @if (item.Estado == "P")
+                {
+                        @("Procesada");
+                }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td align="right">
+                    @Html.DisplayFor(modelItem => item.MontoParcial)
+                </td>
+                <td align="center">
+                    <button id="btnDetalleCotizacion" data-id="@item.IdCotizacion" onclick="location.href='/Orden/Detalles?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Ver detalle/Terminar</button>
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    </div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-@section Scripts {
-    @Scripts.Render("~/bundles/FuncionesOrden")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/FuncionesOrden")
+    }

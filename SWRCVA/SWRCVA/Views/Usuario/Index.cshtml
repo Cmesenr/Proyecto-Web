@@ -8,95 +8,96 @@
 }
 
 <h2>Usuarios</h2>
-
-<p>
-    <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Usuario")'" class="btn btn-info">Registrar Nuevo</button>
-</p>
-@using (Html.BeginForm("Index", "Usuario", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
+<div class="MatenimientoFondo">
     <p>
-        <table>
-            <tr>
-                <td>
-                    Buscar por nombre:
-                </td>
-                <td>
-                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
-                </td>
-                <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
-            </tr>
-        </table>
+        <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Usuario")'" class="btn btn-info">Registrar Nuevo</button>
     </p>
-}
-<table class="table table-bordered table-hover">
-    <tr class="active">
-        <th>
-            @Html.ActionLink("Usuario", "Index", new { sortOrder = ViewBag.IdUsuarioSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            Rol
-        </th>
-        <th>
-            Estado
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+    @using (Html.BeginForm("Index", "Usuario", FormMethod.Get))
     {
-        <tr class="warning">
-            <td>
-                @Html.DisplayFor(modelItem => item.IdUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rol.Nombre)
-            </td>
-            <td>
-                @if (item.Estado == 1)
+        @Html.AntiForgeryToken()
+        <p>
+            <table>
+                <tr>
+                    <td>
+                        Buscar por nombre:
+                    </td>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                    </td>
+                    <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+                </tr>
+            </table>
+        </p>
+    }
+    <table class="table table-bordered table-hover">
+        <tr class="active">
+            <th>
+                @Html.ActionLink("Usuario", "Index", new { sortOrder = ViewBag.IdUsuarioSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                Rol
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="warning">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rol.Nombre)
+                </td>
+                <td>
+                    @if (item.Estado == 1)
                 {
-                    @("Activo");
+                        @("Activo");
                 }
                 else
                 {
-                    @("Inactivo");
+                        @("Inactivo");
                 }
-            </td>
-            <td>
-                <button id="btnEditarUsuario" data-id="@item.IdUsuario" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-                <button id="btnBorrarUsuario" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdUsuario" data-id="@item.IdUsuario" type="button" class="btn btn-danger delete">Borrar</button>
-            </td>
-        </tr>
-    }
-</table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-@section Scripts {
-    @Scripts.Render("~/bundles/FuncionesUsuario")
-}
-
-<div class="modal fade" id="modal" role="dialog">
-</div>
-<div class="modal fade" id="ModalConfirm" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Borrar</h4>
-            </div>
-            <div class="modal-body">
-                <center><p id="TextModal"></p></center>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
-                <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return EliminarUsuario(this.value)" class="btn btn-primary">Continuar</button>
-            </div>
-        </div>
-
+                </td>
+                <td>
+                    <button id="btnEditarUsuario" data-id="@item.IdUsuario" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+                    <button id="btnBorrarUsuario" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdUsuario" data-id="@item.IdUsuario" type="button" class="btn btn-danger delete">Borrar</button>
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
     </div>
-</div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    @section Scripts {
+        @Scripts.Render("~/bundles/FuncionesUsuario")
+    }
+
+    <div class="modal fade" id="modal" role="dialog">
+    </div>
+    <div class="modal fade" id="ModalConfirm" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Borrar</h4>
+                </div>
+                <div class="modal-body">
+                    <center><p id="TextModal"></p></center>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                    <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return EliminarUsuario(this.value)" class="btn btn-primary">Continuar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
