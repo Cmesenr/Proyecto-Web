@@ -133,61 +133,6 @@ namespace SWRCVA.Controllers
             return View();
         }
 
-        // POST: Factura/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdFactura,FechaHora,MontoTotal,MontoPagar,Usuario,IdCliente,Estado")] Factura factura)
-        {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-
-            if (ModelState.IsValid)
-            {
-                db.Entry(factura).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.IdCliente = new SelectList(db.Cliente, "IdCliente", "Nombre", factura.IdCliente);
-            ViewBag.Usuario = new SelectList(db.Usuario, "IdUsuario", "Contraseña", factura.Usuario);
-            return View(factura);
-        }
-
-        // GET: Factura/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Factura factura = db.Factura.Find(id);
-            if (factura == null)
-            {
-                return HttpNotFound();
-            }
-            return View(factura);
-        }
-
-        // POST: Factura/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-
-            Factura factura = db.Factura.Find(id);
-            db.Factura.Remove(factura);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
         public JsonResult AgregarProducto(int Idpro, decimal Cant,decimal costo, decimal? Extra,decimal? Ancho, decimal? Alto)
         {
             var resultado = "Error al intentar agregar el producto";
@@ -361,7 +306,7 @@ namespace SWRCVA.Controllers
         public JsonResult ConsultarClientes(string filtro)
         {
             var Clientes = (from s in db.Cliente
-                            where s.Nombre.Contains(filtro)
+                            where s.Nombre.Contains(filtro) && s.Estado == 1
                             select new
                             {
                                 s.IdCliente,
@@ -403,7 +348,7 @@ namespace SWRCVA.Controllers
         {
             var Aluminios = (from s in db.Material
                              join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
-                             where s.IdCatMat == 2 
+                             where s.IdCatMat == 2 && s.Estado == 1
                              select new
                              {
                                  Id = s.IdMaterial,
@@ -415,7 +360,7 @@ namespace SWRCVA.Controllers
 
             var Vidrio = (from s in db.Material
                           join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
-                          where s.IdCatMat == 3
+                          where s.IdCatMat == 3 && s.Estado == 1
                           select new
                           {
                              Id= s.IdMaterial,
@@ -425,7 +370,7 @@ namespace SWRCVA.Controllers
                               Costo=c.Costo
                           }).ToList();
             var Acesorios = (from s in db.Material
-                             where s.IdCatMat == 1
+                             where s.IdCatMat == 1 && s.Estado == 1
                              select new
                              {
                                  Id = s.IdMaterial,

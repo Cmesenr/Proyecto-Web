@@ -67,7 +67,14 @@ namespace SWRCVA.Controllers
             if (!login.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
+            ViewBag.Rol = new SelectList((from s in db.Rol
+                                          where s.Estado == 1
+                                          select new
+                                          {
+                                              s.IdRol,
+                                              s.Nombre
+                                          }
+                                              ), "IdRol", "Nombre");
             return View();
         }
 
@@ -82,7 +89,14 @@ namespace SWRCVA.Controllers
             if (!login.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
+            ViewBag.Rol = new SelectList((from s in db.Rol
+                                          where s.Estado == 1
+                                          select new
+                                          {
+                                              s.IdRol,
+                                              s.Nombre
+                                          }
+                                           ), "IdRol", "Nombre");
             try
             {
                 ModelState.Remove("Usuario1");
@@ -118,7 +132,14 @@ namespace SWRCVA.Controllers
             if (!login.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
+            ViewBag.Rol = new SelectList((from s in db.Rol
+                                          where s.Estado == 1
+                                          select new
+                                          {
+                                              s.IdRol,
+                                              s.Nombre
+                                          }
+                                           ), "IdRol", "Nombre");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -148,7 +169,14 @@ namespace SWRCVA.Controllers
             if (!login.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
+            ViewBag.Rol = new SelectList((from s in db.Rol
+                                          where s.Estado == 1
+                                          select new
+                                          {
+                                              s.IdRol,
+                                              s.Nombre
+                                          }
+                                            ), "IdRol", "Nombre");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

@@ -51,7 +51,7 @@ namespace SWRCVA.Controllers
                 case 1:
                     ViewBag.CurrentFilter = searchString;
                     var Categorias = from s in db.CategoriaMat
-                                    select s;
+                                     select s;
                     if (!String.IsNullOrEmpty(searchString))
                     {
                         Categorias = Categorias.Where(s => s.Nombre.Contains(searchString)
@@ -85,7 +85,7 @@ namespace SWRCVA.Controllers
                     ViewBag.CatVisible = 1;
                     ViewBag.CurrentFilter = searchString;
                     var colorMaterial = from s in db.ColorMat
-                                     select s;
+                                        select s;
                     if (!String.IsNullOrEmpty(searchString))
                     {
                         colorMaterial = colorMaterial.Where(s => s.Nombre.Contains(searchString)
@@ -117,8 +117,8 @@ namespace SWRCVA.Controllers
                     return View(ParametroResult.ToPagedList(pageNumber, pageSize));
                 case 3:
                     ViewBag.CurrentFilter = searchString;
-                    var tipoProducto = from s in db.TipoProducto
-                                        select s;
+                    var tipoProducto = from s in db.TipoProducto                    
+                                       select s;
                     if (!String.IsNullOrEmpty(searchString))
                     {
                         tipoProducto = tipoProducto.Where(s => s.Nombre.Contains(searchString)
@@ -151,7 +151,7 @@ namespace SWRCVA.Controllers
                 case 4:
                     ViewBag.CurrentFilter = searchString;
                     var rol = from s in db.Rol
-                                       select s;
+                              select s;
                     if (!String.IsNullOrEmpty(searchString))
                     {
                         rol = rol.Where(s => s.Nombre.Contains(searchString)
@@ -185,7 +185,7 @@ namespace SWRCVA.Controllers
                     ViewBag.CurrentFilter = searchString;
                     ViewBag.CatVisible = 1;
                     var subCategoria = from s in db.SubCategoria
-                              select s;
+                                       select s;
                     if (!String.IsNullOrEmpty(searchString))
                     {
                         subCategoria = subCategoria.Where(s => s.Nombre.Contains(searchString)
@@ -220,7 +220,7 @@ namespace SWRCVA.Controllers
                     ViewBag.PorcentVisible = 1;
                     ViewBag.CurrentFilter = searchString;
                     var valor = from s in db.Valor
-                                       select s;
+                                select s;
                     if (!String.IsNullOrEmpty(searchString))
                     {
                         valor = valor.Where(s => s.Nombre.Contains(searchString)
@@ -268,7 +268,14 @@ namespace SWRCVA.Controllers
             if (!login.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+            ViewBag.CatMaterial = new SelectList((from s in db.CategoriaMat
+                                                  where s.Estado==1
+                                                  select new
+                                                  {
+                                                      s.IdCategoria,
+                                                      s.Nombre
+                                                  }
+                                                    ), "IdCategoria", "Nombre");
             return View();
         }
         // POST: Parametro/Registrar
@@ -283,8 +290,15 @@ namespace SWRCVA.Controllers
 
             try
             {
-               ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-                if(parametrop.parametro==5||parametrop.parametro==2)
+                ViewBag.CatMaterial = new SelectList((from s in db.CategoriaMat
+                                                      where s.Estado == 1
+                                                      select new
+                                                      {
+                                                          s.IdCategoria,
+                                                          s.Nombre
+                                                      }
+                                           ), "IdCategoria", "Nombre");
+                if (parametrop.parametro==5||parametrop.parametro==2)
                 {
                     ModelState.Remove("Porcentaje");
                     ModelState.Remove("Tipo");
@@ -384,7 +398,14 @@ namespace SWRCVA.Controllers
             }
             
             int tabla = (int)Session["Currentabla"];
-            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+            ViewBag.CatMaterial = new SelectList((from s in db.CategoriaMat
+                                                  where s.Estado == 1
+                                                  select new
+                                                  {
+                                                      s.IdCategoria,
+                                                      s.Nombre
+                                                  }
+                                                   ), "IdCategoria", "Nombre");
             Parametro para = new Parametro();
             switch (tabla) { 
                 case 1:
@@ -487,7 +508,14 @@ namespace SWRCVA.Controllers
             try
             {
                 parametrop.parametro= (int)Session["Currentabla"];
-                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+                ViewBag.CatMaterial = new SelectList((from s in db.CategoriaMat
+                                                      where s.Estado == 1
+                                                      select new
+                                                      {
+                                                          s.IdCategoria,
+                                                          s.Nombre
+                                                      }
+                                                  ), "IdCategoria", "Nombre");
 
                 ModelState.Remove("Usuario");
                 parametrop.Usuario = Session["UsuarioActual"].ToString();

@@ -38,7 +38,7 @@ namespace SWRCVA.Controllers
 
             ViewBag.CurrentFilter = searchString;
             var Materiales = from s in db.Material
-                              select s;
+                             select s;
             if (!String.IsNullOrEmpty(searchString))
             {
                 Materiales = Materiales.Where(s => s.Nombre.Contains(searchString)||s.CategoriaMat.Nombre.Contains(searchString));
@@ -96,10 +96,24 @@ namespace SWRCVA.Controllers
 
             try
             {
-                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-                ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
+                ViewBag.CatMaterial = new SelectList((from s in db.CategoriaMat
+                                                      where s.Estado == 1
+                                                      select new
+                                                      {
+                                                          s.IdCategoria,
+                                                          s.Nombre
+                                                      }
+                                                     ), "IdCategoria", "Nombre");
+                ViewBag.Proveedor = new SelectList((from s in db.Proveedor
+                                                    where s.Estado == 1
+                                                    select new
+                                                    {
+                                                        s.IdProveedor,
+                                                        s.Nombre
+                                                    }
+                                                     ), "IdProveedor", "Nombre");
                 ViewBag.IdTipoMaterial = new SelectList((from s in db.TipoMaterial
-                                                         where s.IdCatMat == material.IdCatMat
+                                                         where s.IdCatMat == material.IdCatMat && s.Estado == 1
                                                          select new
                                                          {
                                                              s.IdTipoMaterial,
@@ -159,8 +173,22 @@ namespace SWRCVA.Controllers
             if (!login.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre"); 
-            ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
+            ViewBag.CatMaterial = new SelectList((from s in db.CategoriaMat
+                                                  where s.Estado == 1
+                                                  select new
+                                                  {
+                                                      s.IdCategoria,
+                                                      s.Nombre
+                                                  }
+                                                          ), "IdCategoria", "Nombre");
+            ViewBag.Proveedor = new SelectList((from s in db.Proveedor
+                                                where s.Estado == 1
+                                                select new
+                                                {
+                                                    s.IdProveedor,
+                                                    s.Nombre
+                                                }
+                                                 ), "IdProveedor", "Nombre");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -185,21 +213,21 @@ namespace SWRCVA.Controllers
                 TempData["ListaColores"] = Listacolores;
             }
             ViewBag.ColorMaterial = new SelectList((from s in db.ColorMat
-                                                    where s.IdCatMaterial == material.IdCatMat
+                                                    where s.IdCatMaterial == material.IdCatMat && s.Estado == 1
                                                     select new
                                                     {
                                                         IdColor = s.IdColor,
                                                         Nombre = s.Nombre
                                                     }), "IdColor", "Nombre");
             ViewBag.SubCatMaterial = new SelectList((from s in db.SubCategoria
-                                                    where s.IdCatMat == material.IdCatMat
-                                                    select new
+                                                    where s.IdCatMat == material.IdCatMat && s.Estado == 1
+                                                     select new
                                                     {
                                                         IdSubCatMat = s.IdSubCatMat,
                                                         Nombre = s.Nombre
                                                     }), "IdSubCatMat", "Nombre");
             ViewBag.TipoMateriales = new SelectList((from s in db.TipoMaterial
-                                                     where s.IdCatMat==material.IdCatMat
+                                                     where s.IdCatMat==material.IdCatMat && s.Estado == 1
                                                      select new {
                                                          s.IdTipoMaterial,
                                                          s.Nombre
@@ -218,30 +246,44 @@ namespace SWRCVA.Controllers
             if (!login.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+            ViewBag.CatMaterial = new SelectList((from s in db.CategoriaMat
+                                                  where s.Estado == 1
+                                                  select new
+                                                  {
+                                                      s.IdCategoria,
+                                                      s.Nombre
+                                                  }
+                                                          ), "IdCategoria", "Nombre");
+            ViewBag.Proveedor = new SelectList((from s in db.Proveedor
+                                                where s.Estado == 1
+                                                select new
+                                                {
+                                                    s.IdProveedor,
+                                                    s.Nombre
+                                                }
+                                                 ), "IdProveedor", "Nombre");
             ViewBag.ColorMaterial = new SelectList((from s in db.ColorMat
-                                                    where s.IdCatMaterial == material.IdCatMat
+                                                    where s.IdCatMaterial == material.IdCatMat && s.Estado == 1
                                                     select new
                                                     {
                                                         IdColor = s.IdColor,
                                                         Nombre = s.Nombre
                                                     }), "IdColor", "Nombre");
             ViewBag.SubCatMaterial = new SelectList((from s in db.SubCategoria
-                                                     where s.IdCatMat == material.IdCatMat
+                                                     where s.IdCatMat == material.IdCatMat && s.Estado == 1
                                                      select new
                                                      {
                                                          IdSubCatMat = s.IdSubCatMat,
                                                          Nombre = s.Nombre
                                                      }), "IdSubCatMat", "Nombre");
             ViewBag.TipoMateriales = new SelectList((from s in db.TipoMaterial
-                                                     where s.IdCatMat == material.IdCatMat
+                                                     where s.IdCatMat == material.IdCatMat && s.Estado == 1
                                                      select new
                                                      {
                                                          s.IdTipoMaterial,
                                                          s.Nombre
                                                      }
                                                     ), "IdTipoMaterial", "Nombre");
-            ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
             try
             {
                 ModelState.Remove("Usuario");
@@ -387,6 +429,7 @@ namespace SWRCVA.Controllers
         public JsonResult CargarSubcategoria(int id)
         {
             var SubCategoria = from s in db.SubCategoria
+                               where s.Estado == 1
                                select s;
             SubCategoria = SubCategoria.Where(s => s.IdCatMat == id);
             List<SubCategoria> listSubCat = new List<SubCategoria>();
@@ -404,8 +447,8 @@ namespace SWRCVA.Controllers
         public JsonResult CargarTipoMaterial(int id)
         {
             var TipoMaterial = (from s in db.TipoMaterial
-                               where s.IdCatMat== id
-                               select new
+                               where s.IdCatMat== id && s.Estado == 1
+                                select new
                                {
                                    s.IdTipoMaterial,
                                    s.Nombre
@@ -417,6 +460,7 @@ namespace SWRCVA.Controllers
         public JsonResult CargarColores(int id)
         {
             var Colores = from s in db.ColorMat
+                          where s.Estado == 1
                           select s;
             Colores = Colores.Where(s => s.IdCatMaterial == id);
             List<ColorMat> listcolor = new List<ColorMat>();
