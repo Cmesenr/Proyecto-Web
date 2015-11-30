@@ -50,14 +50,6 @@
                             <li>@Html.ActionLink("Respaldo", "RepaldarBD", "Respaldo")</li>
                         </ul>
                     </li>
-    }
-}
-
-
-@if (Session["UsuarioActual"] != null)
-{
-    if (Session["RolUsuarioActual"].ToString() == "Administrador")
-    {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantenimientos<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -69,13 +61,6 @@
                             <li>@Html.ActionLink("Usuarios", "Index", "Usuario")</li>
                         </ul>
                     </li>
-    }
-}
-@if (Session["UsuarioActual"] != null)
-{
-    if (Session["RolUsuarioActual"].ToString() == "Administrador" || Session["RolUsuarioActual"].ToString() == "Usuario")
-    {
-
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Procesos<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -84,13 +69,28 @@
                             <li>@Html.ActionLink("Facturación", "Index", "Factura")</li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Reporte Ordenes de Produccion", "ReporteOrden", "Reporte")</li>
+                            <li>@Html.ActionLink("Reporte de Facturas", "ReporteFacturacion", "Reporte")</li>
+                            <li>@Html.ActionLink("Reporte de Cotizaciones", "ReporteCotizacion", "Reporte")</li>
+                        </ul>
+                    </li>
     }
 }
 @if (Session["UsuarioActual"] != null)
 {
-    if (Session["RolUsuarioActual"].ToString() == "Administrador" || Session["RolUsuarioActual"].ToString() == "Usuario")
+    if (Session["RolUsuarioActual"].ToString() == "Procesos")
     {
-
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Procesos<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Cotizador", "Index", "Cotizacion")</li>
+                            <li>@Html.ActionLink("Control de Ordenes", "Index", "Orden")</li>
+                            <li>@Html.ActionLink("Facturación", "Index", "Factura")</li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
                         <ul class="dropdown-menu">

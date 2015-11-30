@@ -21,10 +21,9 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -65,10 +64,10 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion/Create
         public ActionResult Cotizar()
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Paletas=new SelectList((from s in db.Material
                                             where s.IdCatMat == 3 && s.IdTipoMaterial == 55
@@ -109,17 +108,20 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cotizar([Bind(Include = "IdCotizacion,IdCliente,CantProducto,Estado,Fecha,Usuario,MontoParcial")] Cotizacion cotizacion)
         {
-         
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             return View(cotizacion);
         }
 
         // GET: Cotizacion/Edit/5
         public ActionResult Editar(int? id)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Paletas = new SelectList((from s in db.Material
                                               where s.IdCatMat == 3 && s.IdTipoMaterial == 55
@@ -240,6 +242,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar([Bind(Include = "IdCotizacion,IdCliente,CantProducto,Estado,Fecha,Usuario,MontoParcial")] Cotizacion cotizacion)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             if (ModelState.IsValid)
             {
                 db.Entry(cotizacion).State = EntityState.Modified;
@@ -252,6 +258,10 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion/Delete/5
         public ActionResult Borrar(int? id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

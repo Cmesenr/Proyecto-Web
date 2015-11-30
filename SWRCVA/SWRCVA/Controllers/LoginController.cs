@@ -103,12 +103,44 @@ namespace SWRCVA.Controllers
             return View();
         }
 
-        public string Encriptar(string _cadenaAencriptar)
+        public string Encriptar(string cadenaAencriptar)
         {
             string result = string.Empty;
-            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(_cadenaAencriptar);
+            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(cadenaAencriptar);
             result = Convert.ToBase64String(encryted);
             return result;
+        }
+
+        public bool validaUsuario(HttpSessionStateBase session)
+        {
+            bool usuarioValido = false;
+
+            if (session["UsuarioActual"] == null || session.Timeout == 6)
+            {
+                usuarioValido = false;
+            }
+            else
+            {
+                usuarioValido = true;
+            }
+
+            return usuarioValido;
+        }
+
+        public bool validaRol(HttpSessionStateBase session)
+        {
+            bool rolAdmin = false;
+
+            if (session["RolUsuarioActual"].ToString() == "Procesos")
+            {
+                rolAdmin = false;
+            }
+            else
+            {
+                rolAdmin = true;
+            }
+
+            return rolAdmin;
         }
     }
 }

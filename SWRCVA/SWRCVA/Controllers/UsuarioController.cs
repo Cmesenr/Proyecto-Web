@@ -17,11 +17,11 @@ namespace SWRCVA.Controllers
         // GET: Usuario
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdUsuarioSortParm = String.IsNullOrEmpty(sortOrder) ? "IdUsuario" : "";
@@ -61,10 +61,11 @@ namespace SWRCVA.Controllers
         // GET: Usuario/Registrar
         public ActionResult Registrar()
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             return View();
@@ -75,6 +76,12 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registrar(Usuario usuario)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             try
             {
@@ -105,10 +112,11 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(string id)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             if (id == null)
@@ -134,6 +142,12 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarPost(string id, Usuario usuario)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             if (id == null)
             {
@@ -168,6 +182,12 @@ namespace SWRCVA.Controllers
         // GET: Usuario/Borrar
         public ActionResult Borrar(string id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             Usuario usuarioToUpdate = db.Usuario.Find(id);
             try
             {
@@ -194,18 +214,18 @@ namespace SWRCVA.Controllers
             base.Dispose(disposing);
         }
 
-        public string Encriptar(string _cadenaAencriptar)
+        public string Encriptar(string cadenaAencriptar)
         {
             string result = string.Empty;
-            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(_cadenaAencriptar);
+            byte[] encryted = System.Text.Encoding.Unicode.GetBytes(cadenaAencriptar);
             result = Convert.ToBase64String(encryted);
             return result;
         }
 
-        public string DesEncriptar(string _cadenaAdesencriptar)
+        public string DesEncriptar(string cadenaAdesencriptar)
         {
             string result = string.Empty;
-            byte[] decryted = Convert.FromBase64String(_cadenaAdesencriptar);
+            byte[] decryted = Convert.FromBase64String(cadenaAdesencriptar);
             result = System.Text.Encoding.Unicode.GetString(decryted);
             return result;
         }

@@ -21,10 +21,11 @@ namespace SWRCVA.Controllers
         // GET: Productoes
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             var producto = db.Producto.Include(p => p.TipoProducto);
             ViewBag.CurrentSort = sortOrder;
@@ -65,10 +66,11 @@ namespace SWRCVA.Controllers
         // GET: Productoes/Create
         public ActionResult Registrar()
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
@@ -79,6 +81,12 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registrar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Forma,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             try
             {
                 ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
@@ -143,10 +151,11 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
@@ -178,6 +187,12 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Forma,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
 
@@ -244,6 +259,12 @@ namespace SWRCVA.Controllers
         // GET: Productoes/Borrar/5
         public ActionResult Borrar(int? id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             Producto productotoUpdate = db.Producto.Find(id);
             try
             {

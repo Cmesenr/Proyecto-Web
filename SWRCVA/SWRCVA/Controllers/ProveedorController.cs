@@ -17,10 +17,11 @@ namespace SWRCVA.Controllers
         // GET: Proveedor
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -60,10 +61,11 @@ namespace SWRCVA.Controllers
         // GET: Proveedor/Registrar
         public ActionResult Registrar()
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
@@ -73,6 +75,12 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registrar([Bind(Include = " IdProveedor,Nombre, Correo, Direccion, Telefono, Estado, Usuario")]Proveedor proveedor)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             try
             {
                 ModelState.Remove("Usuario");
@@ -96,10 +104,11 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             if (id == null)
             {
@@ -118,6 +127,12 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarPost(int? id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -144,6 +159,12 @@ namespace SWRCVA.Controllers
         // GET: Proveedor/Borrar
         public ActionResult Borrar(int? id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             Proveedor proveedorToUpdate = db.Proveedor.Find(id);
             try
             {

@@ -15,10 +15,11 @@ namespace SWRCVA.Controllers
         DataContext db = new DataContext();
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? tabla)
         {
-            if(Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
-               return RedirectToAction("Login","Login");
-            }
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             if (tabla != null)
             {
@@ -261,10 +262,11 @@ namespace SWRCVA.Controllers
         // GET: Parametro/Registrar
         public ActionResult Registrar()
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             return View();
@@ -273,6 +275,12 @@ namespace SWRCVA.Controllers
         [HttpPost]
         public ActionResult Registrar(Parametro parametrop)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             try
             {
                ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
@@ -364,10 +372,11 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             if (id == null|| Session["Currentabla"] == null)
             {
@@ -469,6 +478,12 @@ namespace SWRCVA.Controllers
         [HttpPost]
         public ActionResult Editar(int id, Parametro parametrop)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             try
             {
                 parametrop.parametro= (int)Session["Currentabla"];
@@ -552,6 +567,12 @@ namespace SWRCVA.Controllers
 
         public ActionResult Eliminar(int? id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
+
             int tabla = (int)Session["Currentabla"];
             if (id == null)
             {

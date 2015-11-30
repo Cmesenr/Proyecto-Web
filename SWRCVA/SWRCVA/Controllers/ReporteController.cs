@@ -17,10 +17,9 @@ namespace SWRCVA.Controllers
         // GET: Reporte
         public ActionResult ReporteCotizacion()
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             return View();
         }
@@ -30,6 +29,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ReporteCotizacion(Reporte reporte)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             Warning[] warnings;
             string[] streamIds;
             string mimeType = string.Empty;
@@ -55,10 +58,9 @@ namespace SWRCVA.Controllers
         // GET: Reporte
         public ActionResult ReporteFacturacion()
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             return View();
         }
@@ -68,6 +70,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ReporteFacturacion(Reporte reporte)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             Warning[] warnings;
             string[] streamIds;
             string mimeType = string.Empty;
@@ -94,10 +100,9 @@ namespace SWRCVA.Controllers
         // GET: Reporte
         public ActionResult ReporteOrden()
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             return View();
         }
@@ -107,6 +112,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ReporteOrden(Reporte reporte)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             Warning[] warnings;
             string[] streamIds;
             string mimeType = string.Empty;
