@@ -293,6 +293,7 @@
     <Content Include="Content\Imagenes\tweed.png" />
     <Content Include="Content\Imagenes\white_brick_wall.png" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\LoginCSS.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\_notes\dwsync.xml" />
     <Content Include="favicon.ico" />
@@ -449,6 +450,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\LoginModal.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />

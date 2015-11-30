@@ -11,7 +11,6 @@
             }
         });
 }
-
 function CerrarSession() {
     $.ajax({
         cache: false,

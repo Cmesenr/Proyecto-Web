@@ -12,39 +12,33 @@ namespace SWRCVA.Controllers
     {
         DataContext db = new DataContext();
 
-        // GET: /Login/
-        public ActionResult Login()
+        public JsonResult Login(string usuario, string contraseña)
         {
-            return View();
-        }
-
-        // POST: /Login/
-        [HttpPost]
-        public ActionResult Login(Login login)
-        {
-            Usuario usuarioActual = db.Usuario.Find(login.IdUsuario);
-
+            Usuario usuarioActual = db.Usuario.Find(usuario);
+            string resultado = "Error";
             if (usuarioActual == null)
             {
-                ViewBag.Message = "¡Lo sentimos usuario no existe!";
+                resultado = "¡Lo sentimos usuario no existe!";
             }
 
-            if (usuarioActual != null && usuarioActual.Contraseña != Encriptar(login.Contraseña))
+            if (usuarioActual != null && usuarioActual.Contraseña != Encriptar(contraseña))
             {
-                ViewBag.Message = "¡Lo sentimos contraseña inválida!";
+                resultado = "¡Lo sentimos contraseña inválida!";
             }
 
-            if (usuarioActual != null && usuarioActual.Contraseña == Encriptar(login.Contraseña))
+            if (usuarioActual != null && usuarioActual.Contraseña == Encriptar(contraseña))
             {
                 Session["UsuarioActual"] = usuarioActual.IdUsuario.ToString();
 
                 Rol rolUsuarioActual = db.Rol.Find(usuarioActual.IdRol);
                 Session["RolUsuarioActual"] = rolUsuarioActual.Nombre.ToString();
-
-                return RedirectToAction("Index", "Home");
+                resultado = "ok";
+                return Json(resultado,
+              JsonRequestBehavior.AllowGet);
             }
 
-            return View();
+            return Json(resultado,
+                   JsonRequestBehavior.AllowGet);
         }
 
         //
