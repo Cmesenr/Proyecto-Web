@@ -7,42 +7,54 @@
 
 <h2>Cambiar Contraseña</h2>
 
-@using (Html.BeginForm("CambiarContraseña", "Login", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm())
 {
 
     @Html.AntiForgeryToken()
 
-    @Html.ValidationSummary(true,"", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.IdUsuario,"Usuario", new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IdUsuario, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
+    <div class="form-horizontal" id="formCotizar">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Contraseña, "Nueva contraseña", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Contraseña, new { @class = "form-control", id = "Contraseña" })
+                @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Contraseña,"Nueva contraseña", new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Contraseña, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmacionContraseña, "Vuelva a escribir la contraseña", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmacionContraseña, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ConfirmacionContraseña, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmacionContraseña,"Vuelva a escribir la contraseña", new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmacionContraseña, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ConfirmacionContraseña, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4 text-left">
+                <button type="submit" id="btnIngresar" value="" class="btn-circleSave btn-primary btn-lg" title="Guardar"><span class="glyphicon glyphicon-floppy-open"></span></button>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Cambiar" />
+</div>
+<div class="modal fade" id="ModalMensaje" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Procesado correctamente!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Su contraseña fue cambiada con éxito!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Ok</button>
+            </div>
         </div>
+
     </div>
+</div>
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/FuncionesLogin")
+      @Scripts.Render("~/bundles/FuncionesLogin")
 }
