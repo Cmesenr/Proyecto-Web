@@ -90,7 +90,7 @@ namespace SWRCVA.Controllers
                             {
                                 db.SaveChanges();
 
-                                return RedirectToAction("Login");
+                                return RedirectToAction("Index","Home");
                             }
                             catch (RetryLimitExceededException /* dex */)
                             {
