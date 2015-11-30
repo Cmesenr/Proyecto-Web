@@ -8,6 +8,7 @@
         "scrollX": false,
         "scrollCollapse": false
     });
+    $("#divLoading").addClass('show');
     $.ajax({
         cache: false,
         url: "/Factura/ConsultarMateriales",
@@ -31,6 +32,8 @@
             }
             $("#TableMateriales").append('</tbody>');
             $('#TableMateriales').DataTable();
+            $("#divLoading").fadeOut();
+            $("#divLoading").removeClass('show');
         },
         error: function (result) {
             alert('ERROR ' + result.status + ' ' + result.statusText);
@@ -82,22 +85,15 @@ $(document).ready(function () {
         })
     })
     //Abrir modal  Material
-    $("#txtProducto").on("click", function () {
+    $("#btnBuscarMat").on("click", function () {
         $("#ModalMateriales").modal("show");
     })
-
-
 
     //Selecionar El Material
     $("#headerPrincipal").on("click", "#SeleccionarMaterial", function (e) {
         $("#txtProducto").val($(this).data("myvalue"));
         $("#txtProducto").data("costo", $(this).data("costo"));
-        if ($(this).data("cat") == "Vidrio") {
-            mostrarCamposVidrio();
-        }
-        else {
-            ocultarCamposVidrio();
-        }
+        VerificarMaterial($("#txtProducto").val());
         $("#ModalMateriales").modal("hide");
 
     })
@@ -397,6 +393,32 @@ function CargarListaProductos() {
 
     })
 }
+function VerificarMaterial(id) {
+    if (id != "") {
+        $.ajax({
+            cache: false,
+            url: "/Factura/VerificarMaterial",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data == "Vidrio") {
+                    mostrarCamposVidrio();
+                } else if (data == "Paleta") {
+                    MostrarCamposPaleta();
+                }
+                else if (data == "Material") {
+                    ocultarCamposVidrio();
+                }
+
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+        })
+    }
+}
 function LimpiarListaProductos() {
     $("#ListaProductos tbody").empty();
     $("#txtTotal").html("₡ " + "0.00");
@@ -428,17 +450,22 @@ function RefrescarLista() {
 
 }
 function mostrarCamposVidrio() {
-    $('input[name=Rtipo]').removeAttr("disabled");
     $("#txtAncho").removeAttr("disabled");
     $("#txtAlto").removeAttr("disabled");
     $("#txtAncho").attr("required", "required");
     $("#txtAlto").attr("required", "required");
 }
 function ocultarCamposVidrio() {
-    $('input[name=Rtipo]').attr("disabled", "disabled");
     $("#txtAncho").attr("disabled", "disabled");
     $("#txtAlto").attr("disabled", "disabled");
     $("#txtAncho").removeAttr("required");
+    $("#txtAlto").removeAttr("required");
+}
+function MostrarCamposPaleta() {
+    $("#txtAncho").removeAttr("disabled");
+    $("#txtAncho").attr("placeholder", "Largo");
+    $("#txtAlto").attr("disabled", "disabled");
+    $("#txtAncho").attr("required", "required");
     $("#txtAlto").removeAttr("required");
 }
 function LimpiarCampos(){
@@ -447,7 +474,6 @@ function LimpiarCampos(){
     $('#txtAncho').val("");
     $('#txtAlto').val("");
     $('#txtExtra').val("");
-    $('input[name=Rtipo]').attr('checked', false);
 }
 function LimpiarDatosRegistro() {
     $("#txtClienteFinal").val("");

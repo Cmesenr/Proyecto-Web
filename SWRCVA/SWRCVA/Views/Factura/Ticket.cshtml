@@ -10,16 +10,18 @@
 
 <div style="width:300px" id="TicketFactura">
     <div id="TicketHeader">
-        <h3><span>Vidrios Don Antonio</span></h3>
+        <div class="row" align="right"><div class="col-md-12"><table><tr><td>Factura #:&nbsp;&nbsp;</td><td style="border:solid; padding-left:5px; padding-right:5px;"><strong><span id="IdFactura">@ViewData["IdFactura"].ToString()</span></strong><br /></td></tr></table></div></div>
+        <center><h3><span>Vidrios Don Antonio</span></h3></center>
         <span>Vidrios Don Antonio SA</span><br />
-        <span>Tel: 24324313, 88821258 </span>
+        <span>Fecha:</span><strong><span id="IdFecha">@ViewData["fecha"].ToString()</span></strong><br />
+        <span>Tel: 24324313, 88821258 </span><br />
         <span>Ced: 310162232211</span><br />
-        <span>Factura:</span><strong><span id="IdFactura">@ViewData["IdFactura"].ToString()</span></strong><br />
         <span>Diagonal Pollos Beto San Antonio del Tejar, Alajuela</span><br />
+        <span>Cliente:</span><strong><span id="IdCliente">@ViewData["Cliente"].ToString()</span></strong><br />
         <hr />
     </div>
     <div id="Ticketbody">
-        <table id="TicketDetalle">
+        <table class="table small" id="TicketDetalle">
             <thead><tr><th>Nombre</th><th>Cantidad</th><th>Precio</th></tr></thead>
             <tbody>
                 @foreach (var item in (List<SWRCVA.Models.ProductoCotizacion>)ViewData["ListaPro"])
@@ -29,11 +31,11 @@
             </tbody>
         </table>
         <div class="text-right">
-            <span class="">TOTAL:</span><strong><span id="lblTicketTotal">@ViewData["Total"].ToString()</span></strong>
+            <h4><strong><span id="lblTicketTotal">TOTAL: ₡ @ViewData["Total"].ToString()</span></strong></h4>
         </div>
     </div>
     <div id="Ticketfooter" class="text-center">
-        <span>IVA Incluido</span>
+        <span>IVA Incluido</span><br />
         <span>Gracias Por Preferirnos</span>
     </div>
 </div>

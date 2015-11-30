@@ -49,6 +49,8 @@
         if ($("#TipoProductoAdd").val() == 1) {
             $("#RowMaterial").removeAttr("hidden");
             $("#RowProductoEncabezado").attr("hidden", "hidden");
+            SetDefault();
+
         } else {
             $("#RowProductoEncabezado").removeAttr("hidden");
             $("#RowMaterial").attr("hidden", "hidden");
@@ -56,26 +58,6 @@
             $("#txtAlto").removeAttr("disabled");
             $("#txtAncho").attr("required", "required");
             $("#txtAlto").attr("required", "required");
-        }
-
-    })
-    //Evento chekar Paleta
-    $('input[name=Rtipo]').on("change", function () {
-        if ($(this).val() == "P") {
-            $("#txtAlto").attr("disabled", "disabled");
-            $("#txtAlto").removeAttr("required");
-        } else if ($(this).val() == "L") {
-            $("#txtAlto").attr("disabled", "disabled");
-            $("#txtAlto").removeAttr("required");
-            $("#txtAncho").attr("disabled", "disabled");
-            $("#txtAncho").removeAttr("required");
-
-        }
-        else {
-            $("#txtAlto").attr("required", "required");
-            $("#txtAlto").removeAttr("disabled");
-            $("#txtAncho").attr("required", "required");
-            $("#txtAncho").removeAttr("disabled");
         }
 
     })
@@ -268,7 +250,7 @@
  
     //Validar Color paleta
     $("#btnGuardarColorPaleta").on("click", function () {
-        if ($('#CPaleta')[0].checkValidity() == false) {
+        if ($('input[name=ColoresPaleta]')[0].checkValidity() == false) {
             $("#CPaleta").tooltip();
             $("#CPaleta").focus();
             return false;
@@ -454,7 +436,7 @@
             $("#DropDownTipoProductos").focus();
             return false;
         }
-        else if ($('#DropDownProductos')[0].checkValidity() == false) {
+        else if ($('#DropDownProductos')[0].checkValidity() == false || $('#DropDownProductos').val() == "") {
             $("#DropDownProductos").tooltip();
             $("#DropDownProductos").focus();
             return false;
@@ -846,6 +828,18 @@ function LimpiarCampos() {
     $('#txtAncho').val("");
     $('#txtAlto').val("");
     $('#txtExtra').val("");
+}
+function SetDefault() {
+    $('#DropDownPaletas').val("");
+    $('#DropDownPaletas').removeAttr("required");
+    $('#DropDownPaletas').attr("disabled", "disabled");
+    $('#txtCelocia').val("");
+    $('#txtCelocia').removeAttr("required");
+    $('#txtCelocia').attr("disabled", "disabled");
+    $("#txtAncho").attr("disabled", "disabled");
+    $("#txtAlto").attr("disabled", "disabled");
+    $("#txtAncho").removeAttr("required");
+    $("#txtAlto").removeAttr("required");
 }
 var nav4 = window.Event ? true : false;
 function acceptNum(evt) {

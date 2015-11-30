@@ -17,23 +17,18 @@
                     <button type="button" onclick="location.href='@Url.Action("Index", "Factura")',RefrescarLista()" class="btn-circle btn-info btn-lg"><span class="glyphicon glyphicon-arrow-left"></span></button>
                 </div>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-11">
                 <div class="MarcoFactura" align="center">
                     <div class="SubMarcoFactura">
                         <br />
-                        <div class="row" id="headerPrincipal">
-                           <div class="col-md-2">
-                               <strong><span class="" style="color:white; " id="lbLamina">Lamina</span></strong> &nbsp; &nbsp;<input name="Rtipo" type="radio" class="" id="CkLamina" value="L" disabled="disabled" />
-                           </div>
-                            <div class="col-md-2">
-                                <strong><span class="" style="color:white; " id="lblPaleta" >Paleta</span></strong> &nbsp; &nbsp;<input name="Rtipo" type="radio" class="" id="CkPaleta" value="P" disabled="disabled"  />
+                        <div class="row" id="headerPrincipal">                    
+                            <div class="col-md-4">
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" placeholder="Codigo de Material" id="txtProducto" required="required" readonly="readonly" title="Producto requerido!" maxlength="100" />
+                                        </div>
+                                        <button type="button" id="btnBuscarMat" class="btn btn-primary btn-sm col-md-2" data-nombre="" data-myvalue=""><span class="glyphicon glyphicon-search" /></button>
                             </div>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" placeholder="Ancho" id="txtAncho" required="required" title="Ancho requerido!" disabled="disabled"/>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" placeholder="Alto" id="txtAlto" required="required" title="Alto requerido!" disabled="disabled"/>
-                            </div>
+                            <div class="col-md-4"></div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="col-md-12" align="right">
@@ -150,14 +145,13 @@
                             </div>
                         </div>
                         <div class="row">
-
-                            <div class="col-md-3" align="left">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <input type="text" class="form-control" placeholder="Codigo de Material" id="txtProducto" required="required" title="Producto requerido!" maxlength="100" />
-                                    </div>
-                                </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" placeholder="Ancho" id="txtAncho" required="required" title="Ancho requerido!" disabled="disabled" />
                             </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" placeholder="Alto" id="txtAlto" required="required" title="Alto requerido!" disabled="disabled" />
+                            </div>
+                     
                             <div class="col-md-2" align="left">
                                 <div class="form-group">
                                     <div class="col-md-12">
@@ -179,7 +173,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4" align="left">
+                            <div class="col-md-3" align="left">
                             <div class="form-group">
                                 <div class="col-md-7 text-right">
                                     <strong><span class="" style="color:white; font-size:18px; " id="lbCotizacion"># Cotizacion:</span></strong> 
@@ -351,7 +345,8 @@
     </div>
 </div>
 <div id="dialog" title="Ticket" style="overflow: hidden;"></div>
-
+<div id="divLoading">
+</div>
     @section Scripts {
         @Scripts.Render("~/bundles/FuncionesFacturar")
         <script type="text/javascript">

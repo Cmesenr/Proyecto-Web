@@ -46,18 +46,6 @@ namespace SWRCVA.Models
         public int Cantidad { get; set; }
 
         [NotMapped]
-        public decimal Ancho { get; set; }
-
-        [NotMapped]
-        public string ColorVidrio { get; set; }
-
-        [NotMapped]
-        public string ColorAluminio { get; set; }
-
-        [NotMapped]
-        public decimal? AnchoCelocia { get; set; }
-
-        [NotMapped]
         public decimal Alto { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

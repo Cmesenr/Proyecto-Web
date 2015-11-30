@@ -85,6 +85,9 @@ namespace SWRCVA.Controllers
                 var ListaProdu = (from s in db.ProductoCotizacion
                                   where s.IdCotizacion == id
                                   select s).ToList();
+                var ListaPM = (from s in db.MaterialItemCotizacion
+                               where s.IdCotizacion == id
+                               select s).ToList();
                 List<ProductoCotizacion> ListaP = new List<ProductoCotizacion>();
                 foreach (var item in ListaProdu)
                 {
@@ -96,6 +99,15 @@ namespace SWRCVA.Controllers
                     ListaP.Add(p);
                 }
 
+                foreach (var item in ListaPM)
+                {
+                    ProductoCotizacion p = new ProductoCotizacion();
+                    p.IdProducto = item.IdMaterial;
+                    p.Nombre = item.Material.Nombre;
+                    p.CantMat = item.Cantidad;
+                    p.Subtotal = Math.Round((Decimal)item.Subtotal, 2);
+                    ListaP.Add(p);
+                }
 
                 foreach (var itemProduct in ListaP)
                 {
@@ -117,25 +129,10 @@ namespace SWRCVA.Controllers
                                  "{0:0,0.00}", TempData["Total"]);
             ViewData["ListaPro"] = ListaProductos;
             TempData["ListaProductosFact"] = ListaProductos;
+            ViewData["fecha"] = TempData["Fecha"];
+            ViewData["Cliente"] = TempData["Cliente"];
             LimpiarListas();
             return View();
-        }
-
-        // GET: Factura/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Factura factura = db.Factura.Find(id);
-            if (factura == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.IdCliente = new SelectList(db.Cliente, "IdCliente", "Nombre", factura.IdCliente);
-            ViewBag.Usuario = new SelectList(db.Usuario, "IdUsuario", "Contraseña", factura.Usuario);
-            return View(factura);
         }
 
         // POST: Factura/Edit/5
@@ -321,7 +318,8 @@ namespace SWRCVA.Controllers
                     Fact.MontoPagar = MontoPagar;
                     db.Factura.Add(Fact);
                     db.SaveChanges();
-
+                    TempData["Fecha"] = Fact.FechaHora;
+                    TempData["Cliente"] =db.Cliente.Find(Fact.IdCliente).Nombre;
                     foreach (var item in ListaProductos)
                     {
                         DetalleFactura D1 = new DetalleFactura();
@@ -460,6 +458,32 @@ namespace SWRCVA.Controllers
             return Json(Total,
              JsonRequestBehavior.AllowGet);
         }
+        public JsonResult VerificarMaterial(int id)
+        {
+            string resultado = "";
+            var mat = db.Material.Find(id);
+            if (mat.IdCatMat == 3)
+            {
+                if (mat.IdTipoMaterial == 53)
+                {
+                    resultado = "Vidrio";
+                }
+                else if (mat.IdTipoMaterial == 55)
+                {
+                    resultado = "Paleta";
+                }
+                else
+                {
+                    resultado = "Material";
+                }
+            }
+            else
+            {
+                resultado = "Material";
+            }
+            return Json(resultado,
+               JsonRequestBehavior.AllowGet);
+        }
         public JsonResult ConsultarListaProductos()
         {
             if (TempData["ListaProductosFact"] != null)
@@ -487,6 +511,8 @@ namespace SWRCVA.Controllers
             TempData["ListaProductosFact"] = null;
             TempData["IdFactura"] = null;
             TempData["Total"] = null;
+            TempData["Fecha"] = null;
+            TempData["Cliente"] = null;
         }
         protected override void Dispose(bool disposing)
         {
