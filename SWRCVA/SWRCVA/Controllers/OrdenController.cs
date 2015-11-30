@@ -13,8 +13,7 @@ namespace SWRCVA.Controllers
     public class OrdenController : Controller
     {
         private DataContext db = new DataContext();
-        List<Producto> ListaProductosOrden = new List<Producto>();
-        List<ProductoCotizacion> ListaProductoCotizacionOrden = new List<ProductoCotizacion>();
+        List<ProductoCotizacion> ListaProductosOrden = new List<ProductoCotizacion>();
         List<MaterialCotizacion> ListaMaterialesOrden = new List<MaterialCotizacion>();
 
         // GET: Orden
@@ -71,43 +70,43 @@ namespace SWRCVA.Controllers
 
             Cotizacion cotizacion = db.Cotizacion.Find(id);
 
-            var ListaProductoCotizacionOrden = db.ProductoCotizacion.Where(s => s.IdCotizacion == id).GroupBy(s => s.IdProducto);
-
+            var ListaProductoCotizacionOrden = db.ProductoCotizacion.Where(s => s.IdCotizacion == id).ToList();
+            var ListaMaterialCotizacionOrden = db.MaterialItemCotizacion.Where(s => s.IdCotizacion == id).ToList();
             if (ListaProductosOrden.Count() == 0)
             {
-                foreach (var prodcot in ListaProductoCotizacionOrden)
+                foreach(var item in ListaProductoCotizacionOrden)
                 {
-                    Producto ProAlmac = db.Producto.Find(prodcot.Key);
-                    Producto Produ = new Producto();
-                    Produ.IdProducto = ProAlmac.IdProducto;
-                    Produ.Nombre = ProAlmac.Nombre;
-                    foreach (var item in ListaProductoCotizacionOrden)
+                    ProductoCotizacion Produ = new ProductoCotizacion();
+                    Produ.IdProducto = item.IdProducto;
+                    Produ.IdCotizacion = item.IdCotizacion;
+                    Produ.ColorVidrio = item.ColorMat.Nombre;
+                    Produ.ColorAluminio = item.ColorMat1.Nombre;
+                    Produ.AnchoCelocia = item.AnchoCelocia;
+                    Produ.Nombre = item.Producto.Nombre;
+                    Produ.Alto = item.Alto;
+                    Produ.Ancho = item.Ancho;
+                    Produ.CantMat = item.CantProducto;
+                    if (item.IdColorPaleta != null)
                     {
-                        foreach (var g in item)
-                        {
-                            if (g.IdProducto == ProAlmac.IdProducto)
-                            {
-                                Produ.Cantidad = g.CantProducto;
-                                Produ.Alto = (decimal)g.Alto;
-                                Produ.Ancho = (decimal)g.Ancho;
-                                Produ.ColorVidrio = g.ColorMat.Nombre;
-                                Produ.ColorAluminio = g.ColorMat1.Nombre;
-                                if (g.AnchoCelocia == null)
-                                {
-                                    Produ.AnchoCelocia = 0;
-                                }
-                                else
-                                {
-                                    Produ.AnchoCelocia = g.AnchoCelocia;
-                                }
-                            }
-                        }
-                    }
+                        Produ.ColorPaleta = item.ColorMat2.Nombre;
+                    }                    
+                    Produ.Subtotal = item.Subtotal;
+                    ListaProductosOrden.Add(Produ);
+                }
+                
+                foreach (var item in ListaMaterialCotizacionOrden)
+                {
+                    ProductoCotizacion Produ = new ProductoCotizacion();
+                    Produ.IdProducto = item.IdMaterial;
+                    Produ.IdCotizacion = item.IdCotizacion;
+                    Produ.Nombre = item.Material.Nombre;
+                    Produ.CantMat = item.Cantidad;
+                    Produ.Alto = (decimal)item.Alto;
+                    Produ.Ancho = (decimal)item.Ancho;
+                    Produ.Subtotal=item.Subtotal;
                     ListaProductosOrden.Add(Produ);
                 }
             }
-
-            TempData["ListaProductoCotizacionOrden"] = ListaProductoCotizacionOrden;
             TempData["ListaProductosOrden"] = ListaProductosOrden;
             Session["IdCotizacion"] = id;
 
@@ -118,7 +117,7 @@ namespace SWRCVA.Controllers
         {
             if (TempData["ListaProductosOrden"] != null)
             {
-                ListaProductosOrden = (List<Producto>)TempData["ListaProductosOrden"];
+                ListaProductosOrden = (List<ProductoCotizacion>)TempData["ListaProductosOrden"];
             }
 
             TempData["ListaProductosOrden"] = ListaProductosOrden;

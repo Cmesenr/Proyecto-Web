@@ -44,6 +44,13 @@ namespace SWRCVA.Models
         public decimal CantMat { get; set; }
         [NotMapped]
         public string Tipo { get; set; }
+        [NotMapped]
+        public string ColorVidrio { get; set; }
+        [NotMapped]
+        public string ColorPaleta { get; set; }
+
+        [NotMapped]
+        public string ColorAluminio { get; set; }
 
         public virtual ColorMat ColorMat { get; set; }
 

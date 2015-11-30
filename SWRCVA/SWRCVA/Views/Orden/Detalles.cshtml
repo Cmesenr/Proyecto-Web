@@ -18,96 +18,94 @@
         <button type="button" id="btnProcesarEdit" title="Procesar Orden" class="btn-circle btn-success btn-lg"><span class="glyphicon glyphicon-ok"></span></button>
     </div>
 </div>
-    @using (Html.BeginForm("Index", "Orden", FormMethod.Get))
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm("Index", "Orden", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
 
-        <div class="form-horizontal" id="formOrden">
-            <div class="ContenedorOrden">
-                <div class="col-md-12">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <span class="text-displayFor">
-                                    <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha, new { @class = "text-displayFor" })
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <span class="text-displayFor">
-                                    <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion, new { @class = "text-displayFor" })
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <span class="text-displayFor">
-                                    <b>Cliente:</b> <br />@Html.DisplayFor(modelItem => Model.Cliente.Nombre)
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <span class="text-displayFor">
-                                    <b>Estado:</b> <br />@if (Model.Estado == "P")
-                                    {@( "Procesada")}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <span class="text-displayFor">
-                                    <b>Comentario:</b> <br />@Html.DisplayFor(modelItem => Model.Comentario, new { @class = "text-displayFor" })
-                                </span>
-                            </div>
+    <div class="form-horizontal" id="formOrden">
+        <div class="ContenedorOrden">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <span class="text-displayFor">
+                                <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha, new { @class = "text-displayFor" })
+                            </span>
                         </div>
                     </div>
                 </div>
-                <hr />
-                <div class="col-md-12">
-                    <div class="col-md-7">
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <table class="table table-bordered table-hover" id="ListaProductos"></table>
-                                </div>
-                            </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <span class="text-displayFor">
+                                <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion, new { @class = "text-displayFor" })
+                            </span>
                         </div>
                     </div>
-
-                    <div class="col-md-5" align="right">
-                        <div class="col-md-10" align="right">
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <table align="left" class='table table-bordered table-hover' id="ListaMateriales">
-                                            <thead><tr><th>Material</th><th>Cantidad</th></tr></thead>
-                                            <tbody></tbody>
-
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <span class="text-displayFor">
+                                <b>Cliente:</b> <br />@Html.DisplayFor(modelItem => Model.Cliente.Nombre)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <span class="text-displayFor">
+                                <b>Estado:</b> <br />@if (Model.Estado == "P")
+                                {@( "Procesada")}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <span class="text-displayFor">
+                                <b>Comentario:</b> <br />@Html.DisplayFor(modelItem => Model.Comentario, new { @class = "text-displayFor" })
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
+            <hr />
+            <div class="row">
+                <div class="scrollit col-md-12" align="center">
+                                <table class="table table-bordered table-hover" id="ListaProductosOrden">
+                                    <thead><tr><th class="active" align="left">Nombre</th><th class="active" align="Center">Cantidad</th><th class="active" align="Center">Ancho</th><th class="active" align="Center">Alto</th><th class="active" align="Center">Color Vidrio</th><th class="active" align="Center">Color Aluminio</th><th class="active" align="Center">ColorPaleta</th><th class="active" align="Center">Ancho Celocia</th><th class="active"></th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
+                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    
+                                </div>
+
+                    <div class="col-md-6" align="right">
+                        <table align="left" class='table table-bordered table-hover' id="ListaMateriales">
+                            <thead>
+                                <tr class="active">
+                                    <th class="col-md-10">Material</th>
+                                    <th class="col-md-2">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
         </div>
-    }
+    </div>
+}
 @section Scripts {
-       @Scripts.Render("~/bundles/FuncionesOrden")
-        <script type="text/javascript">
-            CargarListaProductos();
-        </script>
+    @Scripts.Render("~/bundles/FuncionesOrden")
+    <script type="text/javascript">
+        CargarListaProductos();
+    </script>
 }
 
 <div class="modal fade" id="ModalMensaje" role="dialog">

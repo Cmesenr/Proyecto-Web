@@ -99,14 +99,13 @@ footer {
     width: 100%;
 }
 .table-bordered{
-border: solid #ccc 1px;
 -moz-border-radius: 20px;
 -webkit-border-radius: 20px;
 border-radius: 20px;
 -webkit-box-shadow: 0 3px 3px #ccc;
 -moz-box-shadow: 0 3px 3px #ccc;
 box-shadow: 0 3px 3px #ccc;
-margin-left:5px;
+margin-left:0px;
 
 }
 .table-bordered th {
@@ -157,7 +156,7 @@ border-radius: 0 0 5px 0;
     border: 2px solid #808080;
 }
 .SubMarcoFactura{
-   width:90%; 
+   width:95%; 
    position:static;
    padding-left:10px;
    padding-right:10px;
@@ -178,7 +177,7 @@ border: 0px solid #000000;
 .ContenedorOrden{
     background-color:#ccc;
     width:100%; 
-    height:500px;
+    height:600px;
     position:static;
    padding-left:10px;
    padding-right:10px;
@@ -254,7 +253,7 @@ display : none;
         z-index: 100;
         background-image: url('Imagenes/loading.gif');
         background-color: #666;
-        opacity: 0.4;
+        opacity: 0.6;
         background-repeat: no-repeat;
         background-position: center;
         left: 0;
@@ -273,4 +272,12 @@ margin-top : -16px;
 }
 #divLoading.hide{
     display : none;
+}
+#ListaMateriales tbody {
+    /*background-color:#b0b9a1;*/
+    background-image: url('Imagenes/old_wall.png');
+}
+.scrollit {
+    overflow:auto;
+    height:220px;
 }
