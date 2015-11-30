@@ -60,37 +60,43 @@ namespace SWRCVA.Controllers
         }
 
         // GET: /CambiarClave/
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CambiarContraseña()
         {
+            LoginController loginController = new LoginController();
+            if (!loginController.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
 
         // POST: /CambiarContraseña/
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CambiarContraseña(Login login)
+        public ActionResult CambiarContraseña(string contraseña)
         {
-            if (login.IdUsuario != null && login.Contraseña != null)
+            LoginController loginController = new LoginController();
+            if (!loginController.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
+            if (Session["UsuarioActual"] != null && contraseña != null)
             {
-                Usuario usuarioToUpdate = db.Usuario.Find(login.IdUsuario);
+                Usuario usuarioToUpdate = db.Usuario.Find(Session["UsuarioActual"].ToString());
 
                 if (usuarioToUpdate != null)
                 {
                     ModelState.Remove("Contraseña");
                     ModelState.Remove("Usuario1");
-                    usuarioToUpdate.Usuario1 = login.IdUsuario;
+                    usuarioToUpdate.Usuario1 = Session["UsuarioActual"].ToString();
 
                     if (ModelState.IsValid)
                     {
                         if (TryUpdateModel(usuarioToUpdate, "",
                            new string[] { "Contraseña", "IdRol", "Estado", "Usuario1" }))
                         {
-                            usuarioToUpdate.Contraseña = Encriptar(login.Contraseña);
+                            usuarioToUpdate.Contraseña = Encriptar(contraseña);
                             try
                             {
                                 db.SaveChanges();
-
-                                return RedirectToAction("Index","Home");
                             }
                             catch (RetryLimitExceededException /* dex */)
                             {
