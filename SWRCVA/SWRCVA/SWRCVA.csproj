@@ -220,6 +220,9 @@
     <Content Include="Content\Imagenes\fabric_plaid.png" />
     <Content Include="Content\Imagenes\footer_lodyas.png" />
     <Content Include="Content\Imagenes\fresh_snow.png" />
+    <Content Include="Content\Imagenes\icono entrar.png" />
+    <Content Include="Content\Imagenes\icono perfil.png" />
+    <Content Include="Content\Imagenes\icono salir.png" />
     <Content Include="Content\Imagenes\images\blank.gif" />
     <Content Include="Content\Imagenes\images\camera-loader.gif" />
     <Content Include="Content\Imagenes\images\camera_skins.png" />
