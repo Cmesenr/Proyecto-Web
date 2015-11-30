@@ -89,8 +89,22 @@ namespace SWRCVA.Controllers
 
             try
             {
-                ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
-                ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+                ViewBag.IdTipoProducto = new SelectList((from s in db.TipoProducto
+                                                         where s.Estado == 1
+                                                         select new
+                                                         {
+                                                             s.IdTipoProducto,
+                                                             s.Nombre
+                                                         }
+                                                  ), "IdTipoProducto", "Nombre"); 
+                ViewBag.Categorias = new SelectList((from s in db.CategoriaMat
+                                                     where s.Estado == 1
+                                                     select new
+                                                     {
+                                                         s.IdCategoria,
+                                                         s.Nombre
+                                                     }
+                                                  ), "IdCategoria", "Nombre");
 
                 ModelState.Remove("Usuario");
                 producto.Usuario = Session["UsuarioActual"].ToString();
@@ -157,8 +171,22 @@ namespace SWRCVA.Controllers
             if (!login.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
-            ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
+            ViewBag.IdTipoProducto = new SelectList((from s in db.TipoProducto
+                                                     where s.Estado == 1
+                                                     select new
+                                                     {
+                                                         s.IdTipoProducto,
+                                                         s.Nombre
+                                                     }
+                                                    ), "IdTipoProducto", "Nombre");
+            ViewBag.Categorias = new SelectList((from s in db.CategoriaMat
+                                                 where s.Estado == 1
+                                                 select new
+                                                 {
+                                                     s.IdCategoria,
+                                                     s.Nombre
+                                                 }
+                                              ), "IdCategoria", "Nombre");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -177,7 +205,6 @@ namespace SWRCVA.Controllers
                 Listamateriales.Add(MatProduct);
             }
             TempData["ListaMateriales"] = Listamateriales;
-            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre", producto.IdTipoProducto);
             return View(producto);
         }
 
@@ -193,9 +220,22 @@ namespace SWRCVA.Controllers
             if (!login.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
-            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
-            ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
-
+            ViewBag.IdTipoProducto = new SelectList((from s in db.TipoProducto
+                                                     where s.Estado == 1
+                                                     select new
+                                                     {
+                                                         s.IdTipoProducto,
+                                                         s.Nombre
+                                                     }
+                                                              ), "IdTipoProducto", "Nombre");
+            ViewBag.Categorias = new SelectList((from s in db.CategoriaMat
+                                                 where s.Estado == 1
+                                                 select new
+                                                 {
+                                                     s.IdCategoria,
+                                                     s.Nombre
+                                                 }
+                                              ), "IdCategoria", "Nombre");
             ModelState.Remove("Usuario");
 
             if (ModelState.IsValid)
@@ -252,7 +292,6 @@ namespace SWRCVA.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre", producto.IdTipoProducto);
             return View(producto);
         }
 
@@ -360,7 +399,7 @@ namespace SWRCVA.Controllers
         public JsonResult CargarSubcategoria(int id)
         {
            var SubCategoria = (from s in db.SubCategoria
-                              where s.IdCatMat==id
+                              where s.IdCatMat==id && s.Estado==1
                        select new
                        {
                            IdSubCatMat = s.IdSubCatMat,
@@ -376,7 +415,7 @@ namespace SWRCVA.Controllers
             if (IdCat == 1)
             {
                 var Materiales = (from s in db.Material
-                                  where s.IdCatMat== IdCat
+                                  where s.IdCatMat== IdCat && s.Estado == 1
                                   select new
                                   {
                                       IdMaterial = s.IdMaterial,
@@ -392,7 +431,7 @@ namespace SWRCVA.Controllers
             else
             {
                 var Materiales = (from s in db.Material
-                                  where s.IdCatMat == IdCat && s.IdSubCatMat == IdSubcat
+                                  where s.IdCatMat == IdCat && s.IdSubCatMat == IdSubcat && s.Estado == 1
                                   select new
                                   {
                                       IdMaterial = s.IdMaterial,

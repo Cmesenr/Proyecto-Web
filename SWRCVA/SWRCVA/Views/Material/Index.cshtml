@@ -6,122 +6,124 @@
     ViewBag.Title = "Index";
 }
 <h2>Materiales</h2>
-<p>
-    <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Material")'" class="btn btn-info">Registrar Nuevo</button>
-
-</p>
-@using (Html.BeginForm("Index", "Material", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
+<div class="MatenimientoFondo">
     <p>
-        <table>
-            <tr>
-                <td>
-                    Buscar por nombre:
-                </td>
-                <td>
-                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
-                </td>
-                <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
-            </tr>
-        </table>
-    </p>
-}
-<table class="table table-bordered table-hover">
-    <tr class="active">
-        <th>
-            ID
-        </th>
-        <th>
-            @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            Categoria
-        </th>
-        <th>
-            Sub Categoria
-        </th>
-        <th>
-            Proveedor
-        </th>
-        <th>
-            Estado
-        </th>
-        <th></th>
-    </tr>
+        <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Material")'" class="btn btn-info">Registrar Nuevo</button>
 
-    @foreach (var item in Model)
+    </p>
+    @using (Html.BeginForm("Index", "Material", FormMethod.Get))
     {
-        <tr class="warning">
-            <td>
-                @Html.DisplayFor(modelItem => item.IdMaterial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoriaMat.Nombre)
-            </td>
-            <td>
-                @if (item.SubCategoria != null)
-            {
-                @Html.DisplayFor(modelItem => item.SubCategoria.Nombre)
-            }
-            else
-            {
-                @Html.Raw("N/A");
+        @Html.AntiForgeryToken()
+        <p>
+            <table>
+                <tr>
+                    <td>
+                        Buscar por nombre:
+                    </td>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                    </td>
+                    <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+                </tr>
+            </table>
+        </p>
+    }
+    <table class="table table-bordered table-hover">
+        <tr class="active">
+            <th>
+                ID
+            </th>
+            <th>
+                @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                Categoria
+            </th>
+            <th>
+                Sub Categoria
+            </th>
+            <th>
+                Proveedor
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="warning">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdMaterial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoriaMat.Nombre)
+                </td>
+                <td>
+                    @if (item.SubCategoria != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.SubCategoria.Nombre)
+                    }
+                    else
+                    {
+                        @Html.Raw("N/A");
                 }
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Proveedor.Nombre)
-        </td>
-        <td>
-            @if (item.Estado == 1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Proveedor.Nombre)
+                </td>
+                <td>
+                    @if (item.Estado == 1)
                 {
-                @("Activo");
+                        @("Activo");
                 }
                 else
                 {
-                @("Inactivo");
+                        @("Inactivo");
                 }
-        </td>
-        <td>
-            <button id="btnEditarMaterial" data-id="@item.IdMaterial" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-            <button id="btnBorrarMaterial" data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.IdMaterial" type="button" class="btn btn-danger delete">Borrar</button>
-        </td>
-    </tr>
+                </td>
+                <td>
+                    <button id="btnEditarMaterial" data-id="@item.IdMaterial" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+                    <button id="btnBorrarMaterial" data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.IdMaterial" type="button" class="btn btn-danger delete">Borrar</button>
+                </td>
+            </tr>
+        }
+
+    </table>
+    <br />
+    </div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    @section Scripts {
+        @Scripts.Render("~/bundles/FuncionesModalMaterial")
     }
 
-</table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-@section Scripts {
-    @Scripts.Render("~/bundles/FuncionesModalMaterial")
-}
-
-<div class="modal fade" id="modal" role="dialog">
-</div>
-<div class="modal fade" id="ModalConfirm" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Borrar</h4>
-            </div>
-            <div class="modal-body">
-                <center><p id="TextModal"></p></center>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
-                <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return EliminarMaterial(this.value)" class="btn btn-primary">Continuar</button>
-            </div>
-        </div>
-
+    <div class="modal fade" id="modal" role="dialog">
     </div>
-</div>
+    <div class="modal fade" id="ModalConfirm" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Borrar</h4>
+                </div>
+                <div class="modal-body">
+                    <center><p id="TextModal"></p></center>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                    <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return EliminarMaterial(this.value)" class="btn btn-primary">Continuar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>

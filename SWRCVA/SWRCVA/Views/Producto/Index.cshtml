@@ -7,97 +7,98 @@
 }
 
 <h2>Productos</h2>
-
-<p>
-    <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Producto")'" class="btn btn-info">Registrar Nuevo</button>
-
-</p>
-@using (Html.BeginForm("Index", "Producto", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
+<div class="MatenimientoFondo">
     <p>
-        <table>
-            <tr>
-                <td>
-                    Buscar por nombre:
-                </td>
-                <td>
-                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
-                </td>
-                <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
-            </tr>
-        </table>
+        <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Producto")'" class="btn btn-info">Registrar Nuevo</button>
+
     </p>
-}
-<table class="table table-bordered table-hover">
-    <tr class="active">
-        <th>
-            @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            Tipo Producto
-        </th>
-        <th>
-            Estado
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+    @using (Html.BeginForm("Index", "Producto", FormMethod.Get))
     {
-        <tr class="warning">
+        @Html.AntiForgeryToken()
+        <p>
+            <table>
+                <tr>
+                    <td>
+                        Buscar por nombre:
+                    </td>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                    </td>
+                    <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+                </tr>
+            </table>
+        </p>
+    }
+    <table class="table table-bordered table-hover">
+        <tr class="active">
+            <th>
+                @Html.ActionLink("Nombre", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                Tipo Producto
+            </th>
+            <th>
+                Estado
+            </th>
+            <th></th>
+        </tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoProducto.Nombre)
-            </td>
-            <td>
-                @if (item.Estado == 1)
+        @foreach (var item in Model)
+        {
+            <tr class="warning">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoProducto.Nombre)
+                </td>
+                <td>
+                    @if (item.Estado == 1)
                 {
-                    @("Activo");
+                        @("Activo");
                 }
                 else
                 {
-                    @("Inactivo");
+                        @("Inactivo");
                 }
-            </td>
-            <td>
-                <button id="btnEditarProducto" onclick="location.href='/Producto/Editar?id='+@item.IdProducto" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
-                <button id="btnBorrarProducto" data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.IdProducto" type="button" class="btn btn-danger delete">Borrar</button>
-            </td>
-        </tr>
+                </td>
+                <td>
+                    <button id="btnEditarProducto" onclick="location.href='/Producto/Editar?id='+@item.IdProducto" type="button" class="btn btn-primary edit">Editar</button>&nbsp;|
+                    <button id="btnBorrarProducto" data-toggle="modal" data-info="@item.Nombre" data-target="#ModalConfirm" data-id="@item.IdProducto" type="button" class="btn btn-danger delete">Borrar</button>
+                </td>
+            </tr>
+        }
+
+    </table>
+    <br />
+    </div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    @section Scripts {
+        @Scripts.Render("~/bundles/FuncionesProducto")
     }
 
-</table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-@section Scripts {
-    @Scripts.Render("~/bundles/FuncionesProducto")
-}
+    <div class="modal fade" id="ModalConfirm" role="dialog">
+        <div class="modal-dialog">
 
-
-<div class="modal fade" id="ModalConfirm" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Borrar</h4>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Borrar</h4>
+                </div>
+                <div class="modal-body">
+                    <center><p id="TextModal"></p></center>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                    <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return EliminarProducto(this.value)" class="btn btn-primary">Continuar</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <center><p id="TextModal"></p></center>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
-                <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return EliminarProducto(this.value)" class="btn btn-primary">Continuar</button>
-            </div>
+
         </div>
-
     </div>
-</div>

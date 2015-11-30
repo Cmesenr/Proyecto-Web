@@ -7,82 +7,83 @@
 }
 
 <h2>Cotizaciones</h2>
-
-<div class="text-right">
-    <button type="button" onclick="location.href='@Url.Action("Facturar", "Factura")'" title="Facturar Nuevo" class="btn-circleplus btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
-</div>
-@using (Html.BeginForm("Index", "Cotizacion", FormMethod.Get))
-{
-    @Html.AntiForgeryToken()
-    <p>
-        <table>
-            <tr>
-                <td>
-                    Buscar por Cotizacion:&nbsp;&nbsp;
-                </td>
-                <td>
-                    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
-                </td>
-                <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
-            </tr>
-        </table>
-    </p>
-}
-<table class="table table-bordered table-hover">
-    <tr class="active">
-        <th>
-            Cotización
-        </th>
-        <th>
-            Cliente
-        </th>
-        <th>
-            Estado
-        </th>
-        <th>
-            Fecha
-        </th>
-        <th>
-            Monto
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+<div class="MatenimientoFondo">
+    <div class="text-right">
+        <button type="button" onclick="location.href='@Url.Action("Facturar", "Factura")'" title="Facturar Nuevo" class="btn-circleplus btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
+    </div>
+    @using (Html.BeginForm("Index", "Cotizacion", FormMethod.Get))
     {
-        <tr class="warning">
- 
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCotizacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cliente.Nombre)
-            </td>
-            <td>
-                @if (item.Estado == "T")
-                {
-                    @("Terminada");
-                }
-                @if (item.Estado == "A")
-                {
-                    @("Anulada");
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MontoParcial)
-            </td>
-            <td>
-                <button id="btnFacturar" data-id="@item.IdCotizacion" onclick="location.href='/Factura/Facturar?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Facturar</button>&nbsp;
-            </td>
-        </tr>
+        @Html.AntiForgeryToken()
+        <p>
+            <table>
+                <tr>
+                    <td>
+                        Buscar por Cotizacion:&nbsp;&nbsp;
+                    </td>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                    </td>
+                    <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+                </tr>
+            </table>
+        </p>
     }
+    <table class="table table-bordered table-hover">
+        <tr class="active">
+            <th>
+                Cotización
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Monto
+            </th>
+            <th></th>
+        </tr>
 
-</table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @foreach (var item in Model)
+        {
+            <tr class="warning">
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCotizacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+                </td>
+                <td>
+                    @if (item.Estado == "T")
+                {
+                        @("Terminada");
+                }
+                    @if (item.Estado == "A")
+                {
+                        @("Anulada");
+                }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MontoParcial)
+                </td>
+                <td>
+                    <button id="btnFacturar" data-id="@item.IdCotizacion" onclick="location.href='/Factura/Facturar?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Facturar</button>&nbsp;
+                </td>
+            </tr>
+        }
+
+    </table>
+    <br />
+    </div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

@@ -142,7 +142,7 @@ namespace SWRCVA.Controllers
         public JsonResult ConsultarClientes(string filtro)
         {
             var Clientes = (from s in db.Cliente
-                            where s.Nombre.Contains(filtro)
+                            where s.Nombre.Contains(filtro) && s.Estado == 1
                             select new
                             {
                                 s.IdCliente,

@@ -68,31 +68,37 @@ namespace SWRCVA.Controllers
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
 
-            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
+            ViewBag.IdTipoProducto = new SelectList((from s in db.TipoProducto
+                                                     where s.Estado == 1
+                                                     select new
+                                                     {
+                                                         s.IdTipoProducto,
+                                                         s.Nombre
+                                                     }), "IdTipoProducto", "Nombre");
             ViewBag.Paletas=new SelectList((from s in db.Material
-                                            where s.IdCatMat == 3 && s.IdTipoMaterial == 55
+                                            where s.IdCatMat == 3 && s.IdTipoMaterial == 55&& s.Estado==1
                                             select new
                                             {
                                                 s.IdMaterial,
                                                 s.Nombre
                                             }), "IdMaterial", "Nombre");
             ViewBag.ColoresVidrio=new SelectList((from s in db.ColorMat
-                                                  where s.IdCatMaterial == 3
+                                                  where s.IdCatMaterial == 3&& s.Estado==1
                                                   select new
                                                   {
                                                       IdColor = s.IdColor,
                                                       Nombre = s.Nombre
                                                   }), "IdColor", "Nombre");
-            ViewData["ColoresPaleta"] = db.ColorMat.Where(s => s.IdCatMaterial == 3).ToList();
+            ViewData["ColoresPaleta"] = db.ColorMat.Where(s => s.IdCatMaterial == 3&&s.Estado==1).ToList();
             ViewBag.ColoresAluminio = new SelectList((from s in db.ColorMat
-                                                    where s.IdCatMaterial == 2
+                                                    where s.IdCatMaterial == 2 &&s.Estado==1
                                                     select new
                                                     {
                                                         IdColor = s.IdColor,
                                                         Nombre = s.Nombre
                                                     }), "IdColor", "Nombre");
             ViewBag.Instalacion = new SelectList((from s in db.Valor
-                                                  where s.Tipo == "I"
+                                                  where s.Tipo == "I" && s.Estado==1
                                                   select new
                                                   {
                                                       IdValor = s.IdValor,
@@ -122,38 +128,43 @@ namespace SWRCVA.Controllers
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
 
-            ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
+            ViewBag.IdTipoProducto = new SelectList((from s in db.TipoProducto
+                                                     where s.Estado == 1
+                                                     select new
+                                                     {
+                                                         s.IdTipoProducto,
+                                                         s.Nombre
+                                                     }), "IdTipoProducto", "Nombre");
             ViewBag.Paletas = new SelectList((from s in db.Material
-                                              where s.IdCatMat == 3 && s.IdTipoMaterial == 55
+                                              where s.IdCatMat == 3 && s.IdTipoMaterial == 55 && s.Estado == 1
                                               select new
                                               {
                                                   s.IdMaterial,
                                                   s.Nombre
                                               }), "IdMaterial", "Nombre");
             ViewBag.ColoresVidrio = new SelectList((from s in db.ColorMat
-                                                    where s.IdCatMaterial == 3
+                                                    where s.IdCatMaterial == 3 && s.Estado == 1
                                                     select new
                                                     {
                                                         IdColor = s.IdColor,
                                                         Nombre = s.Nombre
                                                     }), "IdColor", "Nombre");
-            ViewData["ColoresPaleta"] = db.ColorMat.Where(s => s.IdCatMaterial == 3).ToList();
-
+            ViewData["ColoresPaleta"] = db.ColorMat.Where(s => s.IdCatMaterial == 3 && s.Estado == 1).ToList();
             ViewBag.ColoresAluminio = new SelectList((from s in db.ColorMat
-                                                      where s.IdCatMaterial == 2
+                                                      where s.IdCatMaterial == 2 && s.Estado == 1
                                                       select new
                                                       {
                                                           IdColor = s.IdColor,
                                                           Nombre = s.Nombre
                                                       }), "IdColor", "Nombre");
             ViewBag.Instalacion = new SelectList((from s in db.Valor
-                                                  where s.Tipo == "I"
+                                                  where s.Tipo == "I" && s.Estado == 1
                                                   select new
                                                   {
                                                       IdValor = s.IdValor,
                                                       Nombre = s.Nombre
                                                   }), "IdValor", "Nombre");
-         
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -428,6 +439,7 @@ namespace SWRCVA.Controllers
             try
             {
                 decimal IV = 1 + db.Valor.Find(2).Porcentaje;
+                decimal Cargo = 1 + db.Valor.Find(5).Porcentaje;
                 Material ListMat = db.Material.Find(Idpro);
                 ProductoCotizacion Produ = new ProductoCotizacion();
                 Produ.IdProducto = Idpro;
@@ -447,27 +459,27 @@ namespace SWRCVA.Controllers
                 {
                     case 1:
                         {
-                            Produ.Subtotal = ((costo * IV) * 1.5m);
+                            Produ.Subtotal = ((costo * IV) * Cargo);
                             break;
                         }
                     case 2:
                         {
-                            Produ.Subtotal = ((costo * IV) * 1.5m);
+                            Produ.Subtotal = ((costo * IV) * Cargo);
                             break;
                         }
                     case 3:
                         {
                             if (ListMat.IdTipoMaterial == 55)
                             {
-                                Produ.Subtotal = (decimal)Ancho * ((costo * IV) * 1.5m);
+                                Produ.Subtotal = (decimal)Ancho * ((costo * IV) * Cargo);
                             }
                             else if (ListMat.IdTipoMaterial == 53)
                             {
-                                Produ.Subtotal = ((decimal)Ancho * (decimal)Alto)*((costo * IV) * 1.5m);
+                                Produ.Subtotal = ((decimal)Ancho * (decimal)Alto)*((costo * IV) * Cargo);
                             }
                             else 
                             {
-                                Produ.Subtotal = ((costo * IV) * 1.5m);
+                                Produ.Subtotal = ((costo * IV) * Cargo);
                             }
                             break;
                         }
@@ -595,7 +607,7 @@ namespace SWRCVA.Controllers
         {
 
                 var Productos = (from s in db.Producto
-                                where s.IdTipoProducto == id
+                                where s.IdTipoProducto == id && s.Estado==1
                                 select new
                                 {
                                     IdProducto = s.IdProducto,
@@ -613,7 +625,7 @@ namespace SWRCVA.Controllers
             if (id!=null && tipo =="Categoria")
             {
                 var vidrio = (from s in db.Material
-                              where s.IdCatMat == 3 && s.IdSubCatMat == id && s.IdTipoMaterial != 55
+                              where s.IdCatMat == 3 && s.IdSubCatMat == id && s.IdTipoMaterial != 55 && s.IdTipoMaterial != 61 && s.Estado == 1
                               select new
                               {
                                   s.IdMaterial,
@@ -625,7 +637,7 @@ namespace SWRCVA.Controllers
             else if(id==null && tipo == "Paleta")
             {
                 var vidrio = (from s in db.Material
-                              where s.IdCatMat == 3 && s.IdTipoMaterial == 55
+                              where s.IdCatMat == 3 && s.IdTipoMaterial == 55 && s.Estado == 1
                               select new
                               {
                                   s.IdMaterial,
@@ -637,7 +649,7 @@ namespace SWRCVA.Controllers
             else if (id == null && tipo == "Lamina")
             {
                 var vidrio = (from s in db.Material
-                              where s.IdCatMat == 3 && s.IdTipoMaterial == 61
+                              where s.IdCatMat == 3 && s.IdTipoMaterial == 61 && s.Estado == 1
                               select new
                               {
                                   s.IdMaterial,
@@ -654,8 +666,8 @@ namespace SWRCVA.Controllers
         public JsonResult ConsultarClientes(string filtro)
         {
                 var Clientes = (from s in db.Cliente
-                            where s.Nombre.Contains(filtro)
-                            select new
+                            where s.Nombre.Contains(filtro) && s.Estado == 1
+                                select new
                             { s.IdCliente,
                               s.Nombre,
                               s.Telefono,
