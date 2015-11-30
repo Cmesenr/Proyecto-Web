@@ -21,6 +21,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -63,6 +65,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             ViewBag.ColorMaterial = new SelectList(db.ColorMat, "IdColor", "Nombre");
@@ -87,6 +91,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             try
             {
@@ -150,6 +156,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre"); 
             ViewBag.Proveedor = new SelectList(db.Proveedor, "IdProveedor", "Nombre");
@@ -207,6 +215,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             ViewBag.ColorMaterial = new SelectList((from s in db.ColorMat
@@ -290,6 +300,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             Material materialToUpdate = db.Material.Find(id);
             try

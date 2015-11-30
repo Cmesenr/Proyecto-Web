@@ -20,6 +20,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdUsuarioSortParm = String.IsNullOrEmpty(sortOrder) ? "IdUsuario" : "";
@@ -62,6 +64,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             return View();
@@ -75,6 +79,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             try
@@ -109,6 +115,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             if (id == null)
@@ -137,6 +145,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList(db.Rol, "IdRol", "Nombre");
             if (id == null)
@@ -175,6 +185,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             Usuario usuarioToUpdate = db.Usuario.Find(id);
             try

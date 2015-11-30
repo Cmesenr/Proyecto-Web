@@ -18,6 +18,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             if (tabla != null)
             {
@@ -263,6 +265,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CatMaterial = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
             return View();
@@ -274,6 +278,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             try
             {
@@ -369,6 +375,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             if (id == null|| Session["Currentabla"] == null)
             {
@@ -473,6 +481,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             try
             {
@@ -560,6 +570,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             int tabla = (int)Session["Currentabla"];
             if (id == null)

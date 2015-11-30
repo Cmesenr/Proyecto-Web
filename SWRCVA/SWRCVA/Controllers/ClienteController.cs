@@ -20,6 +20,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -62,6 +64,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
@@ -74,6 +78,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             try
             {
@@ -101,6 +107,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             if (id == null)
             {
@@ -122,6 +130,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             if (id == null)
             {
@@ -152,6 +162,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             Cliente clienteToUpdate = db.Cliente.Find(id);
             try

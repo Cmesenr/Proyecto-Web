@@ -113,18 +113,34 @@ namespace SWRCVA.Controllers
 
         public bool validaUsuario(HttpSessionStateBase session)
         {
-            bool respuesta = false;
+            bool usuarioValido = false;
 
-            if (session["UsuarioActual"] == null)
+            if (session["UsuarioActual"] == null || session.Timeout == 6)
             {
-                respuesta = false;
+                usuarioValido = false;
             }
             else
             {
-                respuesta = true;
+                usuarioValido = true;
             }
 
-            return respuesta;
+            return usuarioValido;
+        }
+
+        public bool validaRol(HttpSessionStateBase session)
+        {
+            bool rolAdmin = false;
+
+            if (session["RolUsuarioActual"].ToString() == "Procesos")
+            {
+                rolAdmin = false;
+            }
+            else
+            {
+                rolAdmin = true;
+            }
+
+            return rolAdmin;
         }
     }
 }

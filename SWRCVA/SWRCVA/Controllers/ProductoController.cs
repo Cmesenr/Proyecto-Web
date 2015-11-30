@@ -24,6 +24,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             var producto = db.Producto.Include(p => p.TipoProducto);
             ViewBag.CurrentSort = sortOrder;
@@ -67,6 +69,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
@@ -80,6 +84,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             try
             {
@@ -148,6 +154,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
@@ -182,6 +190,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
             ViewBag.Categorias = new SelectList(db.CategoriaMat, "IdCategoria", "Nombre");
@@ -252,6 +262,8 @@ namespace SWRCVA.Controllers
             LoginController login = new LoginController();
             if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
+            if (!login.validaRol(Session))
+                return RedirectToAction("Index", "Home");
 
             Producto productotoUpdate = db.Producto.Find(id);
             try
