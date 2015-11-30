@@ -19,10 +19,9 @@ namespace SWRCVA.Controllers
         // GET: Factura
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -65,11 +64,10 @@ namespace SWRCVA.Controllers
         // GET: Factura/Create
         public ActionResult Facturar(int? id)
         {
-
-            if (Session["UsuarioActual"] == null || Session["RolUsuarioActual"].ToString() != "Administrador")
-            {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
-            }
+
             if (id != null)
             {
                 Cotizacion cotizacion = db.Cotizacion.Find(id);
@@ -142,6 +140,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IdFactura,FechaHora,MontoTotal,MontoPagar,Usuario,IdCliente,Estado")] Factura factura)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             if (ModelState.IsValid)
             {
                 db.Entry(factura).State = EntityState.Modified;
@@ -156,6 +158,10 @@ namespace SWRCVA.Controllers
         // GET: Factura/Delete/5
         public ActionResult Delete(int? id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -173,6 +179,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            LoginController login = new LoginController();
+            if (!login.validaUsuario(Session))
+                return RedirectToAction("Login", "Login");
+
             Factura factura = db.Factura.Find(id);
             db.Factura.Remove(factura);
             db.SaveChanges();
