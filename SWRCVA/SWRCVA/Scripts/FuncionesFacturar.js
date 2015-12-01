@@ -26,7 +26,7 @@
                                       '<td>' + data[i].Categoria + '</td>' +
                                       '<td>' + data[i].Color + '</td>' +
                                       '<td>' + data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
-                                      '<td> <button type="button" id="SeleccionarMaterial" class="btn btn-default btn-sm" data-cat="' + data[i].Categoria + '" data-costo="' + data[i].Costo + '"  data-myvalue="' + data[i].Id + '"><span class="glyphicon glyphicon-ok" /></button></td>' +
+                                      '<td> <button type="button" id="SeleccionarMaterial" class="btn btn-default btn-sm" data-idcolor="' + data[i].IdColor + '" data-cat="' + data[i].Categoria + '" data-costo="' + data[i].Costo + '"  data-myvalue="' + data[i].Id + '"><span class="glyphicon glyphicon-ok" /></button></td>' +
                                     '</tr>');
 
             }
@@ -93,6 +93,7 @@ $(document).ready(function () {
     $("#headerPrincipal").on("click", "#SeleccionarMaterial", function (e) {
         $("#txtProducto").val($(this).data("myvalue"));
         $("#txtProducto").data("costo", $(this).data("costo"));
+        $("#txtProducto").data("idcolor", $(this).data("idcolor"));
         VerificarMaterial($("#txtProducto").val());
         $("#ModalMateriales").modal("hide");
 
@@ -211,7 +212,7 @@ $(document).ready(function () {
             return false;
         }
 
-        var paraProd = { Idpro: $('#txtProducto').val(), Cant: $("#txtCantidad").val(), costo: $('#txtProducto').data("costo"), extra: $('#txtExtra').val(), Ancho:$("#txtAncho").val(),Alto: $("#txtAlto").val() };
+        var paraProd = { Idpro: $('#txtProducto').val(), IdColor: $('#txtProducto').data("idcolor"), Cant: $("#txtCantidad").val(), costo: $('#txtProducto').data("costo"), extra: $('#txtExtra').val(), Ancho: $("#txtAncho").val(), Alto: $("#txtAlto").val() };
         $.ajax({
             cache: false,
             url: "/Factura/AgregarProducto",

@@ -19,6 +19,10 @@ namespace SWRCVA.Models
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdMaterial { get; set; }
+        [Key]
+        [Column(Order = 2)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int IdColor { get; set; }
 
         public decimal Cantidad { get; set; }
         public decimal? Ancho { get; set; }
@@ -26,6 +30,7 @@ namespace SWRCVA.Models
         public decimal? Alto { get; set; }
 
         public decimal Subtotal { get; set; }
+        public virtual ColorMat ColorMat { get; set; }
 
         public virtual Cotizacion Cotizacion { get; set; }
 

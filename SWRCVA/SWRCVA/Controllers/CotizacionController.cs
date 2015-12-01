@@ -91,7 +91,7 @@ namespace SWRCVA.Controllers
                                                   }), "IdColor", "Nombre");
             ViewData["ColoresPaleta"] = db.ColorMat.Where(s => s.IdCatMaterial == 3&&s.Estado==1).ToList();
             ViewBag.ColoresAluminio = new SelectList((from s in db.ColorMat
-                                                    where s.IdCatMaterial == 2 &&s.Estado==1
+                                                    where s.IdCatMaterial == 2 &&s.Estado==1 
                                                     select new
                                                     {
                                                         IdColor = s.IdColor,
@@ -201,7 +201,9 @@ namespace SWRCVA.Controllers
                     p.Alto = (decimal)item.Alto;
                 }
                 p.Tipo = "Mat";
+                p.IdColor = item.IdColor;
                 p.Subtotal = item.Subtotal;
+
                 ListaP.Add(p);
             }
             foreach (var item in ListaProdu)
@@ -409,6 +411,7 @@ namespace SWRCVA.Controllers
                         if (listProduct.IdProducto == Idpro)
                         {
                             TempData["ListaProductos"] = ListaProductos;
+                            TempData["MateralCotizacion"] = ListaMateriales;
                             resultado = "No se puede duplicar el El producto!";
                             return Json(resultado,
                             JsonRequestBehavior.AllowGet);
@@ -429,12 +432,13 @@ namespace SWRCVA.Controllers
                 JsonRequestBehavior.AllowGet);
 
         }
-        public JsonResult AgregarMaterial(int Idpro, decimal Cant, decimal costo, decimal? Extra, decimal? Ancho, decimal? Alto)
+        public JsonResult AgregarMaterial(int Idpro, int IdColor, decimal Cant, decimal costo, decimal? Extra, decimal? Ancho, decimal? Alto)
         {
             var resultado = "Error al intentar agregar el producto";
             if (TempData["ListaProductos"] != null)
             {
                 ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductos"];
+                ListaMateriales = (List<MaterialCotizacion>)TempData["MateralCotizacion"];
             }
             try
             {
@@ -446,6 +450,7 @@ namespace SWRCVA.Controllers
                 Produ.Tipo = "Mat";
                 Produ.Nombre = ListMat.Nombre;
                 Produ.CantMat = Cant;
+                Produ.IdColor = IdColor;
                 if (Ancho != null)
                 {
                     Produ.Ancho = (decimal)Ancho;
@@ -500,9 +505,10 @@ namespace SWRCVA.Controllers
                 {
                     foreach (ProductoCotizacion listProduct in ListaProductos)
                     {
-                        if (listProduct.IdProducto == Idpro)
+                        if (listProduct.IdProducto == Idpro && listProduct.IdColor==IdColor)
                         {
                             TempData["ListaProductos"] = ListaProductos;
+                            TempData["MateralCotizacion"] = ListaMateriales;
                             resultado = "No se puede duplicar el El producto!";
                             return Json(resultado,
                             JsonRequestBehavior.AllowGet);
@@ -517,6 +523,7 @@ namespace SWRCVA.Controllers
                 return Json(resultado,
               JsonRequestBehavior.AllowGet);
             }
+            TempData["MateralCotizacion"] = ListaMateriales;
             TempData["ListaProductos"] = ListaProductos;
             return Json(ListaProductos.ToList(),
                 JsonRequestBehavior.AllowGet);
@@ -756,7 +763,51 @@ namespace SWRCVA.Controllers
             return Json(ListaProductos,
          JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ConsultarMateriales()
+        {
+            var Aluminios = (from s in db.Material
+                             join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
+                             where s.IdCatMat == 2 && s.Estado == 1
+                             select new
+                             {
+                                 Id = s.IdMaterial,
+                                 Nombre = s.Nombre,
+                                 Categoria = s.CategoriaMat.Nombre,
+                                 IdColor = c.ColorMat.IdColor,
+                                 Color = c.ColorMat.Nombre,
+                                 Costo = c.Costo
+                             }).ToList();
 
+            var Vidrio = (from s in db.Material
+                          join c in db.ColorMaterial on s.IdMaterial equals c.IdMaterial
+                          where s.IdCatMat == 3 && s.Estado == 1
+                          select new
+                          {
+                              Id = s.IdMaterial,
+                              Nombre = s.Nombre,
+                              Categoria = s.CategoriaMat.Nombre,
+                              IdColor = c.ColorMat.IdColor,
+                              Color = c.ColorMat.Nombre,
+                              Costo = c.Costo
+                          }).ToList();
+            var Acesorios = (from s in db.Material
+                             where s.IdCatMat == 1 && s.Estado == 1
+                             select new
+                             {
+                                 Id = s.IdMaterial,
+                                 Nombre = s.Nombre,
+                                 Categoria = s.CategoriaMat.Nombre,
+                                 IdColor = 21,
+                                 Color = "n/a",
+                                 Costo = s.Costo
+                             }).ToList();
+
+            var materiales = Aluminios;
+            materiales.AddRange(Vidrio);
+            materiales.AddRange(Acesorios);
+            return Json(materiales,
+             JsonRequestBehavior.AllowGet);
+        }
         public JsonResult ProcesarCotizacion(int IdCliente, string Comentario)
         {
             var respuesta = "Cotizacion Procesada!";
@@ -798,6 +849,7 @@ namespace SWRCVA.Controllers
                             M.Ancho = item.Ancho;
                             M.Alto = item.Alto;
                             M.Subtotal = item.Subtotal;
+                            M.IdColor = item.IdColor;
                             db.MaterialItemCotizacion.Add(M);
                         }
                         else
@@ -866,6 +918,7 @@ namespace SWRCVA.Controllers
                         M.Cantidad = item.CantMat;
                         M.Ancho = item.Ancho;
                         M.Alto = item.Alto;
+                        M.IdColor = item.IdColor;
                         M.Subtotal = item.Subtotal;
                         db.MaterialItemCotizacion.Add(M);
                     }
@@ -962,6 +1015,7 @@ namespace SWRCVA.Controllers
                             M.Cantidad = item.CantMat;
                             M.Ancho = item.Ancho;
                             M.Alto = item.Alto;
+                            M.IdColor = item.IdColor;
                             M.Subtotal = item.Subtotal;
                             db.MaterialItemCotizacion.Add(M);
                         }
@@ -1061,6 +1115,7 @@ namespace SWRCVA.Controllers
                             M.Cantidad = item.CantMat;
                             M.Ancho = item.Ancho;
                             M.Alto = item.Alto;
+                            M.IdColor = item.IdColor;
                             M.Subtotal = item.Subtotal;
                             db.MaterialItemCotizacion.Add(M);
                         }

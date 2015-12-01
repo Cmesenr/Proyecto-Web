@@ -19,9 +19,16 @@ namespace SWRCVA.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdProducto { get; set; }
 
+        [Key]
+        [Column(Order = 2)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int IdColor { get; set; }
+
         public decimal MontoParcial { get; set; }
 
         public decimal Cantidad { get; set; }
+
+        public virtual ColorMat ColorMat { get; set; }
 
         public virtual Factura Factura { get; set; }
 

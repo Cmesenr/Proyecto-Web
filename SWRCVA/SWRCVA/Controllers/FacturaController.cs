@@ -93,6 +93,7 @@ namespace SWRCVA.Controllers
                     p.IdProducto = item.IdProducto;
                     p.Nombre = item.Producto.Nombre;
                     p.CantMat = item.CantProducto;
+                    p.IdColor = 21;
                     p.Subtotal = Math.Round((Decimal)item.Subtotal, 2);
                     ListaP.Add(p);
                 }
@@ -103,6 +104,7 @@ namespace SWRCVA.Controllers
                     p.IdProducto = item.IdMaterial;
                     p.Nombre = item.Material.Nombre;
                     p.CantMat = item.Cantidad;
+                    p.IdColor = item.IdColor;
                     p.Subtotal = Math.Round((Decimal)item.Subtotal, 2);
                     ListaP.Add(p);
                 }
@@ -133,7 +135,7 @@ namespace SWRCVA.Controllers
             return View();
         }
 
-        public JsonResult AgregarProducto(int Idpro, decimal Cant,decimal costo, decimal? Extra,decimal? Ancho, decimal? Alto)
+        public JsonResult AgregarProducto(int Idpro, int IdColor, decimal Cant,decimal costo, decimal? Extra,decimal? Ancho, decimal? Alto)
         {
             var resultado = "Error al intentar agregar el producto";
             if (TempData["ListaProductosFact"] != null)
@@ -149,6 +151,7 @@ namespace SWRCVA.Controllers
                 Produ.IdProducto = Idpro;
                 Produ.Nombre = ListMat.Nombre;
                 Produ.CantMat = Cant;
+                Produ.IdColor = IdColor;
                 switch (ListMat.IdCatMat)
                 {
                     case 1:
@@ -281,8 +284,9 @@ namespace SWRCVA.Controllers
                         DetalleFactura D1 = new DetalleFactura();
                         D1.IdFactura = Fact.IdFactura;
                         D1.IdProducto = item.IdProducto;
+                        D1.IdColor = item.IdColor;
                         D1.MontoParcial = item.Subtotal;
-                        D1.Cantidad = item.CantMat;
+                        D1.Cantidad = item.CantMat;                       
                         db.DetalleFactura.Add(D1);
                     }
                     db.SaveChanges();
@@ -354,6 +358,7 @@ namespace SWRCVA.Controllers
                                  Id = s.IdMaterial,
                                  Nombre = s.Nombre,
                                  Categoria = s.CategoriaMat.Nombre,
+                                 IdColor = c.ColorMat.IdColor,
                                  Color = c.ColorMat.Nombre,
                                  Costo = c.Costo
                              }).ToList();
@@ -363,11 +368,12 @@ namespace SWRCVA.Controllers
                           where s.IdCatMat == 3 && s.Estado == 1
                           select new
                           {
-                             Id= s.IdMaterial,
-                             Nombre= s.Nombre,
+                              Id = s.IdMaterial,
+                              Nombre = s.Nombre,
                               Categoria = s.CategoriaMat.Nombre,
+                              IdColor = c.ColorMat.IdColor,
                               Color = c.ColorMat.Nombre,
-                              Costo=c.Costo
+                              Costo = c.Costo
                           }).ToList();
             var Acesorios = (from s in db.Material
                              where s.IdCatMat == 1 && s.Estado == 1
@@ -376,6 +382,7 @@ namespace SWRCVA.Controllers
                                  Id = s.IdMaterial,
                                  Nombre = s.Nombre,
                                  Categoria = s.CategoriaMat.Nombre,
+                                 IdColor = 21,
                                  Color = "n/a",
                                  Costo = s.Costo
                              }).ToList();

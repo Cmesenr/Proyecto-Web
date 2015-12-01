@@ -13,6 +13,8 @@ namespace SWRCVA.Models
         public ColorMat()
         {
             ColorMaterial = new HashSet<ColorMaterial>();
+            DetalleFactura = new HashSet<DetalleFactura>();
+            MaterialItemCotizacion = new HashSet<MaterialItemCotizacion>();
             ProductoCotizacion = new HashSet<ProductoCotizacion>();
             ProductoCotizacion1 = new HashSet<ProductoCotizacion>();
             ProductoCotizacion2 = new HashSet<ProductoCotizacion>();
@@ -37,6 +39,11 @@ namespace SWRCVA.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ColorMaterial> ColorMaterial { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetalleFactura> DetalleFactura { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaterialItemCotizacion> MaterialItemCotizacion { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductoCotizacion> ProductoCotizacion { get; set; }

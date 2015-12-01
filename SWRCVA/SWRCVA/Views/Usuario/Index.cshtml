@@ -9,9 +9,9 @@
 
 <h2>Usuarios</h2>
 <div class="MatenimientoFondo">
-    <p>
-        <button id="Registrar" onclick="location.href='@Url.Action("Registrar", "Usuario")'" class="btn btn-info">Registrar Nuevo</button>
-    </p>
+    <div class="text-right">
+        <button type="button" id="btnAgregar" onclick="location.href='@Url.Action("Registrar", "Usuario")'" title="Registrar Nuevo" class="btn-circleplus btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
+    </div>
     @using (Html.BeginForm("Index", "Usuario", FormMethod.Get))
     {
         @Html.AntiForgeryToken()

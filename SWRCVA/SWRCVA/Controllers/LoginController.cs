@@ -64,15 +64,10 @@ namespace SWRCVA.Controllers
             return View();
         }
 
-        // POST: /CambiarContraseña/
-        [HttpPost]
-        public ActionResult CambiarContraseña(string contraseña)
+        public JsonResult JCambiarContraseña(string contraseña)
         {
-            LoginController loginController = new LoginController();
-            if (!loginController.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-
-            if (Session["UsuarioActual"] != null && contraseña != null)
+            string resultado = "Error";
+              if (Session["UsuarioActual"] != null && contraseña != null)
             {
                 Usuario usuarioToUpdate = db.Usuario.Find(Session["UsuarioActual"].ToString());
 
@@ -91,6 +86,7 @@ namespace SWRCVA.Controllers
                             try
                             {
                                 db.SaveChanges();
+                                resultado = "ok";
                             }
                             catch (RetryLimitExceededException /* dex */)
                             {
@@ -100,7 +96,8 @@ namespace SWRCVA.Controllers
                     }
                 }
             }
-            return View();
+            return Json(resultado,
+                               JsonRequestBehavior.AllowGet);
         }
 
         public string Encriptar(string cadenaAencriptar)

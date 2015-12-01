@@ -100,6 +100,14 @@ namespace SWRCVA.Controllers
                     Produ.IdProducto = item.IdMaterial;
                     Produ.IdCotizacion = item.IdCotizacion;
                     Produ.Nombre = item.Material.Nombre;
+                    if (item.Material.IdCatMat == 2)
+                    {
+                        Produ.ColorAluminio = item.ColorMat.Nombre;
+                    }
+                    if (item.Material.IdCatMat == 3)
+                    {
+                        Produ.ColorVidrio = item.ColorMat.Nombre;
+                    }
                     Produ.CantMat = item.Cantidad;
                     Produ.Alto = (decimal)item.Alto;
                     Produ.Ancho = (decimal)item.Ancho;

@@ -51,6 +51,8 @@ namespace SWRCVA.Models
 
         [NotMapped]
         public string ColorAluminio { get; set; }
+        [NotMapped]
+        public int IdColor { get; set; }
 
         public virtual ColorMat ColorMat { get; set; }
 
