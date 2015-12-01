@@ -142,29 +142,15 @@ new List<Object>{
 
                     <div class="form-group">
                         <div class="active"><h4>Lista Materiales:</h4></div>
-                        <div class="col-md-10">
+                        <div class="scrollit col-md-10">
                             <table class="table-condensed" id="ListaMateriales">
-                                @{var divisor = 2;
-                                    int i = 0;
-                                    string resultado = "";
+                                @{
                                     foreach (var item in Model.ListaMatProducto.ToList())
                                     {
-                                        if (i == 0 || divisor == i)
-                                        {
-                                            resultado += "<tr>";
+                                        <tr style="background-color:#9BAAAF" ><td><span class='label label-default'>@item.Material.Nombre &nbsp;&nbsp;<input type='button' id='eliminarmat' data-id='@item.IdMaterial' class='btn-danger btn-xs' value='X' /></span></td></tr>
 
-                                        }
-                                        resultado += "<td><span class='label label-default'>" + item.Material.Nombre + "&nbsp;&nbsp;<input type='button' id='eliminarmat' data-id='" + item.IdMaterial + "'class='btn-danger btn-xs' value='X' /></span></td>";
-                                        if (i == (divisor - 1))
-                                        {
-                                            resultado += "</tr>";
-                                            divisor += 2;
-                                        }
-
-                                        i++;
                                     }
                                 }
-                                @Html.Raw(resultado)
 
                             </table>
                         </div>

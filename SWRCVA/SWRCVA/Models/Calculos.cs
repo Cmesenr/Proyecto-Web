@@ -129,7 +129,14 @@ namespace SWRCVA.Models
                     MaterialCotizacion PC = new MaterialCotizacion();
                         switch (item.IdTipoMaterial)
                         {
-                            case 22://Cargador
+                        case 19://Acople
+                            PC.IdMaterial = item.IdMaterial;
+                            PC.IdProducto = Idpro;
+                            PC.CantMaterial = Alto;
+                            PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                            ListaCosto.Add(PC);
+                            break;
+                        case 22://Cargador
                             PC.IdMaterial = item.IdMaterial;
                             PC.IdProducto = Idpro;
                             PC.CantMaterial = Ancho;

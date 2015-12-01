@@ -191,25 +191,11 @@ $(function()
                     }
                     else {
                         $("#ListaMateriales").empty();
-                        var divisor = 2;
-                        var string = "";
                         for (var i = 0; i < data.length; i++) {
-                            if (i == 0 || divisor == i) {
-                                string += '<tr>';
-
-                            }
-                            string += '<td><span class="label label-default">' + data[i].Nombre + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td>';
-                            if (i == (divisor - 1)) {
-                                string += '</tr>';
-                                divisor += 2;
-                            }
-
+                            $("#ListaMateriales").append('<tr style="background-color:#9BAAAF"><td><span class="label label-default">' + data[i].Nombre + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td></tr>');
                         }
-
-                        $("#ListaMateriales").html(string);
-                        $("#MaterialSelect").val("");
-
                     }
+                        $("#MaterialSelect").val("");
                 },
                 error: function (result) {
                     alert('ERROR ' + result.status + ' ' + result.statusText);
@@ -238,25 +224,13 @@ $(function()
                 }
                 else {
                     $("#ListaMateriales").empty();
-                    var divisor = 2;
-                    var string = "";
                     for (var i = 0; i < data.length; i++) {
-                        if (i == 0 || divisor == i) {
-                            string += '<tr>';
-
-                        }
-                        string += '<td><span class="label label-default">' + data[i].Nombre + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td>';
-                        if (i == (divisor - 1)) {
-                            string += '</tr>';
-                            divisor += 2;
-                        }
-
+                        $("#ListaMateriales").append('<tr style="background-color:#9BAAAF"><td><span class="label label-default">' + data[i].Nombre + '&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td></tr>');
                     }
 
-                    $("#ListaMateriales").html(string);
+                }
                     $("#MaterialSelect").val("");
 
-                }
             },
             error: function (result) {
                 alert('ERROR ' + result.status + ' ' + result.statusText);
