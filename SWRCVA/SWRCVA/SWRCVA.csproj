@@ -487,7 +487,6 @@
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Material\Editar.cshtml" />
     <Content Include="Views\Material\Registrar.cshtml" />
-    <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Registrar.cshtml" />
     <Content Include="Views\Producto\Registrar.cshtml" />
