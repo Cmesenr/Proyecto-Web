@@ -5,3 +5,43 @@
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
+
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" align="center">
+                <img class="" id="img_logo" src="~/Content/Imagenes/Logo2.png">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </div>
+
+            <!-- Begin # DIV Form -->
+            <div id="div-forms">
+
+                <!-- Begin # Login Form -->
+                <form id="login-form">
+                    <div class="modal-body">
+                        <div id="div-login-msg">
+                            <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
+                            <span id="text-login-msg">Escriba su Usuario y Contraseña.</span>
+                        </div>
+                        <input id="login_username" class="form-control" type="text" placeholder="Usuario" required>
+                        <input id="login_password" class="form-control" type="password" placeholder="Contraseña" required>
+                        <br />
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Iniciar Sesión</button>
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </form>
+                <!-- End # Login Form -->
+            </div>
+            <!-- End # DIV Form -->
+
+        </div>
+    </div>
+</div>

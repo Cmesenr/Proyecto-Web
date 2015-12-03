@@ -1,0 +1,166 @@
+﻿
+@using PagedList.Mvc;
+@model PagedList.IPagedList<SWRCVA.Models.Cotizacion>
+
+
+@{
+    ViewBag.Title = "Recibo";
+}
+
+<h2>Cotizaciones</h2>
+<div class="MatenimientoFondo">
+    <div class="text-right">
+        <button type="button" id="btnAgregar" onclick="location.href='@Url.Action("Cotizar", "Cotizacion")'" title="Cotizar" class="btn-circleplus btn-primary btn-lg"><span class="glyphicon glyphicon-plus"></span></button>
+    </div>
+    @using (Html.BeginForm("Recibo", "Cotizacion", FormMethod.Get))
+    {
+        @Html.AntiForgeryToken()
+        <p>
+            <table>
+                <tr>
+                    <td>
+                        <strong>Buscar:&nbsp;&nbsp;</strong>
+                    </td>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder="por Cotizacion o Nombre" })
+                    </td>
+                    <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+                </tr>
+            </table>
+        </p>
+    }
+    <table class="table table-bordered table-hover">
+        <tr class="active">
+            <th>
+                # Cotización
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Monto
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="warning">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCotizacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+                </td>
+                <td>
+                    @if (item.Estado == "P")
+                    {
+                        @("Procesada");
+                    }
+                    @if (item.Estado == "T")
+                    {
+                        @("Terminada");
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MontoParcial)
+                </td>
+                <td>
+                    <button id="btnRecibo" data-id="@item.IdCotizacion" data-nombre="@item.Cliente.Nombre"  data-saldo="@item.MontoParcial" title="Abonar" type="button" class="btn btn-primary pulse" ><span class="glyphicon glyphicon-log-in"></span>&nbsp;Abonar</button>
+                </td>
+            </tr>
+        }
+
+    </table>
+    <br />
+</div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Recibo",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<div class="modal fade" id="ModalReciboDinero" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Abono</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal" align="center">
+                    <div class="form-group">
+                        <div class="col-md-4 text-right">
+                            <h4><span>Cliente:</span></h4>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <h4><strong><span class="text-primary"  id="lblClienteNombre"></span></strong></h4>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 text-right">
+                            <h4><span># Cotizacion:</span></h4>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <h4><strong><span class="text-primary" id="lblIdCotizacion"></span></strong></h4>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4 text-right">
+                            <h4><span>Saldo:</span></h4>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <h4><strong><span class="text-danger" id="lblSaldo"></span></strong></h4>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <div class="col-md-4  text-right">
+                            <h4><span>Moto a Abonar:</span> </h4>
+                        </div>
+                        <div class="col-md-3 text-left">
+                            <input type="text" id="txtMontoCot" class="form-control" onkeypress="return acceptNum(event);" placeholder="Monto" required="required" title="Monto requerido" />
+                        </div>                    
+                    </div>
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove"> </span>&nbsp;Cancelar</button>
+                <button type="button" id="btnGuardarModal" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Abonar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalMensaje" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="HeaderModalInfo">Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="TextModalinfo"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-primary">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/ReciboDinero")
+}

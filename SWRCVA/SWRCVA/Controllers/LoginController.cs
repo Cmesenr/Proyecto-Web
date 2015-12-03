@@ -57,8 +57,7 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult CambiarContraseña()
         {
-            LoginController loginController = new LoginController();
-            if (!loginController.validaUsuario(Session))
+            if (!validaUsuario(Session))
                 return RedirectToAction("Login", "Login");
 
             return View();
@@ -108,7 +107,7 @@ namespace SWRCVA.Controllers
             return result;
         }
 
-        public bool validaUsuario(HttpSessionStateBase session)
+        public static bool validaUsuario(HttpSessionStateBase session)
         {
             bool usuarioValido = false;
 
@@ -124,7 +123,7 @@ namespace SWRCVA.Controllers
             return usuarioValido;
         }
 
-        public bool validaRol(HttpSessionStateBase session)
+        public static bool validaRol(HttpSessionStateBase session)
         {
             bool rolAdmin = false;
 
