@@ -17,6 +17,10 @@ namespace SWRCVA.Models
 
         public decimal Monto { get; set; }
 
+        [Required]
+        [StringLength(15)]
+        public string Usuario { get; set; }
+
         [Column(TypeName = "smalldatetime")]
         public DateTime Fecha { get; set; }
 

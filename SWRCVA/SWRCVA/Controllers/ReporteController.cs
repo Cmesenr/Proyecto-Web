@@ -17,9 +17,9 @@ namespace SWRCVA.Controllers
         // GET: Reporte
         public ActionResult ReporteCotizacion()
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
@@ -29,9 +29,9 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ReporteCotizacion(Reporte reporte)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             Warning[] warnings;
             string[] streamIds;
@@ -58,9 +58,9 @@ namespace SWRCVA.Controllers
         // GET: Reporte
         public ActionResult ReporteFacturacion()
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
@@ -70,9 +70,9 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ReporteFacturacion(Reporte reporte)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             Warning[] warnings;
             string[] streamIds;
@@ -100,9 +100,9 @@ namespace SWRCVA.Controllers
         // GET: Reporte
         public ActionResult ReporteOrden()
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
@@ -112,9 +112,9 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ReporteOrden(Reporte reporte)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             Warning[] warnings;
             string[] streamIds;

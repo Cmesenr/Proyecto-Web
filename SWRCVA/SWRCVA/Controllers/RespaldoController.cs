@@ -14,10 +14,10 @@ namespace SWRCVA.Controllers
         // GET: Respaldo
         public ActionResult RepaldarBD(string tipoOperacion)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             if (tipoOperacion == "Respaldo")

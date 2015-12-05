@@ -21,9 +21,8 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -44,7 +43,8 @@ namespace SWRCVA.Controllers
                               select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                cotizaciones = cotizaciones.Where(s => s.Cliente.Nombre.Contains(searchString));
+                cotizaciones = cotizaciones.Where(s => s.Cliente.Nombre.Contains(searchString) ||
+                                                    s.IdCotizacion.ToString().Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -60,13 +60,53 @@ namespace SWRCVA.Controllers
             int pageNumber = (page ?? 1);
             return View(cotizaciones.ToPagedList(pageNumber, pageSize));
         }
+        public ActionResult Recibo(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var cotizaciones = from s in db.Cotizacion
+                               where s.Estado == "P"||s.Estado == "T"
+                               select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                cotizaciones = cotizaciones.Where(s => s.Cliente.Nombre.Contains(searchString)||
+                                                    s.IdCotizacion.ToString().Contains(searchString)
+                                                   );
+            }
+            switch (sortOrder)
+            {
+                case "Nombre":
+                    cotizaciones = cotizaciones.OrderByDescending(s => s.Cliente.Nombre);
+                    break;
+                default:  // Name ascending 
+                    cotizaciones = cotizaciones.OrderBy(s => s.Cliente.Nombre);
+                    break;
+            }
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(cotizaciones.ToPagedList(pageNumber, pageSize));
+        }
         // GET: Cotizacion/Create
         public ActionResult Cotizar()
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList((from s in db.TipoProducto
                                                      where s.Estado == 1
@@ -114,9 +154,8 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cotizar([Bind(Include = "IdCotizacion,IdCliente,CantProducto,Estado,Fecha,Usuario,MontoParcial")] Cotizacion cotizacion)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             return View(cotizacion);
         }
@@ -124,9 +163,8 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion/Edit/5
         public ActionResult Editar(int? id)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList((from s in db.TipoProducto
                                                      where s.Estado == 1
@@ -255,9 +293,9 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar([Bind(Include = "IdCotizacion,IdCliente,CantProducto,Estado,Fecha,Usuario,MontoParcial")] Cotizacion cotizacion)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             if (ModelState.IsValid)
             {
@@ -271,9 +309,9 @@ namespace SWRCVA.Controllers
         // GET: Cotizacion/Delete/5
         public ActionResult Borrar(int? id)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+    
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             if (id == null)
             {
@@ -324,6 +362,9 @@ namespace SWRCVA.Controllers
 
         public ActionResult Plaforma(int id)
         {
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+
             Cotizacion cotizacion = db.Cotizacion.Find(id);
             if (cotizacion == null)
             {
@@ -762,6 +803,31 @@ namespace SWRCVA.Controllers
             TempData["ListaProductos"] = ListaProductos;
             return Json(ListaProductos,
          JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult Abonar(int Id, decimal monto)
+        {
+            var resultado = "Error, Consulte su administrador del sistema";
+            ReciboDinero R1 = new ReciboDinero();
+            try
+            {
+
+                R1.IdCotizacion = Id;
+                R1.Monto = monto;
+                R1.Fecha = DateTime.Now.Date;
+                R1.Usuario = Session["UsuarioActual"].ToString();
+                db.ReciboDinero.Add(R1);
+                db.SaveChanges();
+                resultado = "ok";
+
+            }
+            catch (Exception e)
+            {
+                resultado = "Un ocurrido un error Inesperado. Contacte al administrador del sistema \n\n" + e;
+                return Json(resultado,
+                  JsonRequestBehavior.AllowGet);
+            }
+            return Json(resultado,
+              JsonRequestBehavior.AllowGet);
         }
         public JsonResult ConsultarMateriales()
         {

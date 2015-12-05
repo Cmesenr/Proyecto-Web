@@ -17,10 +17,10 @@ namespace SWRCVA.Controllers
         // GET: Usuario
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentSort = sortOrder;
@@ -61,10 +61,10 @@ namespace SWRCVA.Controllers
         // GET: Usuario/Registrar
         public ActionResult Registrar()
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList((from s in db.Rol
@@ -83,10 +83,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registrar(Usuario usuario)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList((from s in db.Rol
@@ -126,10 +126,10 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(string id)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList((from s in db.Rol
@@ -163,10 +163,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarPost(string id, Usuario usuario)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             ViewBag.Rol = new SelectList((from s in db.Rol
@@ -210,10 +210,10 @@ namespace SWRCVA.Controllers
         // GET: Usuario/Borrar
         public ActionResult Borrar(string id)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             Usuario usuarioToUpdate = db.Usuario.Find(id);

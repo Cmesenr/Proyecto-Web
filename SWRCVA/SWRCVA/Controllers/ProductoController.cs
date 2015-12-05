@@ -21,10 +21,10 @@ namespace SWRCVA.Controllers
         // GET: Productoes
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             var producto = db.Producto.Include(p => p.TipoProducto);
@@ -66,10 +66,10 @@ namespace SWRCVA.Controllers
         // GET: Productoes/Create
         public ActionResult Registrar()
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList(db.TipoProducto, "IdTipoProducto", "Nombre");
@@ -81,10 +81,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registrar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Forma,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             try
@@ -165,10 +165,10 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList((from s in db.TipoProducto
@@ -214,10 +214,10 @@ namespace SWRCVA.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar([Bind(Include = "IdProducto,Nombre,IdTipoProducto,Forma,Imagen,Estado,Usuario")] Producto producto, HttpPostedFileBase ImageFile)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             ViewBag.IdTipoProducto = new SelectList((from s in db.TipoProducto
@@ -298,10 +298,10 @@ namespace SWRCVA.Controllers
         // GET: Productoes/Borrar/5
         public ActionResult Borrar(int? id)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             Producto productotoUpdate = db.Producto.Find(id);

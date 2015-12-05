@@ -19,9 +19,9 @@ namespace SWRCVA.Controllers
         // GET: Orden
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
@@ -42,7 +42,8 @@ namespace SWRCVA.Controllers
                                select s;
             if (!String.IsNullOrEmpty(searchString))
             {
-                cotizaciones = cotizaciones.Where(s => s.Cliente.Nombre.Contains(searchString));
+                cotizaciones = cotizaciones.Where(s => s.Cliente.Nombre.Contains(searchString) ||
+                                                    s.IdCotizacion.ToString().Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -64,9 +65,9 @@ namespace SWRCVA.Controllers
         // GET: Cliente/Editar/5
         public ActionResult Detalles(int? id)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
             Cotizacion cotizacion = db.Cotizacion.Find(id);
 

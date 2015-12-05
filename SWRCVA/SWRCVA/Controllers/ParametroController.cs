@@ -15,10 +15,10 @@ namespace SWRCVA.Controllers
         DataContext db = new DataContext();
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, int? tabla)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             if (tabla != null)
@@ -262,10 +262,10 @@ namespace SWRCVA.Controllers
         // GET: Parametro/Registrar
         public ActionResult Registrar()
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             ViewBag.CatMaterial = new SelectList((from s in db.CategoriaMat
@@ -282,10 +282,10 @@ namespace SWRCVA.Controllers
         [HttpPost]
         public ActionResult Registrar(Parametro parametrop)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             try
@@ -386,10 +386,10 @@ namespace SWRCVA.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Editar(int? id)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             if (id == null|| Session["Currentabla"] == null)
@@ -499,10 +499,10 @@ namespace SWRCVA.Controllers
         [HttpPost]
         public ActionResult Editar(int id, Parametro parametrop)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             try
@@ -595,10 +595,10 @@ namespace SWRCVA.Controllers
 
         public ActionResult Eliminar(int? id)
         {
-            LoginController login = new LoginController();
-            if (!login.validaUsuario(Session))
-                return RedirectToAction("Login", "Login");
-            if (!login.validaRol(Session))
+            
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+            if (!LoginController.validaRol(Session))
                 return RedirectToAction("Index", "Home");
 
             int tabla = (int)Session["Currentabla"];

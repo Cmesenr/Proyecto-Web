@@ -453,6 +453,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\ReciboDinero.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Slider\camera.js" />
@@ -508,6 +509,7 @@
     <Content Include="Views\Respaldo\RepaldarBD.cshtml" />
     <Content Include="Views\Factura\Ticket.cshtml" />
     <Content Include="Views\Cotizacion\Plaforma.cshtml" />
+    <Content Include="Views\Cotizacion\Recibo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

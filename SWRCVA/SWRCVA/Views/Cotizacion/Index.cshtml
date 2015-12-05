@@ -18,10 +18,10 @@
             <table>
                 <tr>
                     <td>
-                        Buscar por nombre:
+                        <strong>Buscar:&nbsp;&nbsp;</strong>
                     </td>
                     <td>
-                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "por Cotizacion o Nombre" })
                     </td>
                     <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
                 </tr>

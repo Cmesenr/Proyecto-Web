@@ -69,6 +69,8 @@ namespace SWRCVA
             "~/Scripts/FuncionesTicket.js"));
             bundles.Add(new ScriptBundle("~/bundles/FuncionesRespaldo").Include(
             "~/Scripts/FuncionesRespaldo.js"));
+            bundles.Add(new ScriptBundle("~/bundles/ReciboDinero").Include(
+           "~/Scripts/ReciboDinero.js"));
             bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
             "~/Scripts/jquery.dataTables.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/dataTablesBoot").Include(
