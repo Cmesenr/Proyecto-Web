@@ -43,7 +43,7 @@
                 Fecha
             </th>
             <th>
-                Monto
+                Saldo
             </th>
             <th></th>
         </tr>
@@ -72,7 +72,10 @@
                     @Html.DisplayFor(modelItem => item.Fecha)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MontoParcial)
+                    @{var valor = "₡ ";
+                        valor += string.Format("{0:0,0.00}", +item.MontoParcial);
+                    }
+                    @valor
                 </td>
                 <td>
                     <button id="btnFacturar" data-id="@item.IdCotizacion" onclick="location.href='/Factura/Facturar?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Facturar</button>&nbsp;

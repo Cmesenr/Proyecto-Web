@@ -510,6 +510,7 @@
     <Content Include="Views\Factura\Ticket.cshtml" />
     <Content Include="Views\Cotizacion\Plaforma.cshtml" />
     <Content Include="Views\Cotizacion\Recibo.cshtml" />
+    <Content Include="Views\Cotizacion\ReciboDinero.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

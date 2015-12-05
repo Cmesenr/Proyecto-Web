@@ -38,8 +38,20 @@ namespace SWRCVA.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var cotizaciones = from s in db.Cotizacion
-                               where s.Estado == "T" || s.Estado == "A"
+                               where s.Estado == "T"
                                select s;
+            foreach (var item in cotizaciones)
+            {
+                var recibo = db.ReciboDinero.Where(s => s.IdCotizacion == item.IdCotizacion);
+                if (recibo != null)
+                {
+                    foreach (var item2 in recibo)
+                    {
+                        item.MontoParcial -= item2.Monto;
+                    }
+
+                }
+            }
             if (!String.IsNullOrEmpty(searchString))
             {
                 cotizaciones = cotizaciones.Where(s => s.Cliente.Nombre.Contains(searchString) ||
@@ -91,6 +103,7 @@ namespace SWRCVA.Controllers
                 foreach (var item in ListaProdu)
                 {
                     ProductoCotizacion p = new ProductoCotizacion();
+                    p.IdCotizacion = item.IdCotizacion;
                     p.IdProducto = item.IdProducto;
                     p.Nombre = item.Producto.Nombre;
                     p.CantMat = item.CantProducto;
@@ -103,6 +116,7 @@ namespace SWRCVA.Controllers
                 {
                     ProductoCotizacion p = new ProductoCotizacion();
                     p.IdProducto = item.IdMaterial;
+                    p.IdCotizacion = item.IdCotizacion;
                     p.Nombre = item.Material.Nombre;
                     p.CantMat = item.Cantidad;
                     p.IdColor = item.IdColor;
@@ -119,7 +133,7 @@ namespace SWRCVA.Controllers
             return View();
         }
 
-        public ActionResult Ticket()
+        public ActionResult Ticket(int? id, decimal monto)
         {
                
             if (!LoginController.validaUsuario(Session))
@@ -136,11 +150,40 @@ namespace SWRCVA.Controllers
             TempData["ListaProductosFact"] = ListaProductos;
             ViewData["fecha"] = TempData["Fecha"];
             ViewData["Cliente"] = TempData["Cliente"];
+            if (id != null)
+            {
+                var ReciboDinero = db.ReciboDinero.Where(s => s.IdCotizacion == id).ToList();
+                var TotalRecibo = 0m;
+                if (ReciboDinero != null)
+                {
+                    foreach (var item in ReciboDinero)
+                    {
+                        TotalRecibo += item.Monto;
+                    }
+                    ViewData["ReciboDinero"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", TotalRecibo);
+                    ViewData["Saldo"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", (decimal)TempData["Total"] - TotalRecibo); 
+                    ViewData["Cambio"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", monto - ((decimal)TempData["Total"] - TotalRecibo)); 
+                }
+            }
+          
+            else
+            {
+                ViewData["Cambio"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", monto - (decimal)TempData["Total"]);
+            }
+           
+
+            ViewData["MontoPagar"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", monto);
+
             LimpiarListas();
             return View();
         }
 
-        public JsonResult AgregarProducto(int Idpro, int IdColor, decimal Cant,decimal costo, decimal? Extra,decimal? Ancho, decimal? Alto)
+        public JsonResult AgregarProducto(int Idpro, int IdColor, decimal Cant, decimal costo, decimal? Extra, decimal? Ancho, decimal? Alto)
         {
             var resultado = "Error al intentar agregar el producto";
             if (TempData["ListaProductosFact"] != null)
@@ -148,7 +191,7 @@ namespace SWRCVA.Controllers
                 ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
             }
             try
-            {               
+            {
                 decimal IV = 1 + db.Valor.Find(2).Porcentaje;
                 decimal Cargo = 1 + db.Valor.Find(5).Porcentaje;
                 Material ListMat = db.Material.Find(Idpro);
@@ -157,11 +200,19 @@ namespace SWRCVA.Controllers
                 Produ.Nombre = ListMat.Nombre;
                 Produ.CantMat = Cant;
                 Produ.IdColor = IdColor;
+                if (Ancho != null)
+                {
+                    Produ.Ancho = (decimal)Ancho;
+                }
+                if (Alto != null)
+                {
+                    Produ.Alto = (decimal)Alto;
+                }
                 switch (ListMat.IdCatMat)
                 {
                     case 1:
                         {
-                            Produ.Subtotal =((costo * IV) * Cargo);
+                            Produ.Subtotal = ((costo * IV) * Cargo);
                             break;
                         }
                     case 2:
@@ -189,12 +240,12 @@ namespace SWRCVA.Controllers
 
                 if (Extra != null)
                 {
-                    Extra = (Extra / 100m)+1;
-                    Produ.Subtotal = (Produ.Subtotal * Cant) *(decimal)Extra;
+                    Extra = (Extra / 100m) + 1;
+                    Produ.Subtotal = (Produ.Subtotal * Cant) * (decimal)Extra;
                 }
                 else
                 {
-                    Produ.Subtotal = Produ.Subtotal* Cant;
+                    Produ.Subtotal = Produ.Subtotal * Cant;
                 }
                 Produ.Subtotal = Math.Round((Decimal)Produ.Subtotal, 2);
                 if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
@@ -202,7 +253,7 @@ namespace SWRCVA.Controllers
                 {
                     foreach (ProductoCotizacion listProduct in ListaProductos)
                     {
-                        if (listProduct.IdProducto == Idpro)
+                        if (listProduct.IdProducto == Idpro && listProduct.IdColor == IdColor)
                         {
                             TempData["ListaProductosFact"] = ListaProductos;
                             resultado = "No se puede duplicar el El producto!";
@@ -214,7 +265,7 @@ namespace SWRCVA.Controllers
                     ListaProductos.Add(Produ);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(resultado,
               JsonRequestBehavior.AllowGet);
@@ -406,12 +457,12 @@ namespace SWRCVA.Controllers
 
                 if (TempData["ListaProductosFact"] != null)
                 {
+                   
                     ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
                     foreach (var item in ListaProductos)
                     {
                         Total += item.Subtotal;
                     }
-
                 }
 
             }
@@ -422,6 +473,37 @@ namespace SWRCVA.Controllers
                   JsonRequestBehavior.AllowGet);
             }
             TempData["Total"] = Total;
+            TempData["ListaProductosFact"] = ListaProductos;
+            return Json(Total,
+             JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CalcularSaldo(int id)
+        {
+            decimal Total = 0;
+            try
+            {
+                if (TempData["ListaProductosFact"] != null)
+                {
+
+                    ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
+                    foreach (var item in ListaProductos)
+                    {
+                        Total += item.Subtotal;
+                    }
+                    var recibo = db.ReciboDinero.Where(s => s.IdCotizacion == id);
+                    foreach (var item in recibo)
+                    {
+                        Total -= item.Monto;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                var resultado = "Un ocurrido un error Inesperado. Contacte al administrador del sistema \n\n" + e;
+                return Json(resultado,
+                  JsonRequestBehavior.AllowGet);
+            }
             TempData["ListaProductosFact"] = ListaProductos;
             return Json(Total,
              JsonRequestBehavior.AllowGet);

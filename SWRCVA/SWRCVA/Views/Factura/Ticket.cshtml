@@ -31,7 +31,21 @@
             </tbody>
         </table>
         <div class="text-right">
-            <h4><strong><span id="lblTicketTotal">TOTAL: ₡ @ViewData["Total"].ToString()</span></strong></h4>
+            @if (ViewData["ReciboDinero"] != null)
+            {
+                <h4><strong><span id="lblTicketTotal">TOTAL: ₡ @ViewData["Total"].ToString()</span></strong></h4>
+                <h4><strong><span id="lblTicketTotal">ABONO: ₡ @ViewData["ReciboDinero"].ToString()</span></strong></h4>
+                <h3><strong><span id="lblTicketTotal">SALDO: ₡ @ViewData["Saldo"].ToString()</span></strong></h3>
+                <h4><strong><span id="lblTicketTotal">PAGA CON: ₡ @ViewData["MontoPagar"].ToString()</span></strong></h4>
+                <h3><strong><span id="lblTicketTotal">CAMBIO: ₡ @ViewData["Cambio"].ToString()</span></strong></h3>
+            }
+            else
+            {
+                <h4><strong><span id="lblTicketTotal">TOTAL: ₡ @ViewData["Total"].ToString()</span></strong></h4>
+                <h4><strong><span id="lblTicketTotal">PAGA CON: ₡ @ViewData["MontoPagar"].ToString()</span></strong></h4>
+                <h3><strong><span id="lblTicketTotal">CAMBIO: ₡ @ViewData["Cambio"].ToString()</span></strong></h3>
+            }
+
         </div>
     </div>
     <div id="Ticketfooter" class="text-center">

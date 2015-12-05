@@ -82,6 +82,17 @@ namespace SWRCVA.Controllers
             var cotizaciones = from s in db.Cotizacion
                                where s.Estado == "P"||s.Estado == "T"
                                select s;
+            foreach(var item in cotizaciones)
+            {
+                var recibo = db.ReciboDinero.Where(s => s.IdCotizacion == item.IdCotizacion);
+                if (recibo!=null)
+                {
+                    foreach (var item2 in recibo){
+                        item.MontoParcial -= item2.Monto;
+                    }
+                   
+                }
+            }
             if (!String.IsNullOrEmpty(searchString))
             {
                 cotizaciones = cotizaciones.Where(s => s.Cliente.Nombre.Contains(searchString)||
@@ -394,6 +405,36 @@ namespace SWRCVA.Controllers
             ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
                                  "{0:0,0.00}", cotizacion.MontoParcial);
             ViewData["ListaPro"] = productos;
+            return View();
+        }
+        public ActionResult ReciboDinero(int id, decimal monto)
+        {
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+
+            Cotizacion cotizacion = db.Cotizacion.Find(id);
+            if (cotizacion == null)
+            {
+                return HttpNotFound();
+            }
+            ViewData["fecha"] = DateTime.Now;
+            ViewData["IdCot"] = cotizacion.IdCotizacion;
+            ViewData["IdRecibo"] = TempData["IdRecibo"];
+            ViewData["Cliente"] = cotizacion.Cliente.Nombre;
+            ViewData["Abono"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", monto);
+            ViewData["MontoOriginal"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", cotizacion.MontoParcial); 
+            var montoCot = cotizacion.MontoParcial;
+            var recibo = db.ReciboDinero.Where(s => s.IdCotizacion == id);
+            foreach (var item in recibo)
+            {
+                montoCot -= item.Monto;
+            }
+            ViewData["Saldo"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", montoCot);
+            ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", (montoCot + monto));
             return View();
         }
         public JsonResult AgregarProducto(int Idpro, int Cvidrio,decimal? anchocelocia, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto, int vidrio, int? ColorPaleta, int? IdPaleta)
@@ -810,14 +851,29 @@ namespace SWRCVA.Controllers
             ReciboDinero R1 = new ReciboDinero();
             try
             {
-
-                R1.IdCotizacion = Id;
-                R1.Monto = monto;
-                R1.Fecha = DateTime.Now.Date;
-                R1.Usuario = Session["UsuarioActual"].ToString();
-                db.ReciboDinero.Add(R1);
-                db.SaveChanges();
-                resultado = "ok";
+                var montoCot = db.Cotizacion.Find(Id).MontoParcial;
+                var recibo = db.ReciboDinero.Where(s => s.IdCotizacion == Id);
+                foreach (var item in recibo)
+                {
+                    montoCot -= item.Monto;
+                }
+                
+                if (monto > montoCot)
+                {
+                    resultado = "El monto no puede ser mayor al saldo.";
+                }
+                else
+                {
+                    R1.IdCotizacion = Id;
+                    R1.Monto = monto;
+                    R1.Fecha = DateTime.Now.Date;
+                    R1.Usuario = Session["UsuarioActual"].ToString();
+                    db.ReciboDinero.Add(R1);
+                    db.SaveChanges();
+                    resultado = "ok";
+                    TempData["IdRecibo"] = R1.Consecutivo;
+                }
+              
 
             }
             catch (Exception e)

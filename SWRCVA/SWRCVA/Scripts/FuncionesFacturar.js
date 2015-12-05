@@ -287,7 +287,12 @@ $("#btnFacturar").on("click", function () {
         return false;
     }
     $("#lblClienteFact").html($("#txtClienteFinal").val());
-    $("#lblMontoTotal").html("₡ "+$("#txtTotal").html().substr(1));
+    if ($("#txtSaldo").html() != "") {
+        $("#lblMontoTotal").html("₡ " + $("#txtSaldo").html().substr(1));
+    }
+    else {
+        $("#lblMontoTotal").html("₡ " + $("#txtTotal").html().substr(1));
+    }
     
     
         $("#ModalFacturar").modal("show");
@@ -313,7 +318,6 @@ $("#btnPagar").on("click", function () {
                     $("#ModalFacturar").modal("hide");
                     $("#TextModalinfo").html(data);
                     $("#HeaderModalInfo").html("Registrada");
-                    LimpiarDatosRegistro();
                     $('#ModalMensaje').modal("show");
                 } else {
                     $("#ModalFacturar").modal("hide");
@@ -334,14 +338,17 @@ $("#btnPagar").on("click", function () {
 })
 $('#ModalMensaje').on('hidden.bs.modal', function () {
     $("#ModalMensaje").removeData('bs.modal');
-        PrintContent();
+    $("#txtMontoPagar").val("");
+    $("#txtMontoPagar").removeClass("alert-success");
+    $("#lblMontoCambio").html("₡ " + "0.00");
+    LimpiarDatosRegistro();
+
     //window.location.href = "/Factura/Facturar";
 });
 $('#ModalFacturar').on('hidden.bs.modal', function () {
     $("#ModalFacturar").removeData('bs.modal');
-    $("#txtMontoPagar").val("");
-    $("#txtMontoPagar").removeClass("alert-success");
-    $("#lblMontoCambio").html("₡ " + "0.00");
+    PrintContent();
+    WindowObject.focus();
 });
 function CargarListaProductos() {
     $.ajax({
@@ -425,6 +432,24 @@ function LimpiarListaProductos() {
     $("#txtTotal").html("₡ " + "0.00");
 }
 function CalcularTotal() {
+    if ($("#txtCotizacion").val() != "") {
+        $.ajax({
+            cache: false,
+            url: "/Factura/CalcularSaldo",
+            type: "get",
+            data: { id: $("#txtCotizacion").val() },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#Saldodiv").removeAttr("hidden");
+                $("#txtSaldo").html("₡ " + round5(parseFloat(data)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+            }
+        })
+    } else {
+        $("#txtSaldo").html("");
+        $("#Saldodiv").attr("hidden", "hidden");
+    }
+        
     $.ajax({
         cache: false,
         url: "/Factura/CalcularTotal",
@@ -518,8 +543,17 @@ function round5(x) {
 }
 var WindowObject = new Object();
 function PrintContent() {
-        WindowObject = window.open("/Factura/Ticket/", "PrintWindow",
-        "width=300,height=500,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");        
+    if ($("#txtCotizacion").val() != "") {
+        WindowObject = window.open("/Factura/Ticket/" + $("#txtCotizacion").val() + "/" + $("#txtMontoPagar").val() + "", "PrintWindow",
+       "width=300,height=500,toolbars=no,scrollbars=yes,status=no,resizable=yes");
         WindowObject.focus();
         LimpiarListaProductos();
+    }
+    else {
+        WindowObject = window.open("/Factura/Ticket/" + null + "/" + $("#txtMontoPagar").val() + "", "PrintWindow",
+       "width=300,height=500,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+        WindowObject.focus();
+        LimpiarListaProductos();
+    }
+   
 }
