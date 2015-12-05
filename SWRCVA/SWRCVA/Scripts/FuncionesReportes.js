@@ -55,23 +55,29 @@
         })
     })
 
-
     $("#Procesar").on("click", function () {
 
         var txtFechaInicio = $("#FechaInicio").val();
         var txtFechaFin = $("#FechaFin").val();
 
         if (txtFechaInicio === "") {
-            $("#FechaInicio").tooltip({content:"test"});
+            $("#FechaInicio").tooltip();
             $("#FechaInicio").focus();
             return false;
         }
         if (txtFechaFin === "") {
-            $("#FechaFin").tooltip({ content: "test" });
+            $("#FechaFin").tooltip();
             $("#FechaFin").focus();
             return false;
         }
     })
 
+    $('#Limpiar').on('click', function () {
+        $('#FechaInicio').val("");
+        $('#FechaFin').val("");
+        $('#txtNombre').val("");
+        $('#txtIdCliente').val("");
+        return false;
+    });
 });
 

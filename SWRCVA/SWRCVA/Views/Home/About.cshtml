@@ -1,47 +1,63 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
 
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" align="center">
-                <img class="" id="img_logo" src="~/Content/Imagenes/Logo2.png">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </button>
+<div class="form-control" style="background-image: url('../../Content/Imagenes/Logo-UTN.png'); height: 320px; width:200px; background-size:100%; background-repeat:no-repeat; float:left;
+margin-left:15px"></div>
+<div style="margin-left:220px;height: 320px; width:900px;" class="form-control" >
+    <h4 style="font-weight:bold">SWCRVA</h4>
+    <p style="font-weight:bold">Versión: 1.0</p>
+    <p style="font-weight:bold">Desarrollado por:</p>
+    <p> Charlie Mesen Rodríguez.<br />Angel Munguía Fernández</p>
+    <h4 style="font-weight:bold">Sistema Web de Registro y Control Vidrios Don Antonio</h4>
+    <p style="align-content:center">
+        Es una solución informática la cual vino a suplir las necesidades de la empresa Vidrios Don Antonio S.A.,
+        proponiendo una manera automatizada y eficiente para la realización de los procesos de
+        cotizaciones, control de órdenes de trabajo y facturación. Con esta propuesta informática se pretende tener
+        un mejor manejo sobre los trabajos realizados, además garantizar que todos los trabajos solicitados sean concluidos y cobrados.<br />
+        Fue desarrollado como parte de la realización de la práctica profesional para optar por el derecho de graduación para la carrera de Ingeniería 
+        del Software en la Universidad Técnica Nacional (UTN).
+    </p>
+</div>
+
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" align="center">
+                    <img class="" id="img_logo" src="~/Content/Imagenes/Logo2.png">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </div>
+
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+
+                    <!-- Begin # Login Form -->
+                    <form id="login-form">
+                        <div class="modal-body">
+                            <div id="div-login-msg">
+                                <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
+                                <span id="text-login-msg">Escriba su Usuario y Contraseña.</span>
+                            </div>
+                            <input id="login_username" class="form-control" type="text" placeholder="Usuario" required>
+                            <input id="login_password" class="form-control" type="password" placeholder="Contraseña" required>
+                            <br />
+                        </div>
+                        <div class="modal-footer">
+                            <div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Iniciar Sesión</button>
+                            </div>
+                            <div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- End # Login Form -->
+                </div>
+                <!-- End # DIV Form -->
+
             </div>
-
-            <!-- Begin # DIV Form -->
-            <div id="div-forms">
-
-                <!-- Begin # Login Form -->
-                <form id="login-form">
-                    <div class="modal-body">
-                        <div id="div-login-msg">
-                            <div id="icon-login-msg" class="glyphicon glyphicon-chevron-right"></div>
-                            <span id="text-login-msg">Escriba su Usuario y Contraseña.</span>
-                        </div>
-                        <input id="login_username" class="form-control" type="text" placeholder="Usuario" required>
-                        <input id="login_password" class="form-control" type="password" placeholder="Contraseña" required>
-                        <br />
-                    </div>
-                    <div class="modal-footer">
-                        <div>
-                            <button type="submit" class="btn btn-primary btn-lg btn-block">Iniciar Sesión</button>
-                        </div>
-                        <div>
-                        </div>
-                    </div>
-                </form>
-                <!-- End # Login Form -->
-            </div>
-            <!-- End # DIV Form -->
-
         </div>
     </div>
-</div>

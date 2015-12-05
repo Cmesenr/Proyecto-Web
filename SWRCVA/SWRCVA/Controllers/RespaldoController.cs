@@ -49,7 +49,7 @@ namespace SWRCVA.Controllers
                 SqlConnection conn = AbrirConexion();
                 conn.Open();
 
-                string sql = "BACKUP DATABASE BDVIDASA TO DISK = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL12.ANCA\\MSSQL\\Backup\\BDVIDASA.bak'";
+                string sql = "BACKUP DATABASE BDVIDASA TO DISK = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL12.ANCA\\MSSQL\\Backup\\BDVIDASA.bak' WITH INIT";
 
                 SqlCommand command = new SqlCommand(sql, conn);
                 command.ExecuteNonQuery();

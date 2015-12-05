@@ -280,6 +280,7 @@
     <Content Include="Content\Imagenes\loadinfo3.gif" />
     <Content Include="Content\Imagenes\loading.gif" />
     <Content Include="Content\Imagenes\loading3.gif" />
+    <Content Include="Content\Imagenes\Logo-UTN.png" />
     <Content Include="Content\Imagenes\logo2.png" />
     <Content Include="Content\Imagenes\mochaGrunge.png" />
     <Content Include="Content\Imagenes\nice_snow.png" />
