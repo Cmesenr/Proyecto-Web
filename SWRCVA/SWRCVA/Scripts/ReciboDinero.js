@@ -35,7 +35,7 @@
                     $("#HeaderModalInfo").html("Correcto!");
                     $('#ModalMensaje').modal("show");
                     $("#ModalReciboDinero").modal("hide");
-                    PrintContent($("#lblIdCotizacion").html(), $("#txtMontoCot").val());
+                    
                     WindowObject.focus();
                 } else {
                     $("#TextModal").html(result);
@@ -53,6 +53,7 @@
     });
     $('#ModalMensaje').on('hidden.bs.modal', function () {
         $("#ModalMensaje").removeData('bs.modal');
+        PrintContent($("#lblIdCotizacion").html(), $("#txtMontoCot").val());
         window.location.href = "/Cotizacion/Recibo";
         $("#txtMontoCot").val("");
     });

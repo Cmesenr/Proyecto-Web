@@ -61,12 +61,23 @@
                 {
                         @("Procesada");
                 }
+                    @if (item.Estado == "F")
+                {
+                        @("Facturada");
+                }
+                    @if (item.Estado == "A")
+                {
+                        @("Anulada");
+                }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Fecha)
                 </td>
                 <td align="right">
-                    @Html.DisplayFor(modelItem => item.MontoParcial)
+                    @{var valor = "₡ ";
+                        valor += string.Format("{0:0,0.00}", +item.MontoParcial);
+                    }
+                    @valor
                 </td>
                 <td align="center">
                     <button id="btnDetalleCotizacion" data-id="@item.IdCotizacion" onclick="location.href='/Orden/Detalles?id='+@item.IdCotizacion" type="button" class="btn btn-primary edit">Ver detalle/Terminar</button>

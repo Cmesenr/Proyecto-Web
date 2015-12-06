@@ -38,7 +38,7 @@ namespace SWRCVA.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var cotizaciones = from s in db.Cotizacion
-                               where s.Estado == "P"
+                               where s.Estado == "P"|| s.Estado == "F"|| s.Estado == "A"
                                select s;
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -57,7 +57,6 @@ namespace SWRCVA.Controllers
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            Session["IdCotizacion"] = null;
 
             return View(cotizaciones.ToPagedList(pageNumber, pageSize));
         }
@@ -132,21 +131,6 @@ namespace SWRCVA.Controllers
             TempData["ListaProductosOrden"] = ListaProductosOrden;
 
             return Json(ListaProductosOrden,JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult ProcesarOrden()
-        {
-            var respuesta = "Orden Terminada!";
-
-            if (Session["IdCotizacion"] != null)
-            {
-                Cotizacion cotizacion = db.Cotizacion.Find(int.Parse(Session["IdCotizacion"].ToString()));
-                cotizacion.Estado = "T";
-                db.Entry(cotizacion).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-
-            return Json(respuesta, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ConsultarMateriales(int idProducto)
