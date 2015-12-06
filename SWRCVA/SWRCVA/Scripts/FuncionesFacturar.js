@@ -428,6 +428,7 @@ function VerificarMaterial(id) {
 function LimpiarListaProductos() {
     $("#ListaProductos tbody").empty();
     $("#txtTotal").html("₡ " + "0.00");
+    $("#txtSaldo").html("₡ " + "0.00");
 }
 function CalcularTotal() {
     if ($("#txtCotizacion").val() != "") {
