@@ -11,16 +11,21 @@ namespace SWRCVA.Models
     {
         [Key]
         [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long IdFactura { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long IdConsecutivo { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int IdProducto { get; set; }
+        public long IdFactura { get; set; }
 
         [Key]
         [Column(Order = 2)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int IdProducto { get; set; }
+
+        [Key]
+        [Column(Order = 3)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdColor { get; set; }
 

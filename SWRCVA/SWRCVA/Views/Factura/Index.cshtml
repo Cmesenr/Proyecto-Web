@@ -59,13 +59,9 @@
                     @Html.DisplayFor(modelItem => item.Cliente.Nombre)
                 </td>
                 <td>
-                    @if (item.Estado == "T")
+                    @if (item.Estado == "P")
                 {
-                        @("Terminada");
-                }
-                    @if (item.Estado == "A")
-                {
-                        @("Anulada");
+                        @("Procesada");
                 }
                 </td>
                 <td>

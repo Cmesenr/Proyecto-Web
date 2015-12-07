@@ -38,7 +38,7 @@ namespace SWRCVA.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var cotizaciones = from s in db.Cotizacion
-                               where s.Estado == "T"
+                               where s.Estado == "P"
                                select s;
             foreach (var item in cotizaciones)
             {
@@ -290,22 +290,7 @@ namespace SWRCVA.Controllers
                     Produ.Subtotal = Produ.Subtotal * Cant;
                 }
                 Produ.Subtotal = Math.Round((Decimal)Produ.Subtotal, 2);
-                if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
-                else
-                {
-                    foreach (ProductoCotizacion listProduct in ListaProductos)
-                    {
-                        if (listProduct.IdProducto == Idpro && listProduct.IdColor == IdColor)
-                        {
-                            TempData["ListaProductosFact"] = ListaProductos;
-                            resultado = "No se puede duplicar el El producto!";
-                            return Json(resultado,
-                            JsonRequestBehavior.AllowGet);
-                        }
-
-                    }
-                    ListaProductos.Add(Produ);
-                }
+                ListaProductos.Add(Produ);
             }
             catch (Exception e)
             {

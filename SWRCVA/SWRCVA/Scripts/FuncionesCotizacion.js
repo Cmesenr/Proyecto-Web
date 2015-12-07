@@ -414,7 +414,7 @@
                             $('#ListaProductos tbody').append('<tr class="trTableFact warning">' +
                                                   '<td>' + data[i].Nombre + '</td>' +
                                                    '<td>' + data[i].CantMat + '</td>' +
-                                                  '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                                  '<td>' + "₡ " +data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                                   '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                                 '</tr>');
                         }
@@ -515,7 +515,7 @@
                             $('#ListaProductos tbody').append('<tr class="warning">' +
                                                   '<td>' + data[i].Nombre + '</td>' +
                                                    '<td>' + data[i].CantMat + '</td>' +
-                                                  '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                                  '<td>' + "₡ " +data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                                   '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                                 '</tr>');
                         }
@@ -551,7 +551,7 @@
                     $('#ListaProductos tbody').append('<tr class="warning">' +
                                           '<td>' + data[i].Nombre + '</td>' +
                                            '<td>' + data[i].CantMat + '</td>' +
-                                          '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                          '<td>' + "₡ " +data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                           '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                         '</tr>');
                 }
@@ -657,7 +657,7 @@ function CargarListaProductos() {
                         $('#ListaProductos tbody').append('<tr class="warning">' +
                                               '<td>' + data[i].Nombre + '</td>' +
                                                '<td>' + data[i].CantMat + '</td>' +
-                                              '<td>' + data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                              '<td>' + "₡ " +data[i].Subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                               '<td><input type="button" id="eliminarProducto" data-id=' + data[i].IdProducto + ' class="btn-danger btn-xs" value="X" /></td>' +
                                             '</tr>');
                     }
@@ -705,7 +705,7 @@ function ConsultarListaMateriales() {
                                       '<td>' + data[i].Nombre + '</td>' +
                                       '<td>' + data[i].Categoria + '</td>' +
                                       '<td>' + data[i].Color + '</td>' +
-                                      '<td>' + data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                      '<td>' + "₡ " +data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                       '<td> <button type="button" id="SeleccionarMaterial" class="btn btn-default btn-sm" data-idcolor="' + data[i].IdColor + '" data-cat="' + data[i].Categoria + '" data-costo="' + data[i].Costo + '"  data-myvalue="' + data[i].Id + '"><span class="glyphicon glyphicon-ok" /></button></td>' +
                                     '</tr>');
 

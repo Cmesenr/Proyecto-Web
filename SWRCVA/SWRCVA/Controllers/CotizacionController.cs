@@ -80,7 +80,7 @@ namespace SWRCVA.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var cotizaciones = from s in db.Cotizacion
-                               where s.Estado == "P"||s.Estado == "T"
+                               where s.Estado == "P"
                                select s;
             foreach(var item in cotizaciones)
             {
@@ -238,6 +238,7 @@ namespace SWRCVA.Controllers
             foreach (var item in ListaProduMat)
             {
                 ProductoCotizacion p = new ProductoCotizacion();
+                p.IdConsecutivo = item.IdConsecutivo;
                 p.IdProducto = item.IdMaterial;
                 p.Nombre = item.Material.Nombre;
                 p.CantMat = item.Cantidad;
@@ -258,6 +259,7 @@ namespace SWRCVA.Controllers
             foreach (var item in ListaProdu)
             {
                 ProductoCotizacion p = new ProductoCotizacion();
+                p.IdConsecutivo = item.IdConsecutivo;
                 p.IdProducto = item.IdProducto;
                 p.Nombre = item.Producto.Nombre;
                 p.CantMat = item.CantProducto;
@@ -485,23 +487,8 @@ namespace SWRCVA.Controllers
                         Produ.Subtotal += (item.Subtotal* (1 + instalacion));
                 }
                 Produ.Subtotal = Produ.Subtotal * Cant;
-                if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
-                else
-                {
-                    foreach (ProductoCotizacion listProduct in ListaProductos)
-                    {
-                        if (listProduct.IdProducto == Idpro)
-                        {
-                            TempData["ListaProductos"] = ListaProductos;
-                            TempData["MateralCotizacion"] = ListaMateriales;
-                            resultado = "No se puede duplicar el El producto!";
-                            return Json(resultado,
-                            JsonRequestBehavior.AllowGet);
-                        }
-
-                    }
-                    ListaProductos.Add(Produ);
-                }
+                ListaProductos.Add(Produ);
+               
             }
             catch
             {
@@ -516,7 +503,7 @@ namespace SWRCVA.Controllers
         }
         public JsonResult AgregarMaterial(int Idpro, int IdColor, decimal Cant, decimal costo, decimal? Extra, decimal? Ancho, decimal? Alto)
         {
-            var resultado = "Error al intentar agregar el producto";
+            var resultado = "Error al intentar agregar el material";
             if (TempData["ListaProductos"] != null)
             {
                 ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductos"];
@@ -582,23 +569,7 @@ namespace SWRCVA.Controllers
                     Produ.Subtotal = Produ.Subtotal * Cant;
                 }
                 Produ.Subtotal = Math.Round((Decimal)Produ.Subtotal, 2);
-                if (ListaProductos.Count() == 0) { ListaProductos.Add(Produ); }
-                else
-                {
-                    foreach (ProductoCotizacion listProduct in ListaProductos)
-                    {
-                        if (listProduct.IdProducto == Idpro && listProduct.IdColor==IdColor)
-                        {
-                            TempData["ListaProductos"] = ListaProductos;
-                            TempData["MateralCotizacion"] = ListaMateriales;
-                            resultado = "No se puede duplicar el El producto!";
-                            return Json(resultado,
-                            JsonRequestBehavior.AllowGet);
-                        }
-
-                    }
-                    ListaProductos.Add(Produ);
-                }
+                ListaProductos.Add(Produ);
             }
             catch (Exception e)
             {
@@ -1028,7 +999,8 @@ namespace SWRCVA.Controllers
                     {
                         item.IdCotizacion = Cot.IdCotizacion;
                         db.MaterialCotizacion.Add(item);
-                    }
+                }
+                db.SaveChanges();
                 foreach (var item in ListaProductos)
                 {
                     item.IdCotizacion = Cot.IdCotizacion;
@@ -1049,7 +1021,6 @@ namespace SWRCVA.Controllers
                         item.CantProducto = (int)item.CantMat;
                         db.ProductoCotizacion.Add(item);
                     }
-
 
                 }
                 db.SaveChanges();
