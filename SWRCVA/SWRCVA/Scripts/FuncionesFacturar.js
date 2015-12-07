@@ -47,7 +47,7 @@ $(document).ready(function () {
     $.extend(true, $.fn.dataTable.defaults, {
         "lengthMenu": [[5,10,15,-1], [5,10,15, "All"]],
         "language": {
-            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            "url": "../Scripts/Spanish.json"
         }
     });
 

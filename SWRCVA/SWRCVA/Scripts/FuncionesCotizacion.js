@@ -1,5 +1,11 @@
 ﻿$(document).ready(function () {
     ConsultarListaMateriales();
+    $.extend(true, $.fn.dataTable.defaults, {
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "language": {
+            "url": "../Scripts/Spanish.json"
+        }
+    });
     //Listar Clientes
     $("#txtClienteModal").on("keypress", function () {
         var params = { filtro: $("#txtClienteModal").val() };

@@ -531,6 +531,7 @@
     <Content Include="Views\Factura\ControlFacturas.cshtml" />
     <Content Include="Views\Reporte\ReporteHistorico.cshtml" />
     <Content Include="Views\Factura\FacturaTicket.cshtml" />
+    <Content Include="Scripts\Spanish.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

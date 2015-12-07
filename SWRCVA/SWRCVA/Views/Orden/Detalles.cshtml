@@ -55,8 +55,13 @@
                     <div class="form-group">
                         <div class="col-md-12">
                             <span class="text-displayFor">
-                                <b>Estado:</b> <br />@if (Model.Estado == "P")
+                                <b>Estado:</b> <br />
+                                @if (Model.Estado == "P")
                                 {@( "Procesada")}
+                                @if (Model.Estado == "F")
+                                {@( "Facturada")}
+                                @if (Model.Estado == "A")
+                                {@( "Anulada")}
                             </span>
                         </div>
                     </div>

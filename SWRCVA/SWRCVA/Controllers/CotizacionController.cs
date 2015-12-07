@@ -39,7 +39,7 @@ namespace SWRCVA.Controllers
             ViewBag.CurrentFilter = searchString;
 
             var cotizaciones = from s in db.Cotizacion
-                               where s.Estado=="C"|| s.Estado=="A"
+                               where s.Estado=="C"
                               select s;
             if (!String.IsNullOrEmpty(searchString))
             {
