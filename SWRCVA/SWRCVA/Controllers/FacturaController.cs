@@ -72,10 +72,52 @@ namespace SWRCVA.Controllers
             return View(cotizaciones.ToPagedList(pageNumber, pageSize));
         }
 
-     
+            public ActionResult ControlFacturas(string sortOrder, string currentFilter, string searchString, int? page)
+            {
 
-        // GET: Factura/Create
-        public ActionResult Facturar(int? id)
+                if (!LoginController.validaUsuario(Session))
+                    return RedirectToAction("Index", "Home");
+
+                ViewBag.CurrentSort = sortOrder;
+                ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "Nombre" : "";
+
+                if (searchString != null)
+                {
+                    page = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
+                ViewBag.CurrentFilter = searchString;
+
+                var Facturas = from s in db.Factura
+                                   select s;
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                Facturas = Facturas.Where(s => s.Cliente.Nombre.Contains(searchString) ||
+                                                        s.IdCotizacion.ToString().Contains(searchString) ||
+                                                        s.IdFactura.ToString().Contains(searchString));
+                }
+                switch (sortOrder)
+                {
+                    case "Nombre":
+                    Facturas = Facturas.OrderByDescending(s => s.Cliente.Nombre);
+                        break;
+                    default:  // Name ascending 
+                    Facturas = Facturas.OrderBy(s => s.IdFactura);
+                        break;
+                }
+
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                return View(Facturas.ToPagedList(pageNumber, pageSize));
+            }
+
+
+            // GET: Factura/Create
+            public ActionResult Facturar(int? id)
         {
                
             if (!LoginController.validaUsuario(Session))

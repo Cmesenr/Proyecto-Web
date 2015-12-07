@@ -1,0 +1,98 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<SWRCVA.Models.Factura>
+
+
+@{
+    ViewBag.Title = "Control Facturas";
+}
+
+<h2>Control Facturas</h2>
+<div class="MatenimientoFondo">
+    @using (Html.BeginForm("ControlFacturas", "Factura", FormMethod.Get))
+    {
+        @Html.AntiForgeryToken()
+        <p>
+            <table>
+                <tr>
+                    <td>
+                        <strong>Buscar:&nbsp;&nbsp;</strong>
+                    </td>
+                    <td>
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "por Cotizacion, Factura o Cliente" })
+                    </td>
+                    <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
+                </tr>
+            </table>
+        </p>
+    }
+    <table class="table table-bordered table-hover">
+        <tr class="active">
+            <th>
+                Factura
+            </th>
+            <th>
+                Cotizacion
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Monto
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr class="warning">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdFactura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCotizacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+                </td>
+                <td>
+                    @if (item.Estado == 1)
+                {
+                        @("Procesada");
+                }
+                    @if (item.Estado == 0)
+                {
+                        @("Anulada");
+                }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaHora)
+                </td>
+                <td>
+                    @{var valor = "₡ ";
+                        valor += string.Format("{0:0,0.00}", +item.MontoTotal);
+                    }
+                    @valor
+                </td>
+                <td>
+                    <button id="btnAnularCot" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdFactura" data-id="@item.IdFactura" type="button" class="btn btn-danger delete">Anular</button>&nbsp;|
+                    <button id="btnImprimirCot" data-id="@item.IdFactura" title="Imprimir" type="button" class="btn btn-default pulse"><span class="glyphicon glyphicon-print"></span></button>
+                </td>
+            </tr>
+                        }
+
+    </table>
+    <br />
+</div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("ControlFacturas",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+

@@ -32,7 +32,8 @@ namespace SWRCVA
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/bootstrap-submenu.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/bonnet").Include(
           "~/Scripts/jquery.bonnet*"));
             bundles.Add(new StyleBundle("~/Content/css").Include(

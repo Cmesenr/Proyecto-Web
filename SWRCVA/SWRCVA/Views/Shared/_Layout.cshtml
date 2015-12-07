@@ -40,70 +40,77 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
 
-@if (Session["UsuarioActual"] != null)
-{
-    if (Session["RolUsuarioActual"].ToString() == "Administrador")
-    {
-                 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantenimientos<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Producto", "Index", "Producto")</li>
-                            <li>@Html.ActionLink("Material", "Index", "Material")</li>                           
-                            <li>@Html.ActionLink("Parametros", "Index", "Parametro")</li>
-                            <li>@Html.ActionLink("Proveedores", "Index", "Proveedor")</li>
-                            <li>@Html.ActionLink("Clientes", "Index", "Cliente")</li>
-                            <li>@Html.ActionLink("Usuarios", "Index", "Usuario")</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Procesos<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Cotizador", "Index", "Cotizacion")</li>
-                            <li>@Html.ActionLink("Control de Ordenes", "Index", "Orden")</li>
-                            <li>@Html.ActionLink("Facturación", "Index", "Factura")</li>
-                            <li>@Html.ActionLink("Recibo de Dinero", "Recibo", "Cotizacion")</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Reporte Ordenes de Produccion", "ReporteOrden", "Reporte")</li>
-                            <li>@Html.ActionLink("Reporte de Facturas", "ReporteFacturacion", "Reporte")</li>
-                            <li>@Html.ActionLink("Reporte de Cotizaciones", "ReporteCotizacion", "Reporte")</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Seguridad<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Respaldo", "RepaldarBD", "Respaldo")</li>
-                        </ul>
-                    </li>
-    }
-}
-@if (Session["UsuarioActual"] != null)
-{
-    if (Session["RolUsuarioActual"].ToString() == "Procesos")
-    {
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Procesos<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Cotizador", "Index", "Cotizacion")</li>
-                            <li>@Html.ActionLink("Control de Ordenes", "Index", "Orden")</li>
-                            <li>@Html.ActionLink("Facturación", "Index", "Factura")</li>
-                            <li>@Html.ActionLink("Recibo de Dinero", "Recibo", "Cotizacion")</li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Reporte Ordenes de Produccion", "ReporteOrden", "Reporte")</li>
-                            <li>@Html.ActionLink("Reporte de Facturas", "ReporteFacturacion", "Reporte")</li>
-                            <li>@Html.ActionLink("Reporte de Cotizaciones", "ReporteCotizacion", "Reporte")</li>
-                        </ul>
-                    </li>
-    }
-}
+                    @if (Session["UsuarioActual"] != null)
+                    {
+                        if (Session["RolUsuarioActual"].ToString() == "Administrador")
+                        {
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantenimientos<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Producto", "Index", "Producto")</li>
+                                    <li>@Html.ActionLink("Material", "Index", "Material")</li>
+                                    <li>@Html.ActionLink("Parametros", "Index", "Parametro")</li>
+                                    <li>@Html.ActionLink("Proveedores", "Index", "Proveedor")</li>
+                                    <li>@Html.ActionLink("Clientes", "Index", "Cliente")</li>
+                                    <li>@Html.ActionLink("Usuarios", "Index", "Usuario")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Procesos<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Cotizador", "Index", "Cotizacion")</li>
+                                    <li>@Html.ActionLink("Control de Ordenes", "Index", "Orden")</li>
+                                            <li class="dropdown-submenu">
+                                               @Html.ActionLink("Facturación", "Index", "Factura")
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-header">Facturación</li>
+                                                    <li>@Html.ActionLink("Control de Facturas", "ControlFacturas", "Factura")</li>
+                                                </ul>
+                                            </li>
+                                    <li>@Html.ActionLink("Recibo de Dinero", "Recibo", "Cotizacion")</li>
+                                </ul>
+
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Reporte Ordenes de Produccion", "ReporteOrden", "Reporte")</li>
+                                    <li>@Html.ActionLink("Reporte de Facturas", "ReporteFacturacion", "Reporte")</li>
+                                    <li>@Html.ActionLink("Reporte de Cotizaciones", "ReporteCotizacion", "Reporte")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Seguridad<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Respaldo", "RepaldarBD", "Respaldo")</li>
+                                </ul>
+                            </li>
+                        }
+                    }
+                    @if (Session["UsuarioActual"] != null)
+                    {
+                        if (Session["RolUsuarioActual"].ToString() == "Procesos")
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Procesos<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Cotizador", "Index", "Cotizacion")</li>
+                                    <li>@Html.ActionLink("Control de Ordenes", "Index", "Orden")</li>
+                                    <li>@Html.ActionLink("Facturación", "Index", "Factura")</li>
+                                    <li>@Html.ActionLink("Recibo de Dinero", "Recibo", "Cotizacion")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Reporte Ordenes de Produccion", "ReporteOrden", "Reporte")</li>
+                                    <li>@Html.ActionLink("Reporte de Facturas", "ReporteFacturacion", "Reporte")</li>
+                                    <li>@Html.ActionLink("Reporte de Cotizaciones", "ReporteCotizacion", "Reporte")</li>
+                                </ul>
+                            </li>
+                        }
+                    }
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                 </ul>
                 
