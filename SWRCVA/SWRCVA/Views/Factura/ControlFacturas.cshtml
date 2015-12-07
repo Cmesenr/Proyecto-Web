@@ -94,5 +94,47 @@
 
     @Html.PagedListPager(Model, page => Url.Action("ControlFacturas",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@section Scripts {
 
+    @Scripts.Render("~/bundles/FuncionesFacturar")
+}
+<div class="modal fade" id="ModalConfirm" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header  bg-warning">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Borrar</h4>
+            </div>
+            <div class="modal-body">
+                <center><p id="TextModal"></p></center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                <button id="btnModalborrar" type="button" value="" data-dismiss="modal" onclick="return AnularFactura(this.value)" class="btn btn-primary">Continuar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="ModalError" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="TextModal"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class=" btn btn-primary">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 

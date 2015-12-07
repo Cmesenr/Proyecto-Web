@@ -88,7 +88,13 @@ $(document).ready(function () {
     $("#btnBuscarMat").on("click", function () {
         $("#ModalMateriales").modal("show");
     })
-
+    //cargar datos a modal eliminar
+    $('#ModalConfirm').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data().id;
+        var data = $(e.relatedTarget).data().info;
+        $(e.currentTarget).find('#btnModalborrar').val(id);
+        $(e.currentTarget).find('#TextModal').html("Esta seguro que desea Anular la Factura " + data + " ?");
+    });
     //Selecionar El Material
     $("#headerPrincipal").on("click", "#SeleccionarMaterial", function (e) {
         $("#txtProducto").val($(this).data("myvalue"));
@@ -278,6 +284,14 @@ $(document).ready(function () {
         })
 
     })
+ //Imprimir 
+    $(".pulse").click(function () {
+    var id = $(this).attr("data-id");
+    var WindowObject = window.open("/Factura/FacturaTicket?id=" + id + "", "PrintWindow",
+"width=310,height=500,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+    WindowObject.focus();
+   
+});
 })
 //Click a Terminar Factura
 $("#btnFacturar").on("click", function () {
@@ -470,6 +484,26 @@ function RefrescarLista() {
         contentType: "application/json; charset=utf-8",
         success: function (result) {
 
+        }
+    });
+
+}
+function AnularFactura(valor) {
+    var params = { id: valor };
+    $.ajax({
+        cache: false,
+        url: "/Factura/AnularFactura",
+        type: "GET",
+        data: params,
+        contentType: "application/json; charset=utf-8",
+        success: function (result) {
+            if (result == "ok") {
+                parent.document.location = parent.document.location;
+            }
+            else {
+                $("#TextModal").html(result);
+                $('#ModalError').modal("show");
+            }
         }
     });
 

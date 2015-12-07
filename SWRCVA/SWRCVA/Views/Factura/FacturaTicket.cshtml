@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = null;
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/FuncionesTicket.js"></script>
+<div style="width:300px" id="TicketFactura">
+    <div id="TicketHeader">
+        <div class="row" align="right"><div class="col-md-12"><table><tr><td>Factura #:&nbsp;&nbsp;</td><td style="border:solid; padding-left:5px; padding-right:5px;"><strong><span id="IdFactura">@ViewData["IdFactura"].ToString()</span></strong><br /></td></tr></table></div></div>
+        <center><h3><span>Vidrios Don Antonio</span></h3></center>
+        <span>Vidrios Don Antonio SA</span><br />
+        <span>Fecha:</span><strong><span id="IdFecha">@ViewData["fecha"].ToString()</span></strong><br />
+        <span>Tel: 24324313, 88821258 </span><br />
+        <span>Ced: 310162232211</span><br />
+        <span>Diagonal Pollos Beto San Antonio del Tejar, Alajuela</span><br />
+        <span>Cliente:</span><strong><span id="IdCliente">@ViewData["Cliente"].ToString()</span></strong><br />
+
+        <hr />
+    </div>
+    <div id="Ticketbody">
+        <table class="table small" id="TicketDetalle">
+            <thead><tr><th>Nombre</th><th>Cantidad</th><th>Precio</th></tr></thead>
+            <tbody>
+                @foreach (var item in (List<SWRCVA.Models.ListaProducto>)ViewData["ListaPro"])
+                {
+                    <tr><td>@item.Nombre</td><td>@item.Cantidad</td><td>@item.SubTotal.ToString()</td></tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-right">
+            @if (ViewData["ReciboDinero"] != null)
+            {
+                <h4><strong><span id="lblTicketTotal">TOTAL: ₡ @ViewData["Total"].ToString()</span></strong></h4>
+                <h4><strong><span id="lblTicketTotal">ABONO: ₡ @ViewData["ReciboDinero"].ToString()</span></strong></h4>
+                <h3><strong><span id="lblTicketTotal">SALDO: ₡ @ViewData["Saldo"].ToString()</span></strong></h3>
+                <h4><strong><span id="lblTicketTotal">PAGA CON: ₡ @ViewData["MontoPagar"].ToString()</span></strong></h4>
+                <h3><strong><span id="lblTicketTotal">CAMBIO: ₡ @ViewData["Cambio"].ToString()</span></strong></h3>
+            }
+            else
+            {
+                <h4><strong><span id="lblTicketTotal">TOTAL: ₡ @ViewData["Total"].ToString()</span></strong></h4>
+                <h4><strong><span id="lblTicketTotal">PAGA CON: ₡ @ViewData["MontoPagar"].ToString()</span></strong></h4>
+                <h3><strong><span id="lblTicketTotal">CAMBIO: ₡ @ViewData["Cambio"].ToString()</span></strong></h3>
+            }
+
+        </div>
+    </div>
+    <div id="Ticketfooter" class="text-center">
+        <span>IVA Incluido</span><br />
+        <span>Gracias Por Preferirnos</span>
+    </div>
+</div>
+<script language="JavaScript">
+    window.print();
+</script>
+
