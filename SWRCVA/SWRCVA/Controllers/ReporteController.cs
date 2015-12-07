@@ -42,7 +42,7 @@ namespace SWRCVA.Controllers
             ReportViewer reportviewer = new ReportViewer();
             reportviewer.ProcessingMode = ProcessingMode.Local;
             reportviewer.LocalReport.ReportPath = "Reportes/ReportCotizacion.rdlc";
-            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteCotizacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, "Cotizacion", null)));
+            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteCotizacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, null, "Cotizacion", null)));
             reportviewer.LocalReport.Refresh();
 
             byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
@@ -83,7 +83,7 @@ namespace SWRCVA.Controllers
             ReportViewer reportviewer = new ReportViewer();
             reportviewer.ProcessingMode = ProcessingMode.Local;
             reportviewer.LocalReport.ReportPath = "Reportes/ReportFacturacion.rdlc";
-            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteFacturacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, "Facturacion", null)));
+            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteFacturacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, null, "Facturacion", null)));
             reportviewer.LocalReport.Refresh();
 
             byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
@@ -125,7 +125,49 @@ namespace SWRCVA.Controllers
             ReportViewer reportviewer = new ReportViewer();
             reportviewer.ProcessingMode = ProcessingMode.Local;
             reportviewer.LocalReport.ReportPath = "Reportes/ReportOrden.rdlc";
-            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteOrden", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, "Orden", reporte.Estado)));
+            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteOrden", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, null, "Orden", reporte.Estado)));
+            reportviewer.LocalReport.Refresh();
+
+            byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
+
+
+            Response.Buffer = true;
+            Response.Clear();
+            Response.ContentType = mimeType;
+            Response.BinaryWrite(bytes);
+
+            return View();
+        }
+
+        // GET: Reporte
+        public ActionResult ReporteHistorico()
+        {
+
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+        // POST: Reporte
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReporteHistorico(Reporte reporte)
+        {
+
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
+
+            Warning[] warnings;
+            string[] streamIds;
+            string mimeType = string.Empty;
+            string encoding = string.Empty;
+            string extension = string.Empty;
+
+            ReportViewer reportviewer = new ReportViewer();
+            reportviewer.ProcessingMode = ProcessingMode.Local;
+            reportviewer.LocalReport.ReportPath = "Reportes/ReportHistorico.rdlc";
+            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteHistorico", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, reporte.Tabla, "Historico", null)));
             reportviewer.LocalReport.Refresh();
 
             byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
@@ -155,7 +197,7 @@ namespace SWRCVA.Controllers
              JsonRequestBehavior.AllowGet);
         }
 
-        public DataTable reporteCotizacionFacturacion(DateTime fechaInicio, DateTime fechaFin, int idCliente, string reporte, string estado)
+        public DataTable reporteCotizacionFacturacion(DateTime fechaInicio, DateTime fechaFin, int idCliente, string tabla, string reporte, string estado)
         {
             string stProcedure = "";
             string consulta = "";
@@ -181,6 +223,14 @@ namespace SWRCVA.Controllers
                 consulta = "set dateformat dmy; exec " + stProcedure + " '" + fechaInicio.ToShortDateString() + "','"
 
                     + fechaFin.ToShortDateString() + "'," + idCliente + ",'" + estado +"'";
+            }
+            if (reporte == "Historico")
+            {
+                stProcedure = "sp_getDatosReporteHistorico";
+
+                consulta = "set dateformat dmy; exec " + stProcedure + " '" + fechaInicio.ToShortDateString() + "','"
+
+                    + fechaFin.ToShortDateString() + "','" + tabla + "'";
             }
 
             DataTable dt = new DataTable();

@@ -166,6 +166,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSetReporteFacturas.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DataSets\DataSetReporteHistorico.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetReporteHistorico.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataSets\DataSetReporteOrdenesTrabajo.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -411,6 +416,17 @@
     <Content Include="DataSets\DataSetReporteFacturas.xss">
       <DependentUpon>DataSetReporteFacturas.xsd</DependentUpon>
     </Content>
+    <Content Include="DataSets\DataSetReporteHistorico.xsc">
+      <DependentUpon>DataSetReporteHistorico.xsd</DependentUpon>
+    </Content>
+    <None Include="DataSets\DataSetReporteHistorico.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetReporteHistorico.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataSets\DataSetReporteHistorico.xss">
+      <DependentUpon>DataSetReporteHistorico.xsd</DependentUpon>
+    </Content>
     <None Include="DataSets\DataSetReporteOrdenesTrabajo.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -514,6 +530,7 @@
     <Content Include="Views\Cotizacion\Recibo.cshtml" />
     <Content Include="Views\Cotizacion\ReciboDinero.cshtml" />
     <Content Include="Views\Factura\ControlFacturas.cshtml" />
+    <Content Include="Views\Reporte\ReporteHistorico.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -524,6 +541,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reportes\ReportHistorico.rdlc" />
     <EmbeddedResource Include="Reportes\ReportOrden.rdlc" />
     <EmbeddedResource Include="Reportes\ReportFacturacion.rdlc" />
     <EmbeddedResource Include="Reportes\ReportCotizacion.rdlc" />

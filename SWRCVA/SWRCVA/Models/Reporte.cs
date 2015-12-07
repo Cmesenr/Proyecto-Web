@@ -32,5 +32,9 @@ namespace SWRCVA.Models
         [Required]
         [DataType(DataType.Text)]
         public string Estado { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        public string Tabla { get; set; }
     }
 }

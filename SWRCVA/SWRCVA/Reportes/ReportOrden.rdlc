@@ -503,6 +503,7 @@
               <TextRun>
                 <Value>Reporte Órdenes</Value>
                 <Style>
+                  <FontStyle>Italic</FontStyle>
                   <FontSize>22pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                   <TextDecoration>Underline</TextDecoration>
@@ -513,6 +514,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Top>0.03175cm</Top>
         <Left>0.01121cm</Left>
         <Height>1.04979cm</Height>
         <Width>8.66268cm</Width>

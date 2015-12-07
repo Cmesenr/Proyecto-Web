@@ -12,7 +12,7 @@
                 <Value>Reporte Facturas</Value>
                 <Style>
                   <FontStyle>Italic</FontStyle>
-                  <FontSize>18pt</FontSize>
+                  <FontSize>22pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                   <TextDecoration>Underline</TextDecoration>
                 </Style>
@@ -22,9 +22,9 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>0.2667cm</Top>
-        <Left>0.31813cm</Left>
-        <Height>0.9175cm</Height>
+        <Top>0.0762cm</Top>
+        <Left>0.06413cm</Left>
+        <Height>1.02333cm</Height>
         <Width>9.27333cm</Width>
         <Style>
           <Border>
@@ -516,7 +516,7 @@
         </TablixRowHierarchy>
         <NoRowsMessage>=IIF(Cint(CountRows("DSReporteFacturacion")) = 0,"  No hay Facturas  ",-1)</NoRowsMessage>
         <DataSetName>DSReporteFacturacion</DataSetName>
-        <Top>1.64253cm</Top>
+        <Top>1.51553cm</Top>
         <Height>1.2cm</Height>
         <Width>19.79022cm</Width>
         <ZIndex>1</ZIndex>
@@ -529,7 +529,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>1.29813in</Height>
+    <Height>1.2148in</Height>
     <Style />
   </Body>
   <Width>7.79584in</Width>

@@ -60,31 +60,8 @@
         }
     })
 }
-//Terminar Orden
-$("#btnProcesarEdit").on("click", function () {
-    $.ajax({
-        cache: false,
-        url: "/Orden/ProcesarOrden",
-        type: "get",
-        data: {},
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            if (data == "Orden Terminada!") {
-                $("#TextModalinfo").html(data);
-                $("#HeaderModalInfo").html("Procesado");
-                $('#ModalMensaje').modal("show");
-            }
-        }
-    })
 
-})
 $(document).ready(function () {
-    //Redirecionar a index cuando se guarda o procesa
-    $('#ModalMensaje').on('hidden.bs.modal', function () {
-        $("#ModalMensaje").removeData('bs.modal');
-        window.location.href = "/Orden/index";
-    });
     $("#formOrden").on("click", "#verDetalle", function () {
         var id = $(this).attr("data-id");
         $('#ListaMateriales tbody').html('<tr><td colspan="4"><center><img src="/Content/Imagenes/loading3.gif"/></center></td></tr>');

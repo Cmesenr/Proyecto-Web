@@ -9,19 +9,16 @@
               <Width>2.46472cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.9091cm</Width>
+              <Width>2.46473cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.67135cm</Width>
+              <Width>2.6076cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>3.09972cm</Width>
+              <Width>2.80868cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.85782cm</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>2.75576cm</Width>
+              <Width>8.75658cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -74,7 +71,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Cot. #</Value>
+                              <Value>Usuario</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontSize>12pt</FontSize>
@@ -111,7 +108,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Cliente</Value>
+                              <Value>Acción</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontSize>12pt</FontSize>
@@ -148,7 +145,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Monto</Value>
+                              <Value>Tabla</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontSize>12pt</FontSize>
@@ -185,7 +182,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Comentario</Value>
+                              <Value>Detalle</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
                                 <FontSize>12pt</FontSize>
@@ -213,43 +210,6 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Textbox11">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>Estado</Value>
-                              <Style>
-                                <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
-                                <FontWeight>Bold</FontWeight>
-                                <TextDecoration>Underline</TextDecoration>
-                                <Color>White</Color>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Textbox11</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <BackgroundColor>SlateBlue</BackgroundColor>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -257,7 +217,7 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Fecha1">
+                    <Textbox Name="Fecha">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -276,7 +236,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Fecha1</rd:DefaultName>
+                      <rd:DefaultName>Fecha</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -292,14 +252,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="IdCotizacion">
+                    <Textbox Name="Usuario">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!IdCotizacion.Value</Value>
+                              <Value>=Fields!Usuario.Value</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                               </Style>
@@ -310,7 +270,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>IdCotizacion</rd:DefaultName>
+                      <rd:DefaultName>Usuario</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -326,14 +286,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Nombre">
+                    <Textbox Name="Accion">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Nombre.Value</Value>
+                              <Value>=Fields!Accion.Value</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                               </Style>
@@ -342,7 +302,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Nombre</rd:DefaultName>
+                      <rd:DefaultName>Accion</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -358,14 +318,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="MontoParcial">
+                    <Textbox Name="Tabla">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!MontoParcial.Value</Value>
+                              <Value>=Fields!Tabla.Value</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                                 <Format>'₡'#,0.00;('₡'#,0.00)</Format>
@@ -377,7 +337,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>MontoParcial</rd:DefaultName>
+                      <rd:DefaultName>Tabla</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -394,14 +354,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Comentario">
+                    <Textbox Name="Detalle">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Comentario.Value</Value>
+                              <Value>=Fields!Detalle.Value</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                               </Style>
@@ -410,39 +370,7 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Comentario</rd:DefaultName>
-                      <Style>
-                        <Border>
-                          <Color>LightGrey</Color>
-                          <Style>Solid</Style>
-                        </Border>
-                        <PaddingLeft>2pt</PaddingLeft>
-                        <PaddingRight>2pt</PaddingRight>
-                        <PaddingTop>2pt</PaddingTop>
-                        <PaddingBottom>2pt</PaddingBottom>
-                      </Style>
-                    </Textbox>
-                  </CellContents>
-                </TablixCell>
-                <TablixCell>
-                  <CellContents>
-                    <Textbox Name="Estado">
-                      <CanGrow>true</CanGrow>
-                      <KeepTogether>true</KeepTogether>
-                      <Paragraphs>
-                        <Paragraph>
-                          <TextRuns>
-                            <TextRun>
-                              <Value>=Fields!Estado.Value</Value>
-                              <Style>
-                                <FontSize>11pt</FontSize>
-                              </Style>
-                            </TextRun>
-                          </TextRuns>
-                          <Style />
-                        </Paragraph>
-                      </Paragraphs>
-                      <rd:DefaultName>Estado</rd:DefaultName>
+                      <rd:DefaultName>Detalle</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -467,7 +395,6 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -480,12 +407,11 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <NoRowsMessage>=IIF(Cint(CountRows("DSReporteCotizacion")) = 0,"  No hay cotizaciones  ",-1)</NoRowsMessage>
-        <DataSetName>DSReporteCotizacion</DataSetName>
-        <Top>1.38853cm</Top>
-        <Left>0.01121cm</Left>
+        <NoRowsMessage>=IIF(Cint(CountRows("DSReporteHistorico")) = 0,"  No hay Historicos  ",-1)</NoRowsMessage>
+        <DataSetName>DSReporteHistorico</DataSetName>
+        <Top>1.36426cm</Top>
         <Height>1.2cm</Height>
-        <Width>19.75847cm</Width>
+        <Width>19.10231cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -501,7 +427,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Reporte Cotizaciones</Value>
+                <Value>Reporte Histórico</Value>
                 <Style>
                   <FontStyle>Italic</FontStyle>
                   <FontSize>22pt</FontSize>
@@ -514,8 +440,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>0.03175cm</Top>
-        <Left>0.01121cm</Left>
+        <Top>0.0635cm</Top>
+        <Left>0.03175cm</Left>
         <Height>1.04979cm</Height>
         <Width>8.66268cm</Width>
         <ZIndex>1</ZIndex>
@@ -530,10 +456,10 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>1.1523in</Height>
+    <Height>1.15625in</Height>
     <Style />
   </Body>
-  <Width>7.79584in</Width>
+  <Width>7.55185in</Width>
   <Page>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
@@ -546,56 +472,52 @@
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="DataSetReporteCotizaciones">
+    <DataSource Name="DataSetReporteHistorico">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>2eba4367-34e3-4144-87cd-0c15122c11bf</rd:DataSourceID>
+      <rd:DataSourceID>55c25a06-00df-4a7b-9149-8c926932b863</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="DSReporteCotizacion">
+    <DataSet Name="DSReporteHistorico">
       <Query>
-        <DataSourceName>DataSetReporteCotizaciones</DataSourceName>
+        <DataSourceName>DataSetReporteHistorico</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="IdCotizacion">
-          <DataField>IdCotizacion</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="Nombre">
-          <DataField>Nombre</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Estado">
-          <DataField>Estado</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
         <Field Name="Fecha">
           <DataField>Fecha</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="Comentario">
-          <DataField>Comentario</DataField>
+        <Field Name="Usuario">
+          <DataField>Usuario</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="MontoParcial">
-          <DataField>MontoParcial</DataField>
-          <rd:TypeName>System.Decimal</rd:TypeName>
+        <Field Name="Accion">
+          <DataField>Accion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Tabla">
+          <DataField>Tabla</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Detalle">
+          <DataField>Detalle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>DataSetReporteCotizaciones</rd:DataSetName>
-        <rd:SchemaPath>C:\Users\Anca\Documents\GitHubVisualStudio\Proyecto-Web\SWRCVA\SWRCVA\DataSets\DataSetReporteCotizaciones.xsd</rd:SchemaPath>
-        <rd:TableName>sp_getDatosReporteCotizacion</rd:TableName>
+        <rd:DataSetName>DataSetReporteHistorico</rd:DataSetName>
+        <rd:SchemaPath>C:\Users\Anca\Documents\GitHubVisualStudio\Proyecto-Web\SWRCVA\SWRCVA\DataSets\DataSetReporteHistorico.xsd</rd:SchemaPath>
+        <rd:TableName>sp_getDatosReporteHistorico</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>sp_getDatosReporteCotizacionTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterName>sp_getDatosReporteHistoricoTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>3ef5a48b-84b0-49fb-8698-0c92bd8c44e0</rd:ReportID>
+  <rd:ReportID>351446f7-d66a-4a0b-b886-d96418d15e67</rd:ReportID>
 </Report>
