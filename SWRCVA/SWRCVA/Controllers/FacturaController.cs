@@ -106,7 +106,7 @@ namespace SWRCVA.Controllers
                     Facturas = Facturas.OrderByDescending(s => s.Cliente.Nombre);
                         break;
                     default:  // Name ascending 
-                    Facturas = Facturas.OrderBy(s => s.IdFactura);
+                    Facturas = Facturas.OrderByDescending(s => s.IdFactura);
                         break;
                 }
 
@@ -126,7 +126,7 @@ namespace SWRCVA.Controllers
             if (id != null)
             {
                 Cotizacion cotizacion = db.Cotizacion.Find(id);
-                if (cotizacion.Estado != "T") { cotizacion = null; }
+                if (cotizacion.Estado != "P") { cotizacion = null; }
                 
                 if (cotizacion == null)
                 {
@@ -224,7 +224,69 @@ namespace SWRCVA.Controllers
             LimpiarListas();
             return View();
         }
+        public ActionResult FacturaTicket(int id)
+        {
+            if (!LoginController.validaUsuario(Session))
+                return RedirectToAction("Index", "Home");
 
+            Factura Factura = db.Factura.Find(id);
+            if (Factura == null)
+            {
+                return HttpNotFound();
+            }
+            ViewData["IdFactura"] = id;
+            ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", Factura.MontoTotal);
+            ViewData["fecha"] = Factura.FechaHora;
+            ViewData["Cliente"] = Factura.Cliente.Nombre;
+            var ListPro = (from s in db.DetalleFactura
+                           where s.IdFactura == id
+                           select new ListaProducto
+                           {
+                               Nombre = s.Producto.Nombre,
+                               Cantidad = (decimal)s.Cantidad,
+                               SubTotal = s.MontoParcial
+                           }).ToList();
+            var ListPro2 = (from s in db.DetalleFactura
+                           where s.IdFactura == id
+                           select new ListaProducto
+                           {
+                               Nombre = s.Material.Nombre,
+                               Cantidad = (decimal)s.Cantidad,
+                               SubTotal = s.MontoParcial
+                           }).ToList();
+            ListPro.AddRange(ListPro2);
+            ViewData["ListaPro"] = ListPro;
+            if (Factura.IdCotizacion != null)
+            {
+                var ReciboDinero = db.ReciboDinero.Where(s => s.IdCotizacion == id).ToList();
+                var TotalRecibo = 0m;
+                if (ReciboDinero != null)
+                {
+                    foreach (var item in ReciboDinero)
+                    {
+                        TotalRecibo += item.Monto;
+                    }
+                    ViewData["ReciboDinero"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", TotalRecibo);
+                    ViewData["Saldo"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", Factura.Cotizacion.MontoParcial - TotalRecibo);
+                    ViewData["Cambio"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", Factura.MontoPagar - (Factura.Cotizacion.MontoParcial - TotalRecibo));
+                }
+            }
+
+            else
+            {
+                ViewData["Cambio"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", Factura.MontoPagar - Factura.MontoTotal);
+            }
+
+
+            ViewData["MontoPagar"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", Factura.MontoPagar);
+            return View();
+        }
         public JsonResult AgregarProducto(int Idpro, int IdColor, decimal Cant, decimal costo, decimal? Extra, decimal? Ancho, decimal? Alto)
         {
             var resultado = "Error al intentar agregar el producto";
@@ -342,6 +404,7 @@ namespace SWRCVA.Controllers
                     Fact.IdCliente = IdCliente;
                     if (IdCotizacion != null)
                     {
+                        Fact.IdCotizacion = IdCotizacion;
                         Cotizacion Cotiz = db.Cotizacion.Find(IdCotizacion);
                         Cotiz.Estado = "F";
                         Cotiz.FechaActualizacion = DateTime.Now;
@@ -560,6 +623,34 @@ namespace SWRCVA.Controllers
             }
             return Json(resultado,
                JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult AnularFactura(int id)
+        {
+            string resultado = "Error al eliminar, contacte al administrador del sistema";
+            try
+            {
+                Factura Factura = db.Factura.Find(id);
+            if (Factura.IdCotizacion != null)
+            { 
+                Cotizacion Cotiz = db.Cotizacion.Find(Factura.IdCotizacion);
+                Cotiz.Estado = "A";
+                Cotiz.FechaActualizacion = DateTime.Now;
+                db.Entry(Cotiz).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            Factura.Estado = 0;
+            db.Entry(Factura).State = EntityState.Modified;
+            db.SaveChanges();
+                resultado = "ok";
+            }
+            catch
+            {
+                return Json(resultado,
+                  JsonRequestBehavior.AllowGet);
+            }
+            return Json(resultado,
+                JsonRequestBehavior.AllowGet);
+
         }
         public JsonResult ConsultarListaProductos()
         {

@@ -305,7 +305,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
-    <Content Include="Scripts\bootstrap-submenu.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -530,7 +529,6 @@
     <Content Include="Views\Cotizacion\Recibo.cshtml" />
     <Content Include="Views\Cotizacion\ReciboDinero.cshtml" />
     <Content Include="Views\Factura\ControlFacturas.cshtml" />
-    <Content Include="Views\Reporte\ReporteHistorico.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
