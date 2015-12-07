@@ -9,16 +9,16 @@
               <Width>2.46472cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.46473cm</Width>
+              <Width>2.33244cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.6076cm</Width>
+              <Width>2.21073cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.80868cm</Width>
+              <Width>2.64993cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>8.75658cm</Width>
+              <Width>9.52389cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -333,7 +333,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -350,6 +350,7 @@
                         <rd:FormatSymbolCulture>es-CR</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -411,7 +412,7 @@
         <DataSetName>DSReporteHistorico</DataSetName>
         <Top>1.36426cm</Top>
         <Height>1.2cm</Height>
-        <Width>19.10231cm</Width>
+        <Width>19.1817cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -456,7 +457,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>1.15625in</Height>
+    <Height>1.13542in</Height>
     <Style />
   </Body>
   <Width>7.55185in</Width>
