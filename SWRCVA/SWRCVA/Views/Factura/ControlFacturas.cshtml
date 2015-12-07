@@ -56,20 +56,28 @@
                     @Html.DisplayFor(modelItem => item.IdFactura)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdCotizacion)
+                    @if (item.IdCotizacion == null)
+                    {
+                        @("n/a");
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.IdCotizacion)
+                    }
+                   
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cliente.Nombre)
                 </td>
                 <td>
                     @if (item.Estado == 1)
-                {
+                    {
                         @("Procesada");
-                }
+                    }
                     @if (item.Estado == 0)
-                {
+                    {
                         @("Anulada");
-                }
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaHora)
@@ -80,8 +88,13 @@
                     }
                     @valor
                 </td>
+                @{ var disable = "";}
+                @if (item.Estado == 0)
+                {
+                    disable = "disabled='disabled'";
+                }
                 <td>
-                    <button id="btnAnularCot" data-toggle="modal" data-target="#ModalConfirm" data-info="@item.IdFactura" data-id="@item.IdFactura" type="button" class="btn btn-danger delete">Anular</button>&nbsp;|
+                    <button id="btnAnularCot" data-toggle="modal" data-target="#ModalConfirm" @disable data-info="@item.IdFactura" data-id="@item.IdFactura" type="button" class="btn btn-danger delete">Anular</button>&nbsp;|
                     <button id="btnImprimirCot" data-id="@item.IdFactura" title="Imprimir" type="button" class="btn btn-default pulse"><span class="glyphicon glyphicon-print"></span></button>
                 </td>
             </tr>

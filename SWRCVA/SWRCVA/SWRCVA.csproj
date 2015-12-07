@@ -529,6 +529,8 @@
     <Content Include="Views\Cotizacion\Recibo.cshtml" />
     <Content Include="Views\Cotizacion\ReciboDinero.cshtml" />
     <Content Include="Views\Factura\ControlFacturas.cshtml" />
+    <Content Include="Views\Reporte\ReporteHistorico.cshtml" />
+    <Content Include="Views\Factura\FacturaTicket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

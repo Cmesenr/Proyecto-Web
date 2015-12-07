@@ -1266,5 +1266,9 @@ namespace SWRCVA.Models
 
             return Diferentes;
         }
+       public static decimal round5(decimal x)
+        {
+            return Math.Ceiling(x / 5) * 5;
+        }
     }
 }

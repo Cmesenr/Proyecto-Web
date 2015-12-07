@@ -405,7 +405,7 @@ namespace SWRCVA.Controllers
             var productos = ListPro;
             productos.AddRange(ListProMat);
             ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", cotizacion.MontoParcial);
+                                 "{0:0,0.00}", Calculos.round5(cotizacion.MontoParcial));
             ViewData["ListaPro"] = productos;
             return View();
         }
@@ -426,7 +426,7 @@ namespace SWRCVA.Controllers
             ViewData["Abono"] = string.Format(CultureInfo.InvariantCulture,
                                  "{0:0,0.00}", monto);
             ViewData["MontoOriginal"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", cotizacion.MontoParcial); 
+                                 "{0:0,0.00}", Calculos.round5(cotizacion.MontoParcial)); 
             var montoCot = cotizacion.MontoParcial;
             var recibo = db.ReciboDinero.Where(s => s.IdCotizacion == id);
             foreach (var item in recibo)
@@ -434,9 +434,9 @@ namespace SWRCVA.Controllers
                 montoCot -= item.Monto;
             }
             ViewData["Saldo"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", montoCot);
+                                 "{0:0,0.00}", Calculos.round5(montoCot));
             ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", (montoCot + monto));
+                                 "{0:0,0.00}", (Calculos.round5(montoCot) + monto));
             return View();
         }
         public JsonResult AgregarProducto(int Idpro, int Cvidrio,decimal? anchocelocia, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto, int vidrio, int? ColorPaleta, int? IdPaleta)

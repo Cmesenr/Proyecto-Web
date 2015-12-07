@@ -26,7 +26,8 @@
             <tbody>
                 @foreach (var item in (List<SWRCVA.Models.ListaProducto>)ViewData["ListaPro"])
                 {
-                    <tr><td>@item.Nombre</td><td>@item.Cantidad</td><td>@item.SubTotal.ToString()</td></tr>
+                    var valor = "₡ "+ string.Format("{0:0,0.00}", +item.SubTotal);
+                    <tr><td>@item.Nombre</td><td>@item.Cantidad</td><td>@valor</td></tr>
                 }
             </tbody>
         </table>

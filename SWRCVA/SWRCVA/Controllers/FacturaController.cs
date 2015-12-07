@@ -187,7 +187,7 @@ namespace SWRCVA.Controllers
             }
             ViewData["IdFactura"] = TempData["IdFactura"];
             ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", TempData["Total"]);
+                                 "{0:0,0.00}", Calculos.round5((decimal)TempData["Total"]));
             ViewData["ListaPro"] = ListaProductos;
             TempData["ListaProductosFact"] = ListaProductos;
             ViewData["fecha"] = TempData["Fecha"];
@@ -203,18 +203,18 @@ namespace SWRCVA.Controllers
                         TotalRecibo += item.Monto;
                     }
                     ViewData["ReciboDinero"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", TotalRecibo);
+                                 "{0:0,0.00}", Calculos.round5(TotalRecibo));
                     ViewData["Saldo"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", (decimal)TempData["Total"] - TotalRecibo); 
+                                 "{0:0,0.00}", Calculos.round5((decimal)TempData["Total"]) - Calculos.round5(TotalRecibo)); 
                     ViewData["Cambio"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", monto - ((decimal)TempData["Total"] - TotalRecibo)); 
+                                 "{0:0,0.00}", monto - (Calculos.round5((decimal)TempData["Total"]) - Calculos.round5(TotalRecibo))); 
                 }
             }
           
             else
             {
                 ViewData["Cambio"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", monto - (decimal)TempData["Total"]);
+                                 "{0:0,0.00}", monto - Calculos.round5((decimal)TempData["Total"]));
             }
            
 
@@ -236,7 +236,7 @@ namespace SWRCVA.Controllers
             }
             ViewData["IdFactura"] = id;
             ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", Factura.MontoTotal);
+                                 "{0:0,0.00}",Calculos.round5(Factura.MontoTotal));
             ViewData["fecha"] = Factura.FechaHora;
             ViewData["Cliente"] = Factura.Cliente.Nombre;
             var ListPro = (from s in db.DetalleFactura
@@ -267,19 +267,20 @@ namespace SWRCVA.Controllers
                     {
                         TotalRecibo += item.Monto;
                     }
+                    
                     ViewData["ReciboDinero"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", TotalRecibo);
+                                 "{0:0,0.00}", Calculos.round5(TotalRecibo));
                     ViewData["Saldo"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", Factura.Cotizacion.MontoParcial - TotalRecibo);
+                                 "{0:0,0.00}", Calculos.round5(Factura.Cotizacion.MontoParcial) - Calculos.round5(TotalRecibo));
                     ViewData["Cambio"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", Factura.MontoPagar - (Factura.Cotizacion.MontoParcial - TotalRecibo));
+                                 "{0:0,0.00}", Factura.MontoPagar - (Calculos.round5(Factura.Cotizacion.MontoParcial) - Calculos.round5(TotalRecibo)));
                 }
             }
 
             else
             {
                 ViewData["Cambio"] = string.Format(CultureInfo.InvariantCulture,
-                                 "{0:0,0.00}", Factura.MontoPagar - Factura.MontoTotal);
+                                 "{0:0,0.00}", Calculos.round5(Factura.MontoPagar) - Calculos.round5(Factura.MontoTotal));
             }
 
 
