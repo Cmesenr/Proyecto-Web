@@ -35,8 +35,9 @@
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Tabla, (new SelectList(
                   new List<Object>{
-                      new { value = "CategoriaMat" , text = "Categoria Material"  },
-                      new { value = "Cotización" , text = "Cotización"  }
+                      new { value = "Categoria Material" , text = "Categoria Material"  },
+                      new { value = "Cotización" , text = "Cotización"  },
+                      new { value = "Cliente" , text = "Cliente"  }
                   },
                   "value",
                   "text",
