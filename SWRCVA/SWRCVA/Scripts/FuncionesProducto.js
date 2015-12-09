@@ -30,6 +30,11 @@
             $("#lblAtributos").show();
             break;
         }
+        case '7': {
+            $("#Group_Cedazo").show();
+            $("#lblAtributos").show();
+            break;
+        }
             
             
 
@@ -115,6 +120,7 @@ $(document).ready(function () {
         $("#Group_PuertaBano").hide();
         $("#Group_Puertalujo").hide();
         $("#Group_PuertaBatir").hide();
+        $("#Group_Cedazo").hide();
         
         switch (id) {
             case '0' : {           
@@ -147,9 +153,34 @@ $(document).ready(function () {
                 $("#lblAtributos").show();
                 break;
             }
+            case '7': {
+                $("#Group_Cedazo").show();
+                $("#lblAtributos").show();
+                break;
+            }
      
         }
 
+    })
+    $('input[name=Forma]').on("change", function () {
+        var id = $(this).val();
+        $.ajax({
+            cache: false,
+            url: "/Producto/ConsultarMaterialesEsperados",
+            type: "get",
+            data: { id: id },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#ListaMaterialesProduc tbody").empty();
+                for (var i = 0; i < data.length; i++) {
+                    $("#ListaMaterialesProduc tbody").append('<tr class="danger"><td>' + data[i].Nombre + '</td><td><span class="label label-default">&nbsp&nbsp<input type="button" id="eliminarmat" data-id=' + data[i].IdMaterial + ' class="btn-danger btn-xs" value="X" /></span></td></tr>');
+                }
+            },
+            error: function (result) {
+                alert('ERROR ' + result.status + ' ' + result.statusText);
+            }
+        })
     })
 
 })

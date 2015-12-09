@@ -335,30 +335,42 @@ namespace SWRCVA.Controllers
                 mat.IdMaterial = mater.IdMaterial;
                 mat.Nombre = mater.Nombre;
                 mat.IdTipoMaterial = mater.IdTipoMaterial;
-
-                if (Listamateriales.Count() == 0) { Listamateriales.Add(mat); }
-                else
+                var listaMatEsperados = db.MaterialEsperado.Where(s => s.IdForma == "C5").ToList();
+                foreach(var item in listaMatEsperados)
                 {
-                    foreach (Material listMatProduct in Listamateriales)
-                    {
-                        if (listMatProduct.IdMaterial == IdMat)
+                        if (item.IdTipoMaterial == mater.IdTipoMaterial)
                         {
-                            TempData["ListaMateriales"] = Listamateriales;
-                            resultado = "No se puede duplicar el Material!";
-                            return Json(resultado,
-                            JsonRequestBehavior.AllowGet);
-                        }
-                        if (listMatProduct.IdTipoMaterial == mat.IdTipoMaterial)
-                        {
-                            TempData["ListaMateriales"] = Listamateriales;
-                            resultado = "No se puede insertar materiales de un mismo tipo en un Producto!";
-                            return Json(resultado,
-                            JsonRequestBehavior.AllowGet);
-                        }
+                            foreach (Material listMatProduct in Listamateriales)
+                            {
+                                if (listMatProduct.IdMaterial == IdMat)
+                                {
+                                    TempData["ListaMateriales"] = Listamateriales;
+                                    resultado = "No se puede duplicar el Material!";
+                                    return Json(resultado,
+                                    JsonRequestBehavior.AllowGet);
+                                }
+                                if (listMatProduct.IdTipoMaterial == mat.IdTipoMaterial)
+                                {
+                                    TempData["ListaMateriales"] = Listamateriales;
+                                    resultado = "No se puede insertar materiales de un mismo tipo en un Producto!";
+                                    return Json(resultado,
+                                    JsonRequestBehavior.AllowGet);
+                                }
 
+                            }
+                            Listamateriales.Add(mat);
+                        }
+                    else
+                    {
+                        TempData["ListaMateriales"] = Listamateriales;
+                        resultado = "Material no apto para este tipo de Producto!";
+                        return Json(resultado,
+                        JsonRequestBehavior.AllowGet);
                     }
-                    Listamateriales.Add(mat);
+                    
+
                 }
+              
             }
             catch
             {
@@ -409,6 +421,20 @@ namespace SWRCVA.Controllers
             
             return Json(SubCategoria,
                JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ConsultarMaterialesEsperados(string  id)
+        {
+
+            var listaMatEsperados = (from s in db.MaterialEsperado
+                                     where s.IdForma == id
+                                     select new
+                                     {
+                                         s.IdForma,
+                                         s.IdTipoMaterial,
+                                         Nombre = s.TipoMaterial.Nombre
+                                     }).ToList();
+             return Json(listaMatEsperados,
+              JsonRequestBehavior.AllowGet);
         }
         public JsonResult CargarMateriales(int IdCat, int? IdSubcat)
         {

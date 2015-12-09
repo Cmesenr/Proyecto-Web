@@ -58,7 +58,7 @@ $("#ColorMaterial").on("click", "#btnAgregarColor", function () {
                     for (var i = 0; i < data.length; i++) {
                         $('#ListaColor').append('<tr>' +
                                               '<td>' + data[i].NombreMaterial + '</td>' +
-                                              '<td class="Listacol2">' + data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                              '<td class="Listacol2">' + "₡ " + data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                               '<td><input type="button" id="eliminarcolormat" data-id=' + data[i].IdColorMat + ' class="btn-danger btn-xs" value="X" /></td>' +
                                             '</tr>');
                     }
@@ -94,7 +94,7 @@ $("#ColorMaterial").on("click", "#eliminarcolormat", function () {
             for (var i = 0; i < data.length; i++) {
                 $('#ListaColor').append('<tr>' +
                                       '<td>' + data[i].NombreMaterial + '</td>' +
-                                      '<td>' + data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
+                                      '<td class="Listacol2">' + "₡ " + data[i].Costo.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + '</td>' +
                                       '<td><input type="button" id="eliminarcolormat" data-id=' + data[i].IdColorMat + ' class="btn-danger btn-xs" value="X" /></td>' +
                                     '</tr>');
             }

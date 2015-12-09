@@ -439,7 +439,7 @@ namespace SWRCVA.Controllers
                                  "{0:0,0.00}", (Calculos.round5(montoCot) + monto));
             return View();
         }
-        public JsonResult AgregarProducto(int Idpro, int Cvidrio,decimal? anchocelocia, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto, int vidrio, int? ColorPaleta, int? IdPaleta)
+        public JsonResult AgregarProducto(int Idpro, int? Cvidrio,decimal? anchocelocia, int CAluminio, int Insta, int Cant, decimal Ancho, decimal Alto, int? vidrio, int? ColorPaleta, int? IdPaleta)
         {
             if(TempData["MateralCotizacion"]!= null)
             {
@@ -753,6 +753,10 @@ namespace SWRCVA.Controllers
             if (product.Forma == "PB1"|| product.Forma == "PB2")
             {
                 resultado = "PB";
+            }
+            if (product.Forma == "C5" || product.Forma == "C8" || product.Forma == "CB")
+            {
+                resultado = "CZ";
             }
             return Json(resultado,
                JsonRequestBehavior.AllowGet);

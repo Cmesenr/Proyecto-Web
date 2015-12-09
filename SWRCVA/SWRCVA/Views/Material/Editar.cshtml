@@ -74,9 +74,10 @@
                                             <tbody>
                                                 @foreach (var valor in Model.ColorMaterial.ToList())
                                                 {
+                                                    var valor1 = "₡ "+ string.Format("{0:0,0.00}", +valor.Costo);
                                                     <tr>
                                                         <td> @valor.ColorMat.Nombre </td>
-                                                        <td class="Listacol2">@valor.Costo</td>
+                                                        <td class="Listacol2">@valor1</td>
                                                         <td><input type="button" id="eliminarcolormat" data-id=@valor.IdColorMat class="btn-danger btn-xs" value="X" /></td>
                                                     </tr>
                                                 }
