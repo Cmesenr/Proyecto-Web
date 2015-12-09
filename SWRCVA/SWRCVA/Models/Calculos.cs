@@ -9,7 +9,7 @@ namespace SWRCVA.Models
     {
         private DataContext db = new DataContext();
         List<MaterialCotizacion> ListaCosto = new List<MaterialCotizacion>();
-        public List<MaterialCotizacion> calcularMonto(int Idpro, int Cvidrio, decimal? Variable, int CAluminio,decimal insta, int Cant, decimal Ancho, decimal Alto, int vid, int? ColorPaleta, int? IdPaleta)
+        public List<MaterialCotizacion> calcularMonto(int Idpro, int? Cvidrio, decimal? Variable, int CAluminio,decimal insta, int Cant, decimal Ancho, decimal Alto, int? vid, int? ColorPaleta, int? IdPaleta)
         {
             var producto = db.Producto.Find(Idpro);
             var Aluminios= (from s in db.ListaMatProducto
@@ -232,7 +232,138 @@ namespace SWRCVA.Models
                    
                    }
             }
+            //Cedazo
+            if (producto.IdTipoProducto == 7)
+            {
 
+                decimal IV = 1 + db.Valor.Find(2).Porcentaje;
+                //Cedazo 5020
+                if (producto.Forma == "C5")
+                {
+                    foreach (var item in materiales)
+                    {
+                        MaterialCotizacion PC = new MaterialCotizacion();
+                        switch (item.IdTipoMaterial)
+                        {
+                            case 45://Moldura
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 2) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 8://Empaque
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 2) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 3://Cedazo
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * Alto);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 9://Escuadra
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 4;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                        }
+                    }
+                }
+                //Cedazo 8025
+                if (producto.Forma == "C8")
+                {
+                    foreach (var item in materiales)
+                    {
+                        MaterialCotizacion PC = new MaterialCotizacion();
+                        switch (item.IdTipoMaterial)
+                        {
+                            case 45://Moldura
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 2) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 8://Empaque
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 2) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 3://Cedazo
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * Alto);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 9://Escuadra
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 4;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 62://Tubo Liso
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 2) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                                
+                        }
+                    }
+                }
+                //Cedazo Puerta Batir
+                if (producto.Forma == "CP")
+                {
+                    foreach (var item in materiales)
+                    {
+                        MaterialCotizacion PC = new MaterialCotizacion();
+                        switch (item.IdTipoMaterial)
+                        {
+                            case 45://Moldura
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * 4) + (Alto * 2);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 8://Empaque
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = Ancho;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 3://Cedazo
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = (Ancho * Alto);
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+                            case 9://Escuadra
+                                PC.IdMaterial = item.IdMaterial;
+                                PC.IdProducto = Idpro;
+                                PC.CantMaterial = 4;
+                                PC.Subtotal = PC.CantMaterial * ((decimal)item.Costo * IV);
+                                ListaCosto.Add(PC);
+                                break;
+
+                        }
+                    }
+                }
+            }
             //Ventanas
             if (producto.IdTipoProducto == 0)
             {
@@ -1240,7 +1371,7 @@ namespace SWRCVA.Models
 
             return ListaCosto;
         }
-        public List<string>  ValidarMateriales(int Idpro, int Cvidrio, int CAluminio, int vidrio, int? ColorPaleta, int? IdPaleta)
+        public List<string>  ValidarMateriales(int Idpro, int? Cvidrio, int CAluminio, int? vidrio, int? ColorPaleta, int? IdPaleta)
         {
 
             var MatAlumino = (from s in db.ListaMatProducto

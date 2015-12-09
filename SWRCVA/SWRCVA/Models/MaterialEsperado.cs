@@ -20,6 +20,9 @@ namespace SWRCVA.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int IdTipoMaterial { get; set; }
 
+        [NotMapped]
+        public string Nombre {  get; set; }
+
         public virtual TipoMaterial TipoMaterial { get; set; }
     }
 }

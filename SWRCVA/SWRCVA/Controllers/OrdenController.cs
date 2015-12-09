@@ -79,7 +79,10 @@ namespace SWRCVA.Controllers
                     ProductoCotizacion Produ = new ProductoCotizacion();
                     Produ.IdProducto = item.IdProducto;
                     Produ.IdCotizacion = item.IdCotizacion;
-                    Produ.ColorVidrio = item.ColorMat.Nombre;
+                    if (item.ColorVidrio != null)
+                    {
+                        Produ.ColorVidrio = item.ColorMat.Nombre;
+                    }
                     Produ.ColorAluminio = item.ColorMat1.Nombre;
                     Produ.AnchoCelocia = item.AnchoCelocia;
                     Produ.Nombre = item.Producto.Nombre;

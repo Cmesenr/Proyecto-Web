@@ -73,6 +73,13 @@
 
                             @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
                         </div>
+                        <div id="Group_Cedazo" class="col-md-10" hidden="hidden">
+                            @Html.RadioButtonFor(model => model.Forma, "C5") &nbsp;<span class="text-nowrap">Cedazo 5020</span><br>
+                            @Html.RadioButtonFor(model => model.Forma, "C8") &nbsp;<span class="text-nowrap">Cedazo 8025</span><br>
+                            @Html.RadioButtonFor(model => model.Forma, "CB") &nbsp;<span class="text-nowrap">Cedazo Batir</span><br>
+
+                            @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
+                        </div>
                     </div>
 
                     <div class="form-group" id="ProductMaterial">

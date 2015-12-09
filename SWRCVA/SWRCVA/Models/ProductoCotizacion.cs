@@ -27,7 +27,7 @@ namespace SWRCVA.Models
         public string Nombre { get; set; }
         public int CantProducto { get; set; }
 
-        public int IdColorVidrio { get; set; }
+        public int? IdColorVidrio { get; set; }
 
         public int IdColorAluminio { get; set; }
 

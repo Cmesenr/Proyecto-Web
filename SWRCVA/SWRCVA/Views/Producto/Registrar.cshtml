@@ -75,6 +75,13 @@
 
                             @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
                         </div>
+                        <div id="Group_Cedazo" class="col-md-10" hidden="hidden">
+                            @Html.RadioButtonFor(model => model.Forma, "C5") &nbsp;<span class="text-nowrap">Cedazo 5020</span><br>
+                            @Html.RadioButtonFor(model => model.Forma, "C8") &nbsp;<span class="text-nowrap">Cedazo 8025</span><br>
+                            @Html.RadioButtonFor(model => model.Forma, "CB") &nbsp;<span class="text-nowrap">Cedazo Batir</span><br>
+
+                            @Html.ValidationMessageFor(model => model.Forma, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                     <div class="form-group" id="ProductMaterial">
                         @Html.Label("Materiales", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -101,7 +108,6 @@
 
                                 @Html.ValidationMessageFor(model => model.ListaMatProducto, "", new { @class = "text-danger" })
                             </table>
-                            <table class="table-hover" id="ListaMaterial"></table>
                         </div>
                     </div>
                     <div class="form-group">
@@ -142,7 +148,10 @@
                 <div class="col-md-6">
                     <div class="active"><h4>Lista Materiales:</h4></div>
                     <div class="scrollit col-md-12">
-                                <table class="table-condensed" id="ListaMateriales"></table>
+                                <table class="table table-bordered table-hover" id="ListaMaterialesProduc">
+                                    <thead><tr class="active"><th>Material Esperado</th><th>Selecionado</th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
                     </div>
                         <div class="form-group">
                             <div class="active"><h4>Imagen:</h4></div>
