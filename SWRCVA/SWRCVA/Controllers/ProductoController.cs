@@ -458,7 +458,7 @@ namespace SWRCVA.Controllers
         }
         public JsonResult ConsultarMaterialesEsperados(string  id)
         {
-
+            RefrescarLista();
             Listamateriales = (from s in db.MaterialEsperado
                                where s.IdForma == id
                                select new ListaMaterialesEsperProducto
