@@ -202,6 +202,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>= IIF(RowNumber("DSReporteHistorico") Mod 2 = 0, "LightSteelBlue", "Transparent")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -236,6 +237,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>= IIF(RowNumber("DSReporteHistorico") Mod 2 = 0, "LightSteelBlue", "Transparent")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -268,6 +270,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>= IIF(RowNumber("DSReporteHistorico") Mod 2 = 0, "LightSteelBlue", "Transparent")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -300,6 +303,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>= IIF(RowNumber("DSReporteHistorico") Mod 2 = 0, "LightSteelBlue", "Transparent")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -332,7 +336,7 @@
         </TablixRowHierarchy>
         <NoRowsMessage>=IIF(Cint(CountRows("DSReporteHistorico")) = 0,"  No hay Historicos  ",-1)</NoRowsMessage>
         <DataSetName>DSReporteHistorico</DataSetName>
-        <Top>4.47576cm</Top>
+        <Top>5.55526cm</Top>
         <Height>1.2cm</Height>
         <Width>19.18171cm</Width>
         <Style>
@@ -365,7 +369,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>2.27373cm</Top>
+        <Top>1.63873cm</Top>
         <Left>5.72621cm</Left>
         <Height>1.04979cm</Height>
         <Width>8.66268cm</Width>
@@ -398,7 +402,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>3.57928cm</Top>
+        <Top>4.62703cm</Top>
         <Left>0.09525cm</Left>
         <Height>0.67938cm</Height>
         <Width>1.89146cm</Width>
@@ -434,7 +438,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox3</rd:DefaultName>
-        <Top>3.57928cm</Top>
+        <Top>4.62703cm</Top>
         <Left>1.98671cm</Left>
         <Height>0.67938cm</Height>
         <Width>4.405cm</Width>
@@ -455,8 +459,8 @@
         <Sizing>FitProportional</Sizing>
         <Top>0.18954cm</Top>
         <Left>0.18843cm</Left>
-        <Height>1.87042cm</Height>
-        <Width>5.48632cm</Width>
+        <Height>1.10313cm</Height>
+        <Width>4.18539cm</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -464,8 +468,42 @@
           </Border>
         </Style>
       </Image>
+      <Textbox Name="Textbox4">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Este reporte muestra las distintas acciones que se realizan en el sistema sobre las principales tablas en la base de datos, el mismo se puede consultar para un intervalo de tiempo determinado y una tabla en específico.</Value>
+                <Style>
+                  <FontSize>11pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>2.7588cm</Top>
+        <Left>2.68697cm</Left>
+        <Height>1.57896cm</Height>
+        <Width>14.16086cm</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>2.35955in</Height>
+    <Height>2.82622in</Height>
     <Style />
   </Body>
   <Width>7.55185in</Width>

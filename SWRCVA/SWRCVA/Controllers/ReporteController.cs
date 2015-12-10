@@ -83,7 +83,7 @@ namespace SWRCVA.Controllers
             ReportViewer reportviewer = new ReportViewer();
             reportviewer.ProcessingMode = ProcessingMode.Local;
             reportviewer.LocalReport.ReportPath = "Reportes/ReportFacturacion.rdlc";
-            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteFacturacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, null, "Facturacion", null)));
+            reportviewer.LocalReport.DataSources.Add(new ReportDataSource("DSReporteFacturacion", reporteCotizacionFacturacion(reporte.FechaInicio, reporte.FechaFin, reporte.IdCliente, null, "Facturacion", reporte.Estado)));
             reportviewer.LocalReport.Refresh();
 
             byte[] bytes = reportviewer.LocalReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
@@ -214,7 +214,7 @@ namespace SWRCVA.Controllers
                 stProcedure = "sp_getDatosReporteFacturacion";
 
                 consulta = "set dateformat dmy; exec " + stProcedure + " '" + fechaInicio.ToShortDateString() + "','"
-                    + fechaFin.ToShortDateString() + "'," + idCliente;
+                    + fechaFin.ToShortDateString() + "'," + idCliente + "," + int.Parse(estado);
             }
             if (reporte == "Orden")
             {

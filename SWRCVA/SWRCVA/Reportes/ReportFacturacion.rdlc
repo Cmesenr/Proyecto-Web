@@ -24,7 +24,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>2.27373cm</Top>
+        <Top>1.63873cm</Top>
         <Left>5.72621cm</Left>
         <Height>1.02333cm</Height>
         <Width>9.27333cm</Width>
@@ -278,6 +278,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>= IIF(RowNumber("DSReporteFacturacion") Mod 2 = 0, "LightSteelBlue", "Transparent")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -312,6 +313,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>= IIF(RowNumber("DSReporteFacturacion") Mod 2 = 0, "LightSteelBlue", "Transparent")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -344,6 +346,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>= IIF(RowNumber("DSReporteFacturacion") Mod 2 = 0, "LightSteelBlue", "Transparent")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -379,6 +382,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>= IIF(RowNumber("DSReporteFacturacion") Mod 2 = 0, "LightSteelBlue", "Transparent")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -412,6 +416,7 @@
                           <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
+                        <BackgroundColor>= IIF(RowNumber("DSReporteFacturacion") Mod 2 = 0, "LightSteelBlue", "Transparent")</BackgroundColor>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -445,9 +450,9 @@
         </TablixRowHierarchy>
         <NoRowsMessage>=IIF(Cint(CountRows("DSReporteFacturacion")) = 0,"  No hay Facturas  ",-1)</NoRowsMessage>
         <DataSetName>DSReporteFacturacion</DataSetName>
-        <Top>3.65866cm</Top>
+        <Top>4.42066cm</Top>
         <Height>1.2cm</Height>
-        <Width>19.80143cm</Width>
+        <Width>19.80144cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -463,8 +468,8 @@
         <Sizing>FitProportional</Sizing>
         <Top>0.18954cm</Top>
         <Left>0.18843cm</Left>
-        <Height>1.87042cm</Height>
-        <Width>5.48632cm</Width>
+        <Height>1.10313cm</Height>
+        <Width>4.18539cm</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -472,8 +477,42 @@
           </Border>
         </Style>
       </Image>
+      <Textbox Name="Textbox3">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Este reporte muestra las facturas realizadas en un intervalo de tiempo, sirve para verificar distintos datos sobre las mismas.</Value>
+                <Style>
+                  <FontSize>11pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>2.7588cm</Top>
+        <Left>2.68697cm</Left>
+        <Height>1.07625cm</Height>
+        <Width>14.16086cm</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
-    <Height>1.99202in</Height>
+    <Height>2.50036in</Height>
     <Style />
   </Body>
   <Width>7.79584in</Width>
