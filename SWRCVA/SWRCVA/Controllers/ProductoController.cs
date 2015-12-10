@@ -17,7 +17,7 @@ namespace SWRCVA.Controllers
     public class ProductoController : Controller
     {
         private DataContext db = new DataContext();
-        private List<Material> Listamateriales = new List<Material>();
+        private List<ListaMaterialesEsperProducto> Listamateriales = new List<ListaMaterialesEsperProducto>();
         // GET: Productoes
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -136,7 +136,7 @@ namespace SWRCVA.Controllers
                         {
                             db.Producto.Add(producto);
                             db.SaveChanges();
-                            foreach (Material item in (List<Material>)TempData["ListaMateriales"])
+                            foreach (ListaMaterialesEsperProducto item in (List<ListaMaterialesEsperProducto>)TempData["ListaMateriales"])
                             {
                                 ListaMatProducto LM = new ListaMatProducto();
                                 LM.IdProducto= producto.IdProducto;
@@ -196,14 +196,42 @@ namespace SWRCVA.Controllers
             {
                 return HttpNotFound();
             }
-            foreach (var item in (List<ListaMatProducto>)producto.ListaMatProducto.ToList())
+            var listaMatEsperados = db.MaterialEsperado.Where(s => s.IdForma == producto.Forma).ToList();
+            var listaMatPro = (from s in db.ListaMatProducto
+                               where s.IdProducto == producto.IdProducto
+                               select s).ToList();
+            foreach (var item in listaMatEsperados)
             {
-                Material MatProduct = new Material();
-                MatProduct.IdMaterial = item.IdMaterial;
-                MatProduct.Nombre = item.Material.Nombre;
-                MatProduct.IdTipoMaterial = item.Material.IdTipoMaterial;
-                Listamateriales.Add(MatProduct);
+                bool Activador = false;
+                    foreach(var itemM in listaMatPro)
+                    {
+                        if (itemM.Material.IdTipoMaterial == item.IdTipoMaterial)
+                        {
+                            Activador = true;
+                           ListaMaterialesEsperProducto MatProduct = new ListaMaterialesEsperProducto();
+                            MatProduct.IdMaterial = itemM.IdMaterial;
+                            MatProduct.NombreMaterial = itemM.Material.Nombre;
+                            MatProduct.IdTipoMaterial = (int)itemM.Material.IdTipoMaterial;
+                            MatProduct.IdForma = producto.Forma;
+                            MatProduct.Nombre = item.TipoMaterial.Nombre;
+                            MatProduct.Estado = 1;
+                            Listamateriales.Add(MatProduct);
+                          
+                        }
+                    }
+                if (Activador == false)
+                {
+                    ListaMaterialesEsperProducto MatProduct = new ListaMaterialesEsperProducto();
+                    MatProduct.IdTipoMaterial = (int)item.IdTipoMaterial;
+                    MatProduct.IdForma = producto.Forma;
+                    MatProduct.Nombre = item.TipoMaterial.Nombre;
+                    MatProduct.Estado = 0;
+                    Listamateriales.Add(MatProduct);
+                }
+                  
+
             }
+            ViewData["ListaMaterialesEdit"] = Listamateriales;
             TempData["ListaMateriales"] = Listamateriales;
             return View(producto);
         }
@@ -279,12 +307,16 @@ namespace SWRCVA.Controllers
                         db.ListaMatProducto.Remove(item);
                         db.SaveChanges();
                     }
-                    foreach (Material item in (List<Material>)TempData["ListaMateriales"])
+                    foreach (var item in (List<ListaMaterialesEsperProducto>)TempData["ListaMateriales"])
                     {
-                        ListaMatProducto LM = new ListaMatProducto();
-                        LM.IdProducto = producto.IdProducto;
-                        LM.IdMaterial = item.IdMaterial;
-                        db.ListaMatProducto.Add(LM);
+                        if (item.Estado == 1)
+                        {
+                            ListaMatProducto LM = new ListaMatProducto();
+                            LM.IdProducto = producto.IdProducto;
+                            LM.IdMaterial = item.IdMaterial;
+                            db.ListaMatProducto.Add(LM);
+                        }
+                
                     }
                     db.SaveChanges();
                     TempData["ListaMateriales"] = null;
@@ -319,56 +351,56 @@ namespace SWRCVA.Controllers
 
             return RedirectToAction("Index");
         }
-        public JsonResult AgregarMaterial(int IdMat)
+        public JsonResult AgregarMaterial(int IdMat, string forma)
         {
             var resultado = "No se pudo agregar el color";
             if (TempData["ListaMateriales"] != null)
             {
-                Listamateriales = (List<Material>)TempData["ListaMateriales"];
+                Listamateriales = (List<ListaMaterialesEsperProducto>)TempData["ListaMateriales"];
 
             }
             try
             {
 
                 Material mater = db.Material.Find(IdMat);
-                Material mat = new Material();
+                ListaMaterialesEsperProducto mat = new ListaMaterialesEsperProducto();
                 mat.IdMaterial = mater.IdMaterial;
-                mat.Nombre = mater.Nombre;
-                mat.IdTipoMaterial = mater.IdTipoMaterial;
-                var listaMatEsperados = db.MaterialEsperado.Where(s => s.IdForma == "C5").ToList();
+                mat.NombreMaterial = mater.Nombre;
+                mat.IdTipoMaterial = (int)mater.IdTipoMaterial;
+                var listaMatEsperados = db.MaterialEsperado.Where(s => s.IdForma == forma).ToList();
+                bool Activador = false;
                 foreach(var item in listaMatEsperados)
                 {
                         if (item.IdTipoMaterial == mater.IdTipoMaterial)
                         {
-                            foreach (Material listMatProduct in Listamateriales)
+                            for(int i=0;i< Listamateriales.Count(); i++)
+                        {
+                            if (Listamateriales[i].IdMaterial == IdMat)
                             {
-                                if (listMatProduct.IdMaterial == IdMat)
-                                {
-                                    TempData["ListaMateriales"] = Listamateriales;
-                                    resultado = "No se puede duplicar el Material!";
-                                    return Json(resultado,
-                                    JsonRequestBehavior.AllowGet);
-                                }
-                                if (listMatProduct.IdTipoMaterial == mat.IdTipoMaterial)
-                                {
-                                    TempData["ListaMateriales"] = Listamateriales;
-                                    resultado = "No se puede insertar materiales de un mismo tipo en un Producto!";
-                                    return Json(resultado,
-                                    JsonRequestBehavior.AllowGet);
-                                }
-
+                                TempData["ListaMateriales"] = Listamateriales;
+                                resultado = "No se puede duplicar el Material!";
+                                return Json(resultado,
+                                JsonRequestBehavior.AllowGet);
                             }
-                            Listamateriales.Add(mat);
+                            if (Listamateriales[i].IdTipoMaterial == mat.IdTipoMaterial)
+                            {
+                                Listamateriales[i].IdForma = forma;
+                                Listamateriales[i].IdMaterial = mat.IdMaterial;
+                                Listamateriales[i].NombreMaterial = mat.NombreMaterial;
+                                Listamateriales[i].Estado = 1;
+                                Activador = true;
+                            }
                         }
-                    else
-                    {
-                        TempData["ListaMateriales"] = Listamateriales;
-                        resultado = "Material no apto para este tipo de Producto!";
-                        return Json(resultado,
-                        JsonRequestBehavior.AllowGet);
-                    }
-                    
+                        
+                        }                 
 
+                }
+                if (Activador == false)
+                {
+                    TempData["ListaMateriales"] = Listamateriales;
+                    resultado = "Material no apto para este producto!";
+                    return Json(resultado,
+                    JsonRequestBehavior.AllowGet);
                 }
               
             }
@@ -386,19 +418,21 @@ namespace SWRCVA.Controllers
         {
             if (TempData["ListaMateriales"] != null)
             {
-                Listamateriales = (List<Material>)TempData["ListaMateriales"];
+                Listamateriales = (List<ListaMaterialesEsperProducto>)TempData["ListaMateriales"];
             }
             try
             {
-                foreach (Material listMatProduct in Listamateriales)
-                {
-                    if (listMatProduct.IdMaterial == id)
-                    {
-                        Listamateriales.Remove(listMatProduct);
-                        break;
+                        for (int i = 0; i < Listamateriales.Count(); i++)
+                        {
+                            if (Listamateriales[i].IdMaterial == id)
+                            {
+                                Listamateriales[i].IdForma = "";
+                                Listamateriales[i].IdMaterial = 0;
+                                Listamateriales[i].NombreMaterial ="";
+                                Listamateriales[i].Estado = 0;
+                            }
+                        }
                     }
-                }
-            }
             catch
             {
                 ModelState.AddModelError("", "No se pudo borrar la linea, y si el problema persiste contacte el administrador del sistema.");
@@ -425,15 +459,17 @@ namespace SWRCVA.Controllers
         public JsonResult ConsultarMaterialesEsperados(string  id)
         {
 
-            var listaMatEsperados = (from s in db.MaterialEsperado
-                                     where s.IdForma == id
-                                     select new
-                                     {
-                                         s.IdForma,
-                                         s.IdTipoMaterial,
-                                         Nombre = s.TipoMaterial.Nombre
+            Listamateriales = (from s in db.MaterialEsperado
+                               where s.IdForma == id
+                               select new ListaMaterialesEsperProducto
+                               {
+                                   IdForma = s.IdForma,
+                                   IdTipoMaterial = s.IdTipoMaterial,
+                                   Nombre = s.TipoMaterial.Nombre,
+                                   Estado = 0
                                      }).ToList();
-             return Json(listaMatEsperados,
+            TempData["ListaMateriales"] = Listamateriales;
+            return Json(Listamateriales,
               JsonRequestBehavior.AllowGet);
         }
         public JsonResult CargarMateriales(int IdCat, int? IdSubcat)
