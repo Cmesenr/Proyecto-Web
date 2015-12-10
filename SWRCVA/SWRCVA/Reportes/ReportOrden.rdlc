@@ -26,7 +26,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.6cm</Height>
+              <Height>0.75875cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -40,7 +40,7 @@
                               <Value>Fecha</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -77,7 +77,7 @@
                               <Value>Ord. #</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -114,7 +114,7 @@
                               <Value>Cliente</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -151,7 +151,7 @@
                               <Value>Monto</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -188,7 +188,7 @@
                               <Value>Comentario</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -225,7 +225,7 @@
                               <Value>Estado</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -489,7 +489,7 @@
         <NoRowsMessage>=IIF(Cint(CountRows("DSReporteOrden")) = 0,"  No hay ordenes  ",-1)</NoRowsMessage>
         <DataSetName>DSReporteOrden</DataSetName>
         <Top>4.42066cm</Top>
-        <Height>1.2cm</Height>
+        <Height>1.35875cm</Height>
         <Width>19.75847cm</Width>
         <Style>
           <Border>
@@ -522,7 +522,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>1.63873cm</Top>
-        <Left>5.72621cm</Left>
+        <Left>5.31346cm</Left>
         <Height>1.04979cm</Height>
         <Width>8.66268cm</Width>
         <ZIndex>1</ZIndex>
@@ -558,7 +558,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Este reporte muestra las cotizaciones realizadas en un intervalo de tiempo, sirve para verificar distintos datos sobre las mismas.</Value>
+                <Value>Este reporte muestra las órdenes en sus diferentes estados en el intervalo de tiempo dado por el usuario.</Value>
                 <Style>
                   <FontSize>11pt</FontSize>
                 </Style>
