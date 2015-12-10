@@ -48,8 +48,9 @@
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Estado, (new SelectList(
                   new List<Object>{
-                      new { value = "P" , text = "Procesadas"  },
-                       new { value = "T" , text = "Terminadas"  },
+                      new { value = "P" , text = "Procesada"  },
+                      new { value = "F" , text = "Facturada"  },
+                      new { value = "A" , text = "Anulada"  }
                     },
                   "value",
                   "text",
