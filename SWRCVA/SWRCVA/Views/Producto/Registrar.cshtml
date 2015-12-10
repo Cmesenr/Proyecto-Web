@@ -89,7 +89,7 @@
                             <table class="table-condensed">
                                 <tr>
                                     <td>
-                                        @Html.DropDownList("IdCategoria", (IEnumerable<SelectListItem>)ViewBag.Categorias, "Selecione", new { @class = "form-control", id = "DropDownCategoria" })
+                                        @Html.DropDownList("IdCategoria", (IEnumerable<SelectListItem>)ViewBag.Categorias, "Selecione", new { @class = "form-control", id = "DropDownCategoria", disabled="disabled" })
                                     </td>
                                     <td>
                                         <select id="MaterialSelect" class="form-control" name="MaterialProducto" disabled="disabled"></select>

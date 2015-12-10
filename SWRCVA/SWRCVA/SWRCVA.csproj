@@ -189,6 +189,7 @@
     <Compile Include="Models\DetalleFactura.cs" />
     <Compile Include="Models\Factura.cs" />
     <Compile Include="Models\HttpPostedFileBaseExtensions.cs" />
+    <Compile Include="Models\ListaMaterialesEsperProducto.cs" />
     <Compile Include="Models\ListaMatProducto.cs" />
     <Compile Include="Models\ListaProducto.cs" />
     <Compile Include="Models\Material.cs" />
