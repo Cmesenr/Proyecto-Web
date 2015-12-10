@@ -25,7 +25,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
         <Top>1.63873cm</Top>
-        <Left>5.72621cm</Left>
+        <Left>5.31346cm</Left>
         <Height>1.02333cm</Height>
         <Width>9.27333cm</Width>
         <Style>
@@ -59,7 +59,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.6cm</Height>
+              <Height>0.75875cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -73,7 +73,7 @@
                               <Value>Fecha</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -110,7 +110,7 @@
                               <Value>Fact. #</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -147,7 +147,7 @@
                               <Value>Cliente</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -184,7 +184,7 @@
                               <Value>Monto Total</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -221,7 +221,7 @@
                               <Value>Estado</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -451,7 +451,7 @@
         <NoRowsMessage>=IIF(Cint(CountRows("DSReporteFacturacion")) = 0,"  No hay Facturas  ",-1)</NoRowsMessage>
         <DataSetName>DSReporteFacturacion</DataSetName>
         <Top>4.42066cm</Top>
-        <Height>1.2cm</Height>
+        <Height>1.35875cm</Height>
         <Width>19.80144cm</Width>
         <ZIndex>1</ZIndex>
         <Style>

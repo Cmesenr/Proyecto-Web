@@ -20,7 +20,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.6cm</Height>
+              <Height>0.73229cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -34,7 +34,7 @@
                               <Value>Fecha</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -71,7 +71,7 @@
                               <Value>Usuario</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -108,7 +108,7 @@
                               <Value>Acción</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -145,7 +145,7 @@
                               <Value>Detalle</Value>
                               <Style>
                                 <FontStyle>Italic</FontStyle>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>14pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <TextDecoration>Underline</TextDecoration>
                                 <Color>White</Color>
@@ -337,7 +337,7 @@
         <NoRowsMessage>=IIF(Cint(CountRows("DSReporteHistorico")) = 0,"  No hay Historicos  ",-1)</NoRowsMessage>
         <DataSetName>DSReporteHistorico</DataSetName>
         <Top>5.55526cm</Top>
-        <Height>1.2cm</Height>
+        <Height>1.33229cm</Height>
         <Width>19.18171cm</Width>
         <Style>
           <Border>
@@ -370,7 +370,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>1.63873cm</Top>
-        <Left>5.72621cm</Left>
+        <Left>5.31346cm</Left>
         <Height>1.04979cm</Height>
         <Width>8.66268cm</Width>
         <ZIndex>1</ZIndex>
