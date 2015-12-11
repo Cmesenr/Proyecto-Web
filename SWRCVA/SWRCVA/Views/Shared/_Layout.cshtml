@@ -105,11 +105,22 @@
                         {
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Procesos<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("Cotizador", "Index", "Cotizacion")</li>
+                                <ul class="dropdown-menu" data-submenu="">
+                                    <li class="dropdown-submenu">
+                                        @Html.ActionLink("Cotizador", "Index", "Cotizacion")
+                                        <ul class="dropdown-menu">
+                                            <li class="dropdown-header">Cotización</li>
+                                            <li>@Html.ActionLink("Recibo de Dinero", "Recibo", "Cotizacion")</li>
+                                        </ul>
+                                    </li>
                                     <li>@Html.ActionLink("Control de Ordenes", "Index", "Orden")</li>
-                                    <li>@Html.ActionLink("Facturación", "Index", "Factura")</li>
-                                    <li>@Html.ActionLink("Recibo de Dinero", "Recibo", "Cotizacion")</li>
+                                    <li class="dropdown-submenu">
+                                        @Html.ActionLink("Facturación", "Index", "Factura")
+                                        <ul class="dropdown-menu">
+                                            <li class="dropdown-header">Facturación</li>
+                                            <li>@Html.ActionLink("Control de Facturas", "ControlFacturas", "Factura")</li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -118,7 +129,6 @@
                                     <li>@Html.ActionLink("Reporte de Órdenes", "ReporteOrden", "Reporte")</li>
                                     <li>@Html.ActionLink("Reporte de Facturas", "ReporteFacturacion", "Reporte")</li>
                                     <li>@Html.ActionLink("Reporte de Cotizaciones", "ReporteCotizacion", "Reporte")</li>
-                                    <li>@Html.ActionLink("Reporte Histórico", "ReporteHistorico", "Reporte")</li>
                                 </ul>
                             </li>
                         }
