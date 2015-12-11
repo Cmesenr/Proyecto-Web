@@ -11,50 +11,53 @@
 {
 
     @Html.AntiForgeryToken()
-
-    <div class="form-horizontal" id="formCotizar">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(m => m.Contraseña, "Nueva contraseña", new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.Contraseña, new { @class = "form-control",required="required", id = "Contraseña" , title="Campo requerido"})
-                @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
+    <div class="MatenimientoFondo">
+        <hr />
+        <div class="form-horizontal" id="formCotizar">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Contraseña, "Nueva contraseña", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Contraseña, new { @class = "form-control", required = "required", id = "Contraseña", title = "Campo requerido" })
+                    @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmacionContraseña, "Vuelva a escribir la contraseña", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmacionContraseña, new { @class = "form-control", required = "required", id = "newContraseña", title = "Campo requerido" })
+                    @Html.ValidationMessageFor(model => model.ConfirmacionContraseña, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4 text-left">
+                    <button type="button" id="btnIngresar" value="" class="btn-circleSave btn-primary btn-lg" title="Guardar"><span class="glyphicon glyphicon-floppy-open"></span></button>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.ConfirmacionContraseña, "Vuelva a escribir la contraseña", new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.ConfirmacionContraseña, new { @class = "form-control", required = "required", id ="newContraseña", title = "Campo requerido" })
-                @Html.ValidationMessageFor(model => model.ConfirmacionContraseña, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-4 text-left">
-                <button type="button" id="btnIngresar" value="" class="btn-circleSave btn-primary btn-lg" title="Guardar"><span class="glyphicon glyphicon-floppy-open"></span></button>
-            </div>
-        </div>
-</div>
-<div class="modal fade" id="ModalMensaje" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Procesado correctamente!</h4>
-            </div>
-            <div class="modal-body">
-                <p>Su contraseña fue cambiada con éxito!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn">Ok</button>
-            </div>
-        </div>
-
+        <hr />
     </div>
-</div>
-}
+        <div class="modal fade" id="ModalMensaje" role="dialog">
+            <div class="modal-dialog">
 
-@section Scripts {
-      @Scripts.Render("~/bundles/FuncionesLogin")
-}
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Procesado correctamente!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Su contraseña fue cambiada con éxito!</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn">Ok</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        }
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/FuncionesLogin")
+        }
