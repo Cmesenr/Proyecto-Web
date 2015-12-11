@@ -8,26 +8,27 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        <div class="form-group">
-            <label class="control-label col-md-2"> Tipo de operación: </label>
-            <div class="col-md-10">
-                <input type="radio" name="Respaldo" value="Respaldo" checked/>&nbsp;<span class="text-muted" title="Respaldar BD">Respaldar</span><br>
-                <input type="radio" name="Respaldo" value="Restauracion" />&nbsp;<span class="text-muted" title="Restaurar BD">Restaurar</span>
+    <div class="MatenimientoFondo">
+        <div class="form-horizontal">
+            
+            <hr />
+            <div class="">
+                <span class="label label-default col-md-2"> Tipo de operación: </span>
+                <div class="col-md-10">
+                    <input type="radio" name="Respaldo" value="Respaldo" checked />&nbsp;<span class="text-nowrap" title="Respaldar BD">Respaldar</span><br>
+                    <input type="radio" name="Respaldo" value="Restauracion" />&nbsp;<span class="text-nowrap" title="Restaurar BD">Restaurar</span>
+                </div>
             </div>
-        </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-4">
                     <input type="button" id="Procesar" value="Procesar Operacion" class="btn btn-primary edit" />
                 </div>
             </div>
-        <div id="Cargando" class="col-md-offset-2 text-left"></div>
+            <div id="Cargando" class="col-md-offset-2 text-left"></div>
 
-     </div>
-
+        </div>
+    </div>
         <div class="modal fade" id="ModalMensaje" role="dialog">
             <div class="modal-dialog">
 
@@ -47,11 +48,11 @@
 
             </div>
         </div>
-}
+        }
 
-@section Scripts {
-      @Scripts.Render("~/bundles/FuncionesRespaldo")
-}
+        @section Scripts {
+            @Scripts.Render("~/bundles/FuncionesRespaldo")
+        }
 
 
 

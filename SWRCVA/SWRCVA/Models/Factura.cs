@@ -16,6 +16,7 @@ namespace SWRCVA.Models
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long IdFactura { get; set; }
 
         public int? IdCotizacion { get; set; }

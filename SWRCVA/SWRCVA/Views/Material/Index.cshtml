@@ -20,7 +20,7 @@
                         Buscar por nombre:
                     </td>
                     <td>
-                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control" })
+                        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder="por #Id Material o Nombre" })
                     </td>
                     <td>&nbsp;&nbsp;<input class="btn btn-primary edit" type="submit" value="Buscar" /></td>
                 </tr>

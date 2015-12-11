@@ -23,12 +23,12 @@
 
     <div class="form-horizontal" id="formOrden">
         <div class="ContenedorOrden">
-            <div class="row">
+            <div class="row CabeceraOrden">
                 <div class="col-md-3">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Fecha:</b> <br />@Html.DisplayFor(modelItem => Model.Fecha, new { @class = "text-displayFor" })
+                            <span class="">
+                                <span style="font-size:14px" class="label label-default"><strong>Fecha:</strong></span> <br />@Html.DisplayFor(modelItem => Model.Fecha, new { @class = "text-displayFor" })
                             </span>
                         </div>
                     </div>
@@ -36,8 +36,8 @@
                 <div class="col-md-1">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Cotización:</b> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion, new { @class = "text-displayFor" })
+                            <span class="">
+                                <span style="font-size:14px" class="label label-default"><strong>Cotización:</strong></span> <br />@Html.DisplayFor(modelItem => Model.IdCotizacion, new { @class = "text-displayFor" })
                             </span>
                         </div>
                     </div>
@@ -45,8 +45,8 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Cliente:</b> <br />@Html.DisplayFor(modelItem => Model.Cliente.Nombre)
+                            <span class="">
+                                <span style="font-size:14px" class="label label-default"><strong>Cliente:</strong></span> <br />@Html.DisplayFor(modelItem => Model.Cliente.Nombre)
                             </span>
                         </div>
                     </div>
@@ -54,8 +54,8 @@
                 <div class="col-md-1">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Estado:</b> <br />
+                            <span class="">
+                                <span style="font-size:14px" class="label label-default"><strong>Estado:</strong></span> <br />
                                 @if (Model.Estado == "P")
                                 {@( "Procesada")}
                                 @if (Model.Estado == "F")
@@ -69,8 +69,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <span class="text-displayFor">
-                                <b>Comentario:</b> <br />@Html.DisplayFor(modelItem => Model.Comentario, new { @class = "text-displayFor" })
+                            <span class="">
+                                <span style="font-size:14px" class="label label-default"><strong>Comentario:</strong></span> <br />@Html.DisplayFor(modelItem => Model.Comentario, new { @class = "text-displayFor" })
                             </span>
                         </div>
                     </div>

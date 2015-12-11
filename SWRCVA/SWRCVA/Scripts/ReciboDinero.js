@@ -35,8 +35,6 @@
                     $("#HeaderModalInfo").html("Correcto!");
                     $('#ModalMensaje').modal("show");
                     $("#ModalReciboDinero").modal("hide");
-                    
-                    WindowObject.focus();
                 } else {
                     $("#TextModal").html(result);
                     $('#ModalError').modal("show");

@@ -394,6 +394,7 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <Content Include="Content\Caso Real Sistema.pdf" />
     <None Include="DataSets\DataSetReporteCotizaciones.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>

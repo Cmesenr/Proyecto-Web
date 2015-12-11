@@ -19,6 +19,11 @@
     document.getElementById('reloj').innerHTML = h + ":" + m + ":" + s;
     t = setTimeout('startTime()', 500);
     }
+
+    function ayuda() {
+        var WindowObject = window.open("../Content/Caso Real Sistema.pdf", "PrintWindow");
+        WindowObject.focus();
+    }
     function checkTime(i)
     { if (i < 10) { i = "0" + i; } return i; }
     window.onload = function () { startTime(); }
@@ -139,6 +144,9 @@
                 <p class="col-md-2">
                     Usuario: @Session["UsuarioActual"].ToString()
                 </p>
+                <div class="col-md-8 text-right">
+                    <button type="button" target ="_blank" onclick="ayuda();"  class="btn-circlehelp flotante btn-primary btn-lg" title="Ayuda"><span class="glyphicon glyphicon-question-sign"></span></button>
+                </div>
                }
                @if (@Session["UsuarioActual"] != null)
                {
