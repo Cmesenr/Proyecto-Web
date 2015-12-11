@@ -324,7 +324,7 @@ namespace SWRCVA.Models
                     }
                 }
                 //Cedazo Puerta Batir
-                if (producto.Forma == "CP")
+                if (producto.Forma == "CB")
                 {
                     foreach (var item in materiales)
                     {

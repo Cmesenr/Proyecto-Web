@@ -52,7 +52,7 @@ namespace SWRCVA.Controllers
                     cotizaciones = cotizaciones.OrderByDescending(s => s.Cliente.Nombre);
                     break;
                 default:  // Name ascending 
-                    cotizaciones = cotizaciones.OrderBy(s => s.Cliente.Nombre);
+                    cotizaciones = cotizaciones.OrderByDescending(s => s.IdCotizacion);
                     break;
             }
 

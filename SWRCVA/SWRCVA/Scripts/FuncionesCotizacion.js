@@ -139,6 +139,18 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
+                    $("#txtCelocia").attr("disabled", "disabled");
+                    $("#txtCelocia").removeAttr("required");
+                    $("#txtCelocia").val("");
+                    $("#txtCelocia").attr("placeholder", "Celocia")
+                    $('input[name=Vidrio]').removeAttr("disabled");
+                    $("#DropDownPaletas").val("");
+                    $('#DropDownPaletas').attr("disabled", "disabled");
+                    $("#DropDownPaletas").removeAttr("required");
+                    $("#DropDownCVidrio").removeAttr("disabled");
+                    $("#DropDownCVidrio").attr("required", "required");
+                    $("#DropDownVidrio").removeAttr("disabled");
+                    $("#DropDownVidrio").attr("required", "required");
                     if (data == "CV") {
                         $("#txtCelocia").attr("required", "required");
                         $("#txtCelocia").removeAttr("disabled");
@@ -163,21 +175,10 @@
                         $("#DropDownCVidrio").attr("disabled", "disabled");
                         $('input[name=Vidrio]').attr("disabled", "disabled");
                         $("#DropDownVidrio").removeAttr("required");
-                        $("#DropDownVidrio").attr("disabled", "disabled");                      
-                    }
-                    else {
-                        $("#txtCelocia").attr("disabled", "disabled");
-                        $("#txtCelocia").removeAttr("required");
-                        $("#txtCelocia").val("");
-                        $("#txtCelocia").attr("placeholder", "Celocia")
-                        $('input[name=Vidrio]').removeAttr("disabled");
+                        $("#DropDownVidrio").attr("disabled", "disabled");
                         $("#DropDownPaletas").val("");
                         $('#DropDownPaletas').attr("disabled", "disabled");
                         $("#DropDownPaletas").removeAttr("required");
-                        $("#DropDownCVidrio").removeAttr("disabled");
-                        $("#DropDownCVidrio").attr("required", "required");
-                        $("#DropDownVidrio").removeAttr("disabled");
-                        $("#DropDownVidrio").attr("required", "required");
                     }
 
                 },
@@ -387,6 +388,7 @@
     $("#formCotizar").on("click", "#btnAgregar", function () {
         $('#ListaProductos tbody').html('<tr><td colspan="4"><center><img src="/Content/Imagenes/loadinfo1.gif"/></center></td></tr>');
         if ($("#TipoProductoAdd").val() == 1) {
+
             if ($('#txtProducto')[0].checkValidity() == false) {
                 $("#txtProducto").tooltip();
                 $("#txtProducto").focus();
@@ -447,7 +449,8 @@
 
             })
         }
-        else{
+        else {
+
             $('#ListaProductos tbody').html('<tr><td colspan="4"><center><img src="/Content/Imagenes/loadinfo1.gif"/></center></td></tr>');
         if ($('#DropDownTipoProductos')[0].checkValidity() == false) {
             $("#DropDownTipoProductos").tooltip();
@@ -462,7 +465,8 @@
             $("#DropDownCVidrio").tooltip();
             $("#DropDownCVidrio").focus();
             return false;
-        } else if ($('#DropDownCAluminio')[0].checkValidity() == false) {
+        }
+            else if ($('#DropDownCAluminio')[0].checkValidity() == false) {
             $("#DropDownCAluminio").tooltip();
             $("#DropDownCAluminio").focus();    
             return false;
@@ -476,6 +480,7 @@
             $("#DropDownVidrio").focus();
             return false;
         }
+
         else if ($('#txtCelocia')[0].checkValidity() == false) {
             $("#txtCelocia").tooltip();
             $("#txtCelocia").focus();
@@ -499,7 +504,6 @@
             $("#txtCantidad").focus();
             return false;
         }
-
         var paraProd = { Idpro: $('#DropDownProductos').val(), Cvidrio: $("#DropDownCVidrio").val(), anchoCelocia: $('#txtCelocia').val(), CAluminio: $('#DropDownCAluminio').val(), Insta: $('#DropDownInstalacion').val(), Cant: $('#txtCantidad').val(), Ancho: $('#txtAncho').val(), Alto: $('#txtAlto').val(), vidrio: $('#DropDownVidrio').val(), ColorPaleta: $('input[name=ColoresPaleta]:checked').val(), IdPaleta: $("#DropDownPaletas").val() };
                $.ajax({
                 cache: false,
