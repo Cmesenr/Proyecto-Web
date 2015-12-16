@@ -290,7 +290,7 @@
                         <div class="col-md-3" align="right">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    @Html.Editor("CantProducto", new { htmlAttributes = new { @class = "form-control", id = "txtCantidad", required = "required", onKeyPress = "return acceptNum(event)", title = "Cantidad requerida!", placeholder = "Cantidad" } })
+                                    @Html.Editor("CantProducto", new { htmlAttributes = new { @class = "form-control", id = "txtCantidad", required = "required", onKeyPress = "return acceptonlyNum(event)", title = "Cantidad requerida!", placeholder = "Cantidad" } })
                                 </div>
                             </div>
                             <div class="form-group">
