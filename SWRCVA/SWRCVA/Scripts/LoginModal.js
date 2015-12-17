@@ -30,7 +30,7 @@ $(function() {
                 var webroot = '@Url.Action("Login","Login")';
                 $.ajax({
                     cache: false,
-                    url:"Login/Login",
+                    url:"/Login/Login",
                     type: "POST",
                     data: JSON.stringify(params),
                     contentType: "application/json; charset=utf-8",
