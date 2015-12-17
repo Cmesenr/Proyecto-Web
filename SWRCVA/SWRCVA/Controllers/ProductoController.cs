@@ -22,10 +22,10 @@ namespace SWRCVA.Controllers
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             
-            if (!LoginController.validaUsuario(Session))
-                return RedirectToAction("Index", "Home");
-            if (!LoginController.validaRol(Session))
-                return RedirectToAction("Index", "Home");
+            //if (!LoginController.validaUsuario(Session))
+            //    return RedirectToAction("Index", "Home");
+            //if (!LoginController.validaRol(Session))
+            //    return RedirectToAction("Index", "Home");
 
             var producto = db.Producto.Include(p => p.TipoProducto);
             ViewBag.CurrentSort = sortOrder;

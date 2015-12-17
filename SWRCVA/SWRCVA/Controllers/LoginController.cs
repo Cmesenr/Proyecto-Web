@@ -11,7 +11,7 @@ namespace SWRCVA.Controllers
     public class LoginController : Controller
     {
         DataContext db = new DataContext();
-
+        [HttpPost]
         public JsonResult Login(string usuario, string contraseña)
         {
             Usuario usuarioActual = db.Usuario.Find(usuario);

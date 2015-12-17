@@ -436,6 +436,7 @@
     <Content Include="DataSets\DataSetReporteOrdenesTrabajo.xss">
       <DependentUpon>DataSetReporteOrdenesTrabajo.xsd</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\SWRCVA.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Scripts\FuncionesCotizacion.js" />
@@ -482,7 +483,9 @@
     <Content Include="Scripts\Slider\jquery.mobile.customized.min.js" />
     <Content Include="Scripts\Slider\_notes\dwsync.xml" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

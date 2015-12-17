@@ -17,18 +17,22 @@ $(function() {
     var $modalAnimateTime = 300;
     var $msgAnimateTime = 150;
     var $msgShowTime = 2000;
+    var MyAppUrlSettings = {
+        LoginUrl: '@Url.Content("Login","Login")'
+    }
 
     $("form").submit(function () {
-        switch(this.id) {
+        switch (this.id) {
             case "login-form":
                 var $lg_username=$('#login_username').val();
                 var $lg_password = $('#login_password').val();
                 var params = { usuario: $lg_username, contraseña: $lg_password };
+                var webroot = '@Url.Action("Login","Login")';
                 $.ajax({
                     cache: false,
-                    url: "/Login/Login",
-                    type: "GET",
-                    data: params,
+                    url:"Login/Login",
+                    type: "POST",
+                    data: JSON.stringify(params),
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
                         if (result != "ok") {
