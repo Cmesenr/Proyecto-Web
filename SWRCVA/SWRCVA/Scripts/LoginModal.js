@@ -27,7 +27,7 @@ $(function() {
                 var $lg_username=$('#login_username').val();
                 var $lg_password = $('#login_password').val();
                 var params = { usuario: $lg_username, contraseña: $lg_password };
-                var webroot = '@Url.Action("Login","Login")';
+                $('#CargarLogin').html('<center><img src="/Content/Imagenes/loading3.gif"/></center>');
                 $.ajax({
                     cache: false,
                     url:"/Login/Login",
@@ -36,8 +36,10 @@ $(function() {
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
                         if (result != "ok") {
+                            $('#CargarLogin').fadeIn(1000).html("");
                             msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "error", "glyphicon-remove", result);
                         } else {
+                            $('#CargarLogin').fadeIn(1000).html("");
                             msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
                             parent.document.location = parent.document.location;
                         }

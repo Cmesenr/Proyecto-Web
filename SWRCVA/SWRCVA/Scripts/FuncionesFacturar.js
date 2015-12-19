@@ -104,26 +104,7 @@ $(document).ready(function () {
         $("#ModalMateriales").modal("hide");
 
     })
-    //Evento chekar Paleta
-    $('input[name=Rtipo]').on("change",function () {
-        if ($(this).val()=="P") {
-            $("#txtAlto").attr("disabled", "disabled");
-            $("#txtAlto").removeAttr("required");
-        } else if ($(this).val() == "L") {
-            $("#txtAlto").attr("disabled", "disabled");
-            $("#txtAlto").removeAttr("required");
-            $("#txtAncho").attr("disabled", "disabled");
-            $("#txtAncho").removeAttr("required");
-           
-        }
-        else {
-            $("#txtAlto").attr("required", "required");
-            $("#txtAlto").removeAttr("disabled");
-            $("#txtAncho").attr("required", "required");
-            $("#txtAncho").removeAttr("disabled");
-        }
-      
-    })
+
     //Selecionar El CLiente
     $("#headerPrincipal").on("click", "#SeleccionarCliente", function (e) {
         $("#txtClienteFinal").val($(this).data("nombre"));
@@ -215,6 +196,11 @@ $(document).ready(function () {
         else if ($('#txtAlto')[0].checkValidity() == false) {
             $("#txtAlto").tooltip();
             $("#txtAlto").focus();
+            return false;
+        }
+        else if ($('#txtExtra')[0].checkValidity() == false) {
+            $("#txtExtra").tooltip();
+            $("#txtExtra").focus();
             return false;
         }
 
@@ -423,6 +409,9 @@ function VerificarMaterial(id) {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                $("#txtExtra").attr("placeholder", "% Extra");
+                $("#txtExtra").removeAttr("required");
+
                 if (data == "Vidrio") {
                     mostrarCamposVidrio();
                 } else if (data == "Paleta") {
@@ -430,6 +419,9 @@ function VerificarMaterial(id) {
                 }
                 else if (data == "Material") {
                     ocultarCamposVidrio();
+                }
+                else if (data == "Especial") {
+                    CamposEspecial();
                 }
 
             },
@@ -527,12 +519,21 @@ function MostrarCamposPaleta() {
     $("#txtAncho").attr("required", "required");
     $("#txtAlto").removeAttr("required");
 }
+function CamposEspecial() {
+    $("#txtAncho").attr("disabled", "disabled");
+    $("#txtAlto").attr("disabled", "disabled");
+    $("#txtAncho").removeAttr("required");
+    $("#txtAlto").removeAttr("required");
+    $("#txtExtra").attr("placeholder", "Precio ₡");
+    $("#txtExtra").attr("required","required");
+}
 function LimpiarCampos(){
     $('#txtProducto').val("");
     $('#txtCantidad').val("");
     $('#txtAncho').val("");
     $('#txtAlto').val("");
     $('#txtExtra').val("");
+    $("#txtExtra").attr("placeholder", "% Extra");
 }
 function LimpiarDatosRegistro() {
     $("#txtClienteFinal").val("");

@@ -409,6 +409,11 @@
                 $("#txtAlto").focus();
                 return false;
             }
+            else if ($('#txtExtra')[0].checkValidity() == false) {
+                $("#txtExtra").tooltip();
+                $("#txtExtra").focus();
+                return false;
+            }
 
             var paraProd = { Idpro: $('#txtProducto').val(), IdColor: $('#txtProducto').data("idcolor"), Cant: $("#txtCantidad").val(), costo: $('#txtProducto').data("costo"), extra: $('#txtExtra').val(), Ancho: $("#txtAncho").val(), Alto: $("#txtAlto").val() };
             $.ajax({
@@ -775,6 +780,9 @@ function VerificarMaterial(id) {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                $("#txtExtra").attr("placeholder", "% Extra");
+                $("#txtExtra").removeAttr("required");
+
                 if (data == "Vidrio") {
                     mostrarCamposVidrio();
                 } else if (data == "Paleta") {
@@ -782,6 +790,9 @@ function VerificarMaterial(id) {
                 }
                 else if (data == "Material") {
                     ocultarCamposVidrio();
+                }
+                else if (data == "Especial") {
+                    CamposEspecial();
                 }
 
             },
@@ -844,12 +855,21 @@ function MostrarCamposPaleta() {
     $("#txtAncho").attr("required", "required");
     $("#txtAlto").removeAttr("required");
 }
+function CamposEspecial() {
+    $("#txtAncho").attr("disabled", "disabled");
+    $("#txtAlto").attr("disabled", "disabled");
+    $("#txtAncho").removeAttr("required");
+    $("#txtAlto").removeAttr("required");
+    $("#txtExtra").attr("placeholder", "Precio ₡");
+    $("#txtExtra").attr("required", "required");
+}
 function LimpiarCampos() {
     $('#txtProducto').val("");
     $('#txtCantidad').val("");
     $('#txtAncho').val("");
     $('#txtAlto').val("");
     $('#txtExtra').val("");
+    $("#txtExtra").attr("placeholder", "% Extra");
 }
 function SetDefault() {
     $('#DropDownPaletas').val("");

@@ -297,66 +297,83 @@ namespace SWRCVA.Controllers
             }
             try
             {
-                decimal IV = 1 + db.Valor.Find(2).Porcentaje;
-                decimal Cargo = 1 + db.Valor.Find(5).Porcentaje;
-                Material ListMat = db.Material.Find(Idpro);
-                ProductoCotizacion Produ = new ProductoCotizacion();
-                Produ.IdProducto = Idpro;
-                Produ.Nombre = ListMat.Nombre;
-                Produ.CantMat = Cant;
-                Produ.IdColor = IdColor;
-                if (Ancho != null)
+                if (Idpro == 1251)
                 {
-                    Produ.Ancho = (decimal)Ancho;
-                }
-                if (Alto != null)
-                {
-                    Produ.Alto = (decimal)Alto;
-                }
-                switch (ListMat.IdCatMat)
-                {
-                    case 1:
-                        {
-                            Produ.Subtotal = ((costo * IV) * Cargo);
-                            break;
-                        }
-                    case 2:
-                        {
-                            Produ.Subtotal = ((costo * IV) * Cargo);
-                            break;
-                        }
-                    case 3:
-                        {
-                            if (ListMat.IdTipoMaterial == 55)
-                            {
-                                Produ.Subtotal = (decimal)Ancho * ((costo * IV) * Cargo);
-                            }
-                            else if (ListMat.IdTipoMaterial == 53)
-                            {
-                                Produ.Subtotal = ((decimal)Ancho * (decimal)Alto) * ((costo * IV) * Cargo);
-                            }
-                            else
-                            {
-                                Produ.Subtotal = ((costo * IV) * Cargo);
-                            }
-                            break;
-                        }
-                }
-
-                if (Extra != null)
-                {
-                    Extra = (Extra / 100m) + 1;
-                    Produ.Subtotal = (Produ.Subtotal * Cant) * (decimal)Extra;
+                    Material ListMat = db.Material.Find(Idpro);
+                    ProductoCotizacion Produ = new ProductoCotizacion();
+                    Produ.IdProducto = Idpro;
+                    Produ.Nombre = ListMat.Nombre;
+                    Produ.CantMat = Cant;
+                    Produ.IdColor = IdColor;                   
+                    Produ.Subtotal = (decimal)Extra * Cant;
+                    Produ.Subtotal = Math.Round((Decimal)Produ.Subtotal, 2);
+                    ListaProductos.Add(Produ);
                 }
                 else
                 {
-                    Produ.Subtotal = Produ.Subtotal * Cant;
+                    decimal IV = 1 + db.Valor.Find(2).Porcentaje;
+                    decimal Cargo = 1 + db.Valor.Find(5).Porcentaje;
+                    Material ListMat = db.Material.Find(Idpro);
+                    ProductoCotizacion Produ = new ProductoCotizacion();
+                    Produ.IdProducto = Idpro;
+                    Produ.Nombre = ListMat.Nombre;
+                    Produ.CantMat = Cant;
+                    Produ.IdColor = IdColor;
+                    if (Ancho != null)
+                    {
+                        Produ.Ancho = (decimal)Ancho;
+                    }
+                    if (Alto != null)
+                    {
+                        Produ.Alto = (decimal)Alto;
+                    }
+                    switch (ListMat.IdCatMat)
+                    {
+                        case 1:
+                            {
+                                Produ.Subtotal = ((costo * IV) * Cargo);
+                                break;
+                            }
+                        case 2:
+                            {
+                                Produ.Subtotal = ((costo * IV) * Cargo);
+                                break;
+                            }
+                        case 3:
+                            {
+                                if (ListMat.IdTipoMaterial == 55)
+                                {
+                                    Produ.Subtotal = (decimal)Ancho * ((costo * IV) * Cargo);
+                                }
+                                else if (ListMat.IdTipoMaterial == 53)
+                                {
+                                    Produ.Subtotal = ((decimal)Ancho * (decimal)Alto) * ((costo * IV) * Cargo);
+                                }
+                                else
+                                {
+                                    Produ.Subtotal = ((costo * IV) * Cargo);
+                                }
+                                break;
+                            }
+                    }
+
+                    if (Extra != null)
+                    {
+                        Extra = (Extra / 100m) + 1;
+                        Produ.Subtotal = (Produ.Subtotal * Cant) * (decimal)Extra;
+                    }
+                    else
+                    {
+                        Produ.Subtotal = Produ.Subtotal * Cant;
+                    }
+                    Produ.Subtotal = Math.Round((Decimal)Produ.Subtotal, 2);
+                    ListaProductos.Add(Produ);
                 }
-                Produ.Subtotal = Math.Round((Decimal)Produ.Subtotal, 2);
-                ListaProductos.Add(Produ);
+                
             }
             catch (Exception e)
             {
+               TempData["ListaProductosFact"] = ListaProductos;
                 return Json(resultado,
               JsonRequestBehavior.AllowGet);
             }
@@ -617,6 +634,10 @@ namespace SWRCVA.Controllers
                 {
                     resultado = "Material";
                 }
+            }
+            else if(mat.IdMaterial==1251)
+            {
+                resultado = "Especial";
             }
             else
             {
