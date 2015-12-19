@@ -280,6 +280,7 @@
     $("#btnProcesar").on("click", function () {
         if ($('#txtClienteFinal')[0].checkValidity() == false) {
             $("#txtClienteFinal").tooltip();
+            $("#txtClienteFinal").addClass("danger");
             $("#txtClienteFinal").focus();
             return false;
         }
@@ -893,4 +894,9 @@ function acceptonlyNum(evt) {
     // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
     var key = nav4 ? evt.which : evt.keyCode;
     return (key <= 13 || (key >= 48 && key <= 57));
+}
+function NonText(evt) {
+    // NOTE: Backspace = 8, Enter = 13, '0' = 48, '9' = 57, '.' = 46
+    var key = nav4 ? evt.which : evt.keyCode;
+    return false;
 }
