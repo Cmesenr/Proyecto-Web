@@ -302,7 +302,7 @@ $("#btnPagar").on("click", function () {
     if ($("#txtMontoPagar").hasClass("alert-success")) {
         var patron = ",";
         var MontoP = 0;
-        var MontoTotal = $("#lblMontoTotal").html().substring(1);
+        var MontoTotal = $("#txtTotal").html().substring(1);
         MontoTotal = parseFloat(MontoTotal.replace(patron, ''));
 
         var para = { IdCliente: $("#txtClienteFinal").data("cliente"), IdCotizacion: $("#txtCotizacion").val(), MontoPagar: $("#txtMontoPagar").val(), MontoTotal: MontoTotal }

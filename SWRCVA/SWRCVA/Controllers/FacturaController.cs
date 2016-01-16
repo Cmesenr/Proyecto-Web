@@ -259,7 +259,7 @@ namespace SWRCVA.Controllers
             ViewData["ListaPro"] = ListPro;
             if (Factura.IdCotizacion != null)
             {
-                var ReciboDinero = db.ReciboDinero.Where(s => s.IdCotizacion == id).ToList();
+                var ReciboDinero = db.ReciboDinero.Where(s => s.IdCotizacion == Factura.Cotizacion.IdCotizacion).ToList();
                 var TotalRecibo = 0m;
                 if (ReciboDinero != null)
                 {
