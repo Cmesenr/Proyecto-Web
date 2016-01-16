@@ -375,9 +375,11 @@ namespace SWRCVA.Controllers
 
         public ActionResult Plaforma(int id)
         {
+
             if (!LoginController.validaUsuario(Session))
                 return RedirectToAction("Index", "Home");
 
+            decimal IV = db.Valor.Find(2).Porcentaje;
             Cotizacion cotizacion = db.Cotizacion.Find(id);
             if (cotizacion == null)
             {
@@ -404,9 +406,26 @@ namespace SWRCVA.Controllers
                            }).ToList();
             var productos = ListPro;
             productos.AddRange(ListProMat);
+            ViewData["Impuesto"] = 0m;
+            ViewData["SubTotal"] = 0m;
+            List<ListaProducto> listaProductoFinal = new List<ListaProducto>();
+            var valor = 0m;
+            foreach (var item in productos)
+            {
+                valor = (item.SubTotal * (IV)) / (1 + IV);
+                item.SubTotal = item.SubTotal - valor;
+                listaProductoFinal.Add(item);
+                ViewData["SubTotal"] = (decimal)ViewData["SubTotal"] + item.SubTotal;
+                ViewData["Impuesto"] = valor + (decimal)ViewData["Impuesto"];
+            }
+            ViewData["SubTotal"] = string.Format(CultureInfo.InvariantCulture,
+                             "{0:0,0.00}", Calculos.round5((decimal)ViewData["SubTotal"]));
+            ViewData["Impuesto"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", Calculos.round5((decimal)ViewData["Impuesto"]));
+            ViewData["ListaPro"] = listaProductoFinal;
             ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
                                  "{0:0,0.00}", Calculos.round5(cotizacion.MontoParcial));
-            ViewData["ListaPro"] = productos;
+            ViewData["ListaPro"] = listaProductoFinal;
             return View();
         }
         public ActionResult ReciboDinero(int id, decimal monto)

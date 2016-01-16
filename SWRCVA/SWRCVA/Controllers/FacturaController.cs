@@ -177,14 +177,28 @@ namespace SWRCVA.Controllers
 
         public ActionResult Ticket(int? id, decimal monto)
         {
-               
+            decimal IV = db.Valor.Find(2).Porcentaje;
             if (!LoginController.validaUsuario(Session))
                 return RedirectToAction("Index", "Home");
-
+            ViewData["Impuesto"] = 0m;
+            ViewData["SubTotal"] = 0m;
             if (TempData["ListaProductosFact"] != null)
             {
-                ListaProductos = (List<ProductoCotizacion>)TempData["ListaProductosFact"];
+                var valor = 0m;
+                foreach(var item in (List<ProductoCotizacion>)TempData["ListaProductosFact"])
+                {
+                    valor = (item.Subtotal * (IV)) / (1 + IV);
+                    item.Subtotal = item.Subtotal - valor;
+                    ListaProductos.Add(item);
+                    ViewData["SubTotal"] = (decimal)ViewData["SubTotal"] + item.Subtotal;
+                    ViewData["Impuesto"] = valor + (decimal)ViewData["Impuesto"];
+                }
+                ViewData["SubTotal"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", Calculos.round5((decimal)ViewData["SubTotal"]));
+                ViewData["Impuesto"] = string.Format(CultureInfo.InvariantCulture,
+                                     "{0:0,0.00}", Calculos.round5((decimal)ViewData["Impuesto"]));
             }
+
             ViewData["IdFactura"] = TempData["IdFactura"];
             ViewData["Total"] = string.Format(CultureInfo.InvariantCulture,
                                  "{0:0,0.00}", Calculos.round5((decimal)TempData["Total"]));
@@ -226,6 +240,7 @@ namespace SWRCVA.Controllers
         }
         public ActionResult FacturaTicket(int id)
         {
+            decimal IV =db.Valor.Find(2).Porcentaje;
             if (!LoginController.validaUsuario(Session))
                 return RedirectToAction("Index", "Home");
 
@@ -256,7 +271,23 @@ namespace SWRCVA.Controllers
                                SubTotal = s.MontoParcial
                            }).ToList();
             ListPro.AddRange(ListPro2);
-            ViewData["ListaPro"] = ListPro;
+            ViewData["Impuesto"] = 0m;
+            ViewData["SubTotal"] = 0m;
+            List<ListaProducto> listaProductoFinal = new List<ListaProducto>();
+                var valor = 0m;
+                foreach (var item in ListPro)
+                {
+                    valor = (item.SubTotal *(IV))/(1+IV);
+                    item.SubTotal = item.SubTotal - valor;
+                    listaProductoFinal.Add(item);
+                    ViewData["SubTotal"] = (decimal)ViewData["SubTotal"] + item.SubTotal;
+                    ViewData["Impuesto"] = valor + (decimal)ViewData["Impuesto"];
+                }
+            ViewData["SubTotal"] = string.Format(CultureInfo.InvariantCulture,
+                             "{0:0,0.00}", Calculos.round5((decimal)ViewData["SubTotal"]));
+            ViewData["Impuesto"] = string.Format(CultureInfo.InvariantCulture,
+                                 "{0:0,0.00}", Calculos.round5((decimal)ViewData["Impuesto"]));
+            ViewData["ListaPro"] = listaProductoFinal;
             if (Factura.IdCotizacion != null)
             {
                 var ReciboDinero = db.ReciboDinero.Where(s => s.IdCotizacion == Factura.Cotizacion.IdCotizacion).ToList();
