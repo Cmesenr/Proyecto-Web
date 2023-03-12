@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -210,6 +211,20 @@
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Valor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SWRCVA1.aspx.cs">
+      <DependentUpon>SWRCVA1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SWRCVA1.aspx.designer.cs">
+      <DependentUpon>SWRCVA1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
@@ -395,6 +410,7 @@
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <Content Include="Content\Manual de usuario.pdf" />
+    <Content Include="WebForm1.aspx" />
     <None Include="DataSets\DataSetReporteCotizaciones.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -483,6 +499,7 @@
     <Content Include="Scripts\Slider\jquery.mobile.customized.min.js" />
     <Content Include="Scripts\Slider\_notes\dwsync.xml" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="SWRCVA1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -551,6 +568,9 @@
     <EmbeddedResource Include="Reportes\ReportOrden.rdlc" />
     <EmbeddedResource Include="Reportes\ReportFacturacion.rdlc" />
     <EmbeddedResource Include="Reportes\ReportCotizacion.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
